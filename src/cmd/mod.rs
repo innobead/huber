@@ -1,30 +1,23 @@
+use std::cell::RefMut;
 use std::str::FromStr;
 
 use clap::{App, ArgMatches};
 use log::Level;
 
-pub(crate) use info::InfoCmd;
-pub(crate) use install::InstallCmd;
-pub(crate) use list::ListCmd;
-pub(crate) use root::RootCmd;
-pub(crate) use search::SearchCmd;
-pub(crate) use show::ShowCmd;
-pub(crate) use uninstall::UninstallCmd;
-
 use crate::base::config::Config;
 use crate::base::di::{DIContainer, MutableRc};
 use crate::base::result::Result;
 use crate::cmd;
+use crate::cmd::install::InstallCmd;
 use crate::cmd::root::ARG_LOG_LEVEL;
-use std::cell::RefMut;
 
-mod info;
-mod install;
-mod list;
-mod root;
-mod search;
-mod show;
-mod uninstall;
+pub(crate) mod info;
+pub(crate) mod install;
+pub(crate) mod list;
+pub(crate) mod root;
+pub(crate) mod search;
+pub(crate) mod show;
+pub(crate) mod uninstall;
 
 pub(crate) trait CommandTrait<'a, 'b> {
     fn app(&self) -> App<'a, 'b>;

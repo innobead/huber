@@ -13,9 +13,14 @@ use base::di::DIContainer;
 
 use crate::base::config::Config;
 use crate::base::di::DIObjectTrait;
-use crate::cmd::{
-    CommandTrait, InfoCmd, InstallCmd, ListCmd, RootCmd, SearchCmd, ShowCmd, UninstallCmd,
-};
+use crate::cmd::info::InfoCmd;
+use crate::cmd::install::InstallCmd;
+use crate::cmd::list::ListCmd;
+use crate::cmd::root::RootCmd;
+use crate::cmd::search::SearchCmd;
+use crate::cmd::show::ShowCmd;
+use crate::cmd::uninstall::UninstallCmd;
+use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
 use crate::service::context::ContextService;
 use crate::service::datastore::DatastoreService;
