@@ -1,7 +1,10 @@
-use log::Level;
-use std::path::PathBuf;
-use crate::base::Logger;
 use std::fs;
+use std::path::PathBuf;
+
+use log::Level;
+
+use crate::base::log::Logger;
+use crate::base::result::Result;
 
 pub(crate) struct Config {
     pub(crate) log_level: Level,
@@ -16,11 +19,11 @@ impl Config {
         }
     }
 
-    pub(crate) fn init(&self) -> anyhow::Result<()> {
+    pub(crate) fn init(&self) -> Result<()> {
         Logger::init(&self)
     }
 
-    pub(crate) fn bin_dir(&self) -> anyhow::Result<PathBuf> {
+    pub(crate) fn bin_dir(&self) -> Result<PathBuf> {
         let bin_dir = self.home_dir.join("bin");
 
         if !bin_dir.exists() || !bin_dir.is_dir() {

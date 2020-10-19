@@ -3,29 +3,32 @@ use std::str::FromStr;
 use clap::{App, ArgMatches};
 use log::Level;
 
-pub(crate) use install::InstallCmd;
-pub(crate) use uninstall::UninstallCmd;
-pub(crate) use search::SearchCmd;
-pub(crate) use list::ListCmd;
 pub(crate) use info::InfoCmd;
-pub(crate) use show::ShowCmd;
+pub(crate) use install::InstallCmd;
+pub(crate) use list::ListCmd;
 pub(crate) use root::RootCmd;
+pub(crate) use search::SearchCmd;
+pub(crate) use show::ShowCmd;
+pub(crate) use uninstall::UninstallCmd;
 
-use crate::base::Config;
+use crate::base::config::Config;
+use crate::base::di::{DIContainer, MutableRc};
+use crate::base::result::Result;
 use crate::cmd;
 use crate::cmd::root::ARG_LOG_LEVEL;
+use std::cell::RefMut;
 
-mod install;
-mod root;
-mod uninstall;
-mod search;
-mod list;
 mod info;
+mod install;
+mod list;
+mod root;
+mod search;
 mod show;
+mod uninstall;
 
-pub(crate) trait Command<'a, 'b> {
-    fn app() -> App<'a, 'b>;
-    fn run(matches: &ArgMatches) -> anyhow::Result<()>;
+pub(crate) trait CommandTrait<'a, 'b> {
+    fn app(&self) -> App<'a, 'b>;
+    fn run(&self, matches: &ArgMatches) -> Result<()>;
 }
 
 pub(crate) fn process_args(config: &mut Config, matches: &ArgMatches) {
@@ -40,14 +43,18 @@ pub(crate) fn process_args(config: &mut Config, matches: &ArgMatches) {
     }
 }
 
-pub(crate) fn process_cmds(_config: &Config, matches: &ArgMatches) -> anyhow::Result<()> {
+pub(crate) fn process_cmds(
+    _config: &Config,
+    matches: &ArgMatches,
+    container_rc: MutableRc<DIContainer>,
+) -> Result<()> {
     match matches.subcommand() {
-        (cmd::install::CMD_NAME, Some(subcommand_matches)) => {
-            InstallCmd::run(subcommand_matches)
-        }
+        (cmd::install::CMD_NAME, Some(subcommand_matches)) => container_rc
+            .borrow()
+            .get::<InstallCmd>()
+            .unwrap()
+            .run(subcommand_matches),
 
-        _ => {
-            Ok(())
-        }
+        _ => Ok(()),
     }
 }

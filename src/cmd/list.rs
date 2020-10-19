@@ -1,18 +1,27 @@
-use clap::{App, Arg, ArgMatches};
+use clap::{App, ArgMatches};
 
-use crate::cmd::Command;
+use crate::base::di::{DIContainer, DIObjectTrait, MutableRc};
+use crate::base::result::Result;
+use crate::cmd::CommandTrait;
 
 pub(crate) const CMD_NAME: &str = "list";
 
-pub(crate) struct ListCmd;
+pub(crate) struct ListCmd {
+    container: MutableRc<DIContainer>,
+}
 
-impl<'a, 'b> Command<'a, 'b> for ListCmd {
-    fn app() -> App<'a, 'b> {
-        App::new(CMD_NAME)
-            .about("List installed package")
+impl DIObjectTrait for ListCmd {
+    fn new_for_di(container: MutableRc<DIContainer>) -> Self {
+        Self { container }
+    }
+}
+
+impl<'a, 'b> CommandTrait<'a, 'b> for ListCmd {
+    fn app(&self) -> App<'a, 'b> {
+        App::new(CMD_NAME).about("List installed package")
     }
 
-    fn run(matches: &ArgMatches) -> anyhow::Result<()> {
+    fn run(&self, matches: &ArgMatches) -> Result<()> {
         unimplemented!()
     }
 }
