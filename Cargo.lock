@@ -580,7 +580,6 @@ dependencies = [
  "hubcaps",
  "huber-common",
  "huber-procmacro",
- "huber-release",
  "lazy_static",
  "log",
  "regex",
@@ -611,6 +610,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "huber-generator"
+version = "0.1.0"
+dependencies = [
+ "huber-common",
+ "serde",
+ "serde_yaml",
+]
+
+[[package]]
 name = "huber-procmacro"
 version = "0.1.0"
 dependencies = [
@@ -625,13 +633,6 @@ dependencies = [
  "serde_yaml",
  "syn",
  "thiserror",
-]
-
-[[package]]
-name = "huber-release"
-version = "0.1.0"
-dependencies = [
- "huber-common",
 ]
 
 [[package]]

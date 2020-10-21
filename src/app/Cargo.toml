@@ -5,11 +5,6 @@ authors = ["David Ko <innobead@gmail.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-[build-dependencies]
-huber-common = { path = "../common" }
-huber-release = { path = "../release" }
-serde = { version = "1.0.117", features = ["derive"] }
-serde_yaml = "0.8.13"
 
 [dependencies]
 huber-common = { path = "../common" }

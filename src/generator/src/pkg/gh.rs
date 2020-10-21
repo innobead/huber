@@ -11,60 +11,61 @@ pub fn release() -> Release {
         detail: None,
         targets: Some(vec![
             ReleaseTargetType::LinuxAmd64Ubuntu(ReleaseManagement {
-                artifact_template: "".to_string(),
-                install_commands: vec![
+                artifact_templates: None,
+                install_commands: Some(vec![
                     "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0".to_string(),
                     "sudo apt-add-repository https://cli.github.com/packages".to_string(),
                     "sudo apt update".to_string(),
                     "sudo apt install gh".to_string(),
-                ],
-                uninstall_commands: vec![
+                ]),
+                uninstall_commands: Some(vec![
                     "sudo apt uninstall gh".to_string(),
-                ],
-                upgrade_commands: vec![
+                ]),
+                upgrade_commands: Some(vec![
                     "sudo apt update".to_string(),
                     "sudo apt install gh".to_string(),
-                ],
+                ]),
             }),
             ReleaseTargetType::LinuxAmd64CentOs(ReleaseManagement {
-                artifact_template: "".to_string(),
-                install_commands: vec![
+                artifact_templates: None,
+                install_commands: Some(vec![
                     "sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo".to_string(),
                     "sudo dnf install gh".to_string(),
-                ],
-                uninstall_commands: vec![
+                ]),
+                uninstall_commands: Some(vec![
                     "sudo dnf remove gh".to_string(),
-                ],
-                upgrade_commands: vec![
+                ]),
+                upgrade_commands: Some(vec![
                     "sudo dnf update gh".to_string(),
-                ],
+                ]),
             })
             ,
             ReleaseTargetType::LinuxAmd64OpenSuse(ReleaseManagement {
-                artifact_template: "".to_string(),
-                install_commands: vec![
+                artifact_templates: None,
+                install_commands: Some(vec![
                     "sudo zypper addrepo https://cli.github.com/packages/rpm/gh-cli.repo".to_string(),
                     "sudo zypper ref".to_string(),
                     "sudo zypper install gh".to_string(),
-                ],
-                uninstall_commands: vec![
+                ]),
+                uninstall_commands: Some(vec![
                     "sudo zypper rm gh".to_string(),
-                ],
-                upgrade_commands: vec![
+                ]),
+                upgrade_commands: Some(vec![
                     "sudo zypper ref".to_string(),
                     "sudo zypper update gh".to_string(),
-                ],
+                ]),
             }),
             ReleaseTargetType::MacOS(ReleaseManagement {
-                artifact_template: "".to_string(),
-                install_commands: vec![
+                artifact_templates: None,
+                install_commands: Some(vec![
                     "brew install gh".to_string(),
-                ],
-                uninstall_commands: vec![
+                ]),
+                uninstall_commands: Some(vec![
                     "brew uninstall gh".to_string(),
-                ],
-                upgrade_commands: vec![
-                    "brew install gh".to_string(), ],
+                ]),
+                upgrade_commands: Some(vec![
+                    "brew install gh".to_string(),
+                ]),
             })
         ]),
     }

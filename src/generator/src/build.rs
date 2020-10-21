@@ -1,3 +1,5 @@
+mod pkg;
+
 use std::{env, fs};
 use std::fs::File;
 use std::io::Write;
@@ -7,7 +9,7 @@ use serde_yaml::Error;
 
 use huber_common::model::release::{Release, ReleaseManagement, ReleaseTargetType, ReleaseType};
 use huber_common::result::Result;
-use huber_release::pkg::gh;
+use crate::pkg::*;
 
 fn main() -> Result<()> {
     let generated_dir = &Path::new(env::var("CARGO_MANIFEST_DIR")?.as_str())
@@ -32,5 +34,6 @@ fn main() -> Result<()> {
 fn releases() -> Vec<Release> {
     vec![
         gh::release(),
+        velero::release(),
     ]
 }

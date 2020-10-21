@@ -9,7 +9,7 @@ type_:
 detail: ~
 targets:
   - LinuxAmd64Ubuntu:
-      artifact_template: ""
+      artifact_templates: ~
       install_commands:
         - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
         - "sudo apt-add-repository https://cli.github.com/packages"
@@ -21,7 +21,7 @@ targets:
         - sudo apt update
         - sudo apt install gh
   - LinuxAmd64CentOs:
-      artifact_template: ""
+      artifact_templates: ~
       install_commands:
         - "sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
         - sudo dnf install gh
@@ -30,7 +30,7 @@ targets:
       upgrade_commands:
         - sudo dnf update gh
   - LinuxAmd64OpenSuse:
-      artifact_template: ""
+      artifact_templates: ~
       install_commands:
         - "sudo zypper addrepo https://cli.github.com/packages/rpm/gh-cli.repo"
         - sudo zypper ref
@@ -41,7 +41,7 @@ targets:
         - sudo zypper ref
         - sudo zypper update gh
   - MacOS:
-      artifact_template: ""
+      artifact_templates: ~
       install_commands:
         - brew install gh
       uninstall_commands:

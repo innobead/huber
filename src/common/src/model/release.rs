@@ -27,6 +27,7 @@ pub enum ReleaseDetailType {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum ReleaseTargetType {
+    LinuxAmd64(ReleaseManagement),
     LinuxAmd64Ubuntu(ReleaseManagement),
     LinuxAmd64CentOs(ReleaseManagement),
     LinuxAmd64OpenSuse(ReleaseManagement),
@@ -36,10 +37,10 @@ pub enum ReleaseTargetType {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ReleaseManagement {
-    pub artifact_template: String,
-    pub install_commands: Vec<String>,
-    pub uninstall_commands: Vec<String>,
-    pub upgrade_commands: Vec<String>,
+    pub artifact_templates: Option<Vec<String>>,
+    pub install_commands: Option<Vec<String>>,
+    pub uninstall_commands: Option<Vec<String>>,
+    pub upgrade_commands: Option<Vec<String>>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
