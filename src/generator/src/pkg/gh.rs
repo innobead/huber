@@ -1,4 +1,4 @@
-use huber_common::model::release::{Release, ReleaseType, ReleaseTargetType, ReleaseManagement};
+use huber_common::model::release::{Release, ReleaseManagement, ReleaseTargetType, ReleaseType};
 
 pub fn release() -> Release {
     Release {
