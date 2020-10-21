@@ -10,7 +10,7 @@ pub fn release() -> Release {
         },
         detail: None,
         targets: Some(vec![ReleaseTargetType::LinuxAmd64(ReleaseManagement {
-            artifact_templates: Some(vec!["velero-{version}-{os}-{arch}.tar.gz".to_string()]), // velero-v1.4.3-linux-amd64.tar.gz
+            artifact_templates: Some(vec!["velero-{version}-linux-amd64.tar.gz".to_string()]),
             install_commands: None, // untar, walk through all executables, then install
             uninstall_commands: None,
             upgrade_commands: None,

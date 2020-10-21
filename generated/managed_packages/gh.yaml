@@ -8,6 +8,12 @@ type_:
     repo: cli
 detail: ~
 targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "gh_{version}_linux_amd64.tar.gz"
+      install_commands: ~
+      uninstall_commands: ~
+      upgrade_commands: ~
   - LinuxAmd64Ubuntu:
       artifact_templates: ~
       install_commands:

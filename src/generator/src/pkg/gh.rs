@@ -10,6 +10,14 @@ pub fn release() -> Release {
         },
         detail: None,
         targets: Some(vec![
+            ReleaseTargetType::LinuxAmd64(ReleaseManagement {
+                artifact_templates: Some(vec![
+                    "gh_{version}_linux_amd64.tar.gz".to_string(),
+                ]),
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+            }),
             ReleaseTargetType::LinuxAmd64Ubuntu(ReleaseManagement {
                 artifact_templates: None,
                 install_commands: Some(vec![

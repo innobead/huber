@@ -10,7 +10,7 @@ detail: ~
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "velero-{version}-{os}-{arch}.tar.gz"
+        - "velero-{version}-linux-amd64.tar.gz"
       install_commands: ~
       uninstall_commands: ~
       upgrade_commands: ~
