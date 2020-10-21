@@ -1,0 +1,50 @@
+# This is generated. Don't modify.
+---
+name: gh
+version: latest
+type_:
+  Github:
+    owner: cli
+    repo: cli
+detail: ~
+targets:
+  - LinuxAmd64Ubuntu:
+      artifact_template: ""
+      install_commands:
+        - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
+        - "sudo apt-add-repository https://cli.github.com/packages"
+        - sudo apt update
+        - sudo apt install gh
+      uninstall_commands:
+        - sudo apt uninstall gh
+      upgrade_commands:
+        - sudo apt update
+        - sudo apt install gh
+  - LinuxAmd64CentOs:
+      artifact_template: ""
+      install_commands:
+        - "sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
+        - sudo dnf install gh
+      uninstall_commands:
+        - sudo dnf remove gh
+      upgrade_commands:
+        - sudo dnf update gh
+  - LinuxAmd64OpenSuse:
+      artifact_template: ""
+      install_commands:
+        - "sudo zypper addrepo https://cli.github.com/packages/rpm/gh-cli.repo"
+        - sudo zypper ref
+        - sudo zypper install gh
+      uninstall_commands:
+        - sudo zypper rm gh
+      upgrade_commands:
+        - sudo zypper ref
+        - sudo zypper update gh
+  - MacOS:
+      artifact_template: ""
+      install_commands:
+        - brew install gh
+      uninstall_commands:
+        - brew uninstall gh
+      upgrade_commands:
+        - brew install gh

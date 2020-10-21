@@ -1,2 +1,2 @@
 [workspace]
-members = ["app", "common", "common-pm"]
+members = ["src/app", "src/common", "src/procmacro", "src/release"]
