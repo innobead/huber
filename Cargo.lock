@@ -49,6 +49,17 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cff77d8686867eceff3105329d4698d96c2391c176d5d03adc90c7389162b5b8"
 
 [[package]]
+name = "async-trait"
+version = "0.1.41"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b246867b8b3b6ae56035f1eb1ed557c1d8eae97f0d53696138a50fa0e3a3b8c0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "atty"
 version = "0.2.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -560,26 +571,58 @@ name = "huber"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "async-trait",
  "clap",
  "dirs",
  "fern",
  "flate2",
  "futures",
  "hubcaps",
+ "huber-common",
+ "huber-common-pm",
  "lazy_static",
  "log",
- "proc-macro2",
- "quote",
  "regex",
  "reqwest",
  "semver",
  "serde",
  "serde_json",
  "serde_yaml",
- "syn",
  "tar",
  "thiserror",
  "tokio 0.3.0",
+]
+
+[[package]]
+name = "huber-common"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "dirs",
+ "fern",
+ "lazy_static",
+ "log",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "thiserror",
+]
+
+[[package]]
+name = "huber-common-pm"
+version = "0.1.0"
+dependencies = [
+ "fern",
+ "huber-common",
+ "lazy_static",
+ "log",
+ "proc-macro2",
+ "quote",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+ "syn",
+ "thiserror",
 ]
 
 [[package]]
