@@ -2,7 +2,7 @@
 ---
 name: velero
 version: latest
-type_:
+source:
   Github:
     owner: vmware-tanzu
     repo: velero

@@ -8,7 +8,7 @@ use std::{env, fs};
 use serde_yaml::Error;
 
 use crate::pkg::*;
-use huber_common::model::release::{Release, ReleaseManagement, ReleaseTargetType, ReleaseType};
+use huber_common::model::release::{Release, ReleaseManagement, ReleaseSource, ReleaseTargetType};
 use huber_common::result::Result;
 
 fn main() -> Result<()> {

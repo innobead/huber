@@ -3,7 +3,7 @@ use std::path::Path;
 
 use hubcaps::{Credentials, Github};
 
-use huber_common::model::release::{Release, ReleaseDetailType, ReleaseType};
+use huber_common::model::release::{Release, ReleaseDetailType, ReleaseSource};
 use huber_common::result::Result;
 
 #[async_trait]
@@ -33,7 +33,7 @@ impl GithubClientTrait for GithubClient {
         Ok(Release {
             name: repo.to_string(),
             version: release.tag_name.clone(),
-            type_: ReleaseType::Github {
+            source: ReleaseSource::Github {
                 owner: owner.to_string(),
                 repo: repo.to_string(),
             },
@@ -50,7 +50,7 @@ impl GithubClientTrait for GithubClient {
         Ok(Release {
             name: repo.to_string(),
             version: release.tag_name.clone(),
-            type_: ReleaseType::Github {
+            source: ReleaseSource::Github {
                 owner: owner.to_string(),
                 repo: repo.to_string(),
             },

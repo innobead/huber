@@ -1,10 +1,10 @@
-use huber_common::model::release::{Release, ReleaseManagement, ReleaseTargetType, ReleaseType};
+use huber_common::model::release::{Release, ReleaseManagement, ReleaseSource, ReleaseTargetType};
 
 pub fn release() -> Release {
     Release {
         name: "gh".to_string(),
         version: "latest".to_string(),
-        type_: ReleaseType::Github {
+        source: ReleaseSource::Github {
             owner: "cli".to_string(),
             repo: "cli".to_string(),
         },
@@ -18,7 +18,7 @@ pub fn release() -> Release {
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
-            ReleaseTargetType::LinuxAmd64Ubuntu(ReleaseManagement {
+            ReleaseTargetType::Ubuntu(ReleaseManagement {
                 artifact_templates: None,
                 install_commands: Some(vec![
                     "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0".to_string(),
@@ -34,7 +34,7 @@ pub fn release() -> Release {
                     "sudo apt install gh".to_string(),
                 ]),
             }),
-            ReleaseTargetType::LinuxAmd64CentOs(ReleaseManagement {
+            ReleaseTargetType::CentOS(ReleaseManagement {
                 artifact_templates: None,
                 install_commands: Some(vec![
                     "sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo".to_string(),
@@ -48,7 +48,7 @@ pub fn release() -> Release {
                 ]),
             })
             ,
-            ReleaseTargetType::LinuxAmd64OpenSuse(ReleaseManagement {
+            ReleaseTargetType::OpenSUSE(ReleaseManagement {
                 artifact_templates: None,
                 install_commands: Some(vec![
                     "sudo zypper addrepo https://cli.github.com/packages/rpm/gh-cli.repo".to_string(),

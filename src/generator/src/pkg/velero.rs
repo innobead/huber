@@ -1,10 +1,10 @@
-use huber_common::model::release::{Release, ReleaseManagement, ReleaseTargetType, ReleaseType};
+use huber_common::model::release::{Release, ReleaseManagement, ReleaseSource, ReleaseTargetType};
 
 pub fn release() -> Release {
     Release {
         name: "velero".to_string(),
         version: "latest".to_string(),
-        type_: ReleaseType::Github {
+        source: ReleaseSource::Github {
             owner: "vmware-tanzu".to_string(),
             repo: "velero".to_string(),
         },

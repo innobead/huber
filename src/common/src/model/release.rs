@@ -3,14 +3,15 @@ use hubcaps::releases::Release as HubcapsRelease;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum ReleaseType {
+pub enum ReleaseSource {
     Github { owner: String, repo: String },
+    Helm { registry: String, repo: String },
 }
 
-impl ReleaseType {
+impl ReleaseSource {
     pub fn url(&self) -> String {
         match self {
-            ReleaseType::Github {
+            ReleaseSource::Github {
                 owner: owner,
                 repo: repo,
             } => format!("https://github.com/{}/{}", owner, repo),
@@ -28,9 +29,9 @@ pub enum ReleaseDetailType {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum ReleaseTargetType {
     LinuxAmd64(ReleaseManagement),
-    LinuxAmd64Ubuntu(ReleaseManagement),
-    LinuxAmd64CentOs(ReleaseManagement),
-    LinuxAmd64OpenSuse(ReleaseManagement),
+    Ubuntu(ReleaseManagement),
+    CentOS(ReleaseManagement),
+    OpenSUSE(ReleaseManagement),
     MacOS(ReleaseManagement),
     Windows(ReleaseManagement),
 }
@@ -47,7 +48,7 @@ pub struct ReleaseManagement {
 pub struct Release {
     pub name: String,
     pub version: String,
-    pub type_: ReleaseType,
+    pub source: ReleaseSource,
     pub detail: Option<ReleaseDetailType>,
     pub targets: Option<Vec<ReleaseTargetType>>,
 }

@@ -2,7 +2,7 @@
 ---
 name: gh
 version: latest
-type_:
+source:
   Github:
     owner: cli
     repo: cli
@@ -14,7 +14,7 @@ targets:
       install_commands: ~
       uninstall_commands: ~
       upgrade_commands: ~
-  - LinuxAmd64Ubuntu:
+  - Ubuntu:
       artifact_templates: ~
       install_commands:
         - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key C99B11DEB97541F0
@@ -26,7 +26,7 @@ targets:
       upgrade_commands:
         - sudo apt update
         - sudo apt install gh
-  - LinuxAmd64CentOs:
+  - CentOS:
       artifact_templates: ~
       install_commands:
         - "sudo dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo"
@@ -35,7 +35,7 @@ targets:
         - sudo dnf remove gh
       upgrade_commands:
         - sudo dnf update gh
-  - LinuxAmd64OpenSuse:
+  - OpenSUSE:
       artifact_templates: ~
       install_commands:
         - "sudo zypper addrepo https://cli.github.com/packages/rpm/gh-cli.repo"
