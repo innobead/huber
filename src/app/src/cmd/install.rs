@@ -1,8 +1,10 @@
 use clap::{App, Arg, ArgMatches};
 
 use crate::cmd::CommandTrait;
+use huber_common::config::Config;
 use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
 use huber_common::result::Result;
+use tokio::runtime::Runtime;
 
 pub(crate) const CMD_NAME: &str = "install";
 
@@ -26,7 +28,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         )
     }
 
-    fn run(&self, matches: &ArgMatches) -> Result<()> {
+    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches) -> Result<()> {
         let name = matches.value_of("name").unwrap();
 
         // check name [--version=<v>]---> huber-packages/name/huber.yaml exists

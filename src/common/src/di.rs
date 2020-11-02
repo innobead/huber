@@ -1,6 +1,8 @@
-use std::any::{type_name, Any};
-use std::cell::RefCell;
+use std::any::{Any, type_name};
+use std::borrow::Borrow;
+use std::cell::{Ref, RefCell};
 use std::collections::HashMap;
+use std::ops::Deref;
 use std::rc::Rc;
 use std::sync::Mutex;
 
@@ -18,6 +20,12 @@ pub trait DIObjectTrait {
     fn new_for_di(container: MutableRc<DIContainer>) -> Self;
 }
 
+pub fn container() -> Ref<'static, DIContainer> {
+    unsafe {
+        CONTAINER.as_ref().unwrap().try_borrow().unwrap()
+    }
+}
+
 #[derive(Debug)]
 pub struct DIContainer {
     objects: HashMap<String, Box<dyn Any>>,
@@ -28,21 +36,21 @@ impl DIContainer {
         unsafe {
             let _ = MUTEX.lock();
 
-            if let None = CONTAINER {
-                let rc = Rc::new(RefCell::new(Self {
-                    objects: Default::default(),
-                }));
-
-                CONTAINER = Some(rc.clone());
+            if CONTAINER.is_none() {
+                CONTAINER = Some(
+                    Rc::new(RefCell::new(Self {
+                        objects: Default::default(),
+                    }))
+                );
             }
 
-            CONTAINER.clone().unwrap().clone()
+            CONTAINER.as_ref().unwrap().clone()
         }
     }
 
     pub fn add<T>(&mut self, obj: T) -> Result<&mut T>
-    where
-        T: 'static,
+        where
+            T: 'static,
     {
         let key = type_name::<T>().to_string();
         self.objects.insert(key.clone(), Box::new(obj));
@@ -51,8 +59,8 @@ impl DIContainer {
     }
 
     pub fn get<T>(&self) -> Option<&T>
-    where
-        T: 'static,
+        where
+            T: 'static,
     {
         self.objects
             .get(&type_name::<T>().to_string())
@@ -61,8 +69,8 @@ impl DIContainer {
     }
 
     pub fn get_mut<T>(&mut self) -> Option<&mut T>
-    where
-        T: 'static,
+        where
+            T: 'static,
     {
         self.objects
             .get_mut(&type_name::<T>().to_string())
@@ -75,9 +83,9 @@ impl DIContainer {
 macro_rules! di {
     ($struct:ident $($attr:ident=$expr:expr )+) => {
         {
-            let container_rc = DIContainer::new();
-            let mut container = container_rc.borrow_mut();
-            let obj = container.add($struct::new_for_di(container_rc.clone())).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()));
+            let mrc = DIContainer::new();
+            let mut container = mrc.try_borrow_mut().unwrap();
+            let obj = container.add($struct::new_for_di(mrc.clone())).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()));
 
             $(
             obj.$attr = $expr;
@@ -87,18 +95,9 @@ macro_rules! di {
 
     ($struct:ident $($t:tt)*) => {
         {
-            let container_rc = DIContainer::new();
-            let mut container = container_rc.borrow_mut();
-            container.add($struct::new_for_di(container_rc.clone())).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()))$($t)*
+            let mrc = DIContainer::new();
+            let mut container = mrc.try_borrow_mut().unwrap();
+            container.add($struct::new_for_di(mrc.clone())).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()))$($t)*
         }
     };
-}
-
-#[macro_export]
-macro_rules! di_aware {
-    ($struct:ident) => {{
-        let container_rc = DIContainer::new();
-        let container = container_rc.borrow_mut();
-        $struct::new_for_di(container_rc.clone())
-    }};
 }

@@ -1,2 +1,2 @@
 pub mod context;
-pub mod release;
+pub mod package;

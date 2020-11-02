@@ -1,15 +1,16 @@
-mod pkg;
-
+use std::{any, env, fs};
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
-use std::{env, fs};
 
 use serde_yaml::Error;
 
-use crate::pkg::*;
-use huber_common::model::release::{Release, ReleaseManagement, ReleaseSource, ReleaseTargetType};
+use huber_common::model::package::{Package, PackageIndex, PackageManagement, PackageSource, PackageTargetType};
 use huber_common::result::Result;
+
+use crate::pkg::*;
+
+mod pkg;
 
 fn main() -> Result<()> {
     let generated_dir = &Path::new(env::var("CARGO_MANIFEST_DIR")?.as_str())
@@ -18,25 +19,45 @@ fn main() -> Result<()> {
         .parent()
         .unwrap()
         .join("generated")
-        .join("managed_packages");
+        .join("packages");
 
+    // clean up and prepare
     fs::remove_dir_all(generated_dir.clone());
     fs::create_dir_all(generated_dir.clone());
+
+    // generate release manifests, index file
+    let index_file = Path::new(generated_dir)
+        .parent()
+        .unwrap()
+        .join("index.yaml");
+    let mut index_file = File::create(index_file)?;
+    writeln!(index_file, "{}", "# This is generated. Don't modify.");
+
+    let mut pkg_indexes: Vec<PackageIndex> = vec![];
 
     for r in releases().iter() {
         let str = format!(
             "# This is generated. Don't modify.\n{}",
             serde_yaml::to_string(&r)?
         );
-        let f = Path::new(generated_dir)
+
+        pkg_indexes.push(PackageIndex {
+            name: r.name.clone(),
+            source: r.source.to_string(),
+        });
+
+        let pkg_file = Path::new(generated_dir)
             .join(r.name.clone())
             .with_extension("yaml");
-        File::create(f)?.write_all(str.as_bytes())?;
+
+        File::create(pkg_file)?.write_all(str.as_bytes())?;
     }
+
+    writeln!(index_file, "{}", serde_yaml::to_string(&pkg_indexes).unwrap());
 
     Ok(())
 }
 
-fn releases() -> Vec<Release> {
+fn releases() -> Vec<Package> {
     vec![gh::release(), velero::release()]
 }

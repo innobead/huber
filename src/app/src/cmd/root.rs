@@ -1,18 +1,20 @@
 use clap::{crate_name, crate_version, App, Arg, ArgMatches};
 
-use crate::cmd::CommandTrait;
 use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
 use huber_common::result::Result;
 
+use crate::cmd::CommandTrait;
+use huber_common::config::Config;
+use tokio::runtime::Runtime;
+
 pub(crate) const ARG_LOG_LEVEL: &str = "log-level";
+pub(crate) const ARG_OUTPUT_TYPE: &str = "output";
 
-pub(crate) struct RootCmd {
-    container: MutableRc<DIContainer>,
-}
+pub(crate) struct RootCmd {}
 
-impl DIObjectTrait for RootCmd {
-    fn new_for_di(container: MutableRc<DIContainer>) -> Self {
-        Self { container }
+impl RootCmd {
+    pub(crate) fn new() -> Self {
+        Self {}
     }
 }
 
@@ -28,10 +30,19 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
                 .help("Log level")
                 .takes_value(true)
                 .global(true)
-                .possible_values(&["OFF", "ERROR", "WARN", "INFO", "DEBUG", "TRACE"])])
+                .default_value("info")
+                .possible_values(&["off", "error", "warn", "info", "debug", "trace"])])
+            .args(&[Arg::with_name(ARG_OUTPUT_TYPE)
+                .short("o")
+                .long(ARG_OUTPUT_TYPE)
+                .help("Output format")
+                .takes_value(true)
+                .global(true)
+                .default_value("console")
+                .possible_values(&["console", "json", "yaml"])])
     }
 
-    fn run(&self, matches: &ArgMatches) -> Result<()> {
+    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         unimplemented!()
     }
 }

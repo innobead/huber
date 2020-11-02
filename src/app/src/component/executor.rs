@@ -1,12 +1,12 @@
 use huber_common::result::Result;
 
-trait ExecutorTrait {
+pub(crate) trait ExecutorTrait {
     fn run(exec: &str, args: &Vec<&str>) -> Result<String>;
 }
 
-struct ShellExecutor;
+pub(crate) struct ShellExecutor;
 
-struct HelmExecutor;
+pub(crate) struct HelmExecutor;
 
 impl ExecutorTrait for ShellExecutor {
     fn run(exec: &str, args: &Vec<&str>) -> Result<String> {

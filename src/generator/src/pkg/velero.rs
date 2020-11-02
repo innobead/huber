@@ -1,19 +1,35 @@
-use huber_common::model::release::{Release, ReleaseManagement, ReleaseSource, ReleaseTargetType};
+use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
 
-pub fn release() -> Release {
-    Release {
+pub fn release() -> Package {
+    Package {
         name: "velero".to_string(),
-        version: "latest".to_string(),
-        source: ReleaseSource::Github {
+        source: PackageSource::Github {
             owner: "vmware-tanzu".to_string(),
             repo: "velero".to_string(),
         },
         detail: None,
-        targets: Some(vec![ReleaseTargetType::LinuxAmd64(ReleaseManagement {
-            artifact_templates: Some(vec!["velero-{version}-linux-amd64.tar.gz".to_string()]),
-            install_commands: None, // untar, walk through all executables, then install
-            uninstall_commands: None,
-            upgrade_commands: None,
-        })]),
+        targets: vec![
+            PackageTargetType::LinuxAmd64(PackageManagement {
+                artifact_templates: vec!["velero-{version}-linux-amd64.tar.gz".to_string()],
+                checksum: Some("CHECKSUM".to_string()),
+                install_commands: None, // untar, walk through all executables, then install
+                uninstall_commands: None,
+                upgrade_commands: None,
+            }),
+            PackageTargetType::LinuxArm64(PackageManagement {
+                artifact_templates: vec!["velero-{version}-linux-arm64.tar.gz".to_string()],
+                checksum: Some("CHECKSUM".to_string()),
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+            }),
+            PackageTargetType::MacOS(PackageManagement {
+                artifact_templates: vec!["velero-{version}-darwin-arm64.tar.gz".to_string()],
+                checksum: Some("CHECKSUM".to_string()),
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+            }),
+        ],
     }
 }

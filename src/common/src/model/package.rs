@@ -1,65 +1,52 @@
 use hubcaps::releases::Asset as HubcapsAsset;
 use hubcaps::releases::Release as HubcapsRelease;
 use serde::{Deserialize, Serialize};
+use serde::export::fmt::Display;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum ReleaseSource {
+pub struct Package {
+    pub name: String,
+    pub source: PackageSource,
+    pub detail: Option<PackageDetailType>,
+    pub targets: Vec<PackageTargetType>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct Release {
+    pub package: Package,
+    pub version: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub enum PackageSource {
     Github { owner: String, repo: String },
     Helm { registry: String, repo: String },
 }
 
-impl ReleaseSource {
-    pub fn url(&self) -> String {
-        match self {
-            ReleaseSource::Github {
-                owner: owner,
-                repo: repo,
-            } => format!("https://github.com/{}/{}", owner, repo),
-
-            _ => "".to_string(),
-        }
-    }
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub enum PackageDetailType {
+    Github { release: GithubPackage },
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum ReleaseDetailType {
-    Github { release: GithubRelease },
+pub enum PackageTargetType {
+    LinuxAmd64(PackageManagement),
+    LinuxArm64(PackageManagement),
+    MacOS(PackageManagement),
+    Windows(PackageManagement),
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub enum ReleaseTargetType {
-    LinuxAmd64(ReleaseManagement),
-    Ubuntu(ReleaseManagement),
-    CentOS(ReleaseManagement),
-    OpenSUSE(ReleaseManagement),
-    MacOS(ReleaseManagement),
-    Windows(ReleaseManagement),
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct ReleaseManagement {
-    pub artifact_templates: Option<Vec<String>>,
+pub struct PackageManagement {
+    pub artifact_templates: Vec<String>,
+    pub checksum: Option<String>,
     pub install_commands: Option<Vec<String>>,
     pub uninstall_commands: Option<Vec<String>>,
     pub upgrade_commands: Option<Vec<String>>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Release {
-    pub name: String,
-    pub version: String,
-    pub source: ReleaseSource,
-    pub detail: Option<ReleaseDetailType>,
-    pub targets: Option<Vec<ReleaseTargetType>>,
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct ReleaseInstance {
-    release: Release,
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct GithubRelease {
+pub struct GithubPackage {
     pub url: String,
     pub html_url: String,
     pub assets_url: String,
@@ -93,7 +80,26 @@ pub struct GithubAsset {
     pub updated_at: String,
 }
 
-impl From<HubcapsRelease> for GithubRelease {
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct PackageIndex {
+    pub name: String,
+    pub source: String,
+}
+
+impl PackageSource {
+    pub fn url(&self) -> String {
+        match self {
+            PackageSource::Github {
+                owner,
+                repo: repo,
+            } => format!("https://github.com/{}/{}", owner, repo),
+
+            _ => "".to_string(),
+        }
+    }
+}
+
+impl From<HubcapsRelease> for GithubPackage {
     fn from(r: HubcapsRelease) -> Self {
         Self {
             url: r.url,
@@ -123,5 +129,14 @@ impl From<HubcapsRelease> for GithubRelease {
 impl From<HubcapsAsset> for GithubAsset {
     fn from(a: HubcapsAsset) -> Self {
         unimplemented!()
+    }
+}
+
+impl ToString for PackageSource {
+    fn to_string(&self) -> String {
+        match self {
+            PackageSource::Github { .. } => "github".to_string(),
+            PackageSource::Helm {..} => "helm".to_string(),
+        }
     }
 }

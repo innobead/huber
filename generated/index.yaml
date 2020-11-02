@@ -1,0 +1,6 @@
+# This is generated. Don't modify.
+---
+- name: gh
+  source: github
+- name: velero
+  source: github

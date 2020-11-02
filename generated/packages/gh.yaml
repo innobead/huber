@@ -1,0 +1,30 @@
+# This is generated. Don't modify.
+---
+name: gh
+source:
+  Github:
+    owner: cli
+    repo: cli
+detail: ~
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "gh_{version}_linux_amd64.tar.gz"
+      checksum: "gh_{version}_checksums.txt"
+      install_commands: ~
+      uninstall_commands: ~
+      upgrade_commands: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "gh_{version}_linux_arm64.tar.gz"
+      checksum: "gh_{version}_checksums.txt"
+      install_commands: ~
+      uninstall_commands: ~
+      upgrade_commands: ~
+  - MacOS:
+      artifact_templates:
+        - "gh_{version}_macOS_amd64.tar.gz"
+      checksum: "gh_{version}_checksums.txt"
+      install_commands: ~
+      uninstall_commands: ~
+      upgrade_commands: ~

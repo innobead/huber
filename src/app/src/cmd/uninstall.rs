@@ -1,7 +1,10 @@
 use clap::{App, Arg, ArgMatches};
 
 use crate::cmd::CommandTrait;
+use huber_common::config::Config;
 use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
+use huber_common::result::Result;
+use tokio::runtime::Runtime;
 
 pub(crate) const CMD_NAME: &str = "uninstall";
 
@@ -25,7 +28,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UninstallCmd {
         )
     }
 
-    fn run(&self, matches: &ArgMatches) -> anyhow::Result<()> {
+    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let name = matches.value_of("name").unwrap();
 
         unimplemented!()

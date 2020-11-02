@@ -4,10 +4,12 @@ use std::path::PathBuf;
 use log::Level;
 
 use crate::log::Logger;
+use crate::output::OutputFormat;
 use crate::result::Result;
 
 pub struct Config {
     pub log_level: Level,
+    pub output_format: OutputFormat,
     pub home_dir: PathBuf,
 }
 
@@ -15,6 +17,7 @@ impl Config {
     pub fn new() -> Self {
         Self {
             log_level: Level::Error,
+            output_format: OutputFormat::Console,
             home_dir: dirs::home_dir().unwrap().join(".huber"),
         }
     }
@@ -24,13 +27,21 @@ impl Config {
     }
 
     pub fn bin_dir(&self) -> Result<PathBuf> {
-        let bin_dir = self.home_dir.join("bin");
+        self.dir("bin")
+    }
 
-        if !bin_dir.exists() || !bin_dir.is_dir() {
-            fs::remove_dir_all(bin_dir.as_path())?;
-            fs::create_dir_all(bin_dir.as_path())?;
+    pub fn github_dir(&self) -> Result<PathBuf> {
+        self.dir("github")
+    }
+
+    fn dir(&self, path: &str) -> Result<PathBuf> {
+        let dir = self.home_dir.join(path);
+
+        if !dir.exists() || !dir.is_dir() {
+            fs::remove_dir_all(dir.as_path())?;
+            fs::create_dir_all(dir.as_path())?;
         }
 
-        Ok(bin_dir)
+        Ok(dir)
     }
 }

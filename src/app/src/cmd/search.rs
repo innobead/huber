@@ -1,8 +1,18 @@
+use std::borrow::{Borrow, BorrowMut};
+use std::ops::Deref;
+
 use clap::{App, Arg, ArgMatches};
+use tokio::runtime::Runtime;
+
+use huber_common::config::Config;
+use huber_common::di::{container, DIContainer, DIObjectTrait, MutableRc};
+use huber_common::output;
+use huber_common::output::OutputTrait;
+use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
-use huber_common::result::Result;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::service::release::ReleaseService;
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -24,15 +34,20 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
                 .long("name")
                 .help("Package name")
                 .takes_value(true),
-            Arg::with_name("repo")
-                .short("r")
-                .long("repo")
-                .help("Github repo URL")
-                .takes_value(true),
         ])
     }
 
-    fn run(&self, matches: &ArgMatches) -> Result<()> {
-        unimplemented!()
+    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+        let container = container();
+
+        let release_service = container.get::<ReleaseService>().unwrap();
+        let results = release_service.search(runtime, "")?;
+
+        output::new(&config.output_format).display(
+            std::io::stdout(),
+            &results,
+            Some(vec!["name"]),
+            None,
+        )
     }
 }

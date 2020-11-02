@@ -7,12 +7,15 @@ use std::env;
 use std::path::Path;
 use std::process::exit;
 
+use chrono::{Local, Utc};
 use log::error;
+use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::di::DIContainer;
 use huber_common::di::DIObjectTrait;
 
+use crate::cmd::CommandTrait;
 use crate::cmd::info::InfoCmd;
 use crate::cmd::install::InstallCmd;
 use crate::cmd::list::ListCmd;
@@ -20,32 +23,26 @@ use crate::cmd::root::RootCmd;
 use crate::cmd::search::SearchCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
-use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
 use crate::service::context::ContextService;
 use crate::service::datastore::DatastoreService;
 use crate::service::release::ReleaseService;
+use std::borrow::Borrow;
 
 mod cmd;
-mod component;
 mod service;
+mod component;
 
 fn main() {
-    // init DI managed objects
-    di!(ReleaseService);
-    di!(DatastoreService);
-    di!(ContextService);
-    di!(CacheService dir=Path::new("/tmp/huber").to_owned());
-
     // create CLI app
     let app = {
-        let app = di_aware!(RootCmd).app().subcommands(vec![
-            di_aware!(InstallCmd).app(),
-            di_aware!(UninstallCmd).app(),
-            di_aware!(SearchCmd).app(),
-            di_aware!(ListCmd).app(),
-            di_aware!(ShowCmd).app(),
-            di_aware!(InfoCmd).app(),
+        let app = RootCmd::new().app().subcommands(vec![
+            di!(InstallCmd.app()),
+            di!(UninstallCmd.app()),
+            di!(SearchCmd.app()),
+            di!(ListCmd.app()),
+            di!(ShowCmd.app()),
+            di!(InfoCmd.app()),
         ]);
 
         app
@@ -64,8 +61,15 @@ fn main() {
     cmd::process_args(&mut config, &matches);
     let _ = config.init();
 
+    // init DI managed objects
+    di!(ReleaseService);
+    di!(DatastoreService);
+    di!(ContextService);
+    di!(CacheService dir=Path::new("/tmp/huber").to_owned());
+
     // process command
-    if let Err(err) = cmd::process_cmds(&config, &matches, DIContainer::new()) {
+    let runtime = Runtime::new().unwrap();
+    if let Err(err) = cmd::process_cmds(&runtime, &config, &matches, DIContainer::new()) {
         error!("Failed to run command: {:?}", err);
         exit(1)
     }

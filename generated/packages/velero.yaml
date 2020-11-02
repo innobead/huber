@@ -1,0 +1,30 @@
+# This is generated. Don't modify.
+---
+name: velero
+source:
+  Github:
+    owner: vmware-tanzu
+    repo: velero
+detail: ~
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "velero-{version}-linux-amd64.tar.gz"
+      checksum: CHECKSUM
+      install_commands: ~
+      uninstall_commands: ~
+      upgrade_commands: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "velero-{version}-linux-arm64.tar.gz"
+      checksum: CHECKSUM
+      install_commands: ~
+      uninstall_commands: ~
+      upgrade_commands: ~
+  - MacOS:
+      artifact_templates:
+        - "velero-{version}-darwin-arm64.tar.gz"
+      checksum: CHECKSUM
+      install_commands: ~
+      uninstall_commands: ~
+      upgrade_commands: ~
