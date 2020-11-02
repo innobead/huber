@@ -5,7 +5,7 @@ use huber_common::result::Result;
 pub(crate) mod cache;
 pub(crate) mod context;
 pub(crate) mod datastore;
-pub(crate) mod release;
+pub(crate) mod package;
 
 pub(crate) trait ItemOperationTrait {
     type Item;
@@ -20,7 +20,11 @@ pub(crate) trait ItemOperationTrait {
 pub(crate) trait ItemSearchTrait {
     type Item;
 
-    fn search(&self, runtime: &Runtime, pattern: &str) -> Result<Vec<Self::Item>>;
+    fn search(
+        &self,
+        name: Option<&str>,
+        pattern: Option<&str>,
+    ) -> Result<Vec<Self::Item>>;
     fn search_unmanaged(&self, obj: &Self::Item) -> Result<Self::Item>;
     fn info(&self, name: &str) -> Result<Self::Item>;
 }

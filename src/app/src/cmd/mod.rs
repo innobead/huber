@@ -1,11 +1,12 @@
 use std::str::FromStr;
+use std::sync::Arc;
 
 use clap::{App, ArgMatches};
 use log::Level;
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::{container, DIContainer, MutableRc};
+use huber_common::di::{container, DIContainer, MutableArc};
 use huber_common::output::OutputFormat;
 use huber_common::result::Result;
 
@@ -49,26 +50,46 @@ pub(crate) fn process_cmds(
     runtime: &Runtime,
     config: &Config,
     matches: &ArgMatches,
-    container_rc: MutableRc<DIContainer>,
+    container_rc: MutableArc<DIContainer>,
 ) -> Result<()> {
     match matches.subcommand() {
-        (cmd::install::CMD_NAME, Some(sub_matches)) =>
-            container().get::<InstallCmd>().unwrap().run(runtime, config, sub_matches),
+        (cmd::install::CMD_NAME, Some(sub_matches)) => container()
+            .get::<InstallCmd>()
+            .unwrap()
+            .run(runtime, config, sub_matches),
 
-        (cmd::uninstall::CMD_NAME, Some(sub_matches)) =>
-            container().get::<UninstallCmd>().unwrap().run(runtime, config, sub_matches),
+        (cmd::uninstall::CMD_NAME, Some(sub_matches)) => container()
+            .get::<UninstallCmd>()
+            .unwrap()
+            .run(runtime, config, sub_matches),
 
-        (cmd::search::CMD_NAME, Some(sub_matches)) =>
-            container().get::<SearchCmd>().unwrap().run(runtime, config, sub_matches),
+        (cmd::search::CMD_NAME, Some(sub_matches)) => {
+            container()
+                .get::<SearchCmd>()
+                .unwrap()
+                .run(runtime, config, sub_matches)
+        }
 
-        (cmd::list::CMD_NAME, Some(sub_matches)) =>
-            container().get::<ListCmd>().unwrap().run(runtime, config, sub_matches),
+        (cmd::list::CMD_NAME, Some(sub_matches)) => {
+            container()
+                .get::<ListCmd>()
+                .unwrap()
+                .run(runtime, config, sub_matches)
+        }
 
-        (cmd::info::CMD_NAME, Some(sub_matches)) =>
-            container().get::<InfoCmd>().unwrap().run(runtime, config, sub_matches),
+        (cmd::info::CMD_NAME, Some(sub_matches)) => {
+            container()
+                .get::<InfoCmd>()
+                .unwrap()
+                .run(runtime, config, sub_matches)
+        }
 
-        (cmd::show::CMD_NAME, Some(sub_matches)) =>
-            container().get::<ShowCmd>().unwrap().run(runtime, config, sub_matches),
+        (cmd::show::CMD_NAME, Some(sub_matches)) => {
+            container()
+                .get::<ShowCmd>()
+                .unwrap()
+                .run(runtime, config, sub_matches)
+        }
 
         _ => unimplemented!("command not implemented"),
     }

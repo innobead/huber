@@ -2,7 +2,8 @@ use std::env;
 use std::path::Path;
 
 use async_trait::async_trait;
-use git2::Repository;
+use git2::{RemoteCallbacks, Repository};
+use git2::build::RepoBuilder;
 use hubcaps::{Credentials, Github};
 
 use huber_common::model::package::{Package, PackageDetailType, PackageSource};
@@ -14,7 +15,11 @@ const HUBER_GITHUB_REPO: &str = "https://github.com/innobead/huber";
 pub(crate) trait GithubClientTrait {
     async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Package>;
     async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Package>;
-    async fn download_artifacts<P: AsRef<Path> + Send>(&self, release: &Package, dir: P) -> Result<()>;
+    async fn download_artifacts<P: AsRef<Path> + Send>(
+        &self,
+        release: &Package,
+        dir: P,
+    ) -> Result<()>;
     async fn clone<P: AsRef<Path> + Send>(&self, owner: &str, repo: &str, dir: P) -> Result<()>;
     async fn list_managed_releases(&self) -> Result<Vec<Package>>;
 }
@@ -74,28 +79,41 @@ impl GithubClientTrait for GithubClient {
         })
     }
 
-    async fn download_artifacts<P: AsRef<Path> + Send>(&self, release: &Package, dir: P) -> Result<()> {
+    async fn download_artifacts<P: AsRef<Path> + Send>(
+        &self,
+        release: &Package,
+        dir: P,
+    ) -> Result<()> {
         unimplemented!()
     }
 
     async fn clone<P: AsRef<Path> + Send>(&self, owner: &str, repo: &str, dir: P) -> Result<()> {
         let url = format!("https://github.com/{}/{}", owner, repo);
-        Repository::clone(url.as_str(), dir)?;
+        Repository::clone(&url, dir)?;
 
         Ok(())
     }
 
     async fn list_managed_releases(&self) -> Result<Vec<Package>> {
-        Ok(vec![Package{
-            name: "hello".to_string(),
-            source: PackageSource::Github { owner: "".to_string(), repo: "".to_string() },
-            detail: None,
-            targets: vec![]
-        }, Package{
-            name: "hello2".to_string(),
-            source: PackageSource::Github { owner: "".to_string(), repo: "".to_string() },
-            detail: None,
-            targets: vec![]
-        }])
+        Ok(vec![
+            Package {
+                name: "hello".to_string(),
+                source: PackageSource::Github {
+                    owner: "".to_string(),
+                    repo: "".to_string(),
+                },
+                detail: None,
+                targets: vec![],
+            },
+            Package {
+                name: "hello2".to_string(),
+                source: PackageSource::Github {
+                    owner: "".to_string(),
+                    repo: "".to_string(),
+                },
+                detail: None,
+                targets: vec![],
+            },
+        ])
     }
 }

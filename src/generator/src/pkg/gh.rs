@@ -10,32 +10,26 @@ pub fn release() -> Package {
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "gh_{version}_linux_amd64.tar.gz".to_string(),
-                ],
+                artifact_templates: vec!["gh_{version}_linux_amd64.tar.gz".to_string()],
                 checksum: Some("gh_{version}_checksums.txt".to_string()),
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec![
-                    "gh_{version}_linux_arm64.tar.gz".to_string(),
-                ],
+                artifact_templates: vec!["gh_{version}_linux_arm64.tar.gz".to_string()],
                 checksum: Some("gh_{version}_checksums.txt".to_string()),
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec![
-                    "gh_{version}_macOS_amd64.tar.gz".to_string(),
-                ],
+                artifact_templates: vec!["gh_{version}_macOS_amd64.tar.gz".to_string()],
                 checksum: Some("gh_{version}_checksums.txt".to_string()),
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
-            })
+            }),
         ],
     }
 }

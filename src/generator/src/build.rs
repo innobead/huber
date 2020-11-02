@@ -1,11 +1,13 @@
-use std::{any, env, fs};
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
+use std::{any, env, fs};
 
 use serde_yaml::Error;
 
-use huber_common::model::package::{Package, PackageIndex, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{
+    Package, PackageIndex, PackageManagement, PackageSource, PackageTargetType,
+};
 use huber_common::result::Result;
 
 use crate::pkg::*;
@@ -53,7 +55,11 @@ fn main() -> Result<()> {
         File::create(pkg_file)?.write_all(str.as_bytes())?;
     }
 
-    writeln!(index_file, "{}", serde_yaml::to_string(&pkg_indexes).unwrap());
+    writeln!(
+        index_file,
+        "{}",
+        serde_yaml::to_string(&pkg_indexes).unwrap()
+    );
 
     Ok(())
 }

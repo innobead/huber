@@ -7,6 +7,9 @@ use crate::log::Logger;
 use crate::output::OutputFormat;
 use crate::result::Result;
 
+pub const HUBER_REPO: &str = "https://github.com/innobead/huber";
+
+#[derive(Debug)]
 pub struct Config {
     pub log_level: Level,
     pub output_format: OutputFormat,
@@ -30,15 +33,15 @@ impl Config {
         self.dir("bin")
     }
 
-    pub fn github_dir(&self) -> Result<PathBuf> {
-        self.dir("github")
+    pub fn huber_repo_dir(&self) -> Result<PathBuf> {
+        self.dir("huber_repo")
     }
 
     fn dir(&self, path: &str) -> Result<PathBuf> {
         let dir = self.home_dir.join(path);
 
         if !dir.exists() || !dir.is_dir() {
-            fs::remove_dir_all(dir.as_path())?;
+            fs::remove_dir_all(dir.as_path());
             fs::create_dir_all(dir.as_path())?;
         }
 

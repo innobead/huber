@@ -1,11 +1,16 @@
 #![allow(dead_code)]
 
 #[macro_use]
+extern crate anyhow;
+#[macro_use]
 extern crate huber_common;
 
+use std::borrow::Borrow;
 use std::env;
 use std::path::Path;
 use std::process::exit;
+use std::rc::Rc;
+use std::sync::Arc;
 
 use chrono::{Local, Utc};
 use log::error;
@@ -25,12 +30,11 @@ use crate::cmd::uninstall::UninstallCmd;
 use crate::service::cache::CacheService;
 use crate::service::context::ContextService;
 use crate::service::datastore::DatastoreService;
-use crate::service::release::ReleaseService;
-use std::borrow::Borrow;
+use crate::service::package::PackageService;
 
 mod cmd;
-mod service;
 mod component;
+mod service;
 
 fn main() {
     // create CLI app
@@ -59,17 +63,32 @@ fn main() {
     let mut config = Config::new();
     cmd::process_args(&mut config, &matches);
     let _ = config.init();
+    let config = Arc::new(config);
 
     // init DI managed objects
-    di!(ReleaseService);
-    di!(DatastoreService);
-    di!(ContextService);
-    di!(CacheService dir=Path::new("/tmp/huber").to_owned());
+    let runtime = Arc::new(Runtime::new().unwrap());
+
+    di!(PackageService
+        config=Some(config.clone())
+        runtime=Some(runtime.clone()));
+
+    di!(DatastoreService
+        config=Some(config.clone())
+        runtime=Some(runtime.clone()));
+
+    di!(ContextService
+        config=Some(config.clone())
+        runtime=Some(runtime.clone()));
+
+    di!(CacheService
+        dir=Path::new("/tmp/huber").to_owned()
+        config=Some(config.clone())
+        runtime=Some(runtime.clone()));
 
     // process command
-    let runtime = Runtime::new().unwrap();
     if let Err(err) = cmd::process_cmds(&runtime, &config, &matches, DIContainer::new()) {
         error!("Failed to run command: {:?}", err);
+
         exit(1)
     }
 }

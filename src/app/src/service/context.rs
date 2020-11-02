@@ -1,14 +1,23 @@
 use crate::service::ItemOperationTrait;
-use huber_common::di::{DIContainer, MutableRc};
+use huber_common::config::Config;
+use huber_common::di::{DIContainer, MutableArc};
 use huber_common::model::context::Context;
 use huber_common::result::Result;
+use std::sync::Arc;
+use tokio::runtime::Runtime;
 
 #[derive(Debug)]
-pub(crate) struct ContextService;
+pub(crate) struct ContextService {
+    pub(crate) config: Option<Arc<Config>>,
+    pub(crate) runtime: Option<Arc<Runtime>>,
+}
 
 impl ContextService {
     pub(crate) fn new() -> Self {
-        Self {}
+        Self {
+            config: None,
+            runtime: None,
+        }
     }
 }
 

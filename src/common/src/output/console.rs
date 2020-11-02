@@ -3,7 +3,7 @@ use std::io::Write;
 
 use anyhow::{Context, Result};
 use inflector::Inflector;
-use prettytable::{Cell, format, Row, Table};
+use prettytable::{format, Cell, Row, Table};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -39,7 +39,10 @@ impl OutputTrait for ConsoleOutput {
             _ => Err(anyhow!("unsupported display type: {:?}", obj.type_id()))?,
         };
 
-        table.print(&mut writer).map(|it| ()).map_err(|it| anyhow!(it))
+        table
+            .print(&mut writer)
+            .map(|it| ())
+            .map_err(|it| anyhow!(it))
     }
 }
 

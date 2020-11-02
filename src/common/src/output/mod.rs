@@ -8,6 +8,7 @@ use crate::output::console::ConsoleOutput;
 
 pub mod console;
 
+#[derive(Debug)]
 pub enum OutputFormat {
     Console,
     Json,

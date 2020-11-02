@@ -2,7 +2,7 @@ use clap::{App, Arg, ArgMatches};
 
 use crate::cmd::CommandTrait;
 use huber_common::config::Config;
-use huber_common::di::{DIContainer, MutableRc};
+use huber_common::di::{DIContainer, MutableArc};
 use huber_common::result::Result;
 use tokio::runtime::Runtime;
 
