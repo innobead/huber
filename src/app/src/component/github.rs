@@ -2,10 +2,12 @@ use std::env;
 use std::path::Path;
 
 use async_trait::async_trait;
-use git2::{RemoteCallbacks, Repository};
 use git2::build::RepoBuilder;
+use git2::{RemoteCallbacks, Repository};
 use hubcaps::{Credentials, Github};
+use reqwest::Response;
 
+use huber_common::file::is_empty_dir;
 use huber_common::model::package::{Package, PackageDetailType, PackageSource};
 use huber_common::result::Result;
 
@@ -89,7 +91,16 @@ impl GithubClientTrait for GithubClient {
 
     async fn clone<P: AsRef<Path> + Send>(&self, owner: &str, repo: &str, dir: P) -> Result<()> {
         let url = format!("https://github.com/{}/{}", owner, repo);
-        Repository::clone(&url, dir)?;
+
+        if is_empty_dir(&dir) {
+            //Note: if encountering authentication required, probably hit this issue https://github.com/rust-lang/git2-rs/issues/463
+            Repository::clone(&url, dir)?;
+            return Ok(());
+        }
+
+        let repo = Repository::open(dir)?;
+        let mut remote = repo.find_remote("origin")?;
+        remote.fetch(&["master"], None, None)?;
 
         Ok(())
     }

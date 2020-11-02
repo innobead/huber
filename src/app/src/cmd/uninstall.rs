@@ -20,6 +20,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UninstallCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME).about("Uninstall package").arg(
             Arg::with_name("name")
+                .value_name("string")
                 .help("Package name")
                 .required(true)
                 .takes_value(true),

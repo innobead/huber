@@ -12,8 +12,8 @@ use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use crate::service::ItemSearchTrait;
 use crate::service::package::PackageService;
+use crate::service::ItemSearchTrait;
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -29,11 +29,13 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME).about("Search package").args(&[
             Arg::with_name("name")
+                .value_name("string")
                 .short("n")
                 .long("name")
                 .help("Package name")
                 .takes_value(true),
             Arg::with_name("patter")
+                .value_name("string")
                 .short("p")
                 .long("pattern")
                 .help("Regex pattern")
@@ -44,15 +46,13 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
     fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = container();
         let release_service = container.get::<PackageService>().unwrap();
-        let results = release_service.search(
-            matches.value_of("name"),
-            matches.value_of("pattern"),
-        )?;
+        let results =
+            release_service.search(matches.value_of("name"), matches.value_of("pattern"))?;
 
         output::new(&config.output_format).display(
             std::io::stdout(),
             &results,
-            Some(vec!["name"]),
+            Some(vec!["name", "source"]),
             None,
         )
     }

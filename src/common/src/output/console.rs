@@ -28,12 +28,12 @@ impl OutputTrait for ConsoleOutput {
         match obj {
             _ if obj.is_array() => {
                 for x in obj.as_array().unwrap() {
-                    self.display_obj(&mut writer, &mut table, x, &include_keys, &exclude_keys)?;
+                    self.display_obj(&mut table, x, &include_keys, &exclude_keys)?;
                 }
             }
 
             _ if obj.is_object() => {
-                self.display_obj(&mut writer, &mut table, &obj, &include_keys, &exclude_keys)?;
+                self.display_obj(&mut table, &obj, &include_keys, &exclude_keys)?;
             }
 
             _ => Err(anyhow!("unsupported display type: {:?}", obj.type_id()))?,
@@ -53,7 +53,6 @@ impl ConsoleOutput {
 
     fn display_obj(
         &self,
-        writer: &mut impl Write,
         table: &mut Table,
         obj: &Value,
         include_keys: &Option<Vec<&str>>,

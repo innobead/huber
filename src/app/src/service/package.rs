@@ -55,11 +55,7 @@ impl ItemOperationTrait for PackageService {
 impl ItemSearchTrait for PackageService {
     type Item = Package;
 
-    fn search(
-        &self,
-        name: Option<&str>,
-        pattern: Option<&str>,
-    ) -> Result<Vec<Self::Item>> {
+    fn search(&self, name: Option<&str>, pattern: Option<&str>) -> Result<Vec<Self::Item>> {
         let container = container();
         let cache_service = container.get::<CacheService>().unwrap();
 
@@ -80,7 +76,10 @@ impl ItemSearchTrait for PackageService {
             return Ok(items);
         }
 
-        Err(anyhow!(""))
+        let mut all_pkgs = cache_service.list_packages("")?;
+        items.append(&mut all_pkgs);
+
+        Ok(items)
     }
 
     fn search_unmanaged(&self, obj: &Self::Item) -> Result<Self::Item> {
@@ -88,6 +87,6 @@ impl ItemSearchTrait for PackageService {
     }
 
     fn info(&self, name: &str) -> Result<Self::Item> {
-        unimplemented!()
+        self.search(Some(name), None).map(|it| it[0].clone())
     }
 }

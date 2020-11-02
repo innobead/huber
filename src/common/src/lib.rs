@@ -4,6 +4,7 @@ extern crate lazy_static;
 extern crate anyhow;
 pub mod config;
 pub mod di;
+pub mod file;
 pub mod log;
 pub mod model;
 pub mod output;
