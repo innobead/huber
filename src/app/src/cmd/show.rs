@@ -2,19 +2,17 @@ use clap::{App, Arg, ArgMatches};
 
 use crate::cmd::CommandTrait;
 use huber_common::config::Config;
-use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
+use huber_common::di::{DIContainer, MutableRc};
 use tokio::runtime::Runtime;
 use anyhow::Result;
 
 pub(crate) const CMD_NAME: &str = "show";
 
-pub(crate) struct ShowCmd {
-    container: MutableRc<DIContainer>,
-}
+pub(crate) struct ShowCmd;
 
-impl DIObjectTrait for ShowCmd {
-    fn new_for_di(container: MutableRc<DIContainer>) -> Self {
-        Self { container }
+impl ShowCmd {
+    pub(crate) fn new() -> Self {
+        Self {}
     }
 }
 

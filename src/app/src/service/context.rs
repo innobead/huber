@@ -1,16 +1,14 @@
 use crate::service::ItemOperationTrait;
-use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
+use huber_common::di::{DIContainer, MutableRc};
 use huber_common::model::context::Context;
 use huber_common::result::Result;
 
 #[derive(Debug)]
-pub(crate) struct ContextService {
-    container: MutableRc<DIContainer>,
-}
+pub(crate) struct ContextService;
 
-impl DIObjectTrait for ContextService {
-    fn new_for_di(container: MutableRc<DIContainer>) -> Self {
-        Self { container }
+impl ContextService {
+    pub(crate) fn new() -> Self {
+        Self {}
     }
 }
 

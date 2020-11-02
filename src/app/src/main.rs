@@ -13,7 +13,6 @@ use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::di::DIContainer;
-use huber_common::di::DIObjectTrait;
 
 use crate::cmd::CommandTrait;
 use crate::cmd::info::InfoCmd;

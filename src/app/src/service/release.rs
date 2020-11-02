@@ -5,7 +5,7 @@ use std::path::{Path, PathBuf};
 
 use tokio::runtime::Runtime;
 
-use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
+use huber_common::di::{DIContainer, MutableRc};
 use huber_common::model::package::{Package, Release};
 use huber_common::result::Result;
 
@@ -13,13 +13,11 @@ use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 #[derive(Debug)]
-pub(crate) struct ReleaseService {
-    container: MutableRc<DIContainer>,
-}
+pub(crate) struct ReleaseService;
 
-impl DIObjectTrait for ReleaseService {
-    fn new_for_di(container: MutableRc<DIContainer>) -> Self {
-        Self { container }
+impl ReleaseService {
+    pub(crate) fn new() -> Self {
+        Self {}
     }
 }
 

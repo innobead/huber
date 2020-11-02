@@ -2,19 +2,17 @@ use clap::{App, ArgMatches};
 
 use crate::cmd::CommandTrait;
 use huber_common::config::Config;
-use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
+use huber_common::di::{DIContainer, MutableRc};
 use huber_common::result::Result;
 use tokio::runtime::Runtime;
 
 pub(crate) const CMD_NAME: &str = "list";
 
-pub(crate) struct ListCmd {
-    container: MutableRc<DIContainer>,
-}
+pub(crate) struct ListCmd;
 
-impl DIObjectTrait for ListCmd {
-    fn new_for_di(container: MutableRc<DIContainer>) -> Self {
-        Self { container }
+impl ListCmd {
+    pub(crate) fn new() -> Self {
+        Self {}
     }
 }
 

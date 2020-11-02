@@ -1,15 +1,13 @@
 use crate::service::ItemOperationTrait;
-use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
+use huber_common::di::{DIContainer, MutableRc};
 use huber_common::result::Result;
 
 #[derive(Debug)]
-pub(crate) struct DatastoreService {
-    container: MutableRc<DIContainer>,
-}
+pub(crate) struct DatastoreService;
 
-impl DIObjectTrait for DatastoreService {
-    fn new_for_di(container: MutableRc<DIContainer>) -> Self {
-        Self { container }
+impl DatastoreService {
+    pub(crate) fn new() -> Self {
+        Self {}
     }
 }
 

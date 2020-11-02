@@ -16,10 +16,6 @@ lazy_static! {
     static ref MUTEX: Mutex<u8> = Mutex::new(0);
 }
 
-pub trait DIObjectTrait {
-    fn new_for_di(container: MutableRc<DIContainer>) -> Self;
-}
-
 pub fn container() -> Ref<'static, DIContainer> {
     unsafe {
         CONTAINER.as_ref().unwrap().try_borrow().unwrap()
@@ -85,7 +81,7 @@ macro_rules! di {
         {
             let mrc = DIContainer::new();
             let mut container = mrc.try_borrow_mut().unwrap();
-            let obj = container.add($struct::new_for_di(mrc.clone())).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()));
+            let obj = container.add($struct::new()).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()));
 
             $(
             obj.$attr = $expr;
@@ -97,7 +93,7 @@ macro_rules! di {
         {
             let mrc = DIContainer::new();
             let mut container = mrc.try_borrow_mut().unwrap();
-            container.add($struct::new_for_di(mrc.clone())).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()))$($t)*
+            container.add($struct::new()).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()))$($t)*
         }
     };
 }

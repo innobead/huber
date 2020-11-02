@@ -5,7 +5,7 @@ use clap::{App, Arg, ArgMatches};
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::{container, DIContainer, DIObjectTrait, MutableRc};
+use huber_common::di::{container, DIContainer, MutableRc};
 use huber_common::output;
 use huber_common::output::OutputTrait;
 use huber_common::result::Result;
@@ -16,13 +16,11 @@ use crate::service::release::ReleaseService;
 
 pub(crate) const CMD_NAME: &str = "search";
 
-pub(crate) struct SearchCmd {
-    container: MutableRc<DIContainer>,
-}
+pub(crate) struct SearchCmd;
 
-impl DIObjectTrait for SearchCmd {
-    fn new_for_di(container: MutableRc<DIContainer>) -> Self {
-        Self { container }
+impl SearchCmd {
+    pub(crate) fn new() -> Self {
+        Self {}
     }
 }
 
@@ -39,7 +37,6 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
 
     fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = container();
-
         let release_service = container.get::<ReleaseService>().unwrap();
         let results = release_service.search(runtime, "")?;
 

@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
-use huber_common::di::{DIContainer, DIObjectTrait, MutableRc};
+use huber_common::di::{DIContainer, MutableRc};
 use huber_common::result::Result;
 
 pub(crate) trait CacheTrait<K, V> {
@@ -18,22 +18,20 @@ pub(crate) struct CacheInfo {
 #[derive(Debug)]
 pub(crate) struct CacheService {
     pub(crate) dir: PathBuf,
-    container: MutableRc<DIContainer>,
 }
 
-impl DIObjectTrait for CacheService {
-    fn new_for_di(container: MutableRc<DIContainer>) -> Self {
+impl CacheService {
+    pub(crate) fn new() -> Self {
         Self {
             dir: Default::default(),
-            container,
         }
     }
 }
 
 impl<'a, K, V> CacheTrait<K, V> for CacheService
-where
-    K: ToString,
-    V: Serialize + Deserialize<'a>,
+    where
+        K: ToString,
+        V: Serialize + Deserialize<'a>,
 {
     fn save(&self, key: K, data: &V) -> Result<CacheInfo> {
         unimplemented!()
