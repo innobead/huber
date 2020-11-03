@@ -6,6 +6,7 @@ pub mod config;
 pub mod di;
 pub mod file;
 pub mod log;
+pub mod macro_rule;
 pub mod model;
 pub mod output;
 pub mod result;

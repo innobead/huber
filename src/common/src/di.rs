@@ -1,9 +1,6 @@
 use std::any::{type_name, Any};
-
 use std::cell::{Ref, RefCell};
 use std::collections::HashMap;
-
-
 use std::sync::{Arc, Mutex};
 
 use crate::result::Result;
@@ -69,27 +66,4 @@ impl DIContainer {
             .unwrap()
             .downcast_mut()
     }
-}
-
-#[macro_export]
-macro_rules! di {
-    ($struct:ident $($attr:ident=$expr:expr )+) => {
-        {
-            let mrc = DIContainer::new();
-            let mut container = mrc.try_borrow_mut().unwrap();
-            let obj = container.add($struct::new()).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()));
-
-            $(
-            obj.$attr = $expr;
-            )+
-        }
-    };
-
-    ($struct:ident $($t:tt)*) => {
-        {
-            let mrc = DIContainer::new();
-            let mut container = mrc.try_borrow_mut().unwrap();
-            container.add($struct::new()).expect(&format!("failed to add {} to DI container", std::any::type_name::<$struct>()))$($t)*
-        }
-    };
 }

@@ -7,8 +7,8 @@ use serde::{Deserialize, Serialize};
 pub struct Package {
     pub name: String,
     pub source: PackageSource,
-    pub detail: Option<PackageDetailType>,
     pub targets: Vec<PackageTargetType>,
+    pub detail: Option<PackageDetailType>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

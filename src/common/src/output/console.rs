@@ -3,7 +3,7 @@ use std::io::Write;
 
 use anyhow::Result;
 use inflector::Inflector;
-use prettytable::{Cell, format, Row, Table};
+use prettytable::{format, Cell, Row, Table};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
@@ -103,10 +103,9 @@ impl OutputTrait for ConsoleOutput {
 fn to_string_trim(v: &Value) -> String {
     match v.to_string().as_str() {
         "null" => "".to_string(),
-        _ => v
-            .to_string()
-            .trim_start_matches("\"")
-            .trim_end_matches("\"")
+        _ => serde_yaml::to_string(v)
+            .unwrap()
+            .trim_start_matches("---\n")
             .to_string(),
     }
 }

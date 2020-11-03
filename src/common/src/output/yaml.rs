@@ -14,7 +14,13 @@ impl YamlOutput {
 }
 
 impl OutputTrait for YamlOutput {
-    fn display<'a, T: Deserialize<'a> + Serialize>(&self, writer: impl Write, obj: &T, _include_keys: Option<Vec<&str>>, _exclude_keys: Option<Vec<&str>>) -> Result<()> {
+    fn display<'a, T: Deserialize<'a> + Serialize>(
+        &self,
+        writer: impl Write,
+        obj: &T,
+        _include_keys: Option<Vec<&str>>,
+        _exclude_keys: Option<Vec<&str>>,
+    ) -> Result<()> {
         Ok(serde_yaml::to_writer(writer, obj)?)
     }
 }

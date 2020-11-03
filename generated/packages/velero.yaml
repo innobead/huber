@@ -5,7 +5,6 @@ source:
   Github:
     owner: vmware-tanzu
     repo: velero
-detail: ~
 targets:
   - LinuxAmd64:
       artifact_templates:
@@ -28,3 +27,4 @@ targets:
       install_commands: ~
       uninstall_commands: ~
       upgrade_commands: ~
+detail: ~

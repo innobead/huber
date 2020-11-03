@@ -6,16 +6,15 @@ use tokio::runtime::Runtime;
 use huber_common::config::Config;
 use huber_common::di::container;
 
-use huber_common::output::{OutputTrait};
+use huber_common::output::OutputTrait;
 
 use huber_common::output::factory::FactoryConsole;
-
 
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use crate::service::ItemSearchTrait;
 use crate::service::package::PackageService;
+use crate::service::ItemSearchTrait;
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -53,19 +52,19 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
 
     fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = container();
-        let release_service = container.get::<PackageService>().unwrap();
+        let package_service = container.get::<PackageService>().unwrap();
 
-        let results = release_service.search(
+        let results = package_service.search(
             matches.value_of("name"),
             matches.value_of("pattern"),
             matches.value_of("owner"),
         )?;
 
-        FactoryConsole::new(config.output_format).display(
+        output!(config.output_format, .display(
             stdout(),
             &results,
             Some(vec!["name", "source"]),
             None,
-        )
+        ))
     }
 }

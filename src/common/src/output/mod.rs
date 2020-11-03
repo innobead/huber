@@ -4,15 +4,10 @@ use std::str::FromStr;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 
-
-
-
-
-
 pub mod console;
-pub mod yaml;
-pub mod json;
 pub mod factory;
+pub mod json;
+pub mod yaml;
 
 #[derive(Copy, Clone, Debug)]
 pub enum OutputFormat {
@@ -43,4 +38,3 @@ impl FromStr for OutputFormat {
         }
     }
 }
-

@@ -14,7 +14,13 @@ impl JsonOutput {
 }
 
 impl OutputTrait for JsonOutput {
-    fn display<'a, T: Deserialize<'a> + Serialize>(&self, writer: impl Write, obj: &T, _include_keys: Option<Vec<&str>>, _exclude_keys: Option<Vec<&str>>) -> Result<()> {
+    fn display<'a, T: Deserialize<'a> + Serialize>(
+        &self,
+        writer: impl Write,
+        obj: &T,
+        _include_keys: Option<Vec<&str>>,
+        _exclude_keys: Option<Vec<&str>>,
+    ) -> Result<()> {
         Ok(serde_json::to_writer_pretty(writer, obj)?)
     }
 }
