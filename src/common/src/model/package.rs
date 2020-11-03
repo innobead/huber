@@ -1,7 +1,7 @@
 use hubcaps::releases::Asset as HubcapsAsset;
 use hubcaps::releases::Release as HubcapsRelease;
-use serde::export::fmt::Display;
 use serde::{Deserialize, Serialize};
+use serde::export::fmt::Display;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Package {
@@ -83,17 +83,25 @@ pub struct GithubAsset {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct PackageIndex {
     pub name: String,
+    pub owner: String,
     pub source: String,
 }
 
 impl PackageSource {
     pub fn url(&self) -> String {
         match self {
-            PackageSource::Github { owner, repo: repo } => {
+            PackageSource::Github { owner, repo } => {
                 format!("https://github.com/{}/{}", owner, repo)
             }
 
             _ => "".to_string(),
+        }
+    }
+
+    pub fn owner(&self) -> String {
+        match self {
+            PackageSource::Github { owner, repo: _ } => format!("{}", owner),
+            PackageSource::Helm { registry, repo } => format!("{}", registry)
         }
     }
 }

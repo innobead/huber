@@ -1,6 +1,8 @@
 # This is generated. Don't modify.
 ---
 - name: gh
+  owner: cli
   source: github
 - name: velero
+  owner: vmware-tanzu
   source: github

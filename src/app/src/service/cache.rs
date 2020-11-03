@@ -16,7 +16,7 @@ use crate::component::github::{GithubClient, GithubClientTrait};
 pub(crate) trait CacheTrait {
     fn update(&self) -> Result<PathBuf>;
     fn get_package(&self, name: &str) -> Result<Package>;
-    fn list_packages(&self, pattern: &str) -> Result<Vec<Package>>;
+    fn list_packages(&self, pattern: &str, owner: &str) -> Result<Vec<Package>>;
     fn has_package(&self, name: &str) -> Result<bool>;
     fn get_package_indexes(&self) -> Result<Vec<PackageIndex>>;
 }
@@ -72,13 +72,20 @@ impl CacheTrait for CacheService {
         Ok(pkg)
     }
 
-    fn list_packages(&self, pattern: &str) -> Result<Vec<Package>> {
+    fn list_packages(&self, pattern: &str, owner: &str) -> Result<Vec<Package>> {
         let mut pkgs: Vec<Package> = vec![];
 
         match pattern {
             "" => {
                 for p in self.get_package_indexes()? {
-                    pkgs.push(self.get_package(&p.name)?);
+                    if owner == "" {
+                        pkgs.push(self.get_package(&p.name)?);
+                        continue;
+                    }
+
+                    if p.owner == owner {
+                        pkgs.push(self.get_package(&p.name)?);
+                    }
                 }
             }
 

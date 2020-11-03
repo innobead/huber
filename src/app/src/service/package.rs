@@ -12,7 +12,7 @@ use huber_common::di::{container, DIContainer, MutableArc};
 use huber_common::model::package::{Package, Release};
 use huber_common::result::Result;
 
-use crate::component::github::{GithubClient, GithubClientTrait};
+use crate::component::github::GithubClient;
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
@@ -55,12 +55,13 @@ impl ItemOperationTrait for PackageService {
 impl ItemSearchTrait for PackageService {
     type Item = Package;
 
-    fn search(&self, name: Option<&str>, pattern: Option<&str>) -> Result<Vec<Self::Item>> {
+    fn search(&self, name: Option<&str>, pattern: Option<&str>, owner: Option<&str>) -> Result<Vec<Self::Item>> {
         let container = container();
         let cache_service = container.get::<CacheService>().unwrap();
 
         cache_service.update()?;
 
+        let owner = owner.unwrap_or("");
         let mut items: Vec<Self::Item> = vec![];
 
         if let Some(name) = name {
@@ -70,13 +71,13 @@ impl ItemSearchTrait for PackageService {
         }
 
         if let Some(pattern) = pattern {
-            let mut found_pkgs = cache_service.list_packages(pattern)?;
+            let mut found_pkgs = cache_service.list_packages(pattern, owner)?;
             items.append(&mut found_pkgs);
 
             return Ok(items);
         }
 
-        let mut all_pkgs = cache_service.list_packages("")?;
+        let mut all_pkgs = cache_service.list_packages("", owner)?;
         items.append(&mut all_pkgs);
 
         Ok(items)
@@ -87,6 +88,6 @@ impl ItemSearchTrait for PackageService {
     }
 
     fn info(&self, name: &str) -> Result<Self::Item> {
-        self.search(Some(name), None).map(|it| it[0].clone())
+        self.search(Some(name), None, None).map(|it| it[0].clone())
     }
 }

@@ -45,6 +45,7 @@ fn main() -> Result<()> {
 
         pkg_indexes.push(PackageIndex {
             name: r.name.clone(),
+            owner: r.source.owner(),
             source: r.source.to_string(),
         });
 

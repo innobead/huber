@@ -20,7 +20,7 @@ pub(crate) trait ItemOperationTrait {
 pub(crate) trait ItemSearchTrait {
     type Item;
 
-    fn search(&self, name: Option<&str>, pattern: Option<&str>) -> Result<Vec<Self::Item>>;
+    fn search(&self, name: Option<&str>, pattern: Option<&str>, owner: Option<&str>) -> Result<Vec<Self::Item>>;
     fn search_unmanaged(&self, obj: &Self::Item) -> Result<Self::Item>;
     fn info(&self, name: &str) -> Result<Self::Item>;
 }

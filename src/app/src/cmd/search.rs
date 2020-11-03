@@ -12,8 +12,8 @@ use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use crate::service::package::PackageService;
 use crate::service::ItemSearchTrait;
+use crate::service::package::PackageService;
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -34,6 +34,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
                 .long("name")
                 .help("Package name")
                 .takes_value(true),
+            Arg::with_name("owner")
+                .value_name("string")
+                .short("r")
+                .long("owner")
+                .help("Package owner")
+                .takes_value(true),
             Arg::with_name("patter")
                 .value_name("string")
                 .short("p")
@@ -46,8 +52,13 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
     fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = container();
         let release_service = container.get::<PackageService>().unwrap();
+
         let results =
-            release_service.search(matches.value_of("name"), matches.value_of("pattern"))?;
+            release_service.search(
+                matches.value_of("name"),
+                matches.value_of("pattern"),
+                matches.value_of("owner"),
+            )?;
 
         output::new(&config.output_format).display(
             std::io::stdout(),
