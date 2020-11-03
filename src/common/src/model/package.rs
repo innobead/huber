@@ -1,6 +1,6 @@
 use hubcaps::releases::Asset as HubcapsAsset;
 use hubcaps::releases::Release as HubcapsRelease;
-use serde::export::fmt::Display;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -101,7 +101,7 @@ impl PackageSource {
     pub fn owner(&self) -> String {
         match self {
             PackageSource::Github { owner, repo: _ } => format!("{}", owner),
-            PackageSource::Helm { registry, repo } => format!("{}", registry),
+            PackageSource::Helm { registry, repo: _ } => format!("{}", registry),
         }
     }
 }
@@ -134,7 +134,7 @@ impl From<HubcapsRelease> for GithubPackage {
 }
 
 impl From<HubcapsAsset> for GithubAsset {
-    fn from(a: HubcapsAsset) -> Self {
+    fn from(_a: HubcapsAsset) -> Self {
         unimplemented!()
     }
 }

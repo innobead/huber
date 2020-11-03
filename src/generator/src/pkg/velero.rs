@@ -1,5 +1,6 @@
 use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
 
+#[allow(dead_code)]
 pub fn release() -> Package {
     Package {
         name: "velero".to_string(),

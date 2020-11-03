@@ -29,3 +29,7 @@ install: ## Install binaries
 clean: ## Clean build caches
 	cargo clean
 	rm -rf $(BUILD_CACHE_DIR) $(GENERATED_DIR)
+
+.PHONY: fix
+fix:  ## Fix code
+	echo cargo fix

@@ -43,7 +43,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
                 .possible_values(&["console", "json", "yaml"])])
     }
 
-    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+    fn run(&self, _runtime: &Runtime, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
         unimplemented!()
     }
 }

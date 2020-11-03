@@ -49,7 +49,7 @@ pub(crate) fn process_cmds(
     runtime: &Runtime,
     config: &Config,
     matches: &ArgMatches,
-    container_rc: MutableArc<DIContainer>,
+    _container_rc: MutableArc<DIContainer>,
 ) -> Result<()> {
     match matches.subcommand() {
         (cmd::install::CMD_NAME, Some(sub_matches)) => container()

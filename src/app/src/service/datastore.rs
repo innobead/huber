@@ -23,11 +23,11 @@ impl ItemOperationTrait for DatastoreService {
     type Item = ();
     type ItemInstance = ();
 
-    fn create(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+    fn create(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 
-    fn delete(&self, name: &str) -> Result<()> {
+    fn delete(&self, _name: &str) -> Result<()> {
         unimplemented!()
     }
 
@@ -35,7 +35,7 @@ impl ItemOperationTrait for DatastoreService {
         unimplemented!()
     }
 
-    fn get(&self, name: &str) -> Result<Self::ItemInstance> {
+    fn get(&self, _name: &str) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 }

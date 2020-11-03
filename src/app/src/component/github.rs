@@ -102,8 +102,8 @@ impl GithubClientTrait for GithubClient {
 
     async fn download_artifacts<P: AsRef<Path> + Send>(
         &self,
-        release: &Package,
-        dir: P,
+        _release: &Package,
+        _dir: P,
     ) -> Result<()> {
         unimplemented!()
     }
@@ -117,7 +117,7 @@ impl GithubClientTrait for GithubClient {
             return Ok(());
         }
 
-        if let Err(err) = self.fetch_merge_repo(&dir) {
+        if let Err(_err) = self.fetch_merge_repo(&dir) {
             let _ = remove_dir_all(&dir);
             Repository::clone(&url, dir)?;
             return Ok(());

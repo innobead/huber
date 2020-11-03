@@ -32,7 +32,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InfoCmd {
         )
     }
 
-    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+    fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = container();
         let release_service = container.get::<PackageService>().unwrap();
         let result = release_service.info(matches.value_of("name").unwrap())?;

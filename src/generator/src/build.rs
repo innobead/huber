@@ -1,13 +1,9 @@
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;
-use std::{any, env, fs};
+use std::{env, fs};
 
-use serde_yaml::Error;
-
-use huber_common::model::package::{
-    Package, PackageIndex, PackageManagement, PackageSource, PackageTargetType,
-};
+use huber_common::model::package::{Package, PackageIndex};
 use huber_common::result::Result;
 
 use crate::pkg::*;
@@ -24,8 +20,8 @@ fn main() -> Result<()> {
         .join("packages");
 
     // clean up and prepare
-    fs::remove_dir_all(generated_dir.clone());
-    fs::create_dir_all(generated_dir.clone());
+    fs::remove_dir_all(generated_dir.clone()).unwrap();
+    fs::create_dir_all(generated_dir.clone()).unwrap();
 
     // generate release manifests, index file
     let index_file = Path::new(generated_dir)
@@ -33,7 +29,7 @@ fn main() -> Result<()> {
         .unwrap()
         .join("index.yaml");
     let mut index_file = File::create(index_file)?;
-    writeln!(index_file, "{}", "# This is generated. Don't modify.");
+    writeln!(index_file, "{}", "# This is generated. Don't modify.")?;
 
     let mut pkg_indexes: Vec<PackageIndex> = vec![];
 
@@ -60,7 +56,7 @@ fn main() -> Result<()> {
         index_file,
         "{}",
         serde_yaml::to_string(&pkg_indexes).unwrap()
-    );
+    )?;
 
     Ok(())
 }

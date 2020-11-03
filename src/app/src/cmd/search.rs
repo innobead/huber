@@ -45,7 +45,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
         ])
     }
 
-    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+    fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = container();
         let release_service = container.get::<PackageService>().unwrap();
 

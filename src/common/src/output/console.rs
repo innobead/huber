@@ -1,7 +1,7 @@
 use std::any::Any;
 use std::io::Write;
 
-use anyhow::{Context, Result};
+use anyhow::{Result};
 use inflector::Inflector;
 use prettytable::{format, Cell, Row, Table};
 use serde::{Deserialize, Serialize};
@@ -41,7 +41,7 @@ impl OutputTrait for ConsoleOutput {
 
         table
             .print(&mut writer)
-            .map(|it| ())
+            .map(|_it| ())
             .map_err(|it| anyhow!(it))
     }
 }

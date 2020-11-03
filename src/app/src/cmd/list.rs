@@ -20,7 +20,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ListCmd {
         App::new(CMD_NAME).about("List installed package")
     }
 
-    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+    fn run(&self, _runtime: &Runtime, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
         unimplemented!()
     }
 }

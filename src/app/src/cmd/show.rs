@@ -26,8 +26,8 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
         )
     }
 
-    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
-        let name = matches.value_of("name").unwrap();
+    fn run(&self, _runtime: &Runtime, _config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+        let _name = matches.value_of("name").unwrap();
 
         unimplemented!()
     }

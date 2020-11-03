@@ -29,11 +29,11 @@ impl ItemOperationTrait for PackageService {
     type Item = Package;
     type ItemInstance = Release;
 
-    fn create(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+    fn create(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 
-    fn delete(&self, name: &str) -> Result<()> {
+    fn delete(&self, _name: &str) -> Result<()> {
         unimplemented!()
     }
 
@@ -41,7 +41,7 @@ impl ItemOperationTrait for PackageService {
         unimplemented!()
     }
 
-    fn get(&self, name: &str) -> Result<Self::ItemInstance> {
+    fn get(&self, _name: &str) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 }
@@ -82,7 +82,7 @@ impl ItemSearchTrait for PackageService {
         Ok(items)
     }
 
-    fn search_unmanaged(&self, obj: &Self::Item) -> Result<Self::Item> {
+    fn search_unmanaged(&self, _obj: &Self::Item) -> Result<Self::Item> {
         unimplemented!()
     }
 

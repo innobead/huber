@@ -41,7 +41,7 @@ impl Config {
         let dir = self.home_dir.join(path);
 
         if !dir.exists() || !dir.is_dir() {
-            fs::remove_dir_all(dir.as_path());
+            let _ = fs::remove_dir_all(dir.as_path());
             fs::create_dir_all(dir.as_path())?;
         }
 

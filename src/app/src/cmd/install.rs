@@ -26,8 +26,8 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         )
     }
 
-    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches) -> Result<()> {
-        let name = matches.value_of("name").unwrap();
+    fn run(&self, _runtime: &Runtime, _config: &Config, matches: &ArgMatches) -> Result<()> {
+        let _name = matches.value_of("name").unwrap();
 
         // check name [--version=<v>]---> huber-packages/name/huber.yaml exists
 
