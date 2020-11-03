@@ -4,11 +4,11 @@ use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::di::container;
-use huber_common::model::package::{Package, Release};
+use huber_common::model::package::Package;
 use huber_common::result::Result;
 
 use crate::service::cache::{CacheService, CacheTrait};
-use crate::service::{ItemSearchTrait, ItemOperationTrait};
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 #[derive(Debug)]
 pub(crate) struct PackageService {
@@ -28,16 +28,17 @@ impl PackageService {
 impl ItemOperationTrait for PackageService {
     type Item = Package;
     type ItemInstance = Package;
+    type Condition = String;
 
-    fn create(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+    fn create(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 
-    fn update(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+    fn update(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 
-    fn delete(&self, name: &str) -> Result<()> {
+    fn delete(&self, _name: &str) -> Result<()> {
         unimplemented!()
     }
 
@@ -45,12 +46,19 @@ impl ItemOperationTrait for PackageService {
         self.search(None, None, None)
     }
 
+    fn find(&self, _condition: &Self::Condition) -> Result<Vec<Self::ItemInstance>> {
+        unimplemented!()
+    }
+
     fn get(&self, name: &str) -> Result<Self::ItemInstance> {
-       self.info(name)
+        self.info(name)
     }
 
     fn has(&self, name: &str) -> Result<bool> {
-        Ok(self.search(Some(name), None, None).map(|_| true).unwrap_or(false))
+        Ok(self
+            .search(Some(name), None, None)
+            .map(|_| true)
+            .unwrap_or(false))
     }
 }
 

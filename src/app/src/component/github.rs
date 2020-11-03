@@ -25,6 +25,7 @@ pub(crate) trait GithubClientTrait {
     async fn list_managed_releases(&self) -> Result<Vec<Package>>;
 }
 
+#[derive(Debug)]
 pub(crate) struct GithubClient {
     github: Github,
     //FIXME also add git credentials

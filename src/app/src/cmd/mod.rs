@@ -12,22 +12,21 @@ use huber_common::result::Result;
 use crate::cmd;
 use crate::cmd::info::InfoCmd;
 use crate::cmd::install::InstallCmd;
-use crate::cmd::list::ListCmd;
 use crate::cmd::root::{ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
 use crate::cmd::search::SearchCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 
+pub(crate) mod current;
+pub(crate) mod flush;
 pub(crate) mod info;
 pub(crate) mod install;
-pub(crate) mod list;
+pub(crate) mod reset;
 pub(crate) mod root;
 pub(crate) mod search;
+pub(crate) mod self_update;
 pub(crate) mod show;
 pub(crate) mod uninstall;
-pub(crate) mod current;
-pub(crate) mod self_update;
-pub(crate) mod reset;
 
 pub(crate) trait CommandTrait<'a, 'b> {
     fn app(&self) -> App<'a, 'b>;
@@ -68,13 +67,6 @@ pub(crate) fn process_cmds(
         (cmd::search::CMD_NAME, Some(sub_matches)) => {
             container()
                 .get::<SearchCmd>()
-                .unwrap()
-                .run(runtime, config, sub_matches)
-        }
-
-        (cmd::list::CMD_NAME, Some(sub_matches)) => {
-            container()
-                .get::<ListCmd>()
                 .unwrap()
                 .run(runtime, config, sub_matches)
         }

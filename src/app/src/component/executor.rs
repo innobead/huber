@@ -4,8 +4,10 @@ pub(crate) trait ExecutorTrait {
     fn run(exec: &str, args: &Vec<&str>) -> Result<String>;
 }
 
+#[derive(Debug)]
 pub(crate) struct ShellExecutor;
 
+#[derive(Debug)]
 pub(crate) struct HelmExecutor;
 
 impl ExecutorTrait for ShellExecutor {

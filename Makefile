@@ -13,7 +13,7 @@ build: fmt ## Build binaries
 	cargo build $(CARGO_OPTS)
 
 .PHONY: fmt
-fmt: fix ## Format & Lint codes
+fmt: ## Format & Lint codes
 	rustup component add rustfmt clippy
 	cargo fmt
 

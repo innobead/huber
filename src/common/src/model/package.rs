@@ -3,8 +3,8 @@ use std::fmt::Display;
 
 use hubcaps::releases::Asset as HubcapsAsset;
 use hubcaps::releases::Release as HubcapsRelease;
-use serde::{Deserialize, Serialize};
 use serde::export::Formatter;
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Package {
@@ -154,6 +154,12 @@ impl ToString for PackageSource {
 
 impl Display for Release {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "{} (version: {}, source: {})", self.package.name, self.version, self.package.source.to_string())
+        write!(
+            f,
+            "{} (version: {}, source: {})",
+            self.package.name,
+            self.version,
+            self.package.source.to_string()
+        )
     }
 }

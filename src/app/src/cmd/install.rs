@@ -1,13 +1,14 @@
 use clap::{App, Arg, ArgMatches};
+use tokio::runtime::Runtime;
+
+use huber_common::config::Config;
+use huber_common::di::container;
+use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use huber_common::config::Config;
-use huber_common::result::Result;
-use tokio::runtime::Runtime;
-use huber_common::di::container;
-use crate::service::release::ReleaseService;
-use crate::service::ItemOperationTrait;
 use crate::service::package::PackageService;
+use crate::service::release::{ReleaseService, ReleaseTrait};
+use crate::service::ItemOperationTrait;
 
 pub(crate) const CMD_NAME: &str = "install";
 
@@ -54,13 +55,20 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         let pkg = package_service.get(name)?;
 
         if release_service.has(name)? {
-            println!("{} already installed. Use '--fresh' to update to the latest version.", name);
-            return Ok(());
-
             if matches.is_present("refresh") {
-                release_service.update(&pkg)?;
+                let release = release_service.update(&pkg)?;
+                println!("{} updated!", release);
+
                 return Ok(());
             }
+
+            let release = release_service.current(&pkg)?;
+            println!(
+                "{} already installed. Use '--fresh' to update to the latest version",
+                release
+            );
+
+            return Ok(());
         }
 
         let release = release_service.create(&pkg)?;

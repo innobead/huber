@@ -22,7 +22,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
         App::new(crate_name!())
             .version(crate_version!())
             .long_version(crate_version!())
-            .about("Huber, simplify package management of github release")
+            .about("Huber, simplify github package management")
             .args(&[Arg::with_name(ARG_LOG_LEVEL)
                 .value_name("string")
                 .short("l")

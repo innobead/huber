@@ -9,27 +9,27 @@ use std::env;
 use std::process::exit;
 use std::sync::Arc;
 
-use log::error;
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::di::DIContainer;
 
-use crate::cmd::CommandTrait;
 use crate::cmd::current::CurrentCmd;
+use crate::cmd::flush::FlushCmd;
 use crate::cmd::info::InfoCmd;
 use crate::cmd::install::InstallCmd;
-use crate::cmd::list::ListCmd;
 use crate::cmd::reset::ResetCmd;
 use crate::cmd::root::RootCmd;
 use crate::cmd::search::SearchCmd;
 use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
+use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
 use crate::service::context::ContextService;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
+use crate::service::update::UpdateService;
 
 mod cmd;
 mod component;
@@ -42,12 +42,12 @@ fn main() {
             di!(InstallCmd.app()),
             di!(UninstallCmd.app()),
             di!(SearchCmd.app()),
-            di!(ListCmd.app()),
             di!(ShowCmd.app()),
             di!(InfoCmd.app()),
             di!(SelfUpdateCmd.app()),
             di!(CurrentCmd.app()),
             di!(ResetCmd.app()),
+            di!(FlushCmd.app()),
         ]);
 
         app
@@ -83,6 +83,10 @@ fn main() {
         runtime=Some(runtime.clone()));
 
     di!(CacheService
+        config=Some(config.clone())
+        runtime=Some(runtime.clone()));
+
+    di!(UpdateService
         config=Some(config.clone())
         runtime=Some(runtime.clone()));
 

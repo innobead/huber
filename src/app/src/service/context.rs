@@ -23,12 +23,13 @@ impl ContextService {
 impl ItemOperationTrait for ContextService {
     type Item = Context;
     type ItemInstance = Context;
+    type Condition = String;
 
     fn create(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 
-    fn update(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+    fn update(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 
@@ -40,11 +41,15 @@ impl ItemOperationTrait for ContextService {
         unimplemented!()
     }
 
+    fn find(&self, _condition: &Self::Condition) -> Result<Vec<Self::ItemInstance>> {
+        unimplemented!()
+    }
+
     fn get(&self, _name: &str) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 
-    fn has(&self, name: &str) -> Result<bool> {
+    fn has(&self, _name: &str) -> Result<bool> {
         unimplemented!()
     }
 }
