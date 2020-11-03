@@ -3,7 +3,6 @@ use clap::{App, Arg, ArgMatches};
 use crate::cmd::CommandTrait;
 use anyhow::Result;
 use huber_common::config::Config;
-use huber_common::di::{DIContainer, MutableArc};
 use tokio::runtime::Runtime;
 
 pub(crate) const CMD_NAME: &str = "show";

@@ -1,11 +1,10 @@
 use std::env;
+use std::fs::remove_dir_all;
 use std::path::Path;
 
 use async_trait::async_trait;
-use git2::build::RepoBuilder;
-use git2::{RemoteCallbacks, Repository};
+use git2::Repository;
 use hubcaps::{Credentials, Github};
-use reqwest::Response;
 
 use huber_common::file::is_empty_dir;
 use huber_common::model::package::{Package, PackageDetailType, PackageSource};
@@ -28,6 +27,7 @@ pub(crate) trait GithubClientTrait {
 
 pub(crate) struct GithubClient {
     github: Github,
+    //FIXME also add git credentials
 }
 
 impl GithubClient {
@@ -42,6 +42,25 @@ impl GithubClient {
         Self {
             github: Github::new("huber", credentials).unwrap(),
         }
+    }
+
+    fn fetch_merge_repo<P: AsRef<Path>>(&self, dir: P) -> Result<()> {
+        let repo = Repository::open(dir)?;
+
+        // fetch the origin
+        let mut remote = repo.find_remote("origin")?;
+        remote.fetch(&["master"], None, None)?;
+        let fetch_head = repo.find_reference("FETCH_HEAD")?;
+        let commit = repo.reference_to_annotated_commit(&fetch_head)?;
+
+        // merge local, and checkout
+        let reference_name = format!("refs/heads/{}", "master");
+        let mut reference = repo.find_reference(&reference_name)?;
+        let name = reference.name().expect("");
+        repo.set_head(name)?;
+        reference.set_target(commit.id(), "")?;
+
+        Ok(repo.checkout_head(Some(git2::build::CheckoutBuilder::default().force()))?)
     }
 }
 
@@ -98,9 +117,11 @@ impl GithubClientTrait for GithubClient {
             return Ok(());
         }
 
-        let repo = Repository::open(dir)?;
-        let mut remote = repo.find_remote("origin")?;
-        remote.fetch(&["master"], None, None)?;
+        if let Err(err) = self.fetch_merge_repo(&dir) {
+            let _ = remove_dir_all(&dir);
+            Repository::clone(&url, dir)?;
+            return Ok(());
+        }
 
         Ok(())
     }

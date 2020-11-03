@@ -2,7 +2,7 @@ use clap::{App, Arg, ArgMatches};
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::{container, DIContainer, MutableArc};
+use huber_common::di::container;
 use huber_common::output;
 use huber_common::result::Result;
 

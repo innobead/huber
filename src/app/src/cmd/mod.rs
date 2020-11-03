@@ -1,5 +1,4 @@
 use std::str::FromStr;
-use std::sync::Arc;
 
 use clap::{App, ArgMatches};
 use log::Level;

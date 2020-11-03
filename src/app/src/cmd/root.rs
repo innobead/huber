@@ -1,6 +1,5 @@
 use clap::{crate_name, crate_version, App, Arg, ArgMatches};
 
-use huber_common::di::{DIContainer, MutableArc};
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;

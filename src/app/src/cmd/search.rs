@@ -1,19 +1,15 @@
-use std::borrow::{Borrow, BorrowMut};
-use std::cell::Ref;
-use std::ops::Deref;
-
 use clap::{App, Arg, ArgMatches};
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::{container, DIContainer, MutableArc};
+use huber_common::di::container;
 use huber_common::output;
 use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use crate::service::ItemSearchTrait;
 use crate::service::package::PackageService;
+use crate::service::ItemSearchTrait;
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -40,7 +36,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
                 .long("owner")
                 .help("Package owner")
                 .takes_value(true),
-            Arg::with_name("patter")
+            Arg::with_name("pattern")
                 .value_name("string")
                 .short("p")
                 .long("pattern")
@@ -53,12 +49,11 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
         let container = container();
         let release_service = container.get::<PackageService>().unwrap();
 
-        let results =
-            release_service.search(
-                matches.value_of("name"),
-                matches.value_of("pattern"),
-                matches.value_of("owner"),
-            )?;
+        let results = release_service.search(
+            matches.value_of("name"),
+            matches.value_of("pattern"),
+            matches.value_of("owner"),
+        )?;
 
         output::new(&config.output_format).display(
             std::io::stdout(),

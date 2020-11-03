@@ -1,18 +1,12 @@
-use std::borrow::Borrow;
-use std::fs;
-use std::ops::Deref;
-use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
-use anyhow;
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::{container, DIContainer, MutableArc};
+use huber_common::di::container;
 use huber_common::model::package::{Package, Release};
 use huber_common::result::Result;
 
-use crate::component::github::GithubClient;
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
@@ -55,7 +49,12 @@ impl ItemOperationTrait for PackageService {
 impl ItemSearchTrait for PackageService {
     type Item = Package;
 
-    fn search(&self, name: Option<&str>, pattern: Option<&str>, owner: Option<&str>) -> Result<Vec<Self::Item>> {
+    fn search(
+        &self,
+        name: Option<&str>,
+        pattern: Option<&str>,
+        owner: Option<&str>,
+    ) -> Result<Vec<Self::Item>> {
         let container = container();
         let cache_service = container.get::<CacheService>().unwrap();
 
