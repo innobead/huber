@@ -4,15 +4,31 @@ use std::str::FromStr;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 
-use crate::output::console::ConsoleOutput;
+
+
+
+
 
 pub mod console;
+pub mod yaml;
+pub mod json;
+pub mod factory;
 
-#[derive(Debug)]
+#[derive(Copy, Clone, Debug)]
 pub enum OutputFormat {
     Console,
-    Json,
     Yaml,
+    Json,
+}
+
+pub trait OutputTrait {
+    fn display<'a, T: Deserialize<'a> + Serialize>(
+        &self,
+        writer: impl Write,
+        obj: &T,
+        include_keys: Option<Vec<&str>>,
+        exclude_keys: Option<Vec<&str>>,
+    ) -> Result<()>;
 }
 
 impl FromStr for OutputFormat {
@@ -28,18 +44,3 @@ impl FromStr for OutputFormat {
     }
 }
 
-pub trait OutputTrait {
-    fn display<'a, T: Deserialize<'a> + Serialize>(
-        &self,
-        writer: impl Write,
-        obj: &T,
-        include_keys: Option<Vec<&str>>,
-        exclude_keys: Option<Vec<&str>>,
-    ) -> Result<()>;
-}
-
-pub fn new(format: &OutputFormat) -> impl OutputTrait {
-    match format {
-        _ => ConsoleOutput::new(),
-    }
-}

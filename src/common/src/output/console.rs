@@ -1,50 +1,15 @@
 use std::any::Any;
 use std::io::Write;
 
-use anyhow::{Result};
+use anyhow::Result;
 use inflector::Inflector;
-use prettytable::{format, Cell, Row, Table};
+use prettytable::{Cell, format, Row, Table};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 
 use crate::output::OutputTrait;
 
 pub struct ConsoleOutput;
-
-impl OutputTrait for ConsoleOutput {
-    fn display<'a, T: Deserialize<'a> + Serialize>(
-        &self,
-        writer: impl Write,
-        obj: &T,
-        include_keys: Option<Vec<&str>>,
-        exclude_keys: Option<Vec<&str>>,
-    ) -> Result<()> {
-        let mut writer = writer;
-        let obj = serde_json::to_value(obj)?;
-
-        let mut table = Table::new();
-        table.set_format(*format::consts::FORMAT_CLEAN);
-
-        match obj {
-            _ if obj.is_array() => {
-                for x in obj.as_array().unwrap() {
-                    self.display_obj(&mut table, x, &include_keys, &exclude_keys)?;
-                }
-            }
-
-            _ if obj.is_object() => {
-                self.display_obj(&mut table, &obj, &include_keys, &exclude_keys)?;
-            }
-
-            _ => Err(anyhow!("unsupported display type: {:?}", obj.type_id()))?,
-        };
-
-        table
-            .print(&mut writer)
-            .map(|_it| ())
-            .map_err(|it| anyhow!(it))
-    }
-}
 
 impl ConsoleOutput {
     pub fn new() -> Self {
@@ -97,6 +62,41 @@ impl ConsoleOutput {
         table.add_row(Row::new(column_values));
 
         Ok(())
+    }
+}
+
+impl OutputTrait for ConsoleOutput {
+    fn display<'a, T: Deserialize<'a> + Serialize>(
+        &self,
+        writer: impl Write,
+        obj: &T,
+        include_keys: Option<Vec<&str>>,
+        exclude_keys: Option<Vec<&str>>,
+    ) -> Result<()> {
+        let mut writer = writer;
+        let obj = serde_json::to_value(obj)?;
+
+        let mut table = Table::new();
+        table.set_format(*format::consts::FORMAT_CLEAN);
+
+        match obj {
+            _ if obj.is_array() => {
+                for x in obj.as_array().unwrap() {
+                    self.display_obj(&mut table, x, &include_keys, &exclude_keys)?;
+                }
+            }
+
+            _ if obj.is_object() => {
+                self.display_obj(&mut table, &obj, &include_keys, &exclude_keys)?;
+            }
+
+            _ => Err(anyhow!("unsupported display type: {:?}", obj.type_id()))?,
+        };
+
+        table
+            .print(&mut writer)
+            .map(|_it| ())
+            .map_err(|it| anyhow!(it))
     }
 }
 
