@@ -1,17 +1,17 @@
-use crate::service::ItemOperationTrait;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use huber_common::config::Config;
-use huber_common::model::context::Context;
 use huber_common::result::Result;
 use std::sync::Arc;
 use tokio::runtime::Runtime;
+use huber_common::model::package::{Package, Release};
 
 #[derive(Debug)]
-pub(crate) struct ContextService {
+pub(crate) struct ReleaseService {
     pub(crate) config: Option<Arc<Config>>,
     pub(crate) runtime: Option<Arc<Runtime>>,
 }
 
-impl ContextService {
+impl ReleaseService {
     pub(crate) fn new() -> Self {
         Self {
             config: None,
@@ -20,11 +20,13 @@ impl ContextService {
     }
 }
 
-impl ItemOperationTrait for ContextService {
-    type Item = Context;
-    type ItemInstance = Context;
+impl ItemOperationTrait for ReleaseService {
+    type Item = Package;
+    type ItemInstance = Release;
 
     fn create(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
+
+
         unimplemented!()
     }
 
@@ -45,6 +47,18 @@ impl ItemOperationTrait for ContextService {
     }
 
     fn has(&self, name: &str) -> Result<bool> {
+        unimplemented!()
+    }
+}
+
+impl ItemSearchTrait for ReleaseService {
+    type Item = Release;
+
+    fn search(&self, name: Option<&str>, pattern: Option<&str>, owner: Option<&str>) -> Result<Vec<Self::Item>> {
+        unimplemented!()
+    }
+
+    fn info(&self, name: &str) -> Result<Self::Item> {
         unimplemented!()
     }
 }

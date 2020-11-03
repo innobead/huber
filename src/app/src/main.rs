@@ -6,7 +6,6 @@ extern crate anyhow;
 extern crate huber_common;
 
 use std::env;
-use std::path::Path;
 use std::process::exit;
 use std::sync::Arc;
 
@@ -16,18 +15,21 @@ use tokio::runtime::Runtime;
 use huber_common::config::Config;
 use huber_common::di::DIContainer;
 
+use crate::cmd::CommandTrait;
+use crate::cmd::current::CurrentCmd;
 use crate::cmd::info::InfoCmd;
 use crate::cmd::install::InstallCmd;
 use crate::cmd::list::ListCmd;
+use crate::cmd::reset::ResetCmd;
 use crate::cmd::root::RootCmd;
 use crate::cmd::search::SearchCmd;
+use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
-use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
 use crate::service::context::ContextService;
-use crate::service::datastore::DatastoreService;
 use crate::service::package::PackageService;
+use crate::service::release::ReleaseService;
 
 mod cmd;
 mod component;
@@ -43,6 +45,9 @@ fn main() {
             di!(ListCmd.app()),
             di!(ShowCmd.app()),
             di!(InfoCmd.app()),
+            di!(SelfUpdateCmd.app()),
+            di!(CurrentCmd.app()),
+            di!(ResetCmd.app()),
         ]);
 
         app
@@ -69,7 +74,7 @@ fn main() {
         config=Some(config.clone())
         runtime=Some(runtime.clone()));
 
-    di!(DatastoreService
+    di!(ReleaseService
         config=Some(config.clone())
         runtime=Some(runtime.clone()));
 
@@ -78,14 +83,12 @@ fn main() {
         runtime=Some(runtime.clone()));
 
     di!(CacheService
-        dir=Path::new("/tmp/huber").to_owned()
         config=Some(config.clone())
         runtime=Some(runtime.clone()));
 
     // process command
     if let Err(err) = cmd::process_cmds(&runtime, &config, &matches, DIContainer::new()) {
-        error!("Failed to run command: {:?}", err);
-
+        eprintln!("Failed to run command: {:?}", err);
         exit(1)
     }
 }

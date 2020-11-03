@@ -6,6 +6,7 @@ use log::Level;
 use crate::log::Logger;
 use crate::output::OutputFormat;
 use crate::result::Result;
+use crate::model::package::Package;
 
 pub const HUBER_REPO: &str = "https://github.com/innobead/huber";
 
@@ -35,6 +36,19 @@ impl Config {
 
     pub fn huber_repo_dir(&self) -> Result<PathBuf> {
         self.dir("huber_repo")
+    }
+
+    pub fn installed_pkg_dir(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
+        Ok(
+            self.dir("installed_packages")
+                ?.join(pkg.source.to_string())
+                .join(format!("{}_{}", pkg.source.owner(), pkg.name))
+                .join(version)
+        )
+    }
+
+    pub fn installed_pkg_bin_dir(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
+        Ok(self.installed_pkg_dir(pkg, version)?.join("bin"))
     }
 
     fn dir(&self, path: &str) -> Result<PathBuf> {

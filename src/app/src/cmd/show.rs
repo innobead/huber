@@ -1,15 +1,18 @@
-use clap::{App, Arg, ArgMatches};
+use std::io::stdout;
 
-use crate::cmd::CommandTrait;
-use crate::service::package::PackageService;
-use crate::service::ItemSearchTrait;
 use anyhow::Result;
+use clap::{App, Arg, ArgMatches};
+use tokio::runtime::Runtime;
+
 use huber_common::config::Config;
 use huber_common::di::container;
 use huber_common::output::factory::FactoryConsole;
 use huber_common::output::OutputTrait;
-use std::io::stdout;
-use tokio::runtime::Runtime;
+
+use crate::cmd::CommandTrait;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::service::package::PackageService;
+use crate::service::release::ReleaseService;
 
 pub(crate) const CMD_NAME: &str = "show";
 
@@ -27,21 +30,38 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
             Arg::with_name("name")
                 .value_name("string")
                 .help("Package name")
-                .required(true)
+                .required(false)
                 .takes_value(true),
         )
     }
 
     fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = container();
-        let package_service = container.get::<PackageService>().unwrap();
-        let result = package_service.info(matches.value_of("name").unwrap())?;
+        let release_service = container.get::<ReleaseService>().unwrap();
+
+        if matches.is_present("name") {
+            let name = matches.value_of("name").unwrap();
+            if !release_service.has(name)? {
+                return Err(anyhow!("{} not found", name));
+            }
+
+            let release = release_service.get(name)?;
+
+            return output!(config.output_format, .display(
+                stdout(),
+                &release,
+                None,
+                None,
+            ));
+        }
+
+        let releases = release_service.list()?;
 
         output!(config.output_format, .display(
             stdout(),
-            &result,
+            &releases,
             None,
-            Some(vec!["detail"]),
+            None,
         ))
     }
 }

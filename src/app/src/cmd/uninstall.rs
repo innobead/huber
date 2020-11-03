@@ -1,9 +1,13 @@
 use clap::{App, Arg, ArgMatches};
+use tokio::runtime::Runtime;
+
+use huber_common::config::Config;
+use huber_common::di::container;
+use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use huber_common::config::Config;
-use huber_common::result::Result;
-use tokio::runtime::Runtime;
+use crate::service::ItemOperationTrait;
+use crate::service::release::ReleaseService;
 
 pub(crate) const CMD_NAME: &str = "uninstall";
 
@@ -27,8 +31,18 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UninstallCmd {
     }
 
     fn run(&self, _runtime: &Runtime, _config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
-        let _name = matches.value_of("name").unwrap();
+        let name = matches.value_of("name").unwrap();
 
-        unimplemented!()
+        let container = container();
+        let release_service = container.get::<ReleaseService>().unwrap();
+
+        if !release_service.has(name)? {
+            return Err(anyhow!("{} not found", name));
+        }
+
+        release_service.delete(name)?;
+        println!("{} uninstalled!", name);
+
+        Ok(())
     }
 }

@@ -26,7 +26,6 @@ pub(crate) struct CacheInfo {
 
 #[derive(Debug)]
 pub(crate) struct CacheService {
-    pub(crate) dir: PathBuf,
     pub(crate) config: Option<Arc<Config>>,
     pub(crate) runtime: Option<Arc<Runtime>>,
 }
@@ -34,7 +33,6 @@ pub(crate) struct CacheService {
 impl CacheService {
     pub(crate) fn new() -> Self {
         Self {
-            dir: Default::default(),
             config: None,
             runtime: None,
         }

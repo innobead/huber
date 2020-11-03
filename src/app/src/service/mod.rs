@@ -2,7 +2,7 @@ use huber_common::result::Result;
 
 pub(crate) mod cache;
 pub(crate) mod context;
-pub(crate) mod datastore;
+pub(crate) mod release;
 pub(crate) mod package;
 
 pub(crate) trait ItemOperationTrait {
@@ -10,9 +10,11 @@ pub(crate) trait ItemOperationTrait {
     type ItemInstance;
 
     fn create(&self, obj: &Self::Item) -> Result<Self::ItemInstance>;
+    fn update(&self, obj: &Self::Item) -> Result<Self::ItemInstance>;
     fn delete(&self, name: &str) -> Result<()>;
     fn list(&self) -> Result<Vec<Self::ItemInstance>>;
     fn get(&self, name: &str) -> Result<Self::ItemInstance>;
+    fn has(&self, name: &str) -> Result<bool>;
 }
 
 pub(crate) trait ItemSearchTrait {
@@ -24,6 +26,6 @@ pub(crate) trait ItemSearchTrait {
         pattern: Option<&str>,
         owner: Option<&str>,
     ) -> Result<Vec<Self::Item>>;
-    fn search_unmanaged(&self, obj: &Self::Item) -> Result<Self::Item>;
+
     fn info(&self, name: &str) -> Result<Self::Item>;
 }

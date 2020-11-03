@@ -25,6 +25,9 @@ pub(crate) mod root;
 pub(crate) mod search;
 pub(crate) mod show;
 pub(crate) mod uninstall;
+pub(crate) mod current;
+pub(crate) mod self_update;
+pub(crate) mod reset;
 
 pub(crate) trait CommandTrait<'a, 'b> {
     fn app(&self) -> App<'a, 'b>;

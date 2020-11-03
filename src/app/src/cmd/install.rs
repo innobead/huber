@@ -4,6 +4,10 @@ use crate::cmd::CommandTrait;
 use huber_common::config::Config;
 use huber_common::result::Result;
 use tokio::runtime::Runtime;
+use huber_common::di::container;
+use crate::service::release::ReleaseService;
+use crate::service::ItemOperationTrait;
+use crate::service::package::PackageService;
 
 pub(crate) const CMD_NAME: &str = "install";
 
@@ -17,27 +21,51 @@ impl InstallCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Install package").arg(
+        App::new(CMD_NAME).about("Install package").args(&vec![
             Arg::with_name("name")
                 .value_name("string")
                 .help("Package name")
                 .required(true)
                 .takes_value(true),
-        )
+            Arg::with_name("version")
+                .value_name("string")
+                .help("Package version")
+                .short("v")
+                .long("version")
+                .takes_value(true),
+            Arg::with_name("refresh")
+                .help("Refresh package with the latest version")
+                .short("r")
+                .long("refresh"),
+        ])
     }
 
     fn run(&self, _runtime: &Runtime, _config: &Config, matches: &ArgMatches) -> Result<()> {
-        let _name = matches.value_of("name").unwrap();
+        let name = matches.value_of("name").unwrap();
 
-        // check name [--version=<v>]---> huber-packages/name/huber.yaml exists
+        let container = container();
+        let release_service = container.get::<ReleaseService>().unwrap();
+        let package_service = container.get::<PackageService>().unwrap();
 
-        // check name (--url https://github.com/prj/repo) [--version=--tag] ----> <url>/huber.yaml exists
+        if !package_service.has(name)? {
+            return Err(anyhow!("{} not found", name));
+        }
 
-        // download huber.yaml, then download package, then install to ~/.huber/bin/<name>/<version>/<....>
-        // symbolic links to ~/.huber/bin/...
+        let pkg = package_service.get(name)?;
 
-        // save metadata (name, installed path, ) to database
+        if release_service.has(name)? {
+            println!("{} already installed. Use '--fresh' to update to the latest version.", name);
+            return Ok(());
 
-        unimplemented!()
+            if matches.is_present("refresh") {
+                release_service.update(&pkg)?;
+                return Ok(());
+            }
+        }
+
+        let release = release_service.create(&pkg)?;
+        println!("{} installed!", release);
+
+        Ok(())
     }
 }

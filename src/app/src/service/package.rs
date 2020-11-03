@@ -8,7 +8,7 @@ use huber_common::model::package::{Package, Release};
 use huber_common::result::Result;
 
 use crate::service::cache::{CacheService, CacheTrait};
-use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::service::{ItemSearchTrait, ItemOperationTrait};
 
 #[derive(Debug)]
 pub(crate) struct PackageService {
@@ -27,22 +27,30 @@ impl PackageService {
 
 impl ItemOperationTrait for PackageService {
     type Item = Package;
-    type ItemInstance = Release;
+    type ItemInstance = Package;
 
-    fn create(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
+    fn create(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 
-    fn delete(&self, _name: &str) -> Result<()> {
+    fn update(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+        unimplemented!()
+    }
+
+    fn delete(&self, name: &str) -> Result<()> {
         unimplemented!()
     }
 
     fn list(&self) -> Result<Vec<Self::ItemInstance>> {
-        unimplemented!()
+        self.search(None, None, None)
     }
 
-    fn get(&self, _name: &str) -> Result<Self::ItemInstance> {
-        unimplemented!()
+    fn get(&self, name: &str) -> Result<Self::ItemInstance> {
+       self.info(name)
+    }
+
+    fn has(&self, name: &str) -> Result<bool> {
+        Ok(self.search(Some(name), None, None).map(|_| true).unwrap_or(false))
     }
 }
 
@@ -80,10 +88,6 @@ impl ItemSearchTrait for PackageService {
         items.append(&mut all_pkgs);
 
         Ok(items)
-    }
-
-    fn search_unmanaged(&self, _obj: &Self::Item) -> Result<Self::Item> {
-        unimplemented!()
     }
 
     fn info(&self, name: &str) -> Result<Self::Item> {
