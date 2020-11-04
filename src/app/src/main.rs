@@ -26,7 +26,6 @@ use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
-use crate::service::context::ContextService;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::update::UpdateService;
@@ -78,10 +77,6 @@ fn main() {
         config=Some(config.clone())
         runtime=Some(runtime.clone()));
 
-    di!(ContextService
-        config=Some(config.clone())
-        runtime=Some(runtime.clone()));
-
     di!(CacheService
         config=Some(config.clone())
         runtime=Some(runtime.clone()));
@@ -91,8 +86,8 @@ fn main() {
         runtime=Some(runtime.clone()));
 
     // process command
-    if let Err(err) = cmd::process_cmds(&runtime, &config, &matches, DIContainer::new()) {
-        eprintln!("Failed to run command: {:?}", err);
+    if let Err(e) = cmd::process_cmds(&runtime, &config, &matches, DIContainer::new()) {
+        eprintln!("Failed to run command: {:?}", e);
         exit(1)
     }
 }

@@ -7,22 +7,21 @@ use git2::Repository;
 use hubcaps::{Credentials, Github};
 
 use huber_common::file::is_empty_dir;
-use huber_common::model::package::{Package, PackageDetailType, PackageSource};
+use huber_common::model::release::Release;
 use huber_common::result::Result;
 
 const HUBER_GITHUB_REPO: &str = "https://github.com/innobead/huber";
 
 #[async_trait]
 pub(crate) trait GithubClientTrait {
-    async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Package>;
-    async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Package>;
+    async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Release>;
+    async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Release>;
     async fn download_artifacts<P: AsRef<Path> + Send>(
         &self,
-        release: &Package,
+        release: &Release,
         dir: P,
     ) -> Result<()>;
     async fn clone<P: AsRef<Path> + Send>(&self, owner: &str, repo: &str, dir: P) -> Result<()>;
-    async fn list_managed_releases(&self) -> Result<Vec<Package>>;
 }
 
 #[derive(Debug)]
@@ -67,11 +66,12 @@ impl GithubClient {
 
 #[async_trait]
 impl GithubClientTrait for GithubClient {
-    async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Package> {
-        let release = self.github.repo(owner, repo).releases().latest().await?;
+    async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Release> {
+        let _release = self.github.repo(owner, repo).releases().latest().await?;
 
+        unimplemented!()
         // FIXME
-        Ok(Package {
+        /*Ok(Package {
             name: repo.to_string(),
             source: PackageSource::Github {
                 owner: owner.to_string(),
@@ -81,14 +81,15 @@ impl GithubClientTrait for GithubClient {
                 release: release.into(),
             }),
             targets: vec![],
-        })
+        })*/
     }
 
-    async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Package> {
-        let release = self.github.repo(owner, repo).releases().by_tag(tag).await?;
+    async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Release> {
+        let _release = self.github.repo(owner, repo).releases().by_tag(tag).await?;
 
+        unimplemented!()
         //FIXME
-        Ok(Package {
+        /*Ok(Package {
             name: repo.to_string(),
             source: PackageSource::Github {
                 owner: owner.to_string(),
@@ -98,12 +99,12 @@ impl GithubClientTrait for GithubClient {
                 release: release.into(),
             }),
             targets: vec![],
-        })
+        })*/
     }
 
     async fn download_artifacts<P: AsRef<Path> + Send>(
         &self,
-        _release: &Package,
+        _release: &Release,
         _dir: P,
     ) -> Result<()> {
         unimplemented!()
@@ -118,35 +119,12 @@ impl GithubClientTrait for GithubClient {
             return Ok(());
         }
 
-        if let Err(_err) = self.fetch_merge_repo(&dir) {
+        if let Err(_) = self.fetch_merge_repo(&dir) {
             let _ = remove_dir_all(&dir);
             Repository::clone(&url, dir)?;
             return Ok(());
         }
 
         Ok(())
-    }
-
-    async fn list_managed_releases(&self) -> Result<Vec<Package>> {
-        Ok(vec![
-            Package {
-                name: "hello".to_string(),
-                source: PackageSource::Github {
-                    owner: "".to_string(),
-                    repo: "".to_string(),
-                },
-                detail: None,
-                targets: vec![],
-            },
-            Package {
-                name: "hello2".to_string(),
-                source: PackageSource::Github {
-                    owner: "".to_string(),
-                    repo: "".to_string(),
-                },
-                detail: None,
-                targets: vec![],
-            },
-        ])
     }
 }

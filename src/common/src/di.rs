@@ -13,7 +13,7 @@ lazy_static! {
     static ref MUTEX: Mutex<u8> = Mutex::new(0);
 }
 
-pub fn container() -> Ref<'static, DIContainer> {
+pub fn di_container() -> Ref<'static, DIContainer> {
     unsafe { CONTAINER.as_ref().unwrap().try_borrow().unwrap() }
 }
 

@@ -1,11 +1,17 @@
+use std::fs::File;
+use std::path::PathBuf;
 use std::sync::Arc;
 
+use symlink::{remove_symlink_dir, symlink_dir};
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::model::package::{Package, Release};
+use huber_common::di::di_container;
+use huber_common::model::package::Package;
+use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
+use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 pub(crate) trait ReleaseTrait {
@@ -32,19 +38,63 @@ impl ReleaseService {
 
 impl ReleaseTrait for ReleaseService {
     fn current(&self, pkg: &Package) -> Result<Release> {
-        unimplemented!()
+        let f = self
+            .config
+            .as_ref()
+            .unwrap()
+            .current_pkg_manifest_file(pkg)?;
+        let f = File::open(f)?;
+
+        Ok(serde_yaml::from_reader(f)?)
     }
 
-    fn set_current(&self, _release: &Release) -> Result<()> {
-        unimplemented!()
+    fn set_current(&self, release: &Release) -> Result<()> {
+        let config = self.config.as_ref().unwrap();
+
+        let f = config.current_pkg_dir(&release.package)?;
+        if f.exists() {
+            remove_symlink_dir(&f)?;
+        }
+
+        let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
+        Ok(symlink_dir(source, f)?)
     }
 
     fn list_current(&self) -> Result<Vec<Release>> {
-        unimplemented!()
+        let config = self.config.as_ref().unwrap();
+        let f = config.current_index_file()?;
+        let f = File::open(f)?;
+
+        let container = di_container();
+        let package_service = container.get::<PackageService>().unwrap();
+        let mut releases: Vec<Release> = vec![];
+
+        let indexes: Vec<ReleaseIndex> = serde_yaml::from_reader(f)?;
+        for x in indexes {
+            let pkg = package_service.get(&x.name)?;
+
+            let p = config.installed_pkg_manifest_file(&pkg, &x.version)?;
+            let f = File::open(p)?;
+            releases.push(serde_yaml::from_reader(f)?);
+        }
+
+        Ok(releases)
     }
 
     fn delete_release(&self, release: &Release) -> Result<()> {
-        unimplemented!()
+        let current_r = self.current(&release.package)?;
+
+        if current_r.version == release.version {
+            return Err(anyhow!(
+                "{} is the current release, not able to delete!",
+                release
+            ));
+        }
+
+        let config = self.config.as_ref().unwrap();
+        config
+            .installed_pkg_dir(&release.package, &release.version)
+            .map(|_| ())
     }
 }
 
@@ -77,8 +127,11 @@ impl ItemOperationTrait for ReleaseService {
         unimplemented!()
     }
 
-    fn has(&self, _name: &str) -> Result<bool> {
-        unimplemented!()
+    fn has(&self, name: &str) -> Result<bool> {
+        Ok(self
+            .search(Some(name), None, None)
+            .map(|_| true)
+            .unwrap_or(false))
     }
 }
 

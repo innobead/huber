@@ -3,7 +3,7 @@ use std::sync::Arc;
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::container;
+use huber_common::di::di_container;
 use huber_common::model::package::Package;
 use huber_common::result::Result;
 
@@ -71,7 +71,7 @@ impl ItemSearchTrait for PackageService {
         pattern: Option<&str>,
         owner: Option<&str>,
     ) -> Result<Vec<Self::Item>> {
-        let container = container();
+        let container = di_container();
         let cache_service = container.get::<CacheService>().unwrap();
 
         cache_service.update()?;

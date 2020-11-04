@@ -6,7 +6,7 @@ use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
 use crate::service::update::{UpdateService, UpdateTrait};
-use huber_common::di::container;
+use huber_common::di::di_container;
 
 pub(crate) const CMD_NAME: &str = "reset";
 
@@ -24,7 +24,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ResetCmd {
     }
 
     fn run(&self, _runtime: &Runtime, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
-        let container = container();
+        let container = di_container();
         let update_service = container.get::<UpdateService>().unwrap();
 
         update_service.reset()?;

@@ -5,7 +5,7 @@ use log::Level;
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::{container, DIContainer, MutableArc};
+use huber_common::di::{di_container, DIContainer, MutableArc};
 use huber_common::output::OutputFormat;
 use huber_common::result::Result;
 
@@ -54,32 +54,30 @@ pub(crate) fn process_cmds(
     _container_rc: MutableArc<DIContainer>,
 ) -> Result<()> {
     match matches.subcommand() {
-        (cmd::install::CMD_NAME, Some(sub_matches)) => container()
+        (cmd::install::CMD_NAME, Some(sub_matches)) => di_container()
             .get::<InstallCmd>()
             .unwrap()
             .run(runtime, config, sub_matches),
 
-        (cmd::uninstall::CMD_NAME, Some(sub_matches)) => container()
+        (cmd::uninstall::CMD_NAME, Some(sub_matches)) => di_container()
             .get::<UninstallCmd>()
             .unwrap()
             .run(runtime, config, sub_matches),
 
-        (cmd::search::CMD_NAME, Some(sub_matches)) => {
-            container()
-                .get::<SearchCmd>()
-                .unwrap()
-                .run(runtime, config, sub_matches)
-        }
+        (cmd::search::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<SearchCmd>()
+            .unwrap()
+            .run(runtime, config, sub_matches),
 
         (cmd::info::CMD_NAME, Some(sub_matches)) => {
-            container()
+            di_container()
                 .get::<InfoCmd>()
                 .unwrap()
                 .run(runtime, config, sub_matches)
         }
 
         (cmd::show::CMD_NAME, Some(sub_matches)) => {
-            container()
+            di_container()
                 .get::<ShowCmd>()
                 .unwrap()
                 .run(runtime, config, sub_matches)

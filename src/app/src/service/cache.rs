@@ -58,11 +58,8 @@ impl CacheTrait for CacheService {
             return Err(anyhow!("{} not found", name));
         }
 
-        let dir = self.config.as_ref().unwrap().huber_repo_dir()?;
-        let pkg_file = dir
-            .join("generated")
-            .join("packages")
-            .join(format!("{}.yaml", name));
+        let config = self.config.as_ref().unwrap();
+        let pkg_file = config.managed_pkg_manifest_file(name)?;
         let pkg = serde_yaml::from_reader::<File, Package>(File::open(pkg_file)?)?;
 
         Ok(pkg)
@@ -104,8 +101,8 @@ impl CacheTrait for CacheService {
     }
 
     fn get_package_indexes(&self) -> Result<Vec<PackageIndex>> {
-        let dir = self.config.as_ref().unwrap().huber_repo_dir()?;
-        let index_file = dir.join("generated").join("index.yaml");
+        let config = self.config.as_ref().unwrap();
+        let index_file = config.managed_pkg_index_file()?;
         let pkg_indexes =
             serde_yaml::from_reader::<File, Vec<PackageIndex>>(File::open(index_file)?)?;
 

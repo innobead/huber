@@ -4,7 +4,7 @@ use clap::{App, Arg, ArgMatches};
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::container;
+use huber_common::di::di_container;
 use huber_common::output::factory::FactoryConsole;
 use huber_common::result::Result;
 
@@ -44,7 +44,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for CurrentCmd {
     }
 
     fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
-        let container = container();
+        let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
         let package_service = container.get::<PackageService>().unwrap();
 

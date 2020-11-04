@@ -1,9 +1,5 @@
-use std::fmt;
-use std::fmt::Display;
-
 use hubcaps::releases::Asset as HubcapsAsset;
 use hubcaps::releases::Release as HubcapsRelease;
-use serde::export::Formatter;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -12,13 +8,6 @@ pub struct Package {
     pub source: PackageSource,
     pub targets: Vec<PackageTargetType>,
     pub detail: Option<PackageDetailType>,
-}
-
-#[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct Release {
-    pub package: Package,
-    pub version: String,
-    pub is_current: bool,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -149,17 +138,5 @@ impl ToString for PackageSource {
             PackageSource::Github { .. } => "github".to_string(),
             PackageSource::Helm { .. } => "helm".to_string(),
         }
-    }
-}
-
-impl Display for Release {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(
-            f,
-            "{} (version: {}, source: {})",
-            self.package.name,
-            self.version,
-            self.package.source.to_string()
-        )
     }
 }

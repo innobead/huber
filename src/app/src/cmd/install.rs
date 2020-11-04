@@ -2,7 +2,7 @@ use clap::{App, Arg, ArgMatches};
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::container;
+use huber_common::di::di_container;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
@@ -44,7 +44,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
     fn run(&self, _runtime: &Runtime, _config: &Config, matches: &ArgMatches) -> Result<()> {
         let name = matches.value_of("name").unwrap();
 
-        let container = container();
+        let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
         let package_service = container.get::<PackageService>().unwrap();
 

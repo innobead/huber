@@ -30,17 +30,40 @@ impl Config {
         Logger::init(&self)
     }
 
-    pub fn bin_dir(&self) -> Result<PathBuf> {
-        self.dir("bin")
-    }
-
     pub fn huber_repo_dir(&self) -> Result<PathBuf> {
         self.dir("huber_repo")
     }
 
+    pub fn bin_dir(&self) -> Result<PathBuf> {
+        self.dir("bin")
+    }
+
+    pub fn managed_pkg_root_dir(&self) -> Result<PathBuf> {
+        Ok(self.huber_repo_dir()?.join("generated"))
+    }
+
+    pub fn managed_pkg_manifest_file(&self, name: &str) -> Result<PathBuf> {
+        Ok(self
+            .managed_pkg_root_dir()?
+            .join("packages")
+            .join(name)
+            .with_extension("yaml"))
+    }
+
+    pub fn managed_pkg_index_file(&self) -> Result<PathBuf> {
+        Ok(self
+            .managed_pkg_root_dir()?
+            .join("index")
+            .with_extension("yaml"))
+    }
+
+    pub fn installed_pkg_root_dir(&self) -> Result<PathBuf> {
+        self.dir("installed_packages")
+    }
+
     pub fn installed_pkg_dir(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
         Ok(self
-            .dir("installed_packages")?
+            .installed_pkg_root_dir()?
             .join(pkg.source.to_string())
             .join(format!("{}_{}", pkg.source.owner(), pkg.name))
             .join(version))
@@ -50,8 +73,33 @@ impl Config {
         Ok(self.installed_pkg_dir(pkg, version)?.join("bin"))
     }
 
-    pub fn current_pkg_dir(&self, pkg: &Package, _version: &str) -> Result<PathBuf> {
+    pub fn installed_pkg_manifest_file(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
+        Ok(self
+            .installed_pkg_dir(pkg, version)?
+            .join(&pkg.name)
+            .with_extension("yaml"))
+    }
+
+    pub fn current_pkg_dir(&self, pkg: &Package) -> Result<PathBuf> {
         self.installed_pkg_dir(pkg, "current")
+    }
+
+    pub fn current_pkg_bin_dir(&self, pkg: &Package) -> Result<PathBuf> {
+        Ok(self.current_pkg_dir(pkg)?.join("bin"))
+    }
+
+    pub fn current_pkg_manifest_file(&self, pkg: &Package) -> Result<PathBuf> {
+        Ok(self
+            .current_pkg_dir(pkg)?
+            .join(&pkg.name)
+            .with_extension("yaml"))
+    }
+
+    pub fn current_index_file(&self) -> Result<PathBuf> {
+        Ok(self
+            .installed_pkg_root_dir()?
+            .join("index")
+            .with_extension("yaml"))
     }
 
     fn dir(&self, path: &str) -> Result<PathBuf> {

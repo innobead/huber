@@ -4,7 +4,7 @@ use clap::{App, Arg, ArgMatches};
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::container;
+use huber_common::di::di_container;
 
 use huber_common::output::OutputTrait;
 
@@ -51,7 +51,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
     }
 
     fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
-        let container = container();
+        let container = di_container();
         let package_service = container.get::<PackageService>().unwrap();
 
         let results = package_service.search(

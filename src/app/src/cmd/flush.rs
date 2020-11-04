@@ -2,7 +2,7 @@ use clap::{App, ArgMatches};
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
-use huber_common::di::container;
+use huber_common::di::di_container;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
@@ -25,7 +25,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for FlushCmd {
     }
 
     fn run(&self, _runtime: &Runtime, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
-        let container = container();
+        let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
 
         let releases = release_service.list()?;
