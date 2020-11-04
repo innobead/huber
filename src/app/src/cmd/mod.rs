@@ -1,6 +1,7 @@
 use std::str::FromStr;
 
 use clap::{App, ArgMatches};
+use hubcaps::Credentials;
 use log::Level;
 use tokio::runtime::Runtime;
 
@@ -12,7 +13,7 @@ use huber_common::result::Result;
 use crate::cmd;
 use crate::cmd::info::InfoCmd;
 use crate::cmd::install::InstallCmd;
-use crate::cmd::root::{ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
+use crate::cmd::root::{ARG_GITHUB_TOKEN, ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
 use crate::cmd::search::SearchCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
@@ -44,6 +45,10 @@ pub(crate) fn process_args(config: &mut Config, matches: &ArgMatches) {
         if let Ok(level) = OutputFormat::from_str(output) {
             config.output_format = level;
         }
+    }
+
+    if let Some(output) = matches.value_of(ARG_GITHUB_TOKEN) {
+        config.github_credentials = Some(Credentials::Token(output.to_string()))
     }
 }
 

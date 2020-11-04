@@ -1,6 +1,6 @@
 use std::env;
 
-use hubcaps::releases::Asset as HubcapsAsset;
+
 use hubcaps::releases::Release as HubcapsRelease;
 use serde::{Deserialize, Serialize};
 
@@ -109,39 +109,6 @@ impl PackageSource {
     }
 }
 
-impl From<HubcapsRelease> for GithubPackage {
-    fn from(r: HubcapsRelease) -> Self {
-        Self {
-            url: r.url,
-            html_url: r.html_url,
-            assets_url: r.assets_url,
-            upload_url: r.upload_url,
-            tarball_url: r.tarball_url,
-            zipball_url: r.zipball_url,
-            id: r.id,
-            tag_name: r.tag_name,
-            target_commitish: r.target_commitish,
-            name: r.name,
-            body: r.body,
-            draft: r.draft,
-            prerelease: r.prerelease,
-            created_at: r.created_at,
-            published_at: r.published_at,
-            assets: r
-                .assets
-                .into_iter()
-                .map(|it| GithubAsset::from(it))
-                .collect(),
-        }
-    }
-}
-
-impl From<HubcapsAsset> for GithubAsset {
-    fn from(_a: HubcapsAsset) -> Self {
-        unimplemented!()
-    }
-}
-
 impl ToString for PackageSource {
     fn to_string(&self) -> String {
         match self {
@@ -188,5 +155,50 @@ impl Package {
         }
 
         Err(e)
+    }
+}
+
+impl From<HubcapsRelease> for GithubPackage {
+    fn from(r: HubcapsRelease) -> Self {
+        Self {
+            url: r.url,
+            html_url: r.html_url,
+            assets_url: r.assets_url,
+            upload_url: r.upload_url,
+            tarball_url: r.tarball_url,
+            zipball_url: r.zipball_url,
+            id: r.id,
+            tag_name: r.tag_name,
+            target_commitish: r.target_commitish,
+            name: r.name,
+            body: r.body,
+            draft: r.draft,
+            prerelease: r.prerelease,
+            created_at: r.created_at,
+            published_at: r.published_at,
+            assets: r
+                .assets
+                .into_iter()
+                .map(|it| GithubAsset::from(it))
+                .collect(),
+        }
+    }
+}
+
+impl From<hubcaps::releases::Asset> for GithubAsset {
+    fn from(a: hubcaps::releases::Asset) -> Self {
+        GithubAsset {
+            url: a.url,
+            browser_download_url: a.browser_download_url,
+            id: a.id,
+            name: a.name,
+            label: a.label,
+            state: a.state,
+            content_type: a.content_type,
+            size: a.size,
+            download_count: a.download_count,
+            created_at: a.created_at,
+            updated_at: a.updated_at,
+        }
     }
 }

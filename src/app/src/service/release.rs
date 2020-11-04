@@ -226,9 +226,9 @@ impl ItemOperationTrait for ReleaseService {
         let indexes: Vec<ReleaseIndex> = serde_yaml::from_reader(f)?;
         for ri in indexes {
             let pkg = pkg_service.get(&ri.name)?;
-
             let p = config.installed_pkg_manifest_file(&pkg, &ri.version)?;
             let f = File::open(p)?;
+
             releases.push(serde_yaml::from_reader(f)?);
         }
 

@@ -27,7 +27,7 @@ pub(crate) trait GithubClientTrait {
 #[derive(Debug)]
 pub(crate) struct GithubClient {
     github: Github,
-    git_ssh_key: Option<PathBuf>
+    git_ssh_key: Option<PathBuf>,
 }
 
 impl GithubClient {
@@ -68,39 +68,13 @@ impl GithubClient {
 #[async_trait]
 impl GithubClientTrait for GithubClient {
     async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Release> {
-        let _release = self.github.repo(owner, repo).releases().latest().await?;
-
-        unimplemented!()
-        // FIXME
-        /*Ok(Package {
-            name: repo.to_string(),
-            source: PackageSource::Github {
-                owner: owner.to_string(),
-                repo: repo.to_string(),
-            },
-            detail: Some(PackageDetailType::Github {
-                release: release.into(),
-            }),
-            targets: vec![],
-        })*/
+        let release = self.github.repo(owner, repo).releases().latest().await?;
+        Ok((Release::from(release)))
     }
 
     async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Release> {
-        let _release = self.github.repo(owner, repo).releases().by_tag(tag).await?;
-
-        unimplemented!()
-        //FIXME need to set version
-        /*Ok(Package {
-            name: repo.to_string(),
-            source: PackageSource::Github {
-                owner: owner.to_string(),
-                repo: repo.to_string(),
-            },
-            detail: Some(PackageDetailType::Github {
-                release: release.into(),
-            }),
-            targets: vec![],
-        })*/
+        let release = self.github.repo(owner, repo).releases().by_tag(tag).await?;
+        Ok(Release::from(release))
     }
 
     async fn download_artifacts<P: AsRef<Path> + Send>(
