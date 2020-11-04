@@ -46,13 +46,14 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
 
         let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
-        let package_service = container.get::<PackageService>().unwrap();
+        let pkg_service = container.get::<PackageService>().unwrap();
 
-        if !package_service.has(name)? {
+        if !pkg_service.has(name)? {
             return Err(anyhow!("{} not found", name));
         }
 
-        let pkg = package_service.get(name)?;
+        let mut pkg = pkg_service.get(name)?;
+        pkg.version = Some(matches.value_of("version").unwrap_or("").to_string());
 
         if release_service.has(name)? {
             if matches.is_present("refresh") {

@@ -41,13 +41,16 @@ impl CacheService {
 
 impl CacheTrait for CacheService {
     fn update(&self) -> Result<PathBuf> {
-        let dir = self.config.as_ref().unwrap().huber_repo_dir()?;
+        let config = self.config.as_ref().unwrap();
+        let dir = config.huber_repo_dir()?;
         let runtime = self.runtime.as_ref().unwrap();
 
         runtime.block_on(async {
-            GithubClient::new(None)
-                .clone("innobead", "huber", dir.clone())
-                .await
+            let client = GithubClient::new(
+                config.github_credentials.clone(),
+                config.git_ssh_key.clone(),
+            );
+            client.clone("innobead", "huber", dir.clone()).await
         })?;
 
         Ok(dir)

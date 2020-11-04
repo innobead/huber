@@ -1,6 +1,10 @@
+use std::env;
+
 use hubcaps::releases::Asset as HubcapsAsset;
 use hubcaps::releases::Release as HubcapsRelease;
 use serde::{Deserialize, Serialize};
+
+use crate::result::Result;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Package {
@@ -8,6 +12,9 @@ pub struct Package {
     pub source: PackageSource,
     pub targets: Vec<PackageTargetType>,
     pub detail: Option<PackageDetailType>,
+
+    #[serde(skip_serializing)]
+    pub version: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -18,7 +25,7 @@ pub enum PackageSource {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum PackageDetailType {
-    Github { release: GithubPackage },
+    Github { package: GithubPackage },
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -33,8 +40,11 @@ pub enum PackageTargetType {
 pub struct PackageManagement {
     pub artifact_templates: Vec<String>,
     pub checksum: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub install_commands: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub uninstall_commands: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub upgrade_commands: Option<Vec<String>>,
 }
 
@@ -138,5 +148,45 @@ impl ToString for PackageSource {
             PackageSource::Github { .. } => "github".to_string(),
             PackageSource::Helm { .. } => "helm".to_string(),
         }
+    }
+}
+
+impl Package {
+    pub fn target(&self) -> Result<PackageManagement> {
+        // https://doc.rust-lang.org/std/env/consts/index.html
+        let os = env::consts::OS;
+        let arch = env::consts::ARCH;
+
+        let e = anyhow!("Unsupported OS {} or ARCH {}", os, arch);
+
+        if os == "linux" {
+            return match arch {
+                "x86_64" => {
+                    Ok(self.targets.iter().find_map(|it|
+                        if let PackageTargetType::LinuxAmd64(m) = it { Some(m.clone()) } else { None }
+                    ).unwrap())
+                }
+                "aarch64" => {
+                    Ok(self.targets.iter().find_map(|it|
+                        if let PackageTargetType::LinuxArm64(m) = it { Some(m.clone()) } else { None }
+                    ).unwrap().clone())
+                }
+                _ => Err(e)
+            };
+        }
+
+        if os == "macos" {
+            return Ok(self.targets.iter().find_map(|it|
+                if let PackageTargetType::MacOS(m) = it { Some(m.clone()) } else { None }
+            ).unwrap().clone());
+        }
+
+        if os == "windows" {
+            return Ok(self.targets.iter().find_map(|it|
+                if let PackageTargetType::Windows(m) = it { Some(m.clone()) } else { None }
+            ).unwrap().clone());
+        }
+
+        Err(e)
     }
 }

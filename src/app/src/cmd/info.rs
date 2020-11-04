@@ -36,8 +36,8 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InfoCmd {
 
     fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = di_container();
-        let package_service = container.get::<PackageService>().unwrap();
-        let result = package_service.info(matches.value_of("name").unwrap())?;
+        let pkg_service = container.get::<PackageService>().unwrap();
+        let result = pkg_service.info(matches.value_of("name").unwrap())?;
 
         output!(config.output_format, .display(
             stdout(),

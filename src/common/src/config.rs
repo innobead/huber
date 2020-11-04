@@ -1,6 +1,7 @@
 use std::fs;
 use std::path::PathBuf;
 
+use hubcaps::Credentials;
 use log::Level;
 
 use crate::log::Logger;
@@ -15,6 +16,8 @@ pub struct Config {
     pub log_level: Level,
     pub output_format: OutputFormat,
     pub home_dir: PathBuf,
+    pub github_credentials: Option<Credentials>,
+    pub git_ssh_key: Option<PathBuf>,
 }
 
 impl Config {
@@ -23,6 +26,8 @@ impl Config {
             log_level: Level::Error,
             output_format: OutputFormat::Console,
             home_dir: dirs::home_dir().unwrap().join(".huber"),
+            github_credentials: None,
+            git_ssh_key: None,
         }
     }
 

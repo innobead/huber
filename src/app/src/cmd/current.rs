@@ -46,13 +46,13 @@ impl<'a, 'b> CommandTrait<'a, 'b> for CurrentCmd {
     fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
-        let package_service = container.get::<PackageService>().unwrap();
+        let pkg_service = container.get::<PackageService>().unwrap();
 
         let name = matches.value_of("name").unwrap();
 
         if !matches.is_present("version") {
             let name = matches.value_of("name").unwrap();
-            let package = package_service.get(name)?;
+            let package = pkg_service.get(name)?;
             let release = release_service.current(&package)?;
 
             return output!(

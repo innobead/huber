@@ -32,5 +32,6 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
         ],
+        version: None
     }
 }

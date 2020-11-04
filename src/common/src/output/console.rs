@@ -81,8 +81,8 @@ impl OutputTrait for ConsoleOutput {
 
         match obj {
             _ if obj.is_array() => {
-                for x in obj.as_array().unwrap() {
-                    self.display_obj(&mut table, x, &include_keys, &exclude_keys)?;
+                for o in obj.as_array().unwrap() {
+                    self.display_obj(&mut table, o, &include_keys, &exclude_keys)?;
                 }
             }
 
@@ -90,7 +90,7 @@ impl OutputTrait for ConsoleOutput {
                 self.display_obj(&mut table, &obj, &include_keys, &exclude_keys)?;
             }
 
-            _ => Err(anyhow!("unsupported display type: {:?}", obj.type_id()))?,
+            _ => Err(anyhow!("Unsupported display type: {:?}", obj.type_id()))?,
         };
 
         table

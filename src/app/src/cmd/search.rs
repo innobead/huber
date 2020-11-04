@@ -52,9 +52,9 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
 
     fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = di_container();
-        let package_service = container.get::<PackageService>().unwrap();
+        let pkg_service = container.get::<PackageService>().unwrap();
 
-        let results = package_service.search(
+        let results = pkg_service.search(
             matches.value_of("name"),
             matches.value_of("pattern"),
             matches.value_of("owner"),

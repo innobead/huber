@@ -33,6 +33,7 @@ use crate::service::update::UpdateService;
 mod cmd;
 mod component;
 mod service;
+mod error;
 
 fn main() {
     // create CLI app

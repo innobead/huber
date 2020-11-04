@@ -1,6 +1,6 @@
 use std::env;
 use std::fs::remove_dir_all;
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use async_trait::async_trait;
 use git2::Repository;
@@ -27,12 +27,12 @@ pub(crate) trait GithubClientTrait {
 #[derive(Debug)]
 pub(crate) struct GithubClient {
     github: Github,
-    //FIXME also add git credentials
+    git_ssh_key: Option<PathBuf>
 }
 
 impl GithubClient {
-    pub(crate) fn new(credentials: Option<Credentials>) -> Self {
-        let mut credentials = credentials;
+    pub(crate) fn new(github_credentials: Option<Credentials>, git_ssh_key: Option<PathBuf>) -> Self {
+        let mut credentials = github_credentials;
 
         if credentials.is_none() {
             let token = env::var("GITHUB_TOKEN").unwrap_or("".to_string());
@@ -41,6 +41,7 @@ impl GithubClient {
 
         Self {
             github: Github::new("huber", credentials).unwrap(),
+            git_ssh_key,
         }
     }
 
