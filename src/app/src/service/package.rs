@@ -53,31 +53,24 @@ impl ItemOperationTrait for PackageService {
     fn get(&self, name: &str) -> Result<Self::ItemInstance> {
         self.info(name)
     }
-
-    fn has(&self, name: &str) -> Result<bool> {
-        Ok(self
-            .search(Some(name), None, None)
-            .map(|_| true)
-            .unwrap_or(false))
-    }
 }
 
 impl ItemSearchTrait for PackageService {
-    type Item = Package;
+    type SearchItem = Package;
 
     fn search(
         &self,
         name: Option<&str>,
         pattern: Option<&str>,
         owner: Option<&str>,
-    ) -> Result<Vec<Self::Item>> {
+    ) -> Result<Vec<Self::SearchItem>> {
         let container = di_container();
         let cache_service = container.get::<CacheService>().unwrap();
 
         cache_service.update()?;
 
         let owner = owner.unwrap_or("");
-        let mut items: Vec<Self::Item> = vec![];
+        let mut items: Vec<Self::SearchItem> = vec![];
 
         if let Some(name) = name {
             items.push(cache_service.get_package(name)?);
@@ -98,7 +91,7 @@ impl ItemSearchTrait for PackageService {
         Ok(items)
     }
 
-    fn info(&self, name: &str) -> Result<Self::Item> {
+    fn info(&self, name: &str) -> Result<Self::SearchItem> {
         self.search(Some(name), None, None).map(|it| it[0].clone())
     }
 }

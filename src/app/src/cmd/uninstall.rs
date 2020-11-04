@@ -41,7 +41,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UninstallCmd {
         }
 
         release_service.delete(name)?;
-        println!("{} uninstalled!", name);
+        println!("{} uninstalled", name);
 
         Ok(())
     }

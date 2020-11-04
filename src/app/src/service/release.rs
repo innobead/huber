@@ -1,12 +1,11 @@
 use std::env::temp_dir;
-use std::fs::{copy, File, remove_dir_all, remove_file};
-
+use std::fs::{copy, File, read_dir, remove_dir_all, remove_file};
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 use compress_tools::{Ownership, uncompress_archive};
-use faccess::{PathExt};
+use faccess::PathExt;
 use symlink::{remove_symlink_dir, symlink_dir};
 use tokio::runtime::Runtime;
 use walkdir::WalkDir;
@@ -24,7 +23,6 @@ use crate::service::package::PackageService;
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
     fn set_current(&self, release: &Release) -> Result<()>;
-    fn list_current(&self) -> Result<Vec<Release>>;
     fn delete_release(&self, release: &Release) -> Result<()>;
     fn download_install_github_package(&self, package: &Package, package_github: &GithubPackage) -> Result<Vec<File>>;
 }
@@ -68,33 +66,12 @@ impl ReleaseTrait for ReleaseService {
         Ok(symlink_dir(source, f)?)
     }
 
-    fn list_current(&self) -> Result<Vec<Release>> {
-        let config = self.config.as_ref().unwrap();
-        let f = config.current_index_file()?;
-        let f = File::open(f)?;
-
-        let container = di_container();
-        let pkg_service = container.get::<PackageService>().unwrap();
-        let mut releases: Vec<Release> = vec![];
-
-        let indexes: Vec<ReleaseIndex> = serde_yaml::from_reader(f)?;
-        for ri in indexes {
-            let pkg = pkg_service.get(&ri.name)?;
-
-            let p = config.installed_pkg_manifest_file(&pkg, &ri.version)?;
-            let f = File::open(p)?;
-            releases.push(serde_yaml::from_reader(f)?);
-        }
-
-        Ok(releases)
-    }
-
     fn delete_release(&self, release: &Release) -> Result<()> {
         let current_r = self.current(&release.package)?;
 
         if current_r.version == release.version {
             return Err(anyhow!(
-                "{} is the current release, not able to delete!",
+                "{} is the current release, not able to delete",
                 release
             ));
         }
@@ -131,7 +108,7 @@ impl ReleaseTrait for ReleaseService {
                 let filename = response
                     .url()
                     .path_segments()
-                    .and_then(|segments| segments.last()).expect("the name of download file not found!");
+                    .and_then(|segments| segments.last()).expect("The downloaded file not found");
 
                 let dest_root_path = config.installed_pkg_bin_dir(package, &version)?;
                 let dest_path = dest_root_path.join(filename);
@@ -177,6 +154,14 @@ impl ItemOperationTrait for ReleaseService {
     type Condition = String;
 
     fn create(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+        if self.has(&obj.name)? {
+            return Err(anyhow!("{} already installed", &obj.name));
+        }
+
+        self.update(&obj)
+    }
+
+    fn update(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
         let config = self.config.as_ref().unwrap();
         let client = GithubClient::new(
             config.github_credentials.clone(),
@@ -206,51 +191,73 @@ impl ItemOperationTrait for ReleaseService {
         match release_detail.unwrap() {
             PackageDetailType::Github { package: p } => {
                 self.download_install_github_package(obj, &p)?;
+                self.set_current(&release)?;
+
                 Ok(release)
             }
         }
     }
 
-    fn update(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
-        // TODO install and change current
+    fn delete(&self, name: &str) -> Result<()> {
+        let config = self.config.as_ref().unwrap();
+        let container = di_container();
+        let pkg_service = container.get::<PackageService>().unwrap();
 
-        unimplemented!()
-    }
+        let pkg = pkg_service.get(name)?;
+        let dir = config.installed_pkg_base_dir(&pkg)?;
 
-    fn delete(&self, _name: &str) -> Result<()> {
-        unimplemented!()
+        for f in read_dir(&dir)? {
+            let pkg_version_dir = f?.path();
+            let _ = remove_dir_all(pkg_version_dir);
+        }
+
+        Ok(())
     }
 
     fn list(&self) -> Result<Vec<Self::ItemInstance>> {
-        // TODO mark which one is current
-        unimplemented!()
+        let config = self.config.as_ref().unwrap();
+        let index_f = config.current_index_file()?;
+        let f = File::open(index_f)?;
+
+        let container = di_container();
+        let pkg_service = container.get::<PackageService>().unwrap();
+        let mut releases: Vec<Release> = vec![];
+
+        let indexes: Vec<ReleaseIndex> = serde_yaml::from_reader(f)?;
+        for ri in indexes {
+            let pkg = pkg_service.get(&ri.name)?;
+
+            let p = config.installed_pkg_manifest_file(&pkg, &ri.version)?;
+            let f = File::open(p)?;
+            releases.push(serde_yaml::from_reader(f)?);
+        }
+
+        Ok(releases)
     }
 
     fn find(&self, _condition: &Self::Condition) -> Result<Vec<Self::ItemInstance>> {
+        // TODO find by package name
+
+
+
+
         unimplemented!()
     }
 
     fn get(&self, _name: &str) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
-
-    fn has(&self, name: &str) -> Result<bool> {
-        Ok(self
-            .search(Some(name), None, None)
-            .map(|_| true)
-            .unwrap_or(false))
-    }
 }
 
 impl ItemSearchTrait for ReleaseService {
-    type Item = Release;
+    type SearchItem = Release;
 
     fn search(
         &self,
         name: Option<&str>,
         _pattern: Option<&str>,
         _owner: Option<&str>,
-    ) -> Result<Vec<Self::Item>> {
+    ) -> Result<Vec<Self::SearchItem>> {
         let config = self.config.as_ref().unwrap();
         let container = di_container();
         let _pkg_service = container.get::<PackageService>().unwrap();
@@ -274,7 +281,7 @@ impl ItemSearchTrait for ReleaseService {
         Ok(releases)
     }
 
-    fn info(&self, _name: &str) -> Result<Self::Item> {
+    fn info(&self, _name: &str) -> Result<Self::SearchItem> {
         unimplemented!()
     }
 }

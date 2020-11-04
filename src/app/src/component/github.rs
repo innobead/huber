@@ -89,7 +89,7 @@ impl GithubClientTrait for GithubClient {
         let _release = self.github.repo(owner, repo).releases().by_tag(tag).await?;
 
         unimplemented!()
-        //FIXME
+        //FIXME need to set version
         /*Ok(Package {
             name: repo.to_string(),
             source: PackageSource::Github {

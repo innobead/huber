@@ -66,11 +66,16 @@ impl Config {
         self.dir("installed_packages")
     }
 
-    pub fn installed_pkg_dir(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
+    pub fn installed_pkg_base_dir(&self, pkg: &Package) -> Result<PathBuf> {
         Ok(self
             .installed_pkg_root_dir()?
             .join(pkg.source.to_string())
-            .join(format!("{}_{}", pkg.source.owner(), pkg.name))
+            .join(format!("{}_{}", pkg.source.owner(), pkg.name)))
+    }
+
+    pub fn installed_pkg_dir(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
+        Ok(self
+            .installed_pkg_base_dir(&pkg)?
             .join(version))
     }
 

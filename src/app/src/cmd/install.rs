@@ -58,7 +58,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         if release_service.has(name)? {
             if matches.is_present("refresh") {
                 let release = release_service.update(&pkg)?;
-                println!("{} updated!", release);
+                println!("{} updated", release);
 
                 return Ok(());
             }
@@ -73,7 +73,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         }
 
         let release = release_service.create(&pkg)?;
-        println!("{} installed!", release);
+        println!("{} installed", release);
 
         Ok(())
     }
