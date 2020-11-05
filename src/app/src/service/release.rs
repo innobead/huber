@@ -1,9 +1,9 @@
-use std::fs::{copy, read_dir, remove_dir_all, remove_file, File};
+use std::fs::{copy, File, read_dir, remove_dir_all, remove_file};
 use std::io::Write;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{uncompress_archive, Ownership};
+use compress_tools::{Ownership, uncompress_archive};
 use is_executable::IsExecutable;
 use semver::Version;
 use symlink::{remove_symlink_dir, symlink_dir};
@@ -18,8 +18,8 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::service::package::PackageService;
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
@@ -44,6 +44,23 @@ impl ReleaseService {
             config: None,
             runtime: None,
         }
+    }
+
+    pub(crate) fn get_latest(&self, pkg: &Package) -> Result<Release> {
+        let config = self.config.as_ref().unwrap();
+
+        let client = GithubClient::new(
+            config.github_credentials.clone(),
+            config.git_ssh_key.clone(),
+        );
+        let mut runtime = Runtime::new().unwrap();
+
+        runtime.block_on(async {
+            match &pkg.source {
+                PackageSource::Github { owner, repo } => client.get_latest_release(&owner, &repo).await,
+                _ => unimplemented!(),
+            }
+        })
     }
 }
 
@@ -187,7 +204,7 @@ impl ReleaseTrait for ReleaseService {
                         // copy executables to bin
                         let walker = WalkDir::new(&extract_dir).into_iter();
                         for entry in
-                            walker.filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
+                        walker.filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
                         {
                             let entry = entry?;
                             let f = entry.path();

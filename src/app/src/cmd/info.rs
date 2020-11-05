@@ -11,6 +11,7 @@ use crate::cmd::CommandTrait;
 use crate::huber_common::output::OutputTrait;
 use crate::service::package::PackageService;
 use crate::service::ItemOperationTrait;
+use crate::service::release::ReleaseService;
 
 pub(crate) const CMD_NAME: &str = "info";
 
@@ -36,11 +37,15 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InfoCmd {
     fn run(&self, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = di_container();
         let pkg_service = container.get::<PackageService>().unwrap();
-        let result = pkg_service.get(matches.value_of("name").unwrap())?;
+        let release_service = container.get::<ReleaseService>().unwrap();
+
+        let mut pkg = pkg_service.get(matches.value_of("name").unwrap())?;
+        let release = release_service.get_latest(&pkg)?;
+        pkg.version = Some(release.version);
 
         output!(config.output_format, .display(
             stdout(),
-            &result,
+            &pkg,
             None,
             Some(vec!["detail"]),
         ))

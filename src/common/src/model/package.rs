@@ -13,8 +13,7 @@ pub struct Package {
     pub source: PackageSource,
     pub targets: Vec<PackageTargetType>,
     pub detail: Option<PackageDetailType>,
-
-    #[serde(skip_serializing)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
 }
 
