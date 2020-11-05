@@ -39,6 +39,10 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
                     .short("a")
                     .long("all")
                     .help("Show all installed versions of package given '--name' specified)"),
+                Arg::with_name("detail")
+                    .short("d")
+                    .long("detail")
+                    .help("Show the detailed info of release"),
             ])
     }
 
@@ -46,6 +50,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
         let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
         let pkg_service = container.get::<PackageService>().unwrap();
+
+        let excluded_keys = if matches.is_present("detail") {
+            Some(vec![])
+        } else {
+            Some(vec!["package"])
+        };
 
         if matches.is_present("name") {
             let name = matches.value_of("name").unwrap();
@@ -65,7 +75,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
                     stdout(),
                     &releases,
                     None,
-                    Some(vec!["package"]),
+                    excluded_keys,
                 ));
             }
 
@@ -73,7 +83,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
                 stdout(),
                 &release,
                 None,
-                None,
+                excluded_keys,
             ));
         }
 
@@ -84,7 +94,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
             stdout(),
             &releases,
             None,
-            Some(vec!["package"]),
+            excluded_keys,
         ))
     }
 }

@@ -13,7 +13,7 @@ use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
 use crate::service::package::PackageService;
-use crate::service::ItemSearchTrait;
+use crate::service::{ItemSearchTrait, ItemOperationTrait};
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -46,6 +46,10 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
                 .long("pattern")
                 .help("Regex pattern")
                 .takes_value(true),
+            Arg::with_name("all")
+                .short("a")
+                .long("all")
+                .help("Show all release versions of package given '--name' specified)"),
         ])
     }
 
@@ -53,11 +57,15 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
         let container = di_container();
         let pkg_service = container.get::<PackageService>().unwrap();
 
-        let results = pkg_service.search(
-            matches.value_of("name"),
-            matches.value_of("pattern"),
-            matches.value_of("owner"),
-        )?;
+        let results = if matches.is_present("name") && matches.is_present("all") {
+            pkg_service.find(&matches.value_of("name").unwrap().to_string())?
+        } else {
+            pkg_service.search(
+                matches.value_of("name"),
+                matches.value_of("pattern"),
+                matches.value_of("owner"),
+            )?
+        };
 
         output!(config.output_format, .display(
             stdout(),

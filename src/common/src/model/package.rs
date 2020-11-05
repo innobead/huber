@@ -1,9 +1,11 @@
-use std::env;
+use std::{env, fmt};
 
 use hubcaps::releases::Release as HubcapsRelease;
 use serde::{Deserialize, Serialize};
 
 use crate::result::Result;
+use serde::export::fmt::Display;
+use serde::export::Formatter;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Package {
@@ -106,15 +108,6 @@ impl PackageSource {
         match self {
             PackageSource::Github { owner, repo: _ } => format!("{}", owner),
             PackageSource::Helm { registry, repo: _ } => format!("{}", registry),
-        }
-    }
-}
-
-impl ToString for PackageSource {
-    fn to_string(&self) -> String {
-        match self {
-            PackageSource::Github { .. } => "github".to_string(),
-            PackageSource::Helm { .. } => "helm".to_string(),
         }
     }
 }
@@ -231,6 +224,15 @@ impl From<hubcaps::releases::Asset> for GithubAsset {
             download_count: a.download_count,
             created_at: a.created_at,
             updated_at: a.updated_at,
+        }
+    }
+}
+
+impl Display for PackageSource {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        match self {
+            PackageSource::Github { .. } => write!(f, "{}", "github"),
+            PackageSource::Helm { .. } => write!(f, "{}", "helm"),
         }
     }
 }

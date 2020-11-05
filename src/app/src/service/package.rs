@@ -4,11 +4,12 @@ use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::di::di_container;
-use huber_common::model::package::Package;
+use huber_common::model::package::{Package, PackageSource};
 use huber_common::result::Result;
 
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::component::github::{GithubClient, GithubClientTrait};
 
 #[derive(Debug)]
 pub(crate) struct PackageService {
@@ -23,6 +24,7 @@ impl PackageService {
             runtime: None,
         }
     }
+
 }
 
 impl ItemOperationTrait for PackageService {
@@ -46,8 +48,24 @@ impl ItemOperationTrait for PackageService {
         self.search(None, None, None)
     }
 
-    fn find(&self, _condition: &Self::Condition) -> Result<Vec<Self::ItemInstance>> {
-        unimplemented!()
+    fn find(&self, pkg_name: &Self::Condition) -> Result<Vec<Self::ItemInstance>> {
+        let config = self.config.as_ref().unwrap();
+        let client = GithubClient::new(
+            config.github_credentials.clone(),
+            config.git_ssh_key.clone(),
+        );
+        let pkg = self.get(pkg_name)?;
+
+        let mut runtime = Runtime::new().unwrap();
+        runtime.block_on(async {
+            match pkg.source {
+                PackageSource::Github { owner, repo } => {
+                    let releases = client.get_releases(&owner, &repo).await?;
+                    Ok(releases.into_iter().map(|it| it.package).collect())
+                }
+                _ => Err(anyhow!("{} unsupported package source", pkg.source))
+            }
+        })
     }
 
     fn get(&self, name: &str) -> Result<Self::ItemInstance> {

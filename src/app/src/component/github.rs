@@ -15,6 +15,7 @@ const HUBER_GITHUB_REPO: &str = "https://github.com/innobead/huber";
 pub(crate) trait GithubClientTrait {
     async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Release>;
     async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Release>;
+    async fn get_releases(&self, owner: &str, repo: &str) -> Result<Vec<Release>>;
     async fn download_artifacts<P: AsRef<Path> + Send>(
         &self,
         release: &Release,
@@ -70,6 +71,11 @@ impl GithubClientTrait for GithubClient {
     async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Release> {
         let release = self.github.repo(owner, repo).releases().by_tag(tag).await?;
         Ok(Release::from(release))
+    }
+
+    async fn get_releases(&self, owner: &str, repo: &str) -> Result<Vec<Release>> {
+        let releases = self.github.repo(owner, repo).releases().list().await?;
+        Ok(releases.into_iter().map(|it| Release::from(it)).collect())
     }
 
     async fn download_artifacts<P: AsRef<Path> + Send>(
