@@ -1,5 +1,4 @@
 use clap::{App, ArgMatches};
-use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::di::di_container;
@@ -24,7 +23,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SelfUpdateCmd {
         App::new(CMD_NAME).about("Update huber")
     }
 
-    fn run(&self, _runtime: &Runtime, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
+    fn run(&self, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
         let container = di_container();
         let update_service = container.get::<UpdateService>().unwrap();
 

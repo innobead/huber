@@ -37,10 +37,12 @@ impl UpdateTrait for UpdateService {
         let current_version = crate_version!();
 
         // Note: async closure is not stable yet. ex: async || -> Result<>, so can't use ? in async {}
-        self.runtime.as_ref().unwrap().block_on(async {
+        //FIXME let runtime = self.runtime.as_ref().unwrap();
+        let mut runtime = Runtime::new().unwrap();
+        runtime.block_on(async {
             let client = GithubClient::new(
                 config.github_credentials.clone(),
-                config.git_ssh_key.clone()
+                config.git_ssh_key.clone(),
             );
 
             match client.get_latest_release("innobead", "huber").await {
@@ -58,10 +60,12 @@ impl UpdateTrait for UpdateService {
 
         let config = self.config.as_ref().unwrap();
 
-        self.runtime.as_ref().unwrap().block_on(async {
+        //FIXME let runtime = self.runtime.as_ref().unwrap();
+        let mut runtime = Runtime::new().unwrap();
+        runtime.block_on(async {
             let client = GithubClient::new(
                 config.github_credentials.clone(),
-                config.git_ssh_key.clone()
+                config.git_ssh_key.clone(),
             );
 
             match client.get_latest_release("innobead", "huber").await {

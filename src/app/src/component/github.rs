@@ -31,7 +31,10 @@ pub(crate) struct GithubClient {
 }
 
 impl GithubClient {
-    pub(crate) fn new(github_credentials: Option<Credentials>, git_ssh_key: Option<PathBuf>) -> Self {
+    pub(crate) fn new(
+        github_credentials: Option<Credentials>,
+        git_ssh_key: Option<PathBuf>,
+    ) -> Self {
         let mut credentials = github_credentials;
 
         if credentials.is_none() {

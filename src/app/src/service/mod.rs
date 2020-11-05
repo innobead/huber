@@ -34,6 +34,4 @@ pub(crate) trait ItemSearchTrait {
         pattern: Option<&str>,
         owner: Option<&str>,
     ) -> Result<Vec<Self::SearchItem>>;
-
-    fn info(&self, name: &str) -> Result<Self::SearchItem>;
 }

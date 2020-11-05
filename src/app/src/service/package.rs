@@ -51,7 +51,7 @@ impl ItemOperationTrait for PackageService {
     }
 
     fn get(&self, name: &str) -> Result<Self::ItemInstance> {
-        self.info(name)
+        self.search(Some(name), None, None).map(|it| it[0].clone())
     }
 }
 
@@ -89,9 +89,5 @@ impl ItemSearchTrait for PackageService {
         items.append(&mut all_pkgs);
 
         Ok(items)
-    }
-
-    fn info(&self, name: &str) -> Result<Self::SearchItem> {
-        self.search(Some(name), None, None).map(|it| it[0].clone())
     }
 }

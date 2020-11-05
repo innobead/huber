@@ -1,10 +1,12 @@
 use std::fmt::Formatter;
 
-use serde::{Deserialize, Serialize};
 use serde::export::fmt;
 use serde::export::fmt::Display;
+use serde::{Deserialize, Serialize};
 
-use crate::model::package::{GithubAsset, GithubPackage, Package, PackageDetailType, PackageSource};
+use crate::model::package::{
+    GithubAsset, GithubPackage, Package, PackageDetailType, PackageSource,
+};
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ReleaseIndex {
@@ -38,7 +40,10 @@ impl From<hubcaps::releases::Release> for Release {
         Release {
             package: Package {
                 name: "".to_string(),
-                source: PackageSource::Github { owner: "".to_string(), repo: "".to_string() },
+                source: PackageSource::Github {
+                    owner: "".to_string(),
+                    repo: "".to_string(),
+                },
                 targets: vec![],
                 detail: Some(PackageDetailType::Github {
                     package: GithubPackage {
@@ -57,8 +62,12 @@ impl From<hubcaps::releases::Release> for Release {
                         prerelease: r.prerelease,
                         created_at: r.created_at,
                         published_at: r.published_at,
-                        assets: r.assets.into_iter().map(|it| GithubAsset::from(it)).collect(),
-                    }
+                        assets: r
+                            .assets
+                            .into_iter()
+                            .map(|it| GithubAsset::from(it))
+                            .collect(),
+                    },
                 }),
                 version: Some(r.tag_name.clone()),
             },

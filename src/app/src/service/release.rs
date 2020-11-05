@@ -1,10 +1,10 @@
 use std::env::temp_dir;
-use std::fs::{copy, File, read_dir, remove_dir_all, remove_file};
+use std::fs::{copy, read_dir, remove_dir_all, remove_file, File};
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
-use compress_tools::{Ownership, uncompress_archive};
+use compress_tools::{uncompress_archive, Ownership};
 use faccess::PathExt;
 use symlink::{remove_symlink_dir, symlink_dir};
 use tokio::runtime::Runtime;
@@ -17,14 +17,18 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use crate::service::package::PackageService;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
     fn set_current(&self, release: &Release) -> Result<()>;
     fn delete_release(&self, release: &Release) -> Result<()>;
-    fn download_install_github_package(&self, package: &Package, package_github: &GithubPackage) -> Result<Vec<File>>;
+    fn download_install_github_package(
+        &self,
+        package: &Package,
+        package_github: &GithubPackage,
+    ) -> Result<Vec<File>>;
 }
 
 #[derive(Debug)]
@@ -82,19 +86,23 @@ impl ReleaseTrait for ReleaseService {
             .map(|_| ())
     }
 
-    fn download_install_github_package(&self,
-                                       package: &Package,
-                                       package_github: &GithubPackage,
+    fn download_install_github_package(
+        &self,
+        package: &Package,
+        package_github: &GithubPackage,
     ) -> Result<Vec<File>> {
         let config = self.config.as_ref().unwrap();
-        let runtime = self.runtime.as_ref().unwrap();
 
         let version = &package_github.tag_name;
         let pkg_mgmt = package.target()?;
-        let asset_names: Vec<String> = pkg_mgmt.artifact_templates.iter().map(
-            |it| it.replace("{version}", &version)
-        ).collect();
+        let asset_names: Vec<String> = pkg_mgmt
+            .artifact_templates
+            .iter()
+            .map(|it| it.replace("{version}", &version))
+            .collect();
 
+        // let runtime = self.runtime.as_ref().unwrap();
+        let mut runtime = Runtime::new().unwrap();
         runtime.block_on(async {
             let mut files: Vec<File> = vec![];
 
@@ -108,7 +116,8 @@ impl ReleaseTrait for ReleaseService {
                 let filename = response
                     .url()
                     .path_segments()
-                    .and_then(|segments| segments.last()).expect("The downloaded file not found");
+                    .and_then(|segments| segments.last())
+                    .expect("The downloaded file not found");
 
                 let dest_root_path = config.installed_pkg_bin_dir(package, &version)?;
                 let dest_path = dest_root_path.join(filename);
@@ -169,17 +178,16 @@ impl ItemOperationTrait for ReleaseService {
         );
 
         // get the release from github
-        let runtime = self.runtime.as_ref().unwrap();
+        //FIXME let runtime = self.runtime.as_ref().unwrap();
+        let mut runtime = Runtime::new().unwrap();
         let release = runtime.block_on(async {
             match &obj.source {
-                PackageSource::Github { owner, repo } => {
-                    match &obj.version {
-                        Some(v) => client.get_release(&owner, &repo, &v).await,
-                        None => client.get_latest_release(&owner, &repo).await
-                    }
-                }
+                PackageSource::Github { owner, repo } => match &obj.version {
+                    Some(v) => client.get_release(&owner, &repo, &v).await,
+                    None => client.get_latest_release(&owner, &repo).await,
+                },
 
-                _ => unimplemented!()
+                _ => unimplemented!(),
             }
         })?;
 
@@ -238,9 +246,6 @@ impl ItemOperationTrait for ReleaseService {
     fn find(&self, _condition: &Self::Condition) -> Result<Vec<Self::ItemInstance>> {
         // TODO find by package name
 
-
-
-
         unimplemented!()
     }
 
@@ -273,15 +278,15 @@ impl ItemSearchTrait for ReleaseService {
                 continue;
             }
 
-            if current_releases.iter().find(|it| it.version == r.version).is_some() {
+            if current_releases
+                .iter()
+                .find(|it| it.version == r.version)
+                .is_some()
+            {
                 r.is_current = true;
             }
         }
 
         Ok(releases)
-    }
-
-    fn info(&self, _name: &str) -> Result<Self::SearchItem> {
-        unimplemented!()
     }
 }

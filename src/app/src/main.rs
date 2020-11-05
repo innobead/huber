@@ -7,9 +7,8 @@ extern crate huber_common;
 
 use std::env;
 use std::process::exit;
-use std::sync::Arc;
 
-use tokio::runtime::Runtime;
+use std::sync::Arc;
 
 use huber_common::config::Config;
 use huber_common::di::DIContainer;
@@ -33,7 +32,6 @@ use crate::service::update::UpdateService;
 mod cmd;
 mod component;
 mod service;
-mod error;
 
 fn main() {
     // create CLI app
@@ -53,6 +51,8 @@ fn main() {
         app
     };
 
+    println!("{}", "hello world");
+
     // do CLI args/commands match
     let mut args = env::args();
     let matches = if args.len() == 1 {
@@ -68,26 +68,28 @@ fn main() {
     let config = Arc::new(config);
 
     // init DI managed objects
-    let runtime = Arc::new(Runtime::new().unwrap());
+    // FIXME when reqwest upgrade with tokio 0.3, https://github.com/seanmonstar/reqwest/issues/1060
+    // let runtime = Arc::new(Runtime::new().unwrap());
 
     di!(PackageService
-        config=Some(config.clone())
-        runtime=Some(runtime.clone()));
+        config=Some(config.clone()));
+    // runtime=Some(runtime.clone()));
 
     di!(ReleaseService
-        config=Some(config.clone())
-        runtime=Some(runtime.clone()));
+        config=Some(config.clone()));
+    // runtime=Some(runtime.clone()));
 
     di!(CacheService
-        config=Some(config.clone())
-        runtime=Some(runtime.clone()));
+        config=Some(config.clone()));
+    // runtime=Some(runtime.clone()));
 
     di!(UpdateService
-        config=Some(config.clone())
-        runtime=Some(runtime.clone()));
+        config=Some(config.clone()));
+    // runtime=Some(runtime.clone()));
 
     // process command
-    if let Err(e) = cmd::process_cmds(&runtime, &config, &matches, DIContainer::new()) {
+    // if let Err(e) = cmd::process_cmds(&runtime, &config, &matches, DIContainer::new()) {
+    if let Err(e) = cmd::process_cmds(&config, &matches, DIContainer::new()) {
         eprintln!("Failed to run command: {:?}", e);
         exit(1)
     }

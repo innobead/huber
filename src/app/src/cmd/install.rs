@@ -1,5 +1,4 @@
 use clap::{App, Arg, ArgMatches};
-use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::di::di_container;
@@ -41,7 +40,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         ])
     }
 
-    fn run(&self, _runtime: &Runtime, _config: &Config, matches: &ArgMatches) -> Result<()> {
+    fn run(&self, _config: &Config, matches: &ArgMatches) -> Result<()> {
         let name = matches.value_of("name").unwrap();
 
         let container = di_container();

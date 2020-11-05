@@ -1,5 +1,4 @@
 use clap::{App, ArgMatches};
-use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::result::Result;
@@ -23,7 +22,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ResetCmd {
         App::new(CMD_NAME).about("Reset huber (ex: remove installed packages)")
     }
 
-    fn run(&self, _runtime: &Runtime, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
+    fn run(&self, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
         let container = di_container();
         let update_service = container.get::<UpdateService>().unwrap();
 

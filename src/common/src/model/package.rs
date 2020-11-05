@@ -1,6 +1,5 @@
 use std::env;
 
-
 use hubcaps::releases::Release as HubcapsRelease;
 use serde::{Deserialize, Serialize};
 
@@ -128,30 +127,61 @@ impl Package {
 
         if os == "linux" {
             return match arch {
-                "x86_64" => {
-                    Ok(self.targets.iter().find_map(|it|
-                        if let PackageTargetType::LinuxAmd64(m) = it { Some(m.clone()) } else { None }
-                    ).unwrap())
-                }
-                "aarch64" => {
-                    Ok(self.targets.iter().find_map(|it|
-                        if let PackageTargetType::LinuxArm64(m) = it { Some(m.clone()) } else { None }
-                    ).unwrap().clone())
-                }
-                _ => Err(e)
+                "x86_64" => Ok(self
+                    .targets
+                    .iter()
+                    .find_map(|it| {
+                        if let PackageTargetType::LinuxAmd64(m) = it {
+                            Some(m.clone())
+                        } else {
+                            None
+                        }
+                    })
+                    .unwrap()),
+                "aarch64" => Ok(self
+                    .targets
+                    .iter()
+                    .find_map(|it| {
+                        if let PackageTargetType::LinuxArm64(m) = it {
+                            Some(m.clone())
+                        } else {
+                            None
+                        }
+                    })
+                    .unwrap()
+                    .clone()),
+                _ => Err(e),
             };
         }
 
         if os == "macos" {
-            return Ok(self.targets.iter().find_map(|it|
-                if let PackageTargetType::MacOS(m) = it { Some(m.clone()) } else { None }
-            ).unwrap().clone());
+            return Ok(self
+                .targets
+                .iter()
+                .find_map(|it| {
+                    if let PackageTargetType::MacOS(m) = it {
+                        Some(m.clone())
+                    } else {
+                        None
+                    }
+                })
+                .unwrap()
+                .clone());
         }
 
         if os == "windows" {
-            return Ok(self.targets.iter().find_map(|it|
-                if let PackageTargetType::Windows(m) = it { Some(m.clone()) } else { None }
-            ).unwrap().clone());
+            return Ok(self
+                .targets
+                .iter()
+                .find_map(|it| {
+                    if let PackageTargetType::Windows(m) = it {
+                        Some(m.clone())
+                    } else {
+                        None
+                    }
+                })
+                .unwrap()
+                .clone());
         }
 
         Err(e)

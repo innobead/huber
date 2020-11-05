@@ -74,9 +74,7 @@ impl Config {
     }
 
     pub fn installed_pkg_dir(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
-        Ok(self
-            .installed_pkg_base_dir(&pkg)?
-            .join(version))
+        Ok(self.installed_pkg_base_dir(&pkg)?.join(version))
     }
 
     pub fn installed_pkg_bin_dir(&self, pkg: &Package, version: &str) -> Result<PathBuf> {

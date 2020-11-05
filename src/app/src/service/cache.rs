@@ -43,8 +43,9 @@ impl CacheTrait for CacheService {
     fn update(&self) -> Result<PathBuf> {
         let config = self.config.as_ref().unwrap();
         let dir = config.huber_repo_dir()?;
-        let runtime = self.runtime.as_ref().unwrap();
 
+        //FIXME let runtime = self.runtime.as_ref().unwrap();
+        let mut runtime = Runtime::new().unwrap();
         runtime.block_on(async {
             let client = GithubClient::new(
                 config.github_credentials.clone(),

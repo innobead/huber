@@ -1,5 +1,4 @@
-use clap::{App, Arg, ArgMatches, crate_name, crate_version};
-use tokio::runtime::Runtime;
+use clap::{crate_name, crate_version, App, Arg, ArgMatches};
 
 use huber_common::config::Config;
 use huber_common::result::Result;
@@ -59,7 +58,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
             ])
     }
 
-    fn run(&self, _runtime: &Runtime, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
+    fn run(&self, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
         unimplemented!()
     }
 }

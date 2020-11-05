@@ -3,7 +3,6 @@ use std::str::FromStr;
 use clap::{App, ArgMatches};
 use hubcaps::Credentials;
 use log::Level;
-use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::di::{di_container, DIContainer, MutableArc};
@@ -11,10 +10,14 @@ use huber_common::output::OutputFormat;
 use huber_common::result::Result;
 
 use crate::cmd;
+use crate::cmd::current::CurrentCmd;
+use crate::cmd::flush::FlushCmd;
 use crate::cmd::info::InfoCmd;
 use crate::cmd::install::InstallCmd;
+use crate::cmd::reset::ResetCmd;
 use crate::cmd::root::{ARG_GITHUB_TOKEN, ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
 use crate::cmd::search::SearchCmd;
+use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 
@@ -31,7 +34,7 @@ pub(crate) mod uninstall;
 
 pub(crate) trait CommandTrait<'a, 'b> {
     fn app(&self) -> App<'a, 'b>;
-    fn run(&self, runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()>;
+    fn run(&self, config: &Config, matches: &ArgMatches<'a>) -> Result<()>;
 }
 
 pub(crate) fn process_args(config: &mut Config, matches: &ArgMatches) {
@@ -53,40 +56,56 @@ pub(crate) fn process_args(config: &mut Config, matches: &ArgMatches) {
 }
 
 pub(crate) fn process_cmds(
-    runtime: &Runtime,
+    // runtime: &Runtime,
     config: &Config,
     matches: &ArgMatches,
     _container_rc: MutableArc<DIContainer>,
 ) -> Result<()> {
     match matches.subcommand() {
+        (cmd::current::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<CurrentCmd>()
+            .unwrap()
+            .run(config, sub_matches),
+
+        (cmd::flush::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<FlushCmd>()
+            .unwrap()
+            .run(config, sub_matches),
+
+        (cmd::info::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<InfoCmd>()
+            .unwrap()
+            .run(config, sub_matches),
+
         (cmd::install::CMD_NAME, Some(sub_matches)) => di_container()
             .get::<InstallCmd>()
             .unwrap()
-            .run(runtime, config, sub_matches),
+            .run(config, sub_matches),
 
-        (cmd::uninstall::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<UninstallCmd>()
+        (cmd::reset::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<ResetCmd>()
             .unwrap()
-            .run(runtime, config, sub_matches),
+            .run(config, sub_matches),
 
         (cmd::search::CMD_NAME, Some(sub_matches)) => di_container()
             .get::<SearchCmd>()
             .unwrap()
-            .run(runtime, config, sub_matches),
+            .run(config, sub_matches),
 
-        (cmd::info::CMD_NAME, Some(sub_matches)) => {
-            di_container()
-                .get::<InfoCmd>()
-                .unwrap()
-                .run(runtime, config, sub_matches)
-        }
+        (cmd::self_update::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<SelfUpdateCmd>()
+            .unwrap()
+            .run(config, sub_matches),
 
-        (cmd::show::CMD_NAME, Some(sub_matches)) => {
-            di_container()
-                .get::<ShowCmd>()
-                .unwrap()
-                .run(runtime, config, sub_matches)
-        }
+        (cmd::show::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<ShowCmd>()
+            .unwrap()
+            .run(config, sub_matches),
+
+        (cmd::uninstall::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<UninstallCmd>()
+            .unwrap()
+            .run(config, sub_matches),
 
         _ => unimplemented!("command not implemented"),
     }

@@ -1,7 +1,6 @@
 use std::io::stdout;
 
 use clap::{App, Arg, ArgMatches};
-use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
 use huber_common::di::di_container;
@@ -50,7 +49,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
         ])
     }
 
-    fn run(&self, _runtime: &Runtime, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+    fn run(&self, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = di_container();
         let pkg_service = container.get::<PackageService>().unwrap();
 
