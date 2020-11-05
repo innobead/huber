@@ -6,7 +6,7 @@ use std::sync::Arc;
 use compress_tools::{Ownership, uncompress_archive};
 use is_executable::IsExecutable;
 use semver::Version;
-use symlink::{remove_symlink_dir, symlink_dir};
+use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
 use tempdir::TempDir;
 use tokio::runtime::Runtime;
 use walkdir::WalkDir;
@@ -57,7 +57,7 @@ impl ReleaseService {
 
         runtime.block_on(async {
             match &pkg.source {
-                PackageSource::Github { owner, repo } => client.get_latest_release(&owner, &repo).await,
+                PackageSource::Github { owner, repo } => client.get_latest_release(&owner, &repo, &pkg).await,
                 _ => unimplemented!(),
             }
         })
@@ -81,14 +81,39 @@ impl ReleaseTrait for ReleaseService {
         release.current = true;
         release.name = release.package.name.clone();
 
-        // update current symlink
-        let f = config.current_pkg_dir(&release.package)?;
-        if f.exists() {
-            remove_symlink_dir(&f)?;
+        let current_pkg_dir = config.current_pkg_dir(&release.package)?;
+        let current_bin_dir = config.current_pkg_bin_dir(&release.package)?;
+
+        // remove old symlink bin, current
+        if current_bin_dir.exists() {
+            for entry in read_dir(&current_bin_dir)?.into_iter() {
+                let entry = entry?;
+                let path = entry.path();
+
+                if path.is_file() {
+                    let exec_path = config.bin_dir()?.join(path.file_name().unwrap().to_os_string());
+                    let _ = remove_symlink_file(exec_path)?;
+                }
+            }
         }
 
+        if current_pkg_dir.exists() {
+            remove_symlink_dir(&current_pkg_dir)?;
+        }
+
+        // update current symlink
         let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
-        symlink_dir(source, f)?;
+        symlink_dir(source, current_pkg_dir)?;
+
+        for entry in read_dir(&current_bin_dir)?.into_iter() {
+            let entry = entry?;
+            let path = entry.path();
+
+            if path.is_file() {
+                let exec_path = config.bin_dir()?.join(path.file_name().unwrap().to_os_string());
+                symlink_file(path, exec_path)?;
+            }
+        }
 
         let index_f = config.current_index_file()?;
         let mut indexes: Vec<ReleaseIndex> = vec![];
@@ -250,16 +275,13 @@ impl ItemOperationTrait for ReleaseService {
         let mut release = runtime.block_on(async {
             match &obj.source {
                 PackageSource::Github { owner, repo } => match &obj.version {
-                    Some(v) => client.get_release(&owner, &repo, &v).await,
-                    None => client.get_latest_release(&owner, &repo).await,
+                    Some(v) => client.get_release(&owner, &repo, &v, &obj).await,
+                    None => client.get_latest_release(&owner, &repo, &obj).await,
                 },
 
                 _ => unimplemented!(),
             }
         })?;
-        release.package.name = obj.name.clone();
-        release.package.source = obj.source.clone();
-        release.package.targets = obj.targets.clone();
 
         let release_detail = release.package.detail.as_ref();
         if release_detail.is_none() {

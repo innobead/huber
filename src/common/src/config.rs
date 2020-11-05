@@ -39,6 +39,10 @@ impl Config {
         dir(self.home_dir.join("huber_repo"))
     }
 
+    pub fn sbin_dir(&self) -> Result<PathBuf> {
+        dir(self.home_dir.join("sbin"))
+    }
+
     pub fn bin_dir(&self) -> Result<PathBuf> {
         dir(self.home_dir.join("bin"))
     }

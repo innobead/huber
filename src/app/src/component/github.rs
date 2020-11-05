@@ -6,6 +6,7 @@ use git2::Repository;
 use hubcaps::{Credentials, Github};
 
 use huber_common::file::is_empty_dir;
+use huber_common::model::package::Package;
 use huber_common::model::release::Release;
 use huber_common::result::Result;
 
@@ -13,9 +14,9 @@ const HUBER_GITHUB_REPO: &str = "https://github.com/innobead/huber";
 
 #[async_trait]
 pub(crate) trait GithubClientTrait {
-    async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Release>;
-    async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Release>;
-    async fn get_releases(&self, owner: &str, repo: &str) -> Result<Vec<Release>>;
+    async fn get_latest_release(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Release>;
+    async fn get_release(&self, owner: &str, repo: &str, tag: &str, pkg: &Package) -> Result<Release>;
+    async fn get_releases(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Vec<Release>>;
     async fn download_artifacts<P: AsRef<Path> + Send>(
         &self,
         release: &Release,
@@ -63,19 +64,42 @@ impl GithubClient {
 
 #[async_trait]
 impl GithubClientTrait for GithubClient {
-    async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Release> {
+    async fn get_latest_release(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Release> {
         let release = self.github.repo(owner, repo).releases().latest().await?;
-        Ok(Release::from(release))
+        let mut release = Release::from(release);
+
+        release.name = pkg.name.clone();
+        release.package.source = pkg.source.clone();
+        release.package.targets = pkg.targets.clone();
+
+        Ok(release)
     }
 
-    async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Release> {
+    async fn get_release(&self, owner: &str, repo: &str, tag: &str, pkg: &Package) -> Result<Release> {
         let release = self.github.repo(owner, repo).releases().by_tag(tag).await?;
-        Ok(Release::from(release))
+        let mut release = Release::from(release);
+
+        release.name = pkg.name.clone();
+        release.package.source = pkg.source.clone();
+        release.package.targets = pkg.targets.clone();
+
+        Ok(release)
     }
 
-    async fn get_releases(&self, owner: &str, repo: &str) -> Result<Vec<Release>> {
+    async fn get_releases(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Vec<Release>> {
         let releases = self.github.repo(owner, repo).releases().list().await?;
-        Ok(releases.into_iter().map(|it| Release::from(it)).collect())
+        let releases = releases.into_iter().map(|it| {
+            let mut release = Release::from(it);
+
+            release.name = pkg.name.clone();
+            release.package.name = pkg.name.clone();
+            release.package.source = pkg.source.clone();
+            release.package.targets = pkg.targets.clone();
+
+            release
+        }).collect();
+
+        Ok(releases)
     }
 
     async fn download_artifacts<P: AsRef<Path> + Send>(

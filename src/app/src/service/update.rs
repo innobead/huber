@@ -6,6 +6,7 @@ use semver::Version;
 use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
+use huber_common::model::package::{Package, PackageSource};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
@@ -45,9 +46,9 @@ impl UpdateTrait for UpdateService {
                 config.git_ssh_key.clone(),
             );
 
-            match client.get_latest_release("innobead", "huber").await {
+            let pkg = create_huber_package();
+            match client.get_latest_release("innobead", "huber", &pkg).await {
                 Err(e) => Err(e),
-
                 Ok(r) => Ok(Version::parse(current_version) >= Version::parse(&r.version)),
             }
         })
@@ -68,7 +69,8 @@ impl UpdateTrait for UpdateService {
                 config.git_ssh_key.clone(),
             );
 
-            match client.get_latest_release("innobead", "huber").await {
+            let pkg = create_huber_package();
+            match client.get_latest_release("innobead", "huber", &pkg).await {
                 Err(e) => Err(e),
 
                 Ok(r) => {
@@ -87,9 +89,20 @@ impl UpdateTrait for UpdateService {
     fn reset(&self) -> Result<()> {
         let config = self.config.as_ref().unwrap();
 
+        let _ = remove_dir_all(config.bin_dir()?);
         let _ = remove_dir_all(config.huber_repo_dir()?);
         let _ = remove_dir_all(config.installed_pkg_root_dir()?);
 
         Ok(())
+    }
+}
+
+fn create_huber_package() -> Package {
+    Package {
+        name: "huber".to_string(),
+        source: PackageSource::Github { owner: "innobead".to_string(), repo: "huber".to_string() },
+        targets: vec![],
+        detail: None,
+        version: None,
     }
 }

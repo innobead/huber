@@ -57,10 +57,14 @@ impl ItemOperationTrait for PackageService {
 
         let mut runtime = Runtime::new().unwrap();
         runtime.block_on(async {
-            match pkg.source {
+            match &pkg.source {
                 PackageSource::Github { owner, repo } => {
-                    let releases = client.get_releases(&owner, &repo).await?;
-                    Ok(releases.into_iter().map(|it| it.package).collect())
+                    let releases = client.get_releases(&owner, &repo, &pkg).await?;
+                    Ok(releases.into_iter().map(|it| {
+                        let mut pkg = it.package;
+                        pkg.version = Some(it.version);
+                        pkg
+                    }).collect())
                 }
                 _ => Err(anyhow!("{} unsupported package source", pkg.source))
             }
