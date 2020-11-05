@@ -8,6 +8,10 @@ use crate::model::package::{
     GithubAsset, GithubPackage, Package, PackageDetailType, PackageSource,
 };
 
+pub trait VecExtensionTrait {
+    fn sort_by_version(&mut self);
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct ReleaseIndex {
     pub name: String,
@@ -18,9 +22,10 @@ pub struct ReleaseIndex {
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Release {
-    pub package: Package,
+    pub name: String,
     pub version: String,
-    pub is_current: bool,
+    pub current: bool,
+    pub package: Package,
 }
 
 impl Display for Release {
@@ -28,7 +33,7 @@ impl Display for Release {
         write!(
             f,
             "{} (version: {}, source: {})",
-            self.package.name,
+            self.name,
             self.version,
             self.package.source.to_string()
         )
@@ -38,6 +43,9 @@ impl Display for Release {
 impl From<hubcaps::releases::Release> for Release {
     fn from(r: hubcaps::releases::Release) -> Self {
         Release {
+            name: "".to_string(),
+            version: r.tag_name.clone(),
+            current: false,
             package: Package {
                 name: "".to_string(),
                 source: PackageSource::Github {
@@ -71,8 +79,12 @@ impl From<hubcaps::releases::Release> for Release {
                 }),
                 version: Some(r.tag_name.clone()),
             },
-            version: r.tag_name.clone(),
-            is_current: false,
         }
+    }
+}
+
+impl VecExtensionTrait for Vec<Release> {
+    fn sort_by_version(&mut self) {
+        self.sort_by(|x, y| y.version.cmp(&x.version));
     }
 }

@@ -12,6 +12,7 @@ use crate::cmd::CommandTrait;
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::ItemOperationTrait;
+use huber_common::model::release::VecExtensionTrait;
 
 pub(crate) const CMD_NAME: &str = "show";
 
@@ -53,19 +54,20 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
                 return Err(anyhow!("{} not found", name));
             }
 
+            let pkg = pkg_service.get(name)?;
+            let release = release_service.current(&pkg)?;
+
             if matches.is_present("all") {
-                let releases = release_service.find(&name.to_string())?;
+                let mut releases = release_service.find(&pkg)?;
+                releases.sort_by_version();
 
                 return output!(config.output_format, .display(
                     stdout(),
                     &releases,
                     None,
-                    None,
+                    Some(vec!["package"]),
                 ));
             }
-
-            let pkg = pkg_service.get(name)?;
-            let release = release_service.current(&pkg)?;
 
             return output!(config.output_format, .display(
                 stdout(),
@@ -75,13 +77,14 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
             ));
         }
 
-        let releases = release_service.list()?;
+        let mut releases = release_service.list()?;
+        releases.sort_by_version();
 
         output!(config.output_format, .display(
             stdout(),
             &releases,
             None,
-            None,
+            Some(vec!["package"]),
         ))
     }
 }

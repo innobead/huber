@@ -59,6 +59,8 @@ pub struct GithubPackage {
     pub tag_name: String,
     pub target_commitish: String,
     pub name: String,
+    #[serde(skip_deserializing)]
+    #[serde(skip_serializing)]
     pub body: String,
     pub draft: bool,
     pub prerelease: bool,

@@ -52,10 +52,10 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         }
 
         let mut pkg = pkg_service.get(name)?;
-        pkg.version = Some(matches.value_of("version").unwrap_or("").to_string());
+        pkg.version = matches.value_of("version").map(|it| it.to_string());
 
         if release_service.has(name)? {
-            if matches.is_present("refresh") {
+            if matches.is_present("version") || matches.is_present("refresh") {
                 let release = release_service.update(&pkg)?;
                 println!("{} updated", release);
 
@@ -64,7 +64,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
 
             let release = release_service.current(&pkg)?;
             println!(
-                "{} already installed. Use '--fresh' to update to the latest version",
+                "{} already installed. Use '--fresh' or '--version' to update to the latest or a specific version",
                 release
             );
 

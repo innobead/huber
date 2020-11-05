@@ -29,7 +29,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for FlushCmd {
 
         let releases = release_service.list()?;
         for r in releases {
-            if !r.is_current {
+            if !r.current {
                 release_service.delete_release(&r)?;
             }
         }

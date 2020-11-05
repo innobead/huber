@@ -51,8 +51,6 @@ fn main() {
         app
     };
 
-    println!("{}", "hello world");
-
     // do CLI args/commands match
     let mut args = env::args();
     let matches = if args.len() == 1 {
@@ -90,7 +88,7 @@ fn main() {
     // process command
     // if let Err(e) = cmd::process_cmds(&runtime, &config, &matches, DIContainer::new()) {
     if let Err(e) = cmd::process_cmds(&config, &matches, DIContainer::new()) {
-        eprintln!("Failed to run command: {:?}", e);
+        eprintln!("Error: {:?}", e);
         exit(1)
     }
 }

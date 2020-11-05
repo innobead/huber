@@ -51,11 +51,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for CurrentCmd {
             return Err(anyhow!("{} not installed"));
         }
 
-        let releases = release_service.find(&name.to_string())?;
+        let pkg = pkg_service.get(name)?;
+        let releases = release_service.find(&pkg)?;
         let version = matches.value_of("version").unwrap();
 
-        match releases.iter().find(|it| it.version == version) {
-            Some(r) => release_service.set_current(r),
+        match releases.into_iter().find(|it| it.version == version) {
+            Some(mut r) => release_service.set_current(&mut r),
             None => Err(anyhow!("The version is not found: {}", version)),
         }
     }

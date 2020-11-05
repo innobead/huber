@@ -18,10 +18,7 @@ pub(crate) trait ItemOperationTrait: ItemSearchTrait {
     fn get(&self, name: &str) -> Result<Self::ItemInstance>;
 
     fn has(&self, name: &str) -> Result<bool> {
-        Ok(self
-            .search(Some(name), None, None)
-            .map(|_| true)
-            .unwrap_or(false))
+        Ok(!self.search(Some(name), None, None)?.is_empty())
     }
 }
 

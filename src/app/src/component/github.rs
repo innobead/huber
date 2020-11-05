@@ -1,4 +1,3 @@
-use std::env;
 use std::fs::remove_dir_all;
 use std::path::{Path, PathBuf};
 
@@ -35,15 +34,8 @@ impl GithubClient {
         github_credentials: Option<Credentials>,
         git_ssh_key: Option<PathBuf>,
     ) -> Self {
-        let mut credentials = github_credentials;
-
-        if credentials.is_none() {
-            let token = env::var("GITHUB_TOKEN").unwrap_or("".to_string());
-            credentials = Some(Credentials::Token(token));
-        }
-
         Self {
-            github: Github::new("huber", credentials).unwrap(),
+            github: Github::new("huber", github_credentials).unwrap(),
             git_ssh_key,
         }
     }
@@ -72,7 +64,7 @@ impl GithubClient {
 impl GithubClientTrait for GithubClient {
     async fn get_latest_release(&self, owner: &str, repo: &str) -> Result<Release> {
         let release = self.github.repo(owner, repo).releases().latest().await?;
-        Ok((Release::from(release)))
+        Ok(Release::from(release))
     }
 
     async fn get_release(&self, owner: &str, repo: &str, tag: &str) -> Result<Release> {

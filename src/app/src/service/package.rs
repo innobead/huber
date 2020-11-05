@@ -70,24 +70,24 @@ impl ItemSearchTrait for PackageService {
         cache_service.update()?;
 
         let owner = owner.unwrap_or("");
-        let mut items: Vec<Self::SearchItem> = vec![];
+        let mut found_items: Vec<Self::SearchItem> = vec![];
 
         if let Some(name) = name {
-            items.push(cache_service.get_package(name)?);
+            found_items.push(cache_service.get_package(name)?);
 
-            return Ok(items);
+            return Ok(found_items);
         }
 
         if let Some(pattern) = pattern {
             let mut found_pkgs = cache_service.list_packages(pattern, owner)?;
-            items.append(&mut found_pkgs);
+            found_items.append(&mut found_pkgs);
 
-            return Ok(items);
+            return Ok(found_items);
         }
 
         let mut all_pkgs = cache_service.list_packages("", owner)?;
-        items.append(&mut all_pkgs);
+        found_items.append(&mut all_pkgs);
 
-        Ok(items)
+        Ok(found_items)
     }
 }
