@@ -11,30 +11,21 @@ pub fn release() -> Package {
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "istio-{version}-linux-amd64.tar.gz".to_string(),
-                    "istioctl-{version}-linux-amd64.tar.gz".to_string(),
-                ],
+                artifact_templates: vec!["istio-{version}-linux-amd64.tar.gz".to_string()],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec![
-                    "istio-{version}-linux-arm64.tar.gz".to_string(),
-                    "istioctl-{version}-linux-arm64.tar.gz".to_string(),
-                ],
+                artifact_templates: vec!["istio-{version}-linux-arm64.tar.gz".to_string()],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec![
-                    "istio-{version}-osx.tar.gz".to_string(),
-                    "istioctl-{version}-osx.tar.gz".to_string(),
-                ],
+                artifact_templates: vec!["istio-{version}-osx.tar.gz".to_string()],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,

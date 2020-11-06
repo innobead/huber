@@ -10,10 +10,16 @@
 
 # Getting Started
 
-## Installing Huber
+## Installing Huber (official release soon)
+
+### Cargo
 
 ```console
-curl -sfSL https://raw.githubusercontent.com/innobead/kuber/master/hack/install-huber.sh | bash
+# Have cargo, rustc installed via rustup
+make release
+
+# Add huber home/bin in your environment path
+export PATH=$HOME/.huber/bin:$PATH
 ```
 
 # Tutorials
@@ -244,7 +250,14 @@ SUBCOMMANDS:
 
 ```
 
-## Uninstall Huber
+# Contribution
+
+If you would like to add some useful tools in the builtin manged packages list, please have a PR as below steps.
+
+1. Add a new package module in `src/generator/src/pkg`
+2. Update the added package in `src/generator/src/build.rs`
+3. `make build` to see if the new package manifest generated in `generated/packages` and `generated/index.yaml` updated accordingly
+4. Fire a PR to make it accept
 
 # Notes
 
