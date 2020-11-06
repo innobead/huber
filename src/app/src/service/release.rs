@@ -1,11 +1,11 @@
 use std::fs;
-use std::fs::{copy, read_dir, remove_dir_all, remove_file, File};
+use std::fs::{copy, File, read_dir, remove_dir_all, remove_file};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{uncompress_archive, Ownership};
+use compress_tools::{Ownership, uncompress_archive};
 use is_executable::IsExecutable;
 use log::{debug, info};
 use semver::Version;
@@ -23,8 +23,8 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::service::package::PackageService;
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
@@ -119,16 +119,23 @@ impl ReleaseTrait for ReleaseService {
             let path = entry.path();
 
             if path.is_file() {
+                let filename = path.file_name().unwrap().to_os_string();
                 let exec_path = config
                     .bin_dir()?
-                    .join(path.file_name().unwrap().to_os_string());
+                    .join(&filename);
 
-                if let Some(x) = path.extension() {
-                    info!(
-                        "Ignored to link {:?} to {:?} because of suffix {:?}",
-                        &path, &exec_path, x
-                    );
-                    continue;
+                // check if filename has invalid extension
+                let filename = filename.to_str().unwrap().replace(&release.version, "");
+                let p = config.bin_dir()?.join(&filename);
+
+                if p.extension().is_some() {
+                    if let Some(ext) = path.extension() {
+                        info!(
+                            "Ignored to link {:?} to {:?} because of suffix {:?}",
+                            &path, &exec_path, ext
+                        );
+                        continue;
+                    }
                 }
 
                 info!("Linking {:?} to {:?}", &path, &exec_path);
@@ -209,10 +216,11 @@ impl ReleaseTrait for ReleaseService {
         info!("Downloading github package artifacts {}", &package);
 
         let config = self.config.as_ref().unwrap();
+        let supported_archive_types = vec!["tar.gz", "zip"];
 
         let version = &package_github.tag_name;
         let pkg_mgmt = package.target()?;
-        let asset_names: Vec<String> = pkg_mgmt
+        let mut asset_names: Vec<String> = pkg_mgmt
             .artifact_templates
             .iter()
             .map(|it| it.replace("{version}", &version.trim_start_matches("v")))
@@ -225,10 +233,13 @@ impl ReleaseTrait for ReleaseService {
             .map(|it| it.clone())
             .collect();
         download_urls.append(&mut asset_urls);
-        let asset_names: Vec<String> = asset_names
-            .into_iter()
-            .filter(|it| !asset_urls.contains(it))
-            .collect();
+
+        if !asset_urls.is_empty() {
+            asset_names = asset_names
+                .into_iter()
+                .filter(|it| !asset_urls.contains(it))
+                .collect();
+        }
 
         // let runtime = self.runtime.as_ref().unwrap();
         let mut runtime = Runtime::new().unwrap();
@@ -241,8 +252,8 @@ impl ReleaseTrait for ReleaseService {
 
                 if !asset_names.contains(&a.name)
                     && !asset_names
-                        .iter()
-                        .any(|it| decoded_download_url.ends_with(it))
+                    .iter()
+                    .any(|it| decoded_download_url.ends_with(it))
                 {
                     continue;
                 }
@@ -265,57 +276,65 @@ impl ReleaseTrait for ReleaseService {
 
                 // uncompress, copy executables to bin folder
                 if filename.ends_with(".sh") {
-                    fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755)).unwrap();
+                    fs::set_permissions(
+                        &dest_path,
+                        fs::Permissions::from_mode(0o755),
+                    ).unwrap();
+
                     file_paths.push(dest_path.to_str().unwrap().to_string());
                 } else {
-                    match dest_path.extension() {
-                        None => {
-                            fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755))
-                                .unwrap();
-                            file_paths.push(dest_path.to_str().unwrap().to_string());
-                        }
+                    let ext = dest_path.extension();
 
-                        Some(_) => {
-                            // uncompress
-                            info!("Decompressing {}", filename);
-                            let extract_dir = TempDir::new(filename)?;
-                            let dest_f = File::open(&dest_path)?;
+                    if ext.is_none() || !supported_archive_types.contains(&ext.unwrap().to_str().unwrap()) {
+                        fs::set_permissions(
+                            &dest_path,
+                            fs::Permissions::from_mode(0o755),
+                        ).unwrap();
 
-                            info!("Decompressing {:?} to {:?}", &dest_f, extract_dir.path());
-                            uncompress_archive(&dest_f, extract_dir.path(), Ownership::Ignore)?;
-                            let _ = remove_file(&dest_path);
+                        file_paths.push(dest_path.to_str().unwrap().to_string());
+                        continue;
+                    }
 
-                            // copy executables to bin
-                            let walker = WalkDir::new(&extract_dir).into_iter();
-                            for entry in walker
-                                .filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
-                            {
-                                let entry = entry?;
-                                let f = entry.path();
+                    if let Some(ext) = ext {
+                        // uncompress
+                        info!("Decompressing {} which has extension {:?}", filename, ext);
+                        let extract_dir = TempDir::new(filename)?;
+                        let dest_f = File::open(&dest_path)?;
 
-                                if f.is_executable() || f.extension().is_none() {
-                                    let dest_f = dest_root_path.join(f.file_name().unwrap());
+                        info!("Decompressing {:?} to {:?}", &dest_f, extract_dir.path());
+                        uncompress_archive(&dest_f, extract_dir.path(), Ownership::Ignore)?;
+                        let _ = remove_file(&dest_path);
 
-                                    info!("Moving executables {:?} to {:?}", &f, &dest_f);
-                                    copy(&f, &dest_f)?;
+                        // copy executables to bin
+                        let walker = WalkDir::new(&extract_dir).into_iter();
+                        for entry in walker
+                            .filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
+                        {
+                            let entry = entry?;
+                            let f = entry.path();
 
-                                    if f.extension().is_none() {
-                                        info!("Making {:?} as executable", &dest_f);
-                                        fs::set_permissions(
-                                            &dest_f,
-                                            fs::Permissions::from_mode(0o755),
-                                        )?;
-                                    }
+                            if f.is_executable() || f.extension().is_none() {
+                                let dest_f = dest_root_path.join(f.file_name().unwrap());
 
-                                    file_paths.push(dest_f.to_str().unwrap().to_string())
-                                } else {
-                                    debug!("Ignored {:?}", &f);
+                                info!("Moving executables {:?} to {:?}", &f, &dest_f);
+                                copy(&f, &dest_f)?;
+
+                                if f.extension().is_none() {
+                                    info!("Making {:?} as executable", &dest_f);
+                                    fs::set_permissions(
+                                        &dest_f,
+                                        fs::Permissions::from_mode(0o755),
+                                    )?;
                                 }
-                            }
 
-                            info!("Removing temp dir {:?}", extract_dir.path());
-                            let _ = remove_dir_all(extract_dir);
+                                file_paths.push(dest_f.to_str().unwrap().to_string())
+                            } else {
+                                debug!("Ignored {:?}", &f);
+                            }
                         }
+
+                        info!("Removing temp dir {:?}", extract_dir.path());
+                        let _ = remove_dir_all(extract_dir);
                     }
                 }
             }

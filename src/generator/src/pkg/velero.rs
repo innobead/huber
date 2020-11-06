@@ -11,21 +11,21 @@ pub fn release() -> Package {
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["velero-{version}-linux-amd64.tar.gz".to_string()],
+                artifact_templates: vec!["velero-v{version}-linux-amd64.tar.gz".to_string()],
                 checksum: Some("CHECKSUM".to_string()),
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["velero-{version}-linux-arm64.tar.gz".to_string()],
+                artifact_templates: vec!["velero-v{version}-linux-arm64.tar.gz".to_string()],
                 checksum: Some("CHECKSUM".to_string()),
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["velero-{version}-darwin-arm64.tar.gz".to_string()],
+                artifact_templates: vec!["velero-v{version}-darwin-arm64.tar.gz".to_string()],
                 checksum: Some("CHECKSUM".to_string()),
                 install_commands: None,
                 uninstall_commands: None,

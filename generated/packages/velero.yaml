@@ -9,14 +9,14 @@ source:
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "velero-{version}-linux-amd64.tar.gz"
+        - "velero-v{version}-linux-amd64.tar.gz"
       checksum: CHECKSUM
   - LinuxArm64:
       artifact_templates:
-        - "velero-{version}-linux-arm64.tar.gz"
+        - "velero-v{version}-linux-arm64.tar.gz"
       checksum: CHECKSUM
   - MacOS:
       artifact_templates:
-        - "velero-{version}-darwin-arm64.tar.gz"
+        - "velero-v{version}-darwin-arm64.tar.gz"
       checksum: CHECKSUM
 detail: ~
