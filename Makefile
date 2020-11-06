@@ -10,7 +10,7 @@ help:
 
 .PHONY: build
 build: fmt ## Build binaries
-	cargo build $(CARGO_OPTS)
+	cargo build $(CARGO_OPTS) --bins
 
 .PHONY: fmt
 fmt: ## Format & Lint codes
@@ -23,7 +23,7 @@ release: ## Release binaries
 
 .PHONY: install
 install: ## Install binaries
-	cargo install $(CARGO_OPTS) --path ./src/app/
+	cargo install $(CARGO_OPTS) --path ./src/app/ --bins
 
 .PHONY: clean
 clean: ## Clean build caches
@@ -33,3 +33,8 @@ clean: ## Clean build caches
 .PHONY: fix
 fix:  ## Fix code
 	echo cargo fix --allow-dirty
+
+.PHONY: generate
+generate: ## Generate managed package list
+	echo "Need to have GITHUB_TOKEN to automatically generate package description"
+	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build --manifest-path ./src/generator/Cargo.toml

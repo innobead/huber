@@ -56,6 +56,8 @@ async fn main() -> Result<()> {
         File::create(pkg_file)?.write_all(str.as_bytes())?;
     }
 
+    pkg_indexes.sort_by(|x, y| x.name.partial_cmp(&y.name).unwrap());
+
     writeln!(
         index_file,
         "{}",
