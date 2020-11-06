@@ -206,7 +206,7 @@ impl ReleaseTrait for ReleaseService {
         let asset_names: Vec<String> = pkg_mgmt
             .artifact_templates
             .iter()
-            .map(|it| it.replace("{version}", &version))
+            .map(|it| it.replace("{version}", &version.trim_start_matches("v")))
             .collect();
 
         // let runtime = self.runtime.as_ref().unwrap();

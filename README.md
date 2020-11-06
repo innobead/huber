@@ -16,27 +16,35 @@
 curl -sfSL https://raw.githubusercontent.com/innobead/kuber/master/hack/install-huber.sh | bash
 ```
 
-## Install a package from github
-
-```console
-
-```
-
 # Tutorials
 
 ## Installing package
 
 ```console
 ❯ huber install k3s
+Installing k3s
+Downloading package artifacts from github
+Setting k3s (version: v1.19.3+k3s2, source: github) as the current package
+k3s (version: v1.19.3+k3s2, source: github) installed
 
 ```
 
 ## Setting current version
 
 ```console
-❯ huber current k3s
+❯ huber show -n gh --all
+ Name  Version  Current 
+ gh    v1.2.0   false 
+ gh    v1.1.0   true 
 
-❯ huber current k3s --version=v1.19.3+k3s2
+❯ huber current gh -v v1.2.0
+Setting gh (version: v1.2.0, source: github) as the current package
+gh (version: v1.2.0, source: github) as current updated
+
+❯ huber show -n gh --all
+ Name  Version  Current 
+ gh    v1.2.0   true 
+ gh    v1.1.0   false 
 
 ```
 

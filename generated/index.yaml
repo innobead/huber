@@ -18,3 +18,9 @@
 - name: rio
   owner: rancher
   source: github
+- name: istio
+  owner: istio
+  source: github
+- name: fleet
+  owner: rancher
+  source: github

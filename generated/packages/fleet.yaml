@@ -1,21 +1,21 @@
 # This is generated. Don't modify.
 ---
-name: rio
+name: fleet
 source:
   Github:
     owner: rancher
-    repo: rio
+    repo: fleet
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "{version}/rio-linux-amd64"
+        - "{version}/fleet-linux-amd64"
       checksum: ~
   - LinuxArm64:
       artifact_templates:
-        - "{version}/rio-linux-arm64"
+        - "{version}/fleet-linux-arm64"
       checksum: ~
   - MacOS:
       artifact_templates:
-        - "{version}/rio-darwin-arm64"
+        - "{version}/fleet-darwin-arm64"
       checksum: ~
 detail: ~
