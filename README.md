@@ -24,6 +24,10 @@ export PATH=$HOME/.huber/bin:$PATH
 
 # Tutorials
 
+> Note: 
+> If encountering github access rate limitation, suggest to set GITHUB_TOKEN environment when running huber command, 
+> or use the global option '--github-token' instead.
+
 ## Installing package
 
 ```console
