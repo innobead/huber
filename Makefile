@@ -2,7 +2,6 @@ PROJECT:=$(shell basename $(CURDIR))
 COMMIT:=$(shell git rev-parse --short HEAD 2>/dev/null)-$(shell date "+%Y%m%d%H%M%S")
 TAG:=$(shell git describe --tags --dirty 2>/dev/null)
 BUILD_CACHE_DIR:=$(CURDIR)/.cache
-GENERATED_DIR:=$(CURDIR)/generated
 
 .PHONY: help
 help:
