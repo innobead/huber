@@ -25,6 +25,7 @@ use huber_common::result::Result;
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use crate::service::package::PackageService;
+use inflector::cases::uppercase::is_upper_case;
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
@@ -216,7 +217,7 @@ impl ReleaseTrait for ReleaseService {
         info!("Downloading github package artifacts {}", &package);
 
         let config = self.config.as_ref().unwrap();
-        let supported_archive_types = vec!["tar.gz", "zip"];
+        let supported_archive_types = vec!["tar.gz", "zip", "gz", "tar"];
 
         let version = &package_github.tag_name;
         let pkg_mgmt = package.target()?;
@@ -274,7 +275,6 @@ impl ReleaseTrait for ReleaseService {
                 let bytes = response.bytes().await?;
                 dest_f.write(&bytes)?;
 
-                // uncompress, copy executables to bin folder
                 if filename.ends_with(".sh") {
                     fs::set_permissions(
                         &dest_path,
@@ -284,7 +284,6 @@ impl ReleaseTrait for ReleaseService {
                     file_paths.push(dest_path.to_str().unwrap().to_string());
                 } else {
                     let ext = dest_path.extension();
-
                     if ext.is_none() || !supported_archive_types.contains(&ext.unwrap().to_str().unwrap()) {
                         fs::set_permissions(
                             &dest_path,
@@ -312,6 +311,13 @@ impl ReleaseTrait for ReleaseService {
                         {
                             let entry = entry?;
                             let f = entry.path();
+
+                            // uncompress, copy executables to bin folder
+                            let filename = f.file_name().unwrap().to_str().unwrap();
+                            if is_upper_case(filename.to_string()) {
+                                debug!("Ignored {:?}", &filename);
+                                continue
+                            }
 
                             if f.is_executable() || f.extension().is_none() {
                                 let dest_f = dest_root_path.join(f.file_name().unwrap());
