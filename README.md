@@ -218,6 +218,8 @@ Done
 
 ## Misc
 
+Please check the command help to see all supported capabilities.
+
 ```console
 ❯ huber help
 huber 0.1.0
