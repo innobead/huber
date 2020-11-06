@@ -1,11 +1,11 @@
 use std::fs;
-use std::fs::{copy, read_dir, remove_dir_all, remove_file, File};
+use std::fs::{copy, File, read_dir, remove_dir_all, remove_file};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{uncompress_archive, Ownership};
+use compress_tools::{Ownership, uncompress_archive};
 use is_executable::IsExecutable;
 use log::{debug, info};
 use semver::Version;
@@ -22,8 +22,8 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::service::package::PackageService;
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
@@ -121,6 +121,11 @@ impl ReleaseTrait for ReleaseService {
                 let exec_path = config
                     .bin_dir()?
                     .join(path.file_name().unwrap().to_os_string());
+
+                if let Some(x) = path.extension() {
+                    info!("Ignored to link {:?} to {:?} because of suffix {:?}", &path, &exec_path, x);
+                    continue;
+                }
 
                 info!("Linking {:?} to {:?}", &path, &exec_path);
                 symlink_file(path, exec_path)?;
@@ -220,8 +225,8 @@ impl ReleaseTrait for ReleaseService {
 
                 if !asset_names.contains(&a.name)
                     && !asset_names
-                        .iter()
-                        .any(|it| decoded_download_url.ends_with(it))
+                    .iter()
+                    .any(|it| decoded_download_url.ends_with(it))
                 {
                     continue;
                 }
@@ -245,7 +250,10 @@ impl ReleaseTrait for ReleaseService {
                 } else {
                     match dest_path.extension() {
                         None => {
-                            fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755))
+                            fs::set_permissions(
+                                &dest_path,
+                                fs::Permissions::from_mode(0o755),
+                            )
                                 .unwrap();
                             file_paths.push(dest_path.to_str().unwrap().to_string());
                         }
