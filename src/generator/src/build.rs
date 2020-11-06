@@ -7,7 +7,7 @@ use huber_common::model::package::{Package, PackageIndex, PackageSource};
 use huber_common::result::Result;
 
 use crate::pkg::*;
-use hubcaps::Github;
+use hubcaps::{Credentials, Github};
 
 mod pkg;
 
@@ -89,7 +89,7 @@ fn releases() -> Vec<Package> {
 }
 
 async fn update_description(pkg: &mut Package) -> Result<()> {
-    let github = Github::new("huber", None)?;
+    let github = Github::new("huber", Credentials::Token(env::var("GITHUB_TOKEN")?))?;
 
     if let PackageSource::Github { owner, repo } = &pkg.source {
         let repo = github.repo(owner, repo).get().await?;

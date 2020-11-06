@@ -3,10 +3,10 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "deno".to_string(),
+        name: "typescript".to_string(),
         source: PackageSource::Github {
-            owner: "denoland".to_string(),
-            repo: "deno".to_string(),
+            owner: "microsoft".to_string(),
+            repo: "TypeScript".to_string(),
         },
         detail: None,
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {

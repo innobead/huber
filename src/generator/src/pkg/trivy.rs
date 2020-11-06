@@ -3,7 +3,7 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "kube-bench".to_string(),
+        name: "trivy".to_string(),
         source: PackageSource::Github {
             owner: "aquasecurity".to_string(),
             repo: "trivy".to_string(),

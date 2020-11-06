@@ -30,14 +30,14 @@
 - name: kube-bench
   owner: aquasecurity
   source: github
-- name: kube-bench
+- name: trivy
   owner: aquasecurity
   source: github
 - name: deno
   owner: denoland
   source: github
-- name: deno
-  owner: denoland
+- name: typescript
+  owner: microsoft
   source: github
 - name: containerd
   owner: containerd

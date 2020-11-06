@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: trivy
+description: "A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI"
+source:
+  Github:
+    owner: aquasecurity
+    repo: trivy
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "trivy_{version}_Linux-64bit.tar.gz"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "trivy_{version}_Linux-ARM64.tar.gz"
+      checksum: ~
+  - MacOS:
+      artifact_templates:
+        - "trivy_{version}_macOS-64bit.tar.gz"
+      checksum: ~
+detail: ~
