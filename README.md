@@ -27,19 +27,23 @@ curl -sfSL https://raw.githubusercontent.com/innobead/kuber/master/hack/install-
 ## Installing package
 
 ```console
+❯ huber install k3s
 
 ```
 
 ## Setting current version
 
 ```console
+❯ huber current k3s
+
+❯ huber current k3s --version=v1.19.3+k3s2
 
 ```
 
 ## Searching available packages
 
 ```console
-❯ ./target/debug/huber search
+❯ huber search
  Name      Source 
  gh        Github: 
              owner: cli 
@@ -65,7 +69,7 @@ curl -sfSL https://raw.githubusercontent.com/innobead/kuber/master/hack/install-
 ## Searching available package versions
 
 ```console
-❯ ./target/debug/huber search -n k3s --all
+❯ huber search -n k3s --all
  Name  Version 
  k3s   v1.19.3+k3s2 
  k3s   v1.18.10+k3s2 
@@ -100,9 +104,49 @@ curl -sfSL https://raw.githubusercontent.com/innobead/kuber/master/hack/install-
 
 ```
 
+# Show package detailed info
+
+```console
+❯ huber info k3s
+
+```
+
 ## Showing installed version info
 
+```console
+❯ huber show k3s
+ Name  Version       Current 
+ k3s   v1.19.3+k3s2  true
+
+```
+
+## Flushing non-current packages
+
+```console
+❯ huber flush k3s
+
+```
+
 ## Uninstalling package
+
+```console
+❯ huber uninstall k3s
+
+```
+
+## Resetting Huber
+
+```console
+❯ huber reset
+
+```
+
+## Self updating Huber
+
+```console
+❯ huber self-update
+
+```
 
 ## Misc
 

@@ -27,7 +27,7 @@ impl ShowCmd {
 impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME)
-            .about("Show installed packages")
+            .about("Shows installed packages")
             .args(&vec![
                 Arg::with_name("name")
                     .short("n")

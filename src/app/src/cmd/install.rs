@@ -21,9 +21,9 @@ impl InstallCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Install package").args(&vec![
+        App::new(CMD_NAME).about("Installs package").args(&vec![
             Arg::with_name("name")
-                .value_name("string")
+                .value_name("package name")
                 .help("Package name")
                 .required(true)
                 .takes_value(true),

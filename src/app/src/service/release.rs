@@ -1,11 +1,13 @@
 use std::fs::{copy, File, read_dir, remove_dir_all, remove_file};
+use std::fs;
 use std::io::Write;
-use std::path::PathBuf;
+use std::os::unix::fs::PermissionsExt;
+use std::path::{PathBuf};
 use std::sync::Arc;
 
 use compress_tools::{Ownership, uncompress_archive};
 use is_executable::IsExecutable;
-use log::{info, debug};
+use log::{debug, info};
 use semver::Version;
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
 use tempdir::TempDir;
@@ -31,7 +33,7 @@ pub(crate) trait ReleaseTrait {
         &self,
         package: &Package,
         package_github: &GithubPackage,
-    ) -> Result<Vec<File>>;
+    ) -> Result<Vec<String>>;
     fn clean_current(&self, pkg: &Package) -> Result<()>;
 }
 
@@ -188,7 +190,7 @@ impl ReleaseTrait for ReleaseService {
         &self,
         package: &Package,
         package_github: &GithubPackage,
-    ) -> Result<Vec<File>> {
+    ) -> Result<Vec<String>> {
         info!("Downloading github package artifacts {}", &package);
 
         let config = self.config.as_ref().unwrap();
@@ -204,7 +206,7 @@ impl ReleaseTrait for ReleaseService {
         // let runtime = self.runtime.as_ref().unwrap();
         let mut runtime = Runtime::new().unwrap();
         runtime.block_on(async {
-            let mut files: Vec<File> = vec![];
+            let mut file_paths: Vec<String> = vec![];
 
             //TODO need to check checksume
             for a in package_github.assets.iter() {
@@ -231,11 +233,15 @@ impl ReleaseTrait for ReleaseService {
                 dest_f.write(&bytes)?;
 
                 // uncompress, copy executables to bin folder
-                if filename.ends_with(".sh") || filename.ends_with(".ps1") {
-                    files.push(dest_f);
+                if filename.ends_with(".sh") {
+                    fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755)).unwrap();
+                    file_paths.push(dest_path.to_str().unwrap().to_string());
                 } else {
                     match dest_path.extension() {
-                        None => files.push(dest_f),
+                        None => {
+                            fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755)).unwrap();
+                            file_paths.push(dest_path.to_str().unwrap().to_string());
+                        }
 
                         Some(_) => {
                             // uncompress
@@ -257,8 +263,9 @@ impl ReleaseTrait for ReleaseService {
                                 if f.is_executable() {
                                     let dest_f = dest_root_path.join(f.file_name().unwrap());
 
-                                    info!("Moving executables {:?} to {:?}",&f, &dest_f);
-                                    copy(&f, dest_f)?;
+                                    info!("Moving executables {:?} to {:?}", &f, &dest_f);
+                                    copy(&f, &dest_f)?;
+                                    file_paths.push(dest_f.to_str().unwrap().to_string())
                                 }
                             }
 
@@ -269,11 +276,11 @@ impl ReleaseTrait for ReleaseService {
                 }
             }
 
-            if files.is_empty() {
+            if file_paths.is_empty() {
                 return Err(anyhow!("No valid artifacts found"));
             }
 
-            Ok(files)
+            Ok(file_paths)
         })
     }
 
@@ -298,8 +305,10 @@ impl ReleaseTrait for ReleaseService {
                         .bin_dir()?
                         .join(path.file_name().unwrap().to_os_string());
 
-                    info!("Removing link {:?}", &exec_path);
-                    remove_symlink_file(exec_path)?;
+                    if exec_path.exists() {
+                        info!("Removing link {:?}", &exec_path);
+                        remove_symlink_file(exec_path)?;
+                    }
                 }
             }
         }

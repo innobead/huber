@@ -24,7 +24,7 @@ impl SearchCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Search package").args(&[
+        App::new(CMD_NAME).about("Searches package").args(&[
             Arg::with_name("name")
                 .value_name("string")
                 .short("n")

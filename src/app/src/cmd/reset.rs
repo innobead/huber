@@ -19,7 +19,7 @@ impl ResetCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for ResetCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Reset huber (ex: remove installed packages)")
+        App::new(CMD_NAME).about("Resets huber (ex: remove installed packages)")
     }
 
     fn run(&self, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
