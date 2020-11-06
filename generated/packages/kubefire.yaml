@@ -1,0 +1,18 @@
+# This is generated. Don't modify.
+---
+name: kubefire
+description: "KubeFire, creates and manages Kubernetes Clusters using Firecracker microVMs"
+source:
+  Github:
+    owner: innobead
+    repo: kubefire
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/kubefire-linux-amd64"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/kubefire-linux-arm64"
+      checksum: ~
+detail: ~

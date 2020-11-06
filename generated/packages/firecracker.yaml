@@ -1,0 +1,20 @@
+# This is generated. Don't modify.
+---
+name: firecracker
+description: Secure and fast microVMs for serverless computing.
+source:
+  Github:
+    owner: firecracker-microvm
+    repo: firecracker
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "firecracker-v{version}-x86_64"
+        - "jailer-v{version}-x86_64"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "firecracker-v{version}-aarch64"
+        - "jailer-v{version}-aarch64"
+      checksum: ~
+detail: ~
