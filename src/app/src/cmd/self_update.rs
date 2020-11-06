@@ -27,7 +27,9 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SelfUpdateCmd {
         let container = di_container();
         let update_service = container.get::<UpdateService>().unwrap();
 
-        if update_service.has_update()? {
+        let r = update_service.has_update()?;
+        if r.0 {
+            println!("Updating huber to {}", r.1);
             update_service.update()?;
             return Ok(());
         }

@@ -5,10 +5,12 @@ use std::sync::Arc;
 
 use compress_tools::{Ownership, uncompress_archive};
 use is_executable::IsExecutable;
+use log::{info, debug};
 use semver::Version;
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
 use tempdir::TempDir;
 use tokio::runtime::Runtime;
+use urlencoding::decode;
 use walkdir::WalkDir;
 
 use huber_common::config::Config;
@@ -48,6 +50,8 @@ impl ReleaseService {
     }
 
     pub(crate) fn get_latest(&self, pkg: &Package) -> Result<Release> {
+        debug!("Getting the latest release: {}", &pkg);
+
         let config = self.config.as_ref().unwrap();
 
         let client = GithubClient::new(
@@ -69,6 +73,8 @@ impl ReleaseService {
 
 impl ReleaseTrait for ReleaseService {
     fn current(&self, pkg: &Package) -> Result<Release> {
+        debug!("Getting the current release: {}", &pkg);
+
         let f = self
             .config
             .as_ref()
@@ -80,6 +86,8 @@ impl ReleaseTrait for ReleaseService {
     }
 
     fn set_current(&self, release: &mut Release) -> Result<()> {
+        info!("Setting the current release: {}", &release);
+
         let config = self.config.as_ref().unwrap();
         release.current = true;
         release.name = release.package.name.clone();
@@ -88,12 +96,15 @@ impl ReleaseTrait for ReleaseService {
         let current_bin_dir = config.current_pkg_bin_dir(&release.package)?;
 
         // remove old symlink bin, current
+        info!("Removing the current release symbolic links: {}", &release.package);
         self.clean_current(&release.package)?;
 
         // update current symlink
+        info!("Updating the current release symbolic links: {}", &release);
         let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
         symlink_dir(source, current_pkg_dir)?;
 
+        info!("Updating the current release bin symbolic links: {}", &release);
         for entry in read_dir(&current_bin_dir)?.into_iter() {
             let entry = entry?;
             let path = entry.path();
@@ -102,6 +113,8 @@ impl ReleaseTrait for ReleaseService {
                 let exec_path = config
                     .bin_dir()?
                     .join(path.file_name().unwrap().to_os_string());
+
+                info!("Linking {:?} to {:?}", &path, &exec_path);
                 symlink_file(path, exec_path)?;
             }
         }
@@ -110,6 +123,8 @@ impl ReleaseTrait for ReleaseService {
         let mut indexes: Vec<ReleaseIndex> = vec![];
 
         // update old current release manifest
+        info!("Updating the current index manifest: {:?}", &index_f);
+
         if index_f.exists() {
             let f = File::open(&index_f)?;
             indexes = serde_yaml::from_reader(&f)?;
@@ -145,7 +160,6 @@ impl ReleaseTrait for ReleaseService {
         let index_f = File::create(&index_f)?;
         serde_yaml::to_writer(index_f, &indexes)?;
 
-        // update current release manifest
         let release_f = config.installed_pkg_manifest_file(&release.package, &release.version)?;
         let _ = remove_file(&release_f);
         let release_f = File::create(release_f)?;
@@ -155,6 +169,8 @@ impl ReleaseTrait for ReleaseService {
     }
 
     fn delete_release(&self, release: &Release) -> Result<()> {
+        info!("Removing release: {}", &release);
+
         let cr = self.current(&release.package)?;
         if cr.version == release.version {
             return Err(anyhow!(
@@ -173,6 +189,8 @@ impl ReleaseTrait for ReleaseService {
         package: &Package,
         package_github: &GithubPackage,
     ) -> Result<Vec<File>> {
+        info!("Downloading github package artifacts {}", &package);
+
         let config = self.config.as_ref().unwrap();
 
         let version = &package_github.tag_name;
@@ -190,15 +208,19 @@ impl ReleaseTrait for ReleaseService {
 
             //TODO need to check checksume
             for a in package_github.assets.iter() {
+                let decoded_download_url = decode(&a.browser_download_url)?;
+
                 if !asset_names.contains(&a.name)
-                    || !asset_names
+                    && !asset_names
                     .iter()
-                    .any(|it| it.ends_with(&a.browser_download_url))
+                    .any(|it| decoded_download_url.ends_with(it))
                 {
                     continue;
                 }
 
                 // download
+                info!("Downloading {}", &a.browser_download_url);
+
                 let response = reqwest::get(&a.browser_download_url).await?;
                 let filename = a.browser_download_url.split("/").last().unwrap();
 
@@ -217,28 +239,38 @@ impl ReleaseTrait for ReleaseService {
 
                         Some(_) => {
                             // uncompress
+                            info!("Decompressing {}", filename);
                             let extract_dir = TempDir::new(filename)?;
                             let dest_f = File::open(&dest_path)?;
+
+                            info!("Decompressing {:?} to {:?}", &dest_f, extract_dir.path());
                             uncompress_archive(&dest_f, extract_dir.path(), Ownership::Ignore)?;
                             let _ = remove_file(&dest_path);
 
                             // copy executables to bin
                             let walker = WalkDir::new(&extract_dir).into_iter();
-                            for entry in
-                            walker.filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
+                            for entry in walker
+                                .filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
                             {
                                 let entry = entry?;
                                 let f = entry.path();
                                 if f.is_executable() {
                                     let dest_f = dest_root_path.join(f.file_name().unwrap());
+
+                                    info!("Moving executables {:?} to {:?}",&f, &dest_f);
                                     copy(&f, dest_f)?;
                                 }
                             }
 
+                            info!("Removing temp dir {:?}", extract_dir.path());
                             let _ = remove_dir_all(extract_dir);
                         }
                     }
                 }
+            }
+
+            if files.is_empty() {
+                return Err(anyhow!("No valid artifacts found"));
             }
 
             Ok(files)
@@ -246,6 +278,8 @@ impl ReleaseTrait for ReleaseService {
     }
 
     fn clean_current(&self, pkg: &Package) -> Result<()> {
+        info!("Cleaning {} from the current manifests", &pkg);
+
         let config = self.config.as_ref().unwrap();
 
         let pkg_dir = config.current_pkg_dir(&pkg)?;
@@ -253,6 +287,8 @@ impl ReleaseTrait for ReleaseService {
 
         // remove old symlink bin, current
         if pkg_bin_dir.exists() {
+            info!("Removing old symbolic links: {}", &pkg);
+
             for entry in read_dir(&pkg_bin_dir)?.into_iter() {
                 let entry = entry?;
                 let path = entry.path();
@@ -261,16 +297,21 @@ impl ReleaseTrait for ReleaseService {
                     let exec_path = config
                         .bin_dir()?
                         .join(path.file_name().unwrap().to_os_string());
+
+                    info!("Removing link {:?}", &exec_path);
                     remove_symlink_file(exec_path)?;
                 }
             }
         }
 
         if pkg_dir.exists() {
+            info!("Removing link {:?}", &pkg_dir);
             remove_symlink_dir(&pkg_dir)?;
         }
 
         // remove it from index
+        info!("Removing {} from the current index", &pkg);
+
         let index_f = config.current_index_file()?;
         let indexes = if index_f.exists() {
             let f = File::open(&index_f)?;
@@ -301,6 +342,8 @@ impl ItemOperationTrait for ReleaseService {
     type Condition = Package;
 
     fn create(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+        info!("Creating release from package: {}", &obj);
+
         if self.has(&obj.name)? {
             return Err(anyhow!("{} already installed", &obj.name));
         }
@@ -309,6 +352,8 @@ impl ItemOperationTrait for ReleaseService {
     }
 
     fn update(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+        info!("Updating release from package: {}", &obj);
+
         let config = self.config.as_ref().unwrap();
         let client = GithubClient::new(
             config.github_credentials.clone(),
@@ -321,8 +366,12 @@ impl ItemOperationTrait for ReleaseService {
         let mut release = runtime.block_on(async {
             match &obj.source {
                 PackageSource::Github { owner, repo } => match &obj.version {
-                    Some(v) => client.get_release(&owner, &repo, &v, &obj).await,
-                    None => client.get_latest_release(&owner, &repo, &obj).await,
+                    Some(v) => {
+                        client.get_release(&owner, &repo, &v, &obj).await
+                    }
+                    None => {
+                        client.get_latest_release(&owner, &repo, &obj).await
+                    }
                 },
 
                 _ => unimplemented!(),
@@ -336,7 +385,10 @@ impl ItemOperationTrait for ReleaseService {
 
         match release_detail.unwrap() {
             PackageDetailType::Github { package: p } => {
+                println!("Downloading package artifacts from github");
                 self.download_install_github_package(obj, &p)?;
+
+                println!("Setting {} as the current package", release);
                 self.set_current(&mut release)?;
 
                 Ok(release)
@@ -345,6 +397,8 @@ impl ItemOperationTrait for ReleaseService {
     }
 
     fn delete(&self, name: &str) -> Result<()> {
+        info!("Deleting releases of package {}", name);
+
         let config = self.config.as_ref().unwrap();
         let container = di_container();
         let pkg_service = container.get::<PackageService>().unwrap();
@@ -357,6 +411,8 @@ impl ItemOperationTrait for ReleaseService {
     }
 
     fn list(&self) -> Result<Vec<Self::ItemInstance>> {
+        debug!("Getting all current releases");
+
         let config = self.config.as_ref().unwrap();
         let container = di_container();
         let mut releases: Vec<Release> = vec![];
@@ -382,6 +438,8 @@ impl ItemOperationTrait for ReleaseService {
     }
 
     fn find(&self, pkg: &Self::Condition) -> Result<Vec<Self::ItemInstance>> {
+        debug!("Finding releases by condition: {}", &pkg);
+
         let config = self.config.as_ref().unwrap();
 
         let mut releases: Vec<Release> = vec![];
@@ -422,6 +480,8 @@ impl ItemSearchTrait for ReleaseService {
         _pattern: Option<&str>,
         _owner: Option<&str>,
     ) -> Result<Vec<Self::SearchItem>> {
+        debug!("Searching releases");
+
         let mut found_items: Vec<Self::SearchItem> = vec![];
         let releases = self.list()?;
 

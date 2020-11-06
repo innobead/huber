@@ -10,6 +10,7 @@ use huber_common::result::Result;
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use log::debug;
 
 #[derive(Debug)]
 pub(crate) struct PackageService {
@@ -44,10 +45,14 @@ impl ItemOperationTrait for PackageService {
     }
 
     fn list(&self) -> Result<Vec<Self::ItemInstance>> {
+        debug!("Getting all packages");
+
         self.search(None, None, None)
     }
 
     fn find(&self, pkg_name: &Self::Condition) -> Result<Vec<Self::ItemInstance>> {
+        debug!("Finding packages: {}", pkg_name);
+
         let config = self.config.as_ref().unwrap();
         let client = GithubClient::new(
             config.github_credentials.clone(),
@@ -75,6 +80,7 @@ impl ItemOperationTrait for PackageService {
     }
 
     fn get(&self, name: &str) -> Result<Self::ItemInstance> {
+        debug!("Getting package: {}", name);
         self.search(Some(name), None, None).map(|it| it[0].clone())
     }
 }
@@ -97,18 +103,21 @@ impl ItemSearchTrait for PackageService {
         let mut found_items: Vec<Self::SearchItem> = vec![];
 
         if let Some(name) = name {
+            debug!("Searching package by name: {}", name);
             found_items.push(cache_service.get_package(name)?);
 
             return Ok(found_items);
         }
 
         if let Some(pattern) = pattern {
+            debug!("Searching package by pattern: {}", pattern);
             let mut found_pkgs = cache_service.list_packages(pattern, owner)?;
             found_items.append(&mut found_pkgs);
 
             return Ok(found_items);
         }
 
+        debug!("Searching all packages");
         let mut all_pkgs = cache_service.list_packages("", owner)?;
         found_items.append(&mut all_pkgs);
 

@@ -5,9 +5,9 @@ use huber_common::di::di_container;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
+use crate::service::ItemOperationTrait;
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
-use crate::service::ItemOperationTrait;
 
 pub(crate) const CMD_NAME: &str = "install";
 
@@ -62,6 +62,8 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
                     if release.version == matches.value_of("version").unwrap() {
                         Err(anyhow!("{} already installed", release))
                     } else {
+                        println!("Updating {} to {}", pkg, release);
+
                         let release = release_service.update(&pkg)?;
                         println!("{} updated", release);
                         Ok(())
@@ -69,6 +71,8 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
                 }
 
                 _ if matches.is_present("refresh") => {
+                    println!("Updating {} to {}", pkg, release);
+
                     let release = release_service.update(&pkg)?;
                     println!("{} updated", release);
                     Ok(())
@@ -80,6 +84,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
             };
         }
 
+        println!("Installing {}", &pkg);
         let release = release_service.create(&pkg)?;
         println!("{} installed", release);
 

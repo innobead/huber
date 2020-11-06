@@ -12,7 +12,7 @@ use huber_common::result::Result;
 use crate::component::github::{GithubClient, GithubClientTrait};
 
 pub(crate) trait UpdateTrait {
-    fn has_update(&self) -> Result<bool>;
+    fn has_update(&self) -> Result<(bool, String)>;
     fn update(&self) -> Result<bool>;
     fn reset(&self) -> Result<()>;
 }
@@ -33,7 +33,7 @@ impl UpdateService {
 }
 
 impl UpdateTrait for UpdateService {
-    fn has_update(&self) -> Result<bool> {
+    fn has_update(&self) -> Result<(bool, String)> {
         let config = self.config.as_ref().unwrap();
         let current_version = crate_version!();
 
@@ -49,13 +49,13 @@ impl UpdateTrait for UpdateService {
             let pkg = create_huber_package();
             match client.get_latest_release("innobead", "huber", &pkg).await {
                 Err(e) => Err(e),
-                Ok(r) => Ok(Version::parse(current_version) >= Version::parse(&r.version)),
+                Ok(r) => Ok((Version::parse(current_version) >= Version::parse(&r.version), r.version)),
             }
         })
     }
 
     fn update(&self) -> Result<bool> {
-        if !self.has_update()? {
+        if !self.has_update()?.0 {
             return Ok(false);
         }
 

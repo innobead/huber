@@ -227,6 +227,12 @@ impl From<hubcaps::releases::Asset> for GithubAsset {
     }
 }
 
+impl Display for Package {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{}", &self.name)
+    }
+}
+
 impl Display for PackageSource {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {

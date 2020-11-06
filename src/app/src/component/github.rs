@@ -4,6 +4,7 @@ use std::path::{Path, PathBuf};
 use async_trait::async_trait;
 use git2::Repository;
 use hubcaps::{Credentials, Github};
+use log::{debug};
 
 use huber_common::file::is_empty_dir;
 use huber_common::model::package::Package;
@@ -49,6 +50,8 @@ impl GithubClient {
     }
 
     fn fetch_merge_repo<P: AsRef<Path>>(&self, dir: P) -> Result<()> {
+        debug!("Merging huber repo update");
+
         let repo = Repository::open(dir)?;
 
         // fetch the origin
@@ -71,6 +74,8 @@ impl GithubClient {
 #[async_trait]
 impl GithubClientTrait for GithubClient {
     async fn get_latest_release(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Release> {
+        debug!("Getting the latest release of package {}", &pkg);
+
         let release = self.github.repo(owner, repo).releases().latest().await?;
         let mut release = Release::from(release);
 
@@ -89,6 +94,8 @@ impl GithubClientTrait for GithubClient {
         tag: &str,
         pkg: &Package,
     ) -> Result<Release> {
+        debug!("Getting the specific release of package {}/{}", &pkg, tag);
+
         let release = self.github.repo(owner, repo).releases().by_tag(tag).await?;
         let mut release = Release::from(release);
 
@@ -101,6 +108,8 @@ impl GithubClientTrait for GithubClient {
     }
 
     async fn get_releases(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Vec<Release>> {
+        debug!("Getting all releases of package {}", &pkg);
+
         let releases = self.github.repo(owner, repo).releases().list().await?;
         let releases = releases
             .into_iter()
@@ -128,6 +137,8 @@ impl GithubClientTrait for GithubClient {
     }
 
     async fn clone<P: AsRef<Path> + Send>(&self, owner: &str, repo: &str, dir: P) -> Result<()> {
+        debug!("Cloning huber github repo");
+
         let url = format!("https://github.com/{}/{}", owner, repo);
 
         if is_empty_dir(&dir) {

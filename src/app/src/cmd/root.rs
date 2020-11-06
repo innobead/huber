@@ -32,7 +32,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
                     .help("Log level")
                     .takes_value(true)
                     .global(true)
-                    .default_value("info")
+                    .default_value("off")
                     .possible_values(&["off", "error", "warn", "info", "debug", "trace"]),
                 Arg::with_name(ARG_OUTPUT_TYPE)
                     .value_name("string")

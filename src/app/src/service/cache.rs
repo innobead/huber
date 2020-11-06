@@ -2,6 +2,7 @@ use std::fs::File;
 use std::path::PathBuf;
 use std::sync::Arc;
 
+use log::info;
 use regex::Regex;
 use tokio::runtime::Runtime;
 
@@ -41,6 +42,8 @@ impl CacheService {
 
 impl CacheTrait for CacheService {
     fn update(&self) -> Result<PathBuf> {
+        info!("Updating caches");
+
         let config = self.config.as_ref().unwrap();
         let dir = config.huber_repo_dir()?;
 
@@ -51,6 +54,7 @@ impl CacheTrait for CacheService {
                 config.github_credentials.clone(),
                 config.git_ssh_key.clone(),
             );
+
             client.clone("innobead", "huber", dir.clone()).await
         })?;
 
