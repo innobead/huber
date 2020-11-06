@@ -6,6 +6,8 @@ use std::path::PathBuf;
 use std::sync::Arc;
 
 use compress_tools::{Ownership, uncompress_archive};
+use inflector::cases::classcase::is_class_case;
+use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
 use log::{debug, info};
 use semver::Version;
@@ -25,7 +27,6 @@ use huber_common::result::Result;
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use crate::service::package::PackageService;
-use inflector::cases::uppercase::is_upper_case;
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
@@ -313,10 +314,10 @@ impl ReleaseTrait for ReleaseService {
                             let f = entry.path();
 
                             // uncompress, copy executables to bin folder
-                            let filename = f.file_name().unwrap().to_str().unwrap();
-                            if is_upper_case(filename.to_string()) {
+                            let filename = f.file_name().unwrap().to_str().unwrap().to_string();
+                            if is_upper_case(filename.clone()) || is_class_case(filename.clone()) || filename.starts_with("_") {
                                 debug!("Ignored {:?}", &filename);
-                                continue
+                                continue;
                             }
 
                             if f.is_executable() || f.extension().is_none() {
