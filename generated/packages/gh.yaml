@@ -1,6 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: gh
+description: GitHub’s official command line tool
 source:
   Github:
     owner: cli

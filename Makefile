@@ -23,7 +23,7 @@ release: ## Release binaries
 
 .PHONY: install
 install: ## Install binaries
-	cargo install $(CARGO_OPTS)
+	cargo install $(CARGO_OPTS) --path ./src/app/
 
 .PHONY: clean
 clean: ## Clean build caches

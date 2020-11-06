@@ -3,29 +3,28 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "istio".to_string(),
+        name: "firecracker".to_string(),
         source: PackageSource::Github {
-            owner: "istio".to_string(),
-            repo: "istio".to_string(),
+            owner: "firecracker-microvm".to_string(),
+            repo: "firecracker".to_string(),
         },
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["istio-{version}-linux-amd64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "firecracker-v{version}-x86_64".to_string(),
+                    "jailer-v{version}-x86_64".to_string(),
+                ],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["istio-{version}-linux-arm64.tar.gz".to_string()],
-                checksum: None,
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
-            }),
-            PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["istio-{version}-osx.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "firecracker-v{version}-aarch64".to_string(),
+                    "jailer-v{version}-aarch64".to_string(),
+                ],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,

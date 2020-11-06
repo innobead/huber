@@ -1,0 +1,14 @@
+# This is generated. Don't modify.
+---
+name: deno
+description: A secure JavaScript and TypeScript runtime
+source:
+  Github:
+    owner: denoland
+    repo: deno
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "typescript-{version}.tgz"
+      checksum: ~
+detail: ~

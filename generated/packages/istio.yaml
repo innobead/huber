@@ -1,6 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: istio
+description: "Connect, secure, control, and observe services."
 source:
   Github:
     owner: istio

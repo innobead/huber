@@ -16,7 +16,7 @@
 
 ```console
 # Have cargo, rustc installed via rustup
-make release
+make install
 
 # Add huber home/bin in your environment path
 export PATH=$HOME/.huber/bin:$PATH

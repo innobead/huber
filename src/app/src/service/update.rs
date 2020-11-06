@@ -110,5 +110,6 @@ fn create_huber_package() -> Package {
         targets: vec![],
         detail: None,
         version: None,
+        description: None,
     }
 }

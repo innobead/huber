@@ -78,6 +78,7 @@ impl From<hubcaps::releases::Release> for Release {
                     },
                 }),
                 version: Some(r.tag_name.clone()),
+                description: None,
             },
         }
     }

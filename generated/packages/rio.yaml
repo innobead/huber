@@ -1,6 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: rio
+description: Application Deployment Engine for Kubernetes
 source:
   Github:
     owner: rancher

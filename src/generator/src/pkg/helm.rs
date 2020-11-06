@@ -3,29 +3,44 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "istio".to_string(),
+        name: "helm".to_string(),
         source: PackageSource::Github {
-            owner: "istio".to_string(),
-            repo: "istio".to_string(),
+            owner: "helm".to_string(),
+            repo: "helm".to_string(),
         },
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["istio-{version}-linux-amd64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "https://get.helm.sh/helm-v{version}-linux-amd64.tar.gz".to_string()
+                ],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["istio-{version}-linux-arm64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "https://get.helm.sh/helm-v{version}-linux-arm64.tar.gz".to_string()
+                ],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["istio-{version}-osx.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "https://get.helm.sh/helm-v{version}-darwin-amd64.tar.gz".to_string()
+                ],
+                checksum: None,
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+            }),
+            PackageTargetType::Windows(PackageManagement {
+                artifact_templates: vec![
+                    "https://get.helm.sh/helm-v{version}-windows-amd64.zip".to_string()
+                ],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,

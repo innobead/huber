@@ -1,6 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: k3s
+description: Lightweight Kubernetes
 source:
   Github:
     owner: rancher

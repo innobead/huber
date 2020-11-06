@@ -12,6 +12,7 @@ use semver::Version;
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
 use tempdir::TempDir;
 use tokio::runtime::Runtime;
+use url::Url;
 use urlencoding::decode;
 use walkdir::WalkDir;
 
@@ -217,6 +218,18 @@ impl ReleaseTrait for ReleaseService {
             .map(|it| it.replace("{version}", &version.trim_start_matches("v")))
             .collect();
 
+        let mut download_urls: Vec<String> = vec![];
+        let mut asset_urls: Vec<String> = asset_names
+            .iter()
+            .filter(|it| Url::parse(it).is_ok() && it.starts_with("https"))
+            .map(|it| it.clone())
+            .collect();
+        download_urls.append(&mut asset_urls);
+        let asset_names: Vec<String> = asset_names
+            .into_iter()
+            .filter(|it| !asset_urls.contains(it))
+            .collect();
+
         // let runtime = self.runtime.as_ref().unwrap();
         let mut runtime = Runtime::new().unwrap();
         runtime.block_on(async {
@@ -234,11 +247,15 @@ impl ReleaseTrait for ReleaseService {
                     continue;
                 }
 
-                // download
-                info!("Downloading {}", &a.browser_download_url);
+                download_urls.push(decoded_download_url);
+            }
 
-                let response = reqwest::get(&a.browser_download_url).await?;
-                let filename = a.browser_download_url.split("/").last().unwrap();
+            for download_url in download_urls {
+                // download
+                info!("Downloading {}", &download_url);
+
+                let response = reqwest::get(&download_url).await?;
+                let filename = download_url.split("/").last().unwrap();
 
                 let dest_root_path = config.installed_pkg_bin_dir(package, &version)?;
                 let dest_path = dest_root_path.join(filename);

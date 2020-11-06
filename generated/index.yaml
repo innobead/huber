@@ -6,6 +6,9 @@
 - name: velero
   owner: vmware-tanzu
   source: github
+- name: helm
+  owner: helm
+  source: github
 - name: kubefire
   owner: innobead
   source: github
@@ -23,4 +26,22 @@
   source: github
 - name: fleet
   owner: rancher
+  source: github
+- name: kube-bench
+  owner: aquasecurity
+  source: github
+- name: kube-bench
+  owner: aquasecurity
+  source: github
+- name: deno
+  owner: denoland
+  source: github
+- name: deno
+  owner: denoland
+  source: github
+- name: containerd
+  owner: containerd
+  source: github
+- name: firecracker
+  owner: firecracker-microvm
   source: github

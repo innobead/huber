@@ -1,6 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: kubefire
+description: "KubeFire, creates and manages Kubernetes Clusters using Firecracker microVMs"
 source:
   Github:
     owner: innobead

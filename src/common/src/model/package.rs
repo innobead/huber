@@ -12,9 +12,17 @@ pub struct Package {
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
+    pub description: Option<String>,
     pub source: PackageSource,
     pub targets: Vec<PackageTargetType>,
     pub detail: Option<PackageDetailType>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct PackageSummary {
+    pub name: String,
+    pub description: Option<String>,
+    pub source: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -238,6 +246,16 @@ impl Display for PackageSource {
         match self {
             PackageSource::Github { .. } => write!(f, "{}", "github"),
             PackageSource::Helm { .. } => write!(f, "{}", "helm"),
+        }
+    }
+}
+
+impl From<Package> for PackageSummary {
+    fn from(p: Package) -> Self {
+        PackageSummary {
+            name: p.name.clone(),
+            description: p.description.clone(),
+            source: Some(p.source.url()),
         }
     }
 }

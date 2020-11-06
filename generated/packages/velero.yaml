@@ -1,6 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: velero
+description: Backup and migrate Kubernetes applications and their persistent volumes
 source:
   Github:
     owner: vmware-tanzu

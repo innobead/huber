@@ -1,0 +1,26 @@
+# This is generated. Don't modify.
+---
+name: helm
+description: The Kubernetes Package Manager
+source:
+  Github:
+    owner: helm
+    repo: helm
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "https://get.helm.sh/helm-v{version}-linux-amd64.tar.gz"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "https://get.helm.sh/helm-v{version}-linux-arm64.tar.gz"
+      checksum: ~
+  - MacOS:
+      artifact_templates:
+        - "https://get.helm.sh/helm-v{version}-darwin-amd64.tar.gz"
+      checksum: ~
+  - Windows:
+      artifact_templates:
+        - "https://get.helm.sh/helm-v{version}-windows-amd64.zip"
+      checksum: ~
+detail: ~

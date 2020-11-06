@@ -13,7 +13,7 @@ pub fn release() -> Package {
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["velero-{version}-linux-amd64.tar.gz".to_string()],
                 checksum: Some("CHECKSUM".to_string()),
-                install_commands: None, // untar, walk through all executables, then install
+                install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
@@ -33,5 +33,6 @@ pub fn release() -> Package {
             }),
         ],
         version: None,
+        description: None,
     }
 }

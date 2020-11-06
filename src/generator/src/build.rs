@@ -3,14 +3,16 @@ use std::io::Write;
 use std::path::Path;
 use std::{env, fs};
 
-use huber_common::model::package::{Package, PackageIndex};
+use huber_common::model::package::{Package, PackageIndex, PackageSource};
 use huber_common::result::Result;
 
 use crate::pkg::*;
+use hubcaps::Github;
 
 mod pkg;
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
     let generated_dir = &Path::new(env::var("CARGO_MANIFEST_DIR")?.as_str())
         .parent()
         .unwrap()
@@ -33,7 +35,9 @@ fn main() -> Result<()> {
 
     let mut pkg_indexes: Vec<PackageIndex> = vec![];
 
-    for r in releases().iter() {
+    for mut r in releases().into_iter() {
+        update_description(&mut r).await?;
+
         let str = format!(
             "# This is generated. Don't modify.\n{}",
             serde_yaml::to_string(&r)?
@@ -63,13 +67,34 @@ fn main() -> Result<()> {
 
 fn releases() -> Vec<Package> {
     vec![
+        // tools
         gh::release(),
+        // cloud native, kubernetes
         velero::release(),
+        helm::release(),
         kubefire::release(),
         k3s::release(),
         rke::release(),
         rio::release(),
         istio::release(),
         fleet::release(),
+        kube_bench::release(),
+        trivy::release(),
+        // programing, runtime, etc
+        deno::release(),
+        typescript::release(),
+        containerd::release(),
+        firecracker::release(),
     ]
+}
+
+async fn update_description(pkg: &mut Package) -> Result<()> {
+    let github = Github::new("huber", None)?;
+
+    if let PackageSource::Github { owner, repo } = &pkg.source {
+        let repo = github.repo(owner, repo).get().await?;
+        pkg.description = repo.description;
+    }
+
+    Ok(())
 }

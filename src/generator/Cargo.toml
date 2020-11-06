@@ -10,6 +10,8 @@ build = "src/build.rs"
 huber-common = { path = "../common" }
 serde = { version = "1.0.117", features = ["derive"] }
 serde_yaml = "0.8.13"
+tokio = { version = "0.2", features = ["full"] } # reqwest does not support tokio 0.3 yet, ref: https://github.com/seanmonstar/reqwest/issues/1060
+hubcaps = "0.6"
 
 [dependencies]
 huber-common = { path = "../common" }
