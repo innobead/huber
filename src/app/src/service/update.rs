@@ -100,7 +100,10 @@ impl UpdateTrait for UpdateService {
 fn create_huber_package() -> Package {
     Package {
         name: "huber".to_string(),
-        source: PackageSource::Github { owner: "innobead".to_string(), repo: "huber".to_string() },
+        source: PackageSource::Github {
+            owner: "innobead".to_string(),
+            repo: "huber".to_string(),
+        },
         targets: vec![],
         detail: None,
         version: None,

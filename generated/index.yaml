@@ -6,3 +6,15 @@
 - name: velero
   owner: vmware-tanzu
   source: github
+- name: kubefire
+  owner: innobead
+  source: github
+- name: k3s
+  owner: rancher
+  source: github
+- name: rke
+  owner: rancher
+  source: github
+- name: rio
+  owner: rancher
+  source: github

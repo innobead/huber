@@ -2,6 +2,7 @@ use clap::{App, ArgMatches};
 
 use huber_common::config::Config;
 use huber_common::di::di_container;
+use huber_common::model::release::VecExtensionTrait;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
@@ -27,10 +28,25 @@ impl<'a, 'b> CommandTrait<'a, 'b> for FlushCmd {
         let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
 
-        let releases = release_service.list()?;
-        for r in releases {
-            if !r.current {
-                release_service.delete_release(&r)?;
+        let current_releases = release_service.list()?;
+        for cr in current_releases.iter() {
+            let mut releases = release_service.find(&cr.package)?;
+
+            if releases.len() == 1 {
+                println!(
+                    "Bypassed {}, no inactive releases to remove",
+                    cr.package.name
+                );
+                continue;
+            }
+
+            releases.sort_by_version();
+
+            for r in releases {
+                if !r.current {
+                    println!("Removing {}", &r);
+                    release_service.delete_release(&r)?;
+                }
             }
         }
 

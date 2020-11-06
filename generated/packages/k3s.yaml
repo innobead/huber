@@ -1,0 +1,17 @@
+# This is generated. Don't modify.
+---
+name: k3s
+source:
+  Github:
+    owner: rancher
+    repo: k3s
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/k3s"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/k3s-arm64"
+      checksum: ~
+detail: ~

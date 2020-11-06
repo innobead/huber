@@ -1,0 +1,21 @@
+# This is generated. Don't modify.
+---
+name: rio
+source:
+  Github:
+    owner: rancher
+    repo: rio
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/rio_linux-amd64"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/rio_linux-arm64"
+      checksum: ~
+  - MacOS:
+      artifact_templates:
+        - "{version}/rio_darwin-arm64"
+      checksum: ~
+detail: ~

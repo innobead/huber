@@ -9,8 +9,8 @@ use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use crate::service::package::PackageService;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -62,7 +62,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
                 &results,
                 Some(vec!["name", "version"]),
                 None,
-            ))
+            ));
         }
 
         let results = pkg_service.search(

@@ -87,8 +87,24 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
             ));
         }
 
-        let mut releases = release_service.list()?;
-        releases.sort_by_version();
+        let mut current_releases = release_service.list()?;
+        current_releases.sort_by_version();
+
+        let releases = if matches.is_present("all") {
+            let mut all_releases = vec![];
+
+            for cr in current_releases.iter() {
+                let mut releases = release_service.find(&cr.package)?;
+                releases.sort_by_version();
+
+                all_releases.append(&mut releases);
+            }
+
+            all_releases
+        } else {
+            current_releases.sort_by_version();
+            current_releases
+        };
 
         output!(config.output_format, .display(
             stdout(),

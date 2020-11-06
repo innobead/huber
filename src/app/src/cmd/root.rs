@@ -46,6 +46,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
                 Arg::with_name(ARG_GITHUB_TOKEN)
                     .value_name("string")
                     .long(ARG_GITHUB_TOKEN)
+                    .env("GITHUB_TOKEN")
                     .help("Github token, used for authored access instead of limited public access")
                     .takes_value(true)
                     .global(true),

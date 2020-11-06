@@ -15,7 +15,13 @@ const HUBER_GITHUB_REPO: &str = "https://github.com/innobead/huber";
 #[async_trait]
 pub(crate) trait GithubClientTrait {
     async fn get_latest_release(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Release>;
-    async fn get_release(&self, owner: &str, repo: &str, tag: &str, pkg: &Package) -> Result<Release>;
+    async fn get_release(
+        &self,
+        owner: &str,
+        repo: &str,
+        tag: &str,
+        pkg: &Package,
+    ) -> Result<Release>;
     async fn get_releases(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Vec<Release>>;
     async fn download_artifacts<P: AsRef<Path> + Send>(
         &self,
@@ -69,17 +75,25 @@ impl GithubClientTrait for GithubClient {
         let mut release = Release::from(release);
 
         release.name = pkg.name.clone();
+        release.package.name = pkg.name.clone();
         release.package.source = pkg.source.clone();
         release.package.targets = pkg.targets.clone();
 
         Ok(release)
     }
 
-    async fn get_release(&self, owner: &str, repo: &str, tag: &str, pkg: &Package) -> Result<Release> {
+    async fn get_release(
+        &self,
+        owner: &str,
+        repo: &str,
+        tag: &str,
+        pkg: &Package,
+    ) -> Result<Release> {
         let release = self.github.repo(owner, repo).releases().by_tag(tag).await?;
         let mut release = Release::from(release);
 
         release.name = pkg.name.clone();
+        release.package.name = pkg.name.clone();
         release.package.source = pkg.source.clone();
         release.package.targets = pkg.targets.clone();
 
@@ -88,16 +102,19 @@ impl GithubClientTrait for GithubClient {
 
     async fn get_releases(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Vec<Release>> {
         let releases = self.github.repo(owner, repo).releases().list().await?;
-        let releases = releases.into_iter().map(|it| {
-            let mut release = Release::from(it);
+        let releases = releases
+            .into_iter()
+            .map(|it| {
+                let mut release = Release::from(it);
 
-            release.name = pkg.name.clone();
-            release.package.name = pkg.name.clone();
-            release.package.source = pkg.source.clone();
-            release.package.targets = pkg.targets.clone();
+                release.name = pkg.name.clone();
+                release.package.name = pkg.name.clone();
+                release.package.source = pkg.source.clone();
+                release.package.targets = pkg.targets.clone();
 
-            release
-        }).collect();
+                release
+            })
+            .collect();
 
         Ok(releases)
     }

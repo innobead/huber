@@ -2,11 +2,9 @@ use clap::{App, Arg, ArgMatches};
 
 use huber_common::config::Config;
 use huber_common::di::di_container;
-
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::ItemOperationTrait;
@@ -56,8 +54,13 @@ impl<'a, 'b> CommandTrait<'a, 'b> for CurrentCmd {
         let version = matches.value_of("version").unwrap();
 
         match releases.into_iter().find(|it| it.version == version) {
-            Some(mut r) => release_service.set_current(&mut r),
-            None => Err(anyhow!("The version is not found: {}", version)),
+            Some(mut r) => {
+                release_service.set_current(&mut r)?;
+                println!("{} as current updated", &r);
+                Ok(())
+            }
+
+            None => Err(anyhow!("{} not found", version)),
         }
     }
 }

@@ -35,8 +35,8 @@ impl Config {
         Logger::init(&self)
     }
 
-    pub fn huber_repo_dir(&self) -> Result<PathBuf> {
-        dir(self.home_dir.join("huber_repo"))
+    pub fn repo_dir(&self) -> Result<PathBuf> {
+        dir(self.home_dir.join("repos"))
     }
 
     pub fn sbin_dir(&self) -> Result<PathBuf> {
@@ -45,6 +45,10 @@ impl Config {
 
     pub fn bin_dir(&self) -> Result<PathBuf> {
         dir(self.home_dir.join("bin"))
+    }
+
+    pub fn huber_repo_dir(&self) -> Result<PathBuf> {
+        dir(self.repo_dir()?.join("huber"))
     }
 
     pub fn managed_pkg_root_dir(&self) -> Result<PathBuf> {
@@ -67,7 +71,7 @@ impl Config {
     }
 
     pub fn installed_pkg_root_dir(&self) -> Result<PathBuf> {
-        dir(self.home_dir.join("installed_packages"))
+        dir(self.home_dir.join("packages"))
     }
 
     pub fn installed_pkg_base_dir(&self, pkg: &Package) -> Result<PathBuf> {
@@ -97,7 +101,7 @@ impl Config {
     }
 
     pub fn current_pkg_bin_dir(&self, pkg: &Package) -> Result<PathBuf> {
-        dir(self.current_pkg_dir(pkg)?.join("bin"))
+        Ok(self.current_pkg_dir(pkg)?.join("bin"))
     }
 
     pub fn current_pkg_manifest_file(&self, pkg: &Package) -> Result<PathBuf> {

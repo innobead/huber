@@ -7,9 +7,9 @@ use huber_common::di::di_container;
 use huber_common::model::package::{Package, PackageSource};
 use huber_common::result::Result;
 
+use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
-use crate::component::github::{GithubClient, GithubClientTrait};
 
 #[derive(Debug)]
 pub(crate) struct PackageService {
@@ -60,13 +60,16 @@ impl ItemOperationTrait for PackageService {
             match &pkg.source {
                 PackageSource::Github { owner, repo } => {
                     let releases = client.get_releases(&owner, &repo, &pkg).await?;
-                    Ok(releases.into_iter().map(|it| {
-                        let mut pkg = it.package;
-                        pkg.version = Some(it.version);
-                        pkg
-                    }).collect())
+                    Ok(releases
+                        .into_iter()
+                        .map(|it| {
+                            let mut pkg = it.package;
+                            pkg.version = Some(it.version);
+                            pkg
+                        })
+                        .collect())
                 }
-                _ => Err(anyhow!("{} unsupported package source", pkg.source))
+                _ => Err(anyhow!("{} unsupported package source", pkg.source)),
             }
         })
     }

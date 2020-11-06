@@ -10,8 +10,8 @@ use huber_common::result::Result;
 use crate::cmd::CommandTrait;
 use crate::huber_common::output::OutputTrait;
 use crate::service::package::PackageService;
-use crate::service::ItemOperationTrait;
 use crate::service::release::ReleaseService;
+use crate::service::ItemOperationTrait;
 
 pub(crate) const CMD_NAME: &str = "info";
 

@@ -26,8 +26,10 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ResetCmd {
         let container = di_container();
         let update_service = container.get::<UpdateService>().unwrap();
 
+        println!(
+            "Resetting huber by removing created caches, downloaded files and installed packages"
+        );
         update_service.reset()?;
-        println!("{}", "Reset done");
 
         Ok(())
     }

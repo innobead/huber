@@ -30,6 +30,7 @@ pub(crate) trait ReleaseTrait {
         package: &Package,
         package_github: &GithubPackage,
     ) -> Result<Vec<File>>;
+    fn clean_current(&self, pkg: &Package) -> Result<()>;
 }
 
 #[derive(Debug)]
@@ -57,7 +58,9 @@ impl ReleaseService {
 
         runtime.block_on(async {
             match &pkg.source {
-                PackageSource::Github { owner, repo } => client.get_latest_release(&owner, &repo, &pkg).await,
+                PackageSource::Github { owner, repo } => {
+                    client.get_latest_release(&owner, &repo, &pkg).await
+                }
                 _ => unimplemented!(),
             }
         })
@@ -85,21 +88,7 @@ impl ReleaseTrait for ReleaseService {
         let current_bin_dir = config.current_pkg_bin_dir(&release.package)?;
 
         // remove old symlink bin, current
-        if current_bin_dir.exists() {
-            for entry in read_dir(&current_bin_dir)?.into_iter() {
-                let entry = entry?;
-                let path = entry.path();
-
-                if path.is_file() {
-                    let exec_path = config.bin_dir()?.join(path.file_name().unwrap().to_os_string());
-                    let _ = remove_symlink_file(exec_path)?;
-                }
-            }
-        }
-
-        if current_pkg_dir.exists() {
-            remove_symlink_dir(&current_pkg_dir)?;
-        }
+        self.clean_current(&release.package)?;
 
         // update current symlink
         let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
@@ -110,7 +99,9 @@ impl ReleaseTrait for ReleaseService {
             let path = entry.path();
 
             if path.is_file() {
-                let exec_path = config.bin_dir()?.join(path.file_name().unwrap().to_os_string());
+                let exec_path = config
+                    .bin_dir()?
+                    .join(path.file_name().unwrap().to_os_string());
                 symlink_file(path, exec_path)?;
             }
         }
@@ -133,7 +124,7 @@ impl ReleaseTrait for ReleaseService {
 
                 let _ = remove_file(&old_pkg_manifest_path);
                 let f = File::create(&old_pkg_manifest_path)?;
-                serde_yaml::to_writer(f, &release)?;
+                serde_yaml::to_writer(f, &r)?;
             }
 
             indexes = indexes
@@ -164,19 +155,17 @@ impl ReleaseTrait for ReleaseService {
     }
 
     fn delete_release(&self, release: &Release) -> Result<()> {
-        let current_r = self.current(&release.package)?;
-
-        if current_r.version == release.version {
+        let cr = self.current(&release.package)?;
+        if cr.version == release.version {
             return Err(anyhow!(
-                "{} is the current release, not able to delete",
+                "{} is the current release, unable to remove",
                 release
             ));
         }
 
         let config = self.config.as_ref().unwrap();
-        config
-            .installed_pkg_dir(&release.package, &release.version)
-            .map(|_| ())
+        let p = config.installed_pkg_dir(&release.package, &release.version)?;
+        Ok(remove_dir_all(p)?)
     }
 
     fn download_install_github_package(
@@ -201,7 +190,11 @@ impl ReleaseTrait for ReleaseService {
 
             //TODO need to check checksume
             for a in package_github.assets.iter() {
-                if !asset_names.contains(&a.name) {
+                if !asset_names.contains(&a.name)
+                    || !asset_names
+                    .iter()
+                    .any(|it| it.ends_with(&a.browser_download_url))
+                {
                     continue;
                 }
 
@@ -216,36 +209,89 @@ impl ReleaseTrait for ReleaseService {
                 dest_f.write(&bytes)?;
 
                 // uncompress, copy executables to bin folder
-                match dest_path.extension() {
-                    None => files.push(dest_f),
+                if filename.ends_with(".sh") || filename.ends_with(".ps1") {
+                    files.push(dest_f);
+                } else {
+                    match dest_path.extension() {
+                        None => files.push(dest_f),
 
-                    Some(_) => {
-                        // uncompress
-                        let extract_dir = TempDir::new(filename)?;
-                        let dest_f = File::open(&dest_path)?;
-                        uncompress_archive(&dest_f, extract_dir.path(), Ownership::Ignore)?;
-                        let _ = remove_file(&dest_path);
+                        Some(_) => {
+                            // uncompress
+                            let extract_dir = TempDir::new(filename)?;
+                            let dest_f = File::open(&dest_path)?;
+                            uncompress_archive(&dest_f, extract_dir.path(), Ownership::Ignore)?;
+                            let _ = remove_file(&dest_path);
 
-                        // copy executables to bin
-                        let walker = WalkDir::new(&extract_dir).into_iter();
-                        for entry in
-                        walker.filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
-                        {
-                            let entry = entry?;
-                            let f = entry.path();
-                            if f.is_executable() {
-                                let dest_f = dest_root_path.join(f.file_name().unwrap());
-                                copy(&f, dest_f)?;
+                            // copy executables to bin
+                            let walker = WalkDir::new(&extract_dir).into_iter();
+                            for entry in
+                            walker.filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
+                            {
+                                let entry = entry?;
+                                let f = entry.path();
+                                if f.is_executable() {
+                                    let dest_f = dest_root_path.join(f.file_name().unwrap());
+                                    copy(&f, dest_f)?;
+                                }
                             }
-                        }
 
-                        let _ = remove_dir_all(extract_dir);
+                            let _ = remove_dir_all(extract_dir);
+                        }
                     }
                 }
             }
 
             Ok(files)
         })
+    }
+
+    fn clean_current(&self, pkg: &Package) -> Result<()> {
+        let config = self.config.as_ref().unwrap();
+
+        let pkg_dir = config.current_pkg_dir(&pkg)?;
+        let pkg_bin_dir = config.current_pkg_bin_dir(&pkg)?;
+
+        // remove old symlink bin, current
+        if pkg_bin_dir.exists() {
+            for entry in read_dir(&pkg_bin_dir)?.into_iter() {
+                let entry = entry?;
+                let path = entry.path();
+
+                if path.is_file() {
+                    let exec_path = config
+                        .bin_dir()?
+                        .join(path.file_name().unwrap().to_os_string());
+                    remove_symlink_file(exec_path)?;
+                }
+            }
+        }
+
+        if pkg_dir.exists() {
+            remove_symlink_dir(&pkg_dir)?;
+        }
+
+        // remove it from index
+        let index_f = config.current_index_file()?;
+        let indexes = if index_f.exists() {
+            let f = File::open(&index_f)?;
+            let indexes: Vec<ReleaseIndex> = serde_yaml::from_reader(&f)?;
+
+            indexes
+                .into_iter()
+                .filter(|it| it.name != pkg.name)
+                .collect()
+        } else {
+            vec![]
+        };
+
+        let _ = remove_file(&index_f);
+
+        if !indexes.is_empty() {
+            let index_f = File::create(&index_f)?;
+            serde_yaml::to_writer(index_f, &indexes)?;
+        }
+
+        Ok(())
     }
 }
 
@@ -304,14 +350,10 @@ impl ItemOperationTrait for ReleaseService {
         let pkg_service = container.get::<PackageService>().unwrap();
 
         let pkg = pkg_service.get(name)?;
+        self.clean_current(&pkg)?;
+
         let dir = config.installed_pkg_base_dir(&pkg)?;
-
-        for f in read_dir(&dir)? {
-            let pkg_version_dir = f?.path();
-            let _ = remove_dir_all(pkg_version_dir);
-        }
-
-        Ok(())
+        Ok(remove_dir_all(dir)?)
     }
 
     fn list(&self) -> Result<Vec<Self::ItemInstance>> {

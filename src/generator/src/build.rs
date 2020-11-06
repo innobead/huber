@@ -62,5 +62,12 @@ fn main() -> Result<()> {
 }
 
 fn releases() -> Vec<Package> {
-    vec![gh::release(), velero::release()]
+    vec![
+        gh::release(),
+        velero::release(),
+        kubefire::release(),
+        k3s::release(),
+        rke::release(),
+        rio::release(),
+    ]
 }
