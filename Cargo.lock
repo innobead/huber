@@ -619,6 +619,7 @@ version = "0.1.0"
 dependencies = [
  "Inflector",
  "anyhow",
+ "chrono",
  "dirs 3.0.1",
  "fern",
  "hubcaps",

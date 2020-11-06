@@ -54,6 +54,10 @@ export PATH=$HOME/.huber/bin:$PATH
 ## Searching available package versions
 
 ```console
+❯ huber search -n k3s
+ Name  Description             Source 
+ k3s   Lightweight Kubernetes  "https://github.com/rancher/k3s" 
+
 ❯ huber search -n k3s --all
  Name  Version 
  k3s   v1.19.3+k3s2 

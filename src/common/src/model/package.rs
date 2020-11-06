@@ -23,6 +23,7 @@ pub struct PackageSummary {
     pub name: String,
     pub description: Option<String>,
     pub source: Option<String>,
+    pub version: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -256,6 +257,7 @@ impl From<Package> for PackageSummary {
             name: p.name.clone(),
             description: p.description.clone(),
             source: Some(p.source.url()),
+            version: p.version.clone()
         }
     }
 }
