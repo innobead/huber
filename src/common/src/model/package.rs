@@ -10,11 +10,11 @@ use serde::export::Formatter;
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Package {
     pub name: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub version: Option<String>,
     pub source: PackageSource,
     pub targets: Vec<PackageTargetType>,
     pub detail: Option<PackageDetailType>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub version: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

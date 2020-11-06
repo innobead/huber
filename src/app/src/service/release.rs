@@ -1,11 +1,11 @@
-use std::fs::{copy, File, read_dir, remove_dir_all, remove_file};
 use std::fs;
+use std::fs::{copy, read_dir, remove_dir_all, remove_file, File};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
-use std::path::{PathBuf};
+use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{Ownership, uncompress_archive};
+use compress_tools::{uncompress_archive, Ownership};
 use is_executable::IsExecutable;
 use log::{debug, info};
 use semver::Version;
@@ -22,8 +22,8 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use crate::service::package::PackageService;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
@@ -98,7 +98,10 @@ impl ReleaseTrait for ReleaseService {
         let current_bin_dir = config.current_pkg_bin_dir(&release.package)?;
 
         // remove old symlink bin, current
-        info!("Removing the current release symbolic links: {}", &release.package);
+        info!(
+            "Removing the current release symbolic links: {}",
+            &release.package
+        );
         self.clean_current(&release.package)?;
 
         // update current symlink
@@ -106,7 +109,10 @@ impl ReleaseTrait for ReleaseService {
         let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
         symlink_dir(source, current_pkg_dir)?;
 
-        info!("Updating the current release bin symbolic links: {}", &release);
+        info!(
+            "Updating the current release bin symbolic links: {}",
+            &release
+        );
         for entry in read_dir(&current_bin_dir)?.into_iter() {
             let entry = entry?;
             let path = entry.path();
@@ -214,8 +220,8 @@ impl ReleaseTrait for ReleaseService {
 
                 if !asset_names.contains(&a.name)
                     && !asset_names
-                    .iter()
-                    .any(|it| decoded_download_url.ends_with(it))
+                        .iter()
+                        .any(|it| decoded_download_url.ends_with(it))
                 {
                     continue;
                 }
@@ -239,7 +245,8 @@ impl ReleaseTrait for ReleaseService {
                 } else {
                     match dest_path.extension() {
                         None => {
-                            fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755)).unwrap();
+                            fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755))
+                                .unwrap();
                             file_paths.push(dest_path.to_str().unwrap().to_string());
                         }
 
@@ -375,12 +382,8 @@ impl ItemOperationTrait for ReleaseService {
         let mut release = runtime.block_on(async {
             match &obj.source {
                 PackageSource::Github { owner, repo } => match &obj.version {
-                    Some(v) => {
-                        client.get_release(&owner, &repo, &v, &obj).await
-                    }
-                    None => {
-                        client.get_latest_release(&owner, &repo, &obj).await
-                    }
+                    Some(v) => client.get_release(&owner, &repo, &v, &obj).await,
+                    None => client.get_latest_release(&owner, &repo, &obj).await,
                 },
 
                 _ => unimplemented!(),

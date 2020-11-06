@@ -49,7 +49,10 @@ impl UpdateTrait for UpdateService {
             let pkg = create_huber_package();
             match client.get_latest_release("innobead", "huber", &pkg).await {
                 Err(e) => Err(e),
-                Ok(r) => Ok((Version::parse(current_version) >= Version::parse(&r.version), r.version)),
+                Ok(r) => Ok((
+                    Version::parse(current_version) >= Version::parse(&r.version),
+                    r.version,
+                )),
             }
         })
     }

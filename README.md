@@ -108,22 +108,72 @@ curl -sfSL https://raw.githubusercontent.com/innobead/kuber/master/hack/install-
 
 ```console
 ❯ huber info k3s
+ Name  Source            Targets                        Version 
+ k3s   Github:           - LinuxAmd64:                  v1.19.3+k3s2 
+         owner: rancher      artifact_templates:         
+         repo: k3s             - "{version}/k3s"         
+                             checksum: ~                 
+                         - LinuxArm64:                   
+                             artifact_templates:         
+                               - "{version}/k3s-arm64"   
+                             checksum: ~   
+
+❯ huber info k3s -o yaml
+---
+name: k3s
+version: v1.19.3+k3s2
+source:
+  Github:
+    owner: rancher
+    repo: k3s
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/k3s"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/k3s-arm64"
+      checksum: ~
 
 ```
 
 ## Showing installed version info
 
 ```console
-❯ huber show k3s
+❯ huber show
+ Name    Version       Current 
+ velero  v1.5.2        true 
+ k3s     v1.19.3+k3s2  true
+
+❯ huber show -n k3s
  Name  Version       Current 
  k3s   v1.19.3+k3s2  true
+
+❯ huber show -n k3s --all
+ Name  Version        Current 
+ k3s   v1.19.3+k3s2   false 
+ k3s   v1.18.10+k3s2  true 
 
 ```
 
 ## Flushing non-current packages
 
 ```console
-❯ huber flush k3s
+❯ huber show --all
+ Name    Version        Current 
+ velero  v1.5.2         true 
+ k3s     v1.19.3+k3s2   false 
+ k3s     v1.18.10+k3s2  true 
+
+❯ huber flush
+Bypassed velero, no inactive releases to remove
+Removing k3s (version: v1.19.3+k3s2, source: github)
+
+❯ huber show --all
+ Name    Version        Current 
+ velero  v1.5.2         true 
+ k3s     v1.18.10+k3s2  true
 
 ```
 
@@ -131,6 +181,8 @@ curl -sfSL https://raw.githubusercontent.com/innobead/kuber/master/hack/install-
 
 ```console
 ❯ huber uninstall k3s
+Uninstalling k3s
+k3s uninstalled
 
 ```
 
@@ -138,6 +190,8 @@ curl -sfSL https://raw.githubusercontent.com/innobead/kuber/master/hack/install-
 
 ```console
 ❯ huber reset
+Resetting huber by removing created caches, downloaded files and installed packages
+Done
 
 ```
 

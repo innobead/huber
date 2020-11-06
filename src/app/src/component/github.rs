@@ -4,7 +4,7 @@ use std::path::{Path, PathBuf};
 use async_trait::async_trait;
 use git2::Repository;
 use hubcaps::{Credentials, Github};
-use log::{debug};
+use log::debug;
 
 use huber_common::file::is_empty_dir;
 use huber_common::model::package::Package;

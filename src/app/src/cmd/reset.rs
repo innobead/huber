@@ -30,6 +30,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ResetCmd {
             "Resetting huber by removing created caches, downloaded files and installed packages"
         );
         update_service.reset()?;
+        println!("Done");
 
         Ok(())
     }
