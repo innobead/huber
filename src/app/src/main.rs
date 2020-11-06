@@ -7,11 +7,12 @@ extern crate huber_common;
 
 use std::env;
 use std::process::exit;
-
 use std::sync::Arc;
 
+use log::debug;
+
 use huber_common::config::Config;
-use huber_common::di::DIContainer;
+use huber_common::di::{di_container, DIContainer};
 
 use crate::cmd::current::CurrentCmd;
 use crate::cmd::flush::FlushCmd;
@@ -24,7 +25,7 @@ use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::CommandTrait;
-use crate::service::cache::CacheService;
+use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::update::UpdateService;
@@ -85,10 +86,21 @@ fn main() {
         config=Some(config.clone()));
     // runtime=Some(runtime.clone()));
 
+    // update cache
+    update_cache();
+
     // process command
     // if let Err(e) = cmd::process_cmds(&runtime, &config, &matches, DIContainer::new()) {
     if let Err(e) = cmd::process_cmds(&config, &matches, DIContainer::new()) {
         eprintln!("Error: {:?}", e);
         exit(1)
+    }
+}
+
+fn update_cache() {
+    let container = di_container();
+    let cache_service = container.get::<CacheService>().unwrap();
+    if cache_service.update().is_err() {
+        debug!("Failed to update cache");
     }
 }

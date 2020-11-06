@@ -32,7 +32,7 @@ clean: ## Clean build caches
 
 .PHONY: fix
 fix:  ## Fix code
-	echo cargo fix --allow-dirty
+	echo cargo fix --allow-dirty --bins
 
 .PHONY: generate
 generate: ## Generate managed package list

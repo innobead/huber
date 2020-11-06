@@ -292,12 +292,24 @@ impl ReleaseTrait for ReleaseService {
                             {
                                 let entry = entry?;
                                 let f = entry.path();
-                                if f.is_executable() {
+
+                                if f.is_executable() || f.extension().is_none() {
                                     let dest_f = dest_root_path.join(f.file_name().unwrap());
 
                                     info!("Moving executables {:?} to {:?}", &f, &dest_f);
                                     copy(&f, &dest_f)?;
+
+                                    if f.extension().is_none() {
+                                        info!("Making {:?} as executable", &dest_f);
+                                        fs::set_permissions(
+                                            &dest_f,
+                                            fs::Permissions::from_mode(0o755),
+                                        )?;
+                                    }
+
                                     file_paths.push(dest_f.to_str().unwrap().to_string())
+                                } else {
+                                    debug!("Ignored {:?}", &f);
                                 }
                             }
 

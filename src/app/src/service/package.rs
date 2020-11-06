@@ -97,8 +97,6 @@ impl ItemSearchTrait for PackageService {
         let container = di_container();
         let cache_service = container.get::<CacheService>().unwrap();
 
-        cache_service.update()?;
-
         let owner = owner.unwrap_or("");
         let mut found_items: Vec<Self::SearchItem> = vec![];
 

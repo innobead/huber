@@ -257,7 +257,7 @@ impl From<Package> for PackageSummary {
             name: p.name.clone(),
             description: p.description.clone(),
             source: Some(p.source.url()),
-            version: p.version.clone()
+            version: p.version.clone(),
         }
     }
 }
