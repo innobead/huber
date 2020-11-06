@@ -28,59 +28,26 @@ export PATH=$HOME/.huber/bin:$PATH
 > If encountering github access rate limitation, suggest to set GITHUB_TOKEN environment when running huber command, 
 > or use the global option '--github-token' instead.
 
-## Installing package
-
-```console
-❯ huber install k3s
-Installing k3s
-Downloading package artifacts from github
-Setting k3s (version: v1.19.3+k3s2, source: github) as the current package
-k3s (version: v1.19.3+k3s2, source: github) installed
-
-```
-
-## Setting current version
-
-```console
-❯ huber show -n gh --all
- Name  Version  Current 
- gh    v1.2.0   false 
- gh    v1.1.0   true 
-
-❯ huber current gh -v v1.2.0
-Setting gh (version: v1.2.0, source: github) as the current package
-gh (version: v1.2.0, source: github) as current updated
-
-❯ huber show -n gh --all
- Name  Version  Current 
- gh    v1.2.0   true 
- gh    v1.1.0   false 
-
-```
-
 ## Searching available packages
 
 ```console
 ❯ huber search
- Name      Source 
- gh        Github: 
-             owner: cli 
-             repo: cli 
- velero    Github: 
-             owner: vmware-tanzu 
-             repo: velero 
- kubefire  Github: 
-             owner: innobead 
-             repo: kubefire 
- k3s       Github: 
-             owner: rancher 
-             repo: k3s 
- rke       Github: 
-             owner: rancher 
-             repo: rke 
- rio       Github: 
-             owner: rancher 
-             repo: rio 
+ Name         Description                                                                                                                           Source 
+ containerd   An open and reliable container runtime                                                                                                "https://github.com/containerd/containerd" 
+ deno         A secure JavaScript and TypeScript runtime                                                                                            "https://github.com/denoland/deno" 
+ firecracker  Secure and fast microVMs for serverless computing.                                                                                    "https://github.com/firecracker-microvm/firecracker" 
+ fleet        Manage large fleets of Kubernetes clusters                                                                                            "https://github.com/rancher/fleet" 
+ gh           GitHub’s official command line tool                                                                                                   "https://github.com/cli/cli" 
+ helm         The Kubernetes Package Manager                                                                                                        "https://github.com/helm/helm" 
+ istio        "Connect, secure, control, and observe services."                                                                                     "https://github.com/istio/istio" 
+ k3s          Lightweight Kubernetes                                                                                                                "https://github.com/rancher/k3s" 
+ kube-bench   Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kubernetes Benchmark                 "https://github.com/aquasecurity/kube-bench" 
+ kubefire     "KubeFire, creates and manages Kubernetes Clusters using Firecracker microVMs"                                                        "https://github.com/innobead/kubefire" 
+ rio          Application Deployment Engine for Kubernetes                                                                                          "https://github.com/rancher/rio" 
+ rke          "Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that runs entirely within containers."  "https://github.com/rancher/rke" 
+ trivy        "A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI"                                                    "https://github.com/aquasecurity/trivy" 
+ typescript   TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                                                      "https://github.com/microsoft/TypeScript" 
+ velero       Backup and migrate Kubernetes applications and their persistent volumes                                                               "https://github.com/vmware-tanzu/velero" 
 
 ```
 
@@ -119,6 +86,36 @@ gh (version: v1.2.0, source: github) as current updated
  k3s   v1.18.8+k3s1 
  k3s   v1.16.13+k3s1 
  k3s   v1.17.9+k3s1 
+
+```
+
+## Installing package
+
+```console
+❯ huber install k3s
+Installing k3s
+Downloading package artifacts from github
+Setting k3s (version: v1.19.3+k3s2, source: github) as the current package
+k3s (version: v1.19.3+k3s2, source: github) installed
+
+```
+
+## Setting current version
+
+```console
+❯ huber show -n gh --all
+ Name  Version  Current 
+ gh    v1.2.0   false 
+ gh    v1.1.0   true 
+
+❯ huber current gh -v v1.2.0
+Setting gh (version: v1.2.0, source: github) as the current package
+gh (version: v1.2.0, source: github) as current updated
+
+❯ huber show -n gh --all
+ Name  Version  Current 
+ gh    v1.2.0   true 
+ gh    v1.1.0   false 
 
 ```
 
@@ -262,7 +259,7 @@ If you would like to add some useful tools in the builtin manged packages list, 
 
 1. Add a new package module in `src/generator/src/pkg`
 2. Update the added package in `src/generator/src/build.rs`
-3. `make build` to see if the new package manifest generated in `generated/packages` and `generated/index.yaml` updated accordingly
+3. `make generate` w/ your `GITHUB_TOKEN` to check if the new package manifest generated in `generated/packages` and `generated/index.yaml` updated accordingly
 4. Fire a PR to make it accept
 
 # Notes
