@@ -240,20 +240,20 @@ FLAGS:
 OPTIONS:
         --github-token <string>    Github token, used for authored access instead of limited public access [env:
                                    GITHUB_TOKEN=]
-    -l, --log-level <string>       Log level [default: info]  [possible values: off, error, warn, info, debug, trace]
+    -l, --log-level <string>       Log level [default: off]  [possible values: off, error, warn, info, debug, trace]
     -o, --output <string>          Output format [default: console]  [possible values: console, json, yaml]
 
 SUBCOMMANDS:
-    current        Update current package version
-    flush          Flush inactive artifacts (ex: remove non-current packages)
+    current        Updates current package version
+    flush          Flushes inactive artifacts (ex: remove non-current packages)
     help           Prints this message or the help of the given subcommand(s)
-    info           Show package info
-    install        Install package
-    reset          Reset huber (ex: remove installed packages)
-    search         Search package
-    self-update    Update huber
-    show           Show installed packages
-    uninstall      Uninstall package
+    info           Shows package info
+    install        Installs package
+    reset          Resets huber (ex: remove installed packages)
+    search         Searches package
+    self-update    Updates huber
+    show           Shows installed packages
+    uninstall      Uninstalls package
 
 ```
 
