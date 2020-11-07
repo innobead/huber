@@ -32,7 +32,7 @@ export PATH=$HOME/.huber/bin:$PATH
 
 ```console
 ❯ huber search
- Name         Description                                                                                                                           Source 
+ Name         Description                                                                                                                         Source 
  containerd   An open and reliable container runtime                                                                                              https://github.com/containerd/containerd 
  deno         A secure JavaScript and TypeScript runtime                                                                                          https://github.com/denoland/deno 
  firecracker  Secure and fast microVMs for serverless computing.                                                                                  https://github.com/firecracker-microvm/firecracker 
