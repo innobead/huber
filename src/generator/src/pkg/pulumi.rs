@@ -11,21 +11,30 @@ pub fn release() -> Package {
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["https://get.pulumi.com/releases/sdk/pulumi-v{version}-linux-x64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "https://get.pulumi.com/releases/sdk/pulumi-v{version}-linux-x64.tar.gz"
+                        .to_string(),
+                ],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["https://get.pulumi.com/releases/sdk/pulumi-v{version}-darwin-x64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "https://get.pulumi.com/releases/sdk/pulumi-v{version}-darwin-x64.tar.gz"
+                        .to_string(),
+                ],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::Windows(PackageManagement {
-                artifact_templates: vec!["https://get.pulumi.com/releases/sdk/pulumi-v{version}-windows-x64.zip".to_string()],
+                artifact_templates: vec![
+                    "https://get.pulumi.com/releases/sdk/pulumi-v{version}-windows-x64.zip"
+                        .to_string(),
+                ],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,

@@ -101,8 +101,10 @@ impl OutputTrait for ConsoleOutput {
 }
 
 fn to_string_trim(v: &Value) -> String {
-    match v.to_string().as_str() {
-        "null" => "".to_string(),
+    match v {
+        Value::Null => "".to_string(),
+        Value::String(s) => s.clone(),
+        Value::Bool(b) => b.to_string(),
         _ => serde_yaml::to_string(v)
             .unwrap()
             .trim_start_matches("---\n")
