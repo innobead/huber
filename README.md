@@ -93,7 +93,7 @@ export PATH=$HOME/.huber/bin:$PATH
 
 ```
 
-## Installing package
+## Installing the package
 
 ```console
 ❯ huber install k3s
@@ -104,7 +104,7 @@ k3s (version: v1.19.3+k3s2, source: github) installed
 
 ```
 
-## Updating package
+## Updating the package
 
 ```console
 ❯ huber update velero
@@ -115,7 +115,7 @@ velero updated
 
 ```
 
-## Setting current version
+## Setting the current installed package version
 
 ```console
 ❯ huber show -n gh --all
@@ -134,7 +134,7 @@ gh (version: v1.2.0, source: github) as current updated
 
 ```
 
-## Show package detailed info
+## Showing the package info
 
 ```console
 ❯ huber info k3s
@@ -168,7 +168,7 @@ targets:
 
 ```
 
-## Showing installed version info
+## Showing the installed package version info
 
 ```console
 ❯ huber show
@@ -207,7 +207,7 @@ Removing k3s (version: v1.19.3+k3s2, source: github)
 
 ```
 
-## Uninstalling package
+## Uninstalling the package
 
 ```console
 ❯ huber uninstall k3s
