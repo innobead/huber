@@ -134,7 +134,7 @@ gh (version: v1.2.0, source: github) as current updated
 
 ```
 
-# Show package detailed info
+## Show package detailed info
 
 ```console
 ❯ huber info k3s
