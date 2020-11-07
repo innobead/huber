@@ -20,7 +20,9 @@ impl SelfUpdateCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for SelfUpdateCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Updates huber")
+        App::new(CMD_NAME)
+            .visible_alias("su")
+            .about("Updates huber")
     }
 
     fn run(&self, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {

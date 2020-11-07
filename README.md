@@ -255,17 +255,17 @@ OPTIONS:
     -o, --output <string>          Output format [default: console]  [possible values: console, json, yaml]
 
 SUBCOMMANDS:
-    current        Updates the current package version
-    flush          Flushes inactive artifacts
+    current        Updates the current package version [aliases: c]
+    flush          Flushes inactive artifacts [aliases: f]
     help           Prints this message or the help of the given subcommand(s)
-    info           Shows the package info
-    install        Installs the package
-    reset          Resets huber
-    search         Searches package
-    self-update    Updates huber
-    show           Shows installed packages
-    uninstall      Uninstalls package
-    update         Updates the installed package
+    info           Shows the package info [aliases: i]
+    install        Installs the package [aliases: in]
+    reset          Resets huber [aliases: r]
+    search         Searches package [aliases: se]
+    self-update    Updates huber [aliases: su]
+    show           Shows installed packages [aliases: s]
+    uninstall      Uninstalls package [aliases: un]
+    update         Updates the installed package [aliases: u]
 
 ```
 

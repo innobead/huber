@@ -21,19 +21,22 @@ impl InstallCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Installs the package").args(&vec![
-            Arg::with_name("name")
-                .value_name("package name")
-                .help("Package name")
-                .required(true)
-                .takes_value(true),
-            Arg::with_name("version")
-                .value_name("string")
-                .help("Package version")
-                .short("v")
-                .long("version")
-                .takes_value(true),
-        ])
+        App::new(CMD_NAME)
+            .visible_alias("in")
+            .about("Installs the package")
+            .args(&vec![
+                Arg::with_name("name")
+                    .value_name("package name")
+                    .help("Package name")
+                    .required(true)
+                    .takes_value(true),
+                Arg::with_name("version")
+                    .value_name("string")
+                    .help("Package version")
+                    .short("v")
+                    .long("version")
+                    .takes_value(true),
+            ])
     }
 
     fn run(&self, _config: &Config, matches: &ArgMatches) -> Result<()> {

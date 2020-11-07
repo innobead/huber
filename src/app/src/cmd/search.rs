@@ -25,30 +25,33 @@ impl SearchCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Searches package").args(&[
-            Arg::with_name("name")
-                .value_name("string")
-                .short("n")
-                .long("name")
-                .help("Package name")
-                .takes_value(true),
-            Arg::with_name("owner")
-                .value_name("string")
-                .short("r")
-                .long("owner")
-                .help("Package owner")
-                .takes_value(true),
-            Arg::with_name("pattern")
-                .value_name("string")
-                .short("p")
-                .long("pattern")
-                .help("Regex pattern")
-                .takes_value(true),
-            Arg::with_name("all")
-                .short("a")
-                .long("all")
-                .help("Show all release versions of package given '--name' specified)"),
-        ])
+        App::new(CMD_NAME)
+            .visible_alias("se")
+            .about("Searches package")
+            .args(&[
+                Arg::with_name("name")
+                    .value_name("string")
+                    .short("n")
+                    .long("name")
+                    .help("Package name")
+                    .takes_value(true),
+                Arg::with_name("owner")
+                    .value_name("string")
+                    .short("r")
+                    .long("owner")
+                    .help("Package owner")
+                    .takes_value(true),
+                Arg::with_name("pattern")
+                    .value_name("string")
+                    .short("p")
+                    .long("pattern")
+                    .help("Regex pattern")
+                    .takes_value(true),
+                Arg::with_name("all")
+                    .short("a")
+                    .long("all")
+                    .help("Show all release versions of package given '--name' specified)"),
+            ])
     }
 
     fn run(&self, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {

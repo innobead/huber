@@ -22,6 +22,7 @@ impl UpdateCmd {
 impl<'a, 'b> CommandTrait<'a, 'b> for UpdateCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME)
+            .visible_alias("u")
             .about("Updates the installed package")
             .args(&vec![Arg::with_name("name")
                 .value_name("package name")

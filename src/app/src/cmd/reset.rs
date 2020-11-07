@@ -19,7 +19,10 @@ impl ResetCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for ResetCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Resets huber").long_about(
+        App::new(CMD_NAME)
+            .visible_alias("r")
+            .about("Resets huber")
+            .long_about(
             "Resetting huber means the generated data by huber will be removed \
             like the installed packages, created caches and index files, then have the clean state.",
         )
