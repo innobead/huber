@@ -39,7 +39,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
                 Arg::with_name("all")
                     .short("a")
                     .long("all")
-                    .help("Show all installed versions of package given '--name' specified)"),
+                    .help("Show all the installed versions"),
                 Arg::with_name("detail")
                     .short("d")
                     .long("detail")

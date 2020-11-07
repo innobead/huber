@@ -50,7 +50,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
                 Arg::with_name("all")
                     .short("a")
                     .long("all")
-                    .help("Show all release versions of package given '--name' specified)"),
+                    .help("Show all the released versions of package given '--name' specified"),
             ])
     }
 
