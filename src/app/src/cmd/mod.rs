@@ -20,6 +20,7 @@ use crate::cmd::search::SearchCmd;
 use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
+use crate::cmd::update::UpdateCmd;
 
 pub(crate) mod current;
 pub(crate) mod flush;
@@ -31,6 +32,7 @@ pub(crate) mod search;
 pub(crate) mod self_update;
 pub(crate) mod show;
 pub(crate) mod uninstall;
+pub(crate) mod update;
 
 pub(crate) trait CommandTrait<'a, 'b> {
     fn app(&self) -> App<'a, 'b>;
@@ -104,6 +106,11 @@ pub(crate) fn process_cmds(
 
         (cmd::uninstall::CMD_NAME, Some(sub_matches)) => di_container()
             .get::<UninstallCmd>()
+            .unwrap()
+            .run(config, sub_matches),
+
+        (cmd::update::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<UpdateCmd>()
             .unwrap()
             .run(config, sub_matches),
 

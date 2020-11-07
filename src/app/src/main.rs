@@ -24,6 +24,7 @@ use crate::cmd::search::SearchCmd;
 use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
+use crate::cmd::update::UpdateCmd;
 use crate::cmd::CommandTrait;
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::package::PackageService;
@@ -39,6 +40,7 @@ fn main() {
     let app = {
         let app = RootCmd::new().app().subcommands(vec![
             di!(InstallCmd.app()),
+            di!(UpdateCmd.app()),
             di!(UninstallCmd.app()),
             di!(SearchCmd.app()),
             di!(ShowCmd.app()),

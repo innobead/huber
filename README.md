@@ -104,6 +104,17 @@ k3s (version: v1.19.3+k3s2, source: github) installed
 
 ```
 
+## Updating package
+
+```console
+❯ huber update velero
+Updating velero (version: v1.4.3, source: github) to the latest version
+Downloading package artifacts from github
+Setting velero (version: v1.5.2, source: github) as the current package
+velero updated
+
+```
+
 ## Setting current version
 
 ```console
@@ -244,16 +255,17 @@ OPTIONS:
     -o, --output <string>          Output format [default: console]  [possible values: console, json, yaml]
 
 SUBCOMMANDS:
-    current        Updates current package version
-    flush          Flushes inactive artifacts (ex: remove non-current packages)
+    current        Updates the current package version
+    flush          Flushes inactive artifacts
     help           Prints this message or the help of the given subcommand(s)
-    info           Shows package info
-    install        Installs package
-    reset          Resets huber (ex: remove installed packages)
+    info           Shows the package info
+    install        Installs the package
+    reset          Resets huber
     search         Searches package
     self-update    Updates huber
     show           Shows installed packages
     uninstall      Uninstalls package
+    update         Updates the installed package
 
 ```
 

@@ -1,11 +1,11 @@
 use std::fs;
-use std::fs::{copy, File, read_dir, remove_dir_all, remove_file};
+use std::fs::{copy, read_dir, remove_dir_all, remove_file, File};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{Ownership, uncompress_archive};
+use compress_tools::{uncompress_archive, Ownership};
 use inflector::cases::classcase::is_class_case;
 use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
@@ -25,8 +25,8 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use crate::service::package::PackageService;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
@@ -122,9 +122,7 @@ impl ReleaseTrait for ReleaseService {
 
             if path.is_file() {
                 let filename = path.file_name().unwrap().to_os_string();
-                let exec_path = config
-                    .bin_dir()?
-                    .join(&filename);
+                let exec_path = config.bin_dir()?.join(&filename);
 
                 // check if filename has invalid extension
                 let filename = filename.to_str().unwrap().replace(&release.version, "");
@@ -254,8 +252,8 @@ impl ReleaseTrait for ReleaseService {
 
                 if !asset_names.contains(&a.name)
                     && !asset_names
-                    .iter()
-                    .any(|it| decoded_download_url.ends_with(it))
+                        .iter()
+                        .any(|it| decoded_download_url.ends_with(it))
                 {
                     continue;
                 }
@@ -277,19 +275,15 @@ impl ReleaseTrait for ReleaseService {
                 dest_f.write(&bytes)?;
 
                 if filename.ends_with(".sh") {
-                    fs::set_permissions(
-                        &dest_path,
-                        fs::Permissions::from_mode(0o755),
-                    ).unwrap();
+                    fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755)).unwrap();
 
                     file_paths.push(dest_path.to_str().unwrap().to_string());
                 } else {
                     let ext = dest_path.extension();
-                    if ext.is_none() || !supported_archive_types.contains(&ext.unwrap().to_str().unwrap()) {
-                        fs::set_permissions(
-                            &dest_path,
-                            fs::Permissions::from_mode(0o755),
-                        ).unwrap();
+                    if ext.is_none()
+                        || !supported_archive_types.contains(&ext.unwrap().to_str().unwrap())
+                    {
+                        fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755)).unwrap();
 
                         file_paths.push(dest_path.to_str().unwrap().to_string());
                         continue;
@@ -307,15 +301,18 @@ impl ReleaseTrait for ReleaseService {
 
                         // copy executables to bin
                         let walker = WalkDir::new(&extract_dir).into_iter();
-                        for entry in walker
-                            .filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
+                        for entry in
+                            walker.filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
                         {
                             let entry = entry?;
                             let f = entry.path();
 
                             // uncompress, copy executables to bin folder
                             let filename = f.file_name().unwrap().to_str().unwrap().to_string();
-                            if is_upper_case(filename.clone()) || is_class_case(filename.clone()) || filename.starts_with("_") {
+                            if is_upper_case(filename.clone())
+                                || is_class_case(filename.clone())
+                                || filename.starts_with("_")
+                            {
                                 debug!("Ignored {:?}", &filename);
                                 continue;
                             }

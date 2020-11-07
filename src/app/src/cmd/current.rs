@@ -22,7 +22,7 @@ impl CurrentCmd {
 impl<'a, 'b> CommandTrait<'a, 'b> for CurrentCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME)
-            .about("Updates current package version")
+            .about("Updates the current package version")
             .args(&[
                 Arg::with_name("name")
                     .value_name("package name")

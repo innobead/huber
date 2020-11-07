@@ -21,7 +21,9 @@ impl FlushCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for FlushCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Flushes inactive artifacts (ex: remove non-current packages)")
+        App::new(CMD_NAME)
+            .about("Flushes inactive artifacts")
+            .long_about("Flushing inactive artifacts includes removing non-current packages.")
     }
 
     fn run(&self, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {

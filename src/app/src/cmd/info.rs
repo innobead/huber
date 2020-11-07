@@ -25,7 +25,7 @@ impl InfoCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for InfoCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Shows package info").arg(
+        App::new(CMD_NAME).about("Shows the package info").arg(
             Arg::with_name("name")
                 .value_name("package name")
                 .help("Package name")

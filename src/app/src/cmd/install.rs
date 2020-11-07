@@ -21,7 +21,7 @@ impl InstallCmd {
 
 impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Installs package").args(&vec![
+        App::new(CMD_NAME).about("Installs the package").args(&vec![
             Arg::with_name("name")
                 .value_name("package name")
                 .help("Package name")
@@ -33,10 +33,6 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
                 .short("v")
                 .long("version")
                 .takes_value(true),
-            Arg::with_name("refresh")
-                .help("Refresh package with the latest version")
-                .short("r")
-                .long("refresh"),
         ])
     }
 
@@ -70,16 +66,8 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
                     }
                 }
 
-                _ if matches.is_present("refresh") => {
-                    println!("Updating {} to {}", pkg, release);
-
-                    let release = release_service.update(&pkg)?;
-                    println!("{} updated", release);
-                    Ok(())
-                }
-
                 _ => {
-                    Err(anyhow!("{} already installed. Use '--fresh' or '--version' to update to the latest or a specific version", release))
+                    Err(anyhow!("{} already installed. Use '--version' to install a specific version or 'update' command to update to the latest version", release))
                 }
             };
         }
