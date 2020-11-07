@@ -71,6 +71,9 @@ fn releases() -> Vec<Package> {
     vec![
         // tools
         gh::release(),
+        // infra
+        pulumi::release(),
+        // app development
         // cloud native, kubernetes
         velero::release(),
         helm::release(),

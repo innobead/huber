@@ -30,6 +30,9 @@
 - name: kubefire
   owner: innobead
   source: github
+- name: pulumi
+  owner: pulumi
+  source: github
 - name: rio
   owner: rancher
   source: github

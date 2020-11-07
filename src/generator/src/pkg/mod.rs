@@ -13,3 +13,4 @@ pub mod rke;
 pub mod trivy;
 pub mod typescript;
 pub mod velero;
+pub mod pulumi;
