@@ -24,6 +24,9 @@
 - name: k3s
   owner: rancher
   source: github
+- name: k3sup
+  owner: alexellis
+  source: github
 - name: kube-bench
   owner: aquasecurity
   source: github

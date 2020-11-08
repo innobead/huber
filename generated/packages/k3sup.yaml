@@ -1,0 +1,26 @@
+# This is generated. Don't modify.
+---
+name: k3sup
+description: bootstrap Kubernetes with k3s over SSH < 1 min 🚀
+source:
+  Github:
+    owner: alexellis
+    repo: k3sup
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/k3sup"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/k3sup-arm64"
+      checksum: ~
+  - MacOS:
+      artifact_templates:
+        - "{version}/k3sup-darwin"
+      checksum: ~
+  - Windows:
+      artifact_templates:
+        - "{version}/k3sup.exe"
+      checksum: ~
+detail: ~

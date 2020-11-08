@@ -79,6 +79,7 @@ fn releases() -> Vec<Package> {
         helm::release(),
         kubefire::release(),
         k3s::release(),
+        k3sup::release(),
         rke::release(),
         rio::release(),
         istio::release(),
