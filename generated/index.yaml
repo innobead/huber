@@ -15,6 +15,9 @@
 - name: gh
   owner: cli
   source: github
+- name: go
+  owner: golang
+  source: github
 - name: helm
   owner: helm
   source: github

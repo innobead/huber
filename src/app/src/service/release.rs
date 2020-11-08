@@ -1,22 +1,23 @@
 use std::fs;
-use std::fs::{copy, read_dir, remove_dir_all, remove_file, File};
+use std::fs::{File, read_dir, remove_dir_all, remove_file};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{uncompress_archive, Ownership};
+use compress_tools::{Ownership, uncompress_archive};
 use inflector::cases::classcase::is_class_case;
 use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
 use log::{debug, info};
 use semver::Version;
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
-use tempdir::TempDir;
+
 use tokio::runtime::Runtime;
 use url::Url;
 use urlencoding::decode;
-use walkdir::WalkDir;
+
+
 
 use huber_common::config::Config;
 use huber_common::di::di_container;
@@ -25,18 +26,22 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::service::package::PackageService;
+use fs_extra::move_items;
+use huber_common::file::trim_os_arch;
+
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
     fn set_current(&self, release: &mut Release) -> Result<()>;
+    fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<()>;
     fn delete_release(&self, release: &Release) -> Result<()>;
     fn download_install_github_package(
         &self,
         package: &Package,
         package_github: &GithubPackage,
-    ) -> Result<Vec<String>>;
+    ) -> Result<()>;
     fn clean_current(&self, pkg: &Package) -> Result<()>;
 }
 
@@ -110,36 +115,30 @@ impl ReleaseTrait for ReleaseService {
         // update current symlink
         info!("Updating the current release symbolic links: {}", &release);
         let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
-        symlink_dir(source, current_pkg_dir)?;
+        symlink_dir(&source, &current_pkg_dir)?;
 
         info!(
             "Updating the current release bin symbolic links: {}",
             &release
         );
-        for entry in read_dir(&current_bin_dir)?.into_iter() {
-            let entry = entry?;
-            let path = entry.path();
+        let scan_dirs = vec![
+            &current_pkg_dir,
+            &current_bin_dir,
+        ];
+        for dir in scan_dirs {
+            info!("Scanning executables in {:?}", dir);
 
-            if path.is_file() {
-                let filename = path.file_name().unwrap().to_os_string();
-                let exec_path = config.bin_dir()?.join(&filename);
+            if !dir.exists() {
+                info!("Ignored scanning {:?}, because it does not exist", dir);
+                continue
+            }
 
-                // check if filename has invalid extension
-                let filename = filename.to_str().unwrap().replace(&release.version, "");
-                let p = config.bin_dir()?.join(&filename);
-
-                if p.extension().is_some() {
-                    if let Some(ext) = path.extension() {
-                        info!(
-                            "Ignored to link {:?} to {:?} because of suffix {:?}",
-                            &path, &exec_path, ext
-                        );
-                        continue;
-                    }
+            for entry in read_dir(&dir)?.into_iter() {
+                let entry = entry?;
+                let path = entry.path();
+                if path.is_file() {
+                    self.link_executables_for_current(&release, &path)?;
                 }
-
-                info!("Linking {:?} to {:?}", &path, &exec_path);
-                symlink_file(path, exec_path)?;
             }
         }
 
@@ -192,6 +191,59 @@ impl ReleaseTrait for ReleaseService {
         Ok(())
     }
 
+    fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<()> {
+        let config = self.config.as_ref().unwrap();
+        let exec_filename = trim_os_arch(file.file_name().unwrap().to_str().unwrap());
+        let exec_file_path = config.bin_dir()?.join(&exec_filename);
+
+        // check if filename has invalid extension
+        let exec_filename_without_version = exec_filename.as_str().replace(&release.version, "");
+        let exec_file_path_without_version = file.parent().unwrap().join(&exec_filename_without_version);
+
+        if let Some(ext) = exec_file_path_without_version.extension() {
+            info!(
+                "Ignored to link {:?} to {:?} because of suffix {:?}",
+                &file, &exec_file_path, ext
+            );
+
+            return Ok(());
+        }
+
+        if is_upper_case(exec_filename_without_version.clone())
+            || is_class_case(exec_filename_without_version.clone())
+            || exec_filename_without_version.starts_with("_")
+        {
+            info!(
+                "Ignored to link {:?} to {:?} because of file name patterns (uppercase, class cass or starts with _)",
+                &file, &exec_file_path
+            );
+
+            return Ok(());
+        }
+
+        if file.extension().is_none() && !file.is_executable() {
+            info!("Making {:?} as executable", &file);
+            fs::set_permissions(
+                &file,
+                fs::Permissions::from_mode(0o755),
+            )?;
+
+            return Ok(());
+        }
+
+        if !file.is_executable() {
+            info!(
+                "Ignored to link {:?} to {:?} because it's not executable)",
+                &file, &exec_file_path
+            );
+
+            return Ok(())
+        }
+
+        info!("Linking {:?} to {:?}", &file, &exec_file_path);
+        Ok(symlink_file(file, exec_file_path)?)
+    }
+
     fn delete_release(&self, release: &Release) -> Result<()> {
         info!("Removing release: {}", &release);
 
@@ -212,7 +264,7 @@ impl ReleaseTrait for ReleaseService {
         &self,
         package: &Package,
         package_github: &GithubPackage,
-    ) -> Result<Vec<String>> {
+    ) -> Result<()> {
         info!("Downloading github package artifacts {}", &package);
 
         let config = self.config.as_ref().unwrap();
@@ -244,16 +296,14 @@ impl ReleaseTrait for ReleaseService {
         // let runtime = self.runtime.as_ref().unwrap();
         let mut runtime = Runtime::new().unwrap();
         runtime.block_on(async {
-            let mut file_paths: Vec<String> = vec![];
-
             //TODO need to check checksume
             for a in package_github.assets.iter() {
                 let decoded_download_url = decode(&a.browser_download_url)?;
 
                 if !asset_names.contains(&a.name)
                     && !asset_names
-                        .iter()
-                        .any(|it| decoded_download_url.ends_with(it))
+                    .iter()
+                    .any(|it| decoded_download_url.ends_with(it))
                 {
                     continue;
                 }
@@ -266,88 +316,72 @@ impl ReleaseTrait for ReleaseService {
                 info!("Downloading {}", &download_url);
 
                 let response = reqwest::get(&download_url).await?;
+                let pkg_dir = config.installed_pkg_dir(package, &version)?;
                 let filename = download_url.split("/").last().unwrap();
+                let download_file_path = config.temp_dir()?.join(filename);
 
-                let dest_root_path = config.installed_pkg_bin_dir(package, &version)?;
-                let dest_path = dest_root_path.join(filename);
-                let mut dest_f = File::create(&dest_path)?;
+                info!("Saving {} to {:?}", &download_url, download_file_path);
+
+                let mut dest_f = File::create(&download_file_path)?;
                 let bytes = response.bytes().await?;
-                dest_f.write(&bytes)?;
+                    dest_f.write(&bytes)?;
 
-                if filename.ends_with(".sh") {
-                    fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755)).unwrap();
+                let ext = download_file_path.extension();
+                if ext.is_none()
+                    || !supported_archive_types.contains(&ext.unwrap().to_str().unwrap())
+                {
+                    let dest_f = pkg_dir.join(&filename);
 
-                    file_paths.push(dest_path.to_str().unwrap().to_string());
-                } else {
-                    let ext = dest_path.extension();
-                    if ext.is_none()
-                        || !supported_archive_types.contains(&ext.unwrap().to_str().unwrap())
-                    {
-                        fs::set_permissions(&dest_path, fs::Permissions::from_mode(0o755)).unwrap();
+                    info!("Moving {:?} to {:?}, because it's not an archive, regarded as an executable", &download_file_path, &dest_f);
 
-                        file_paths.push(dest_path.to_str().unwrap().to_string());
-                        continue;
-                    }
+                    fs::set_permissions(&download_file_path, fs::Permissions::from_mode(0o755)).unwrap();
+                    let option = fs_extra::file::CopyOptions::new();
+                    fs_extra::file::move_file(
+                        &download_file_path,
+                        &dest_f,
+                        &option
+                    )?;
 
-                    if let Some(ext) = ext {
+                    continue;
+                }
+
+                match ext {
+                    None => info!("Ignored {:?}, because it is not executable and archived", &download_file_path),
+
+                    Some(ext) => {
                         // uncompress
                         info!("Decompressing {} which has extension {:?}", filename, ext);
-                        let extract_dir = TempDir::new(filename)?;
-                        let dest_f = File::open(&dest_path)?;
 
-                        info!("Decompressing {:?} to {:?}", &dest_f, extract_dir.path());
-                        uncompress_archive(&dest_f, extract_dir.path(), Ownership::Ignore)?;
-                        let _ = remove_file(&dest_path);
+                        let extract_dir = download_file_path.join("extract");
+                        let download_f = File::open(&download_file_path)?;
 
-                        // copy executables to bin
-                        let walker = WalkDir::new(&extract_dir).into_iter();
-                        for entry in
-                            walker.filter(|it| it.as_ref().unwrap().metadata().unwrap().is_file())
-                        {
-                            let entry = entry?;
-                            let f = entry.path();
+                        info!("Decompressing {:?} to {:?}", &download_f, &extract_dir);
+                        uncompress_archive(&download_f, &extract_dir, Ownership::Ignore)?;
 
-                            // uncompress, copy executables to bin folder
-                            let filename = f.file_name().unwrap().to_str().unwrap().to_string();
-                            if is_upper_case(filename.clone())
-                                || is_class_case(filename.clone())
-                                || filename.starts_with("_")
-                            {
-                                debug!("Ignored {:?}", &filename);
-                                continue;
-                            }
-
-                            if f.is_executable() || f.extension().is_none() {
-                                let dest_f = dest_root_path.join(f.file_name().unwrap());
-
-                                info!("Moving executables {:?} to {:?}", &f, &dest_f);
-                                copy(&f, &dest_f)?;
-
-                                if f.extension().is_none() {
-                                    info!("Making {:?} as executable", &dest_f);
-                                    fs::set_permissions(
-                                        &dest_f,
-                                        fs::Permissions::from_mode(0o755),
-                                    )?;
-                                }
-
-                                file_paths.push(dest_f.to_str().unwrap().to_string())
-                            } else {
-                                debug!("Ignored {:?}", &f);
-                            }
+                        let dir = read_dir(&extract_dir)?;
+                        let mut extra_content_dir = extract_dir.clone();
+                        if dir.count() == 1 {
+                            let dir = read_dir(&extract_dir)?;
+                            let entry = dir.into_iter().next().unwrap()?;
+                            extra_content_dir = entry.path();
                         }
 
-                        info!("Removing temp dir {:?}", extract_dir.path());
-                        let _ = remove_dir_all(extract_dir);
+                        info!("Moving {:?}, {:?}", &extra_content_dir, &pkg_dir);
+
+                        let copy_items: Vec<PathBuf> = extra_content_dir.read_dir()?.map(|it| it.unwrap().path()).collect();
+                        let option = fs_extra::dir::CopyOptions::new();
+                        move_items(&copy_items, &pkg_dir, &option)?;
+
+                        info!("Removing temp files {:?}, {:?}", download_file_path, extract_dir);
+
+                        let _ = remove_file(&download_file_path);
+                        let _ = remove_dir_all(&download_file_path);
+                        let _ = remove_dir_all(&extract_dir);
                     }
                 }
             }
 
-            if file_paths.is_empty() {
-                return Err(anyhow!("No valid artifacts found"));
-            }
-
-            Ok(file_paths)
+            Ok(())
         })
     }
 
@@ -356,14 +390,14 @@ impl ReleaseTrait for ReleaseService {
 
         let config = self.config.as_ref().unwrap();
 
-        let pkg_dir = config.current_pkg_dir(&pkg)?;
-        let pkg_bin_dir = config.current_pkg_bin_dir(&pkg)?;
+        let current_dir = config.current_pkg_dir(&pkg)?;
+        let current_bin_dir = config.current_pkg_bin_dir(&pkg)?;
 
         // remove old symlink bin, current
-        if pkg_bin_dir.exists() {
+        if current_bin_dir.exists() {
             info!("Removing old symbolic links: {}", &pkg);
 
-            for entry in read_dir(&pkg_bin_dir)?.into_iter() {
+            for entry in read_dir(&current_bin_dir)?.into_iter() {
                 let entry = entry?;
                 let path = entry.path();
 
@@ -380,9 +414,9 @@ impl ReleaseTrait for ReleaseService {
             }
         }
 
-        if pkg_dir.exists() {
-            info!("Removing link {:?}", &pkg_dir);
-            remove_symlink_dir(&pkg_dir)?;
+        if current_dir.exists() {
+            info!("Removing link {:?}", &current_dir);
+            remove_symlink_dir(&current_dir)?;
         }
 
         // remove it from index

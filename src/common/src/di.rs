@@ -37,6 +37,7 @@ impl DIContainer {
         }
     }
 
+    //FIXME use trait instead of type when injecting a object
     pub fn add<T>(&mut self, obj: T) -> Result<&mut T>
     where
         T: 'static,

@@ -85,11 +85,13 @@ fn releases() -> Vec<Package> {
         fleet::release(),
         kube_bench::release(),
         trivy::release(),
-        // programing, runtime, etc
-        deno::release(),
-        typescript::release(),
+        // runtime
         containerd::release(),
         firecracker::release(),
+        // programing
+        deno::release(),
+        go::release(),
+        typescript::release(),
     ]
 }
 

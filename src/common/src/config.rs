@@ -1,4 +1,4 @@
-use std::fs;
+use std::{env, fs};
 use std::path::PathBuf;
 
 use hubcaps::Credentials;
@@ -49,6 +49,10 @@ impl Config {
 
     pub fn huber_repo_dir(&self) -> Result<PathBuf> {
         dir(self.repo_dir()?.join("huber"))
+    }
+
+    pub fn temp_dir(&self) -> Result<PathBuf> {
+        dir(env::temp_dir().join("huber"))
     }
 
     pub fn managed_pkg_root_dir(&self) -> Result<PathBuf> {
