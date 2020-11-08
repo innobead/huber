@@ -90,7 +90,6 @@ fn releases() -> Vec<Package> {
         firecracker::release(),
         // programing
         deno::release(),
-        go::release(),
         typescript::release(),
     ]
 }
