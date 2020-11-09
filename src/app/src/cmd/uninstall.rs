@@ -21,7 +21,7 @@ impl UninstallCmd {
 impl<'a, 'b> CommandTrait<'a, 'b> for UninstallCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME)
-            .visible_alias("un")
+            .visible_aliases(&["un", "rm"])
             .about("Uninstalls package")
             .arg(
                 Arg::with_name("name")

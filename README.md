@@ -52,6 +52,7 @@ export PATH=$HOME/.huber/bin:$PATH
  pulumi       Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                                                                      https://github.com/pulumi/pulumi 
  rio          Application Deployment Engine for Kubernetes                                                                                                            https://github.com/rancher/rio 
  rke          Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that runs entirely within containers.                      https://github.com/rancher/rke 
+ submariner   Submariner's Operator installs and maintains your Submariner deployment.                                                                                https://github.com/submariner-io/submariner-operator 
  trivy        A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI                                                                        https://github.com/aquasecurity/trivy 
  typescript   TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                                                                        https://github.com/microsoft/TypeScript 
  velero       Backup and migrate Kubernetes applications and their persistent volumes                                                                                 https://github.com/vmware-tanzu/velero 

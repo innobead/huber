@@ -260,7 +260,15 @@ impl ReleaseTrait for ReleaseService {
         info!("Downloading github package artifacts {}", &package);
 
         let config = self.config.as_ref().unwrap();
-        let supported_archive_types = vec!["tar.gz", "tar.xz", "zip", "gz", "tar", "tgz"];
+        let supported_archive_types = vec![
+            "tar.gz",
+            "tar.xz",
+            "zip",
+            "gz",
+            "xz",
+            "tar",
+            "tgz",
+        ];
 
         let version = &package_github.tag_name;
         let pkg_mgmt = package.target()?;
@@ -319,6 +327,7 @@ impl ReleaseTrait for ReleaseService {
                     dest_f.write(&bytes)?;
 
                 let ext = download_file_path.extension();
+                debug!("{:?}", ext);
                 if ext.is_none()
                     || !supported_archive_types.contains(&ext.unwrap().to_str().unwrap())
                 {
