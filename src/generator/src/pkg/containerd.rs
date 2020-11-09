@@ -11,6 +11,7 @@ pub fn release() -> Package {
         detail: None,
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {
             artifact_templates: vec!["containerd-{version}.linux-amd64.tar.gz".to_string()],
+            executable_templates: None,
             checksum: None,
             install_commands: None,
             uninstall_commands: None,

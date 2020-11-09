@@ -15,6 +15,7 @@ pub fn release() -> Package {
                     "https://get.pulumi.com/releases/sdk/pulumi-v{version}-linux-x64.tar.gz"
                         .to_string(),
                 ],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
@@ -25,6 +26,7 @@ pub fn release() -> Package {
                     "https://get.pulumi.com/releases/sdk/pulumi-v{version}-darwin-x64.tar.gz"
                         .to_string(),
                 ],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
@@ -35,6 +37,7 @@ pub fn release() -> Package {
                     "https://get.pulumi.com/releases/sdk/pulumi-v{version}-windows-x64.zip"
                         .to_string(),
                 ],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,

@@ -22,3 +22,5 @@ pub mod velero;
 pub mod dasel;
 pub mod bat;
 pub mod submariner;
+pub mod kind;
+pub mod krew;

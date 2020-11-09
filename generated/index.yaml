@@ -33,6 +33,12 @@
 - name: k3sup
   owner: alexellis
   source: github
+- name: kind
+  owner: kubernetes-sigs
+  source: github
+- name: krew
+  owner: kubernetes-sigs
+  source: github
 - name: kube-bench
   owner: aquasecurity
   source: github

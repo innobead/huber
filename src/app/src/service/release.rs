@@ -190,6 +190,15 @@ impl ReleaseTrait for ReleaseService {
         let exec_filename = trim_os_arch(file.file_name().unwrap().to_str().unwrap());
         let exec_file_path = config.bin_dir()?.join(&exec_filename);
 
+        // if exec_templates specified, ignore not matched files
+        let exec_templates: Vec<String> = release.package.target()?.executable_templates.unwrap_or(vec![]);
+        if exec_templates.len() > 0 && !exec_templates.contains(&exec_filename) {
+            info!(
+                "Ignored to link {:?} to {:?} because it does not mentioned in executable_templates {:?}",
+                &file, &exec_file_path, exec_templates
+            );
+        }
+
         // check if filename has invalid extension
         let exec_filename_without_version = exec_filename.as_str().replace(&release.version, "");
         let exec_file_path_without_version =

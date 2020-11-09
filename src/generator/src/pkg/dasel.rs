@@ -12,6 +12,7 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/dasel_linux_amd64".to_string()],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
@@ -19,6 +20,7 @@ pub fn release() -> Package {
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["{version}/dasel_macos_amd64".to_string()],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
@@ -26,6 +28,7 @@ pub fn release() -> Package {
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["{version}/dasel_windows_amd64.exe".to_string()],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,

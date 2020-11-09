@@ -1,0 +1,26 @@
+# This is generated. Don't modify.
+---
+name: kind
+description: Kubernetes IN Docker - local clusters for testing Kubernetes
+source:
+  Github:
+    owner: kubernetes-sigs
+    repo: kind
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/kind-linux-amd64"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/kind-linux-arm64"
+      checksum: ~
+  - MacOS:
+      artifact_templates:
+        - "{version}/kind-darwin-amd64"
+      checksum: ~
+  - Windows:
+      artifact_templates:
+        - "{version}/kind-windows-amd64"
+      checksum: ~
+detail: ~

@@ -14,6 +14,7 @@ pub fn release() -> Package {
                 artifact_templates: vec![
                     "https://golang.org/dl/go{version}.linux-amd64.tar.gz".to_string()
                 ],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
@@ -23,6 +24,7 @@ pub fn release() -> Package {
                 artifact_templates: vec![
                     "https://golang.org/dl/go{version}.linux-arm64.tar.gz".to_string()
                 ],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
@@ -32,6 +34,7 @@ pub fn release() -> Package {
                 artifact_templates: vec![
                     "https://golang.org/dl/go{version}.darwin-amd64.tar.gz".to_string()
                 ],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
@@ -41,6 +44,7 @@ pub fn release() -> Package {
                 artifact_templates: vec![
                     "https://golang.org/dl/go{version}.windows-amd64.zip".to_string()
                 ],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,

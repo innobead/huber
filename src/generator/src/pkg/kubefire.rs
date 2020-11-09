@@ -14,6 +14,7 @@ pub fn release() -> Package {
                 artifact_templates: vec![
                     "{version}/kubefire-linux-amd64".to_string(),
                 ],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
@@ -23,6 +24,7 @@ pub fn release() -> Package {
                 artifact_templates: vec![
                     "{version}/kubefire-linux-arm64".to_string(),
                 ],
+                executable_templates: None,
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
