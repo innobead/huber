@@ -134,6 +134,8 @@ k3s (version: v1.18.10+k3s2, source: github) updated
 Updating velero (version: v1.4.3, source: github) to the latest version
 Downloading package artifacts from github
 Setting velero (version: v1.5.2, source: github) as the current package
+Installed executables:
+ - /home/davidko/.huber/bin/velero
 velero updated
 
 ```
