@@ -143,7 +143,7 @@ velero updated
 ## Setting the current installed package version
 
 ```console
-❯ huber show -n gh --all
+❯ huber show gh --all
  Name  Version  Current 
  gh    v1.2.0   false 
  gh    v1.1.0   true 
@@ -154,7 +154,7 @@ Updated executables:
  - /home/davidko/.huber/bin/gh
 gh (version: v1.2.0, source: github) as current updated
 
-❯ huber show -n gh --all
+❯ huber show gh --all
  Name  Version  Current 
  gh    v1.2.0   true 
  gh    v1.1.0   false 
