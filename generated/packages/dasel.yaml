@@ -10,13 +10,10 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "{version}/dasel_linux_amd64"
-      checksum: ~
   - MacOS:
       artifact_templates:
         - "{version}/dasel_macos_amd64"
-      checksum: ~
   - Windows:
       artifact_templates:
         - "{version}/dasel_windows_amd64.exe"
-      checksum: ~
 detail: ~

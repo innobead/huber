@@ -10,13 +10,10 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "{version}/rke_linux-amd64"
-      checksum: ~
   - LinuxArm64:
       artifact_templates:
         - "{version}/rke_linux-arm64"
-      checksum: ~
   - MacOS:
       artifact_templates:
         - "{version}/rke_darwin-arm64"
-      checksum: ~
 detail: ~

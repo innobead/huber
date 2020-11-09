@@ -15,7 +15,7 @@ pub fn release() -> Package {
                     "https://get.helm.sh/helm-v{version}-linux-amd64.tar.gz".to_string()
                 ],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
@@ -25,7 +25,7 @@ pub fn release() -> Package {
                     "https://get.helm.sh/helm-v{version}-linux-arm64.tar.gz".to_string()
                 ],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
@@ -35,7 +35,7 @@ pub fn release() -> Package {
                     "https://get.helm.sh/helm-v{version}-darwin-amd64.tar.gz".to_string()
                 ],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
@@ -45,7 +45,7 @@ pub fn release() -> Package {
                     "https://get.helm.sh/helm-v{version}-windows-amd64.zip".to_string()
                 ],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,

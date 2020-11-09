@@ -10,13 +10,10 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "pack-v{version}-linux.tgz"
-      checksum: ~
   - MacOS:
       artifact_templates:
         - "pack-v{version}-macos.tgz"
-      checksum: ~
   - Windows:
       artifact_templates:
         - "pack-v{version}-windows.zip"
-      checksum: ~
 detail: ~

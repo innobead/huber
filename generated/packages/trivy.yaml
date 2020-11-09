@@ -10,13 +10,10 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "trivy_{version}_Linux-64bit.tar.gz"
-      checksum: ~
   - LinuxArm64:
       artifact_templates:
         - "trivy_{version}_Linux-ARM64.tar.gz"
-      checksum: ~
   - MacOS:
       artifact_templates:
         - "trivy_{version}_macOS-64bit.tar.gz"
-      checksum: ~
 detail: ~

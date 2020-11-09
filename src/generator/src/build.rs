@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate maplit;
+
 use std::fs::File;
 use std::io::Write;
 use std::path::Path;

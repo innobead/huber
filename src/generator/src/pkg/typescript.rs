@@ -12,7 +12,7 @@ pub fn release() -> Package {
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {
             artifact_templates: vec!["typescript-{version}.tgz".to_string()],
             executable_templates: None,
-            checksum: None,
+            executable_mappings: None,
             install_commands: None,
             uninstall_commands: None,
             upgrade_commands: None,

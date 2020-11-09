@@ -29,7 +29,7 @@ pub fn trim_os_arch(str: &str) -> String {
         r"(?i)([-_]v\d+.\d+.\d+)?[-_]({})[-_]({})[-_]*",
         os_pattern, arch_pattern
     ))
-        .unwrap();
+    .unwrap();
     re.replace_all(str, "").to_string()
 }
 

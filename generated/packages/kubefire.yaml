@@ -10,9 +10,7 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "{version}/kubefire-linux-amd64"
-      checksum: ~
   - LinuxArm64:
       artifact_templates:
         - "{version}/kubefire-linux-arm64"
-      checksum: ~
 detail: ~

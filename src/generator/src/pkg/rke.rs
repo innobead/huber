@@ -13,7 +13,7 @@ pub fn release() -> Package {
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/rke_linux-amd64".to_string()],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
@@ -21,7 +21,7 @@ pub fn release() -> Package {
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["{version}/rke_linux-arm64".to_string()],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
@@ -29,7 +29,7 @@ pub fn release() -> Package {
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["{version}/rke_darwin-arm64".to_string()],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,

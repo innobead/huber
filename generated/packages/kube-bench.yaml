@@ -10,9 +10,7 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "kube-bench_{version}_linux_amd64.tar.gz"
-      checksum: ~
   - LinuxArm64:
       artifact_templates:
         - "kube-bench_{version}_linux_arm64.tar.gz"
-      checksum: ~
 detail: ~

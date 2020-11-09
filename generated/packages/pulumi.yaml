@@ -10,13 +10,10 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "https://get.pulumi.com/releases/sdk/pulumi-v{version}-linux-x64.tar.gz"
-      checksum: ~
   - MacOS:
       artifact_templates:
         - "https://get.pulumi.com/releases/sdk/pulumi-v{version}-darwin-x64.tar.gz"
-      checksum: ~
   - Windows:
       artifact_templates:
         - "https://get.pulumi.com/releases/sdk/pulumi-v{version}-windows-x64.zip"
-      checksum: ~
 detail: ~

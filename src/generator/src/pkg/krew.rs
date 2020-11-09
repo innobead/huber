@@ -13,7 +13,7 @@ pub fn release() -> Package {
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/krew.tar.gz".to_string()],
                 executable_templates: Some(vec!["krew-linux_amd64".to_string()]),
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
@@ -21,7 +21,7 @@ pub fn release() -> Package {
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["{version}/krew.tar.gz".to_string()],
                 executable_templates: Some(vec!["krew-darwin_amd64".to_string()]),
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
@@ -29,7 +29,7 @@ pub fn release() -> Package {
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["{version}/krew.tar.gz".to_string()],
                 executable_templates: Some(vec!["krew-windows_amd64.exe".to_string()]),
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,

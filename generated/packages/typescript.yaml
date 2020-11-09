@@ -10,5 +10,4 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "typescript-{version}.tgz"
-      checksum: ~
 detail: ~

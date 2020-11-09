@@ -1,11 +1,11 @@
 use std::fs;
-use std::fs::{File, read_dir, remove_dir_all, remove_file};
+use std::fs::{read_dir, remove_dir_all, remove_file, File};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{Ownership, uncompress_archive};
+use compress_tools::{uncompress_archive, Ownership};
 use fs_extra::move_items;
 use inflector::cases::classcase::is_class_case;
 use inflector::cases::uppercase::is_upper_case;
@@ -25,13 +25,15 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use crate::service::package::PackageService;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use std::collections::HashMap;
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
     fn set_current(&self, release: &mut Release) -> Result<()>;
     fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<()>;
+    fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()>;
     fn delete_release(&self, release: &Release) -> Result<()>;
     fn download_install_github_package(
         &self,
@@ -186,10 +188,14 @@ impl ReleaseTrait for ReleaseService {
 
     fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<()> {
         let config = self.config.as_ref().unwrap();
-        let exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
+        let mut exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
 
         // if exec_templates specified, ignore not matched files
-        let exec_templates: Vec<String> = release.package.target()?.executable_templates.unwrap_or(vec![]);
+        let exec_templates: Vec<String> = release
+            .package
+            .target()?
+            .executable_templates
+            .unwrap_or(vec![]);
         if exec_templates.len() > 0 && !exec_templates.contains(&exec_filename) {
             info!(
                 "Ignored to link {:?} because it does not mentioned in executable_templates {:?}",
@@ -197,6 +203,18 @@ impl ReleaseTrait for ReleaseService {
             );
 
             return Ok(());
+        }
+
+        // update linked exec name according to executable_mappings if it exists
+        let exec_mappings: HashMap<String, String> = release
+            .package
+            .target()?
+            .executable_mappings
+            .unwrap_or(hashmap![]);
+        if exec_mappings.len() > 0 {
+            if let Some(mapped_exec_name) = exec_mappings.get(&exec_filename) {
+                exec_filename = mapped_exec_name.clone();
+            }
         }
 
         let exec_filename = trim_os_arch(&exec_filename);
@@ -248,6 +266,30 @@ impl ReleaseTrait for ReleaseService {
         Ok(symlink_file(file, exec_file_path)?)
     }
 
+    fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()> {
+        let config = self.config.as_ref().unwrap();
+        let mut exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
+
+        // update linked exec name according to executable_mappings if it exists
+        let exec_mappings: HashMap<String, String> =
+            pkg.target()?.executable_mappings.unwrap_or(hashmap![]);
+        if exec_mappings.len() > 0 {
+            if let Some(mapped_exec_name) = exec_mappings.get(&exec_filename) {
+                exec_filename = mapped_exec_name.clone();
+            }
+        }
+
+        let exec_filename = trim_os_arch(&exec_filename);
+        let exec_file_path = config.bin_dir()?.join(&exec_filename);
+
+        if exec_file_path.exists() {
+            info!("Removing link {:?}", &exec_file_path);
+            remove_symlink_file(exec_file_path)?;
+        }
+
+        Ok(())
+    }
+
     fn delete_release(&self, release: &Release) -> Result<()> {
         info!("Removing release: {}", &release);
 
@@ -272,15 +314,7 @@ impl ReleaseTrait for ReleaseService {
         info!("Downloading github package artifacts {}", &package);
 
         let config = self.config.as_ref().unwrap();
-        let supported_archive_types = vec![
-            "tar.gz",
-            "tar.xz",
-            "zip",
-            "gz",
-            "xz",
-            "tar",
-            "tgz",
-        ];
+        let supported_archive_types = vec!["tar.gz", "tar.xz", "zip", "gz", "xz", "tar", "tgz"];
 
         let version = &package_github.tag_name;
         let pkg_mgmt = package.target()?;
@@ -408,22 +442,21 @@ impl ReleaseTrait for ReleaseService {
         let current_bin_dir = config.current_pkg_bin_dir(&pkg)?;
 
         // remove old symlink bin, current
-        if current_bin_dir.exists() {
-            info!("Removing old symbolic links: {}", &pkg);
+        info!("Removing the current package symbolic links: {}", &pkg);
+        let scan_dirs = vec![&current_dir, &current_bin_dir];
+        for dir in scan_dirs {
+            info!("Scanning executables in {:?}", dir);
 
-            for entry in read_dir(&current_bin_dir)?.into_iter() {
+            if !dir.exists() {
+                info!("Ignored scanning {:?}, because it does not exist", dir);
+                continue;
+            }
+
+            for entry in read_dir(&dir)?.into_iter() {
                 let entry = entry?;
                 let path = entry.path();
-
                 if path.is_file() {
-                    let exec_path = config
-                        .bin_dir()?
-                        .join(path.file_name().unwrap().to_os_string());
-
-                    if exec_path.exists() {
-                        info!("Removing link {:?}", &exec_path);
-                        remove_symlink_file(exec_path)?;
-                    }
+                    self.unlink_executables_for_current(&pkg, &path)?;
                 }
             }
         }

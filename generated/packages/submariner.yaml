@@ -10,17 +10,13 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "subctl-v{version}-linux-amd64.tar.xz"
-      checksum: ~
   - LinuxAmd64:
       artifact_templates:
         - "subctl-v{version}-linux-arm64.tar.xz"
-      checksum: ~
   - MacOS:
       artifact_templates:
         - "subctl-v{version}-darwin-amd64.tar.xz"
-      checksum: ~
   - Windows:
       artifact_templates:
         - "subctl-v{version}-windows-amd64.exe.tar.xz"
-      checksum: ~
 detail: ~

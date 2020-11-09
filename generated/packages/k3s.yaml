@@ -10,9 +10,7 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "{version}/k3s"
-      checksum: ~
   - LinuxArm64:
       artifact_templates:
         - "{version}/k3s-arm64"
-      checksum: ~
 detail: ~

@@ -4,6 +4,8 @@
 extern crate anyhow;
 #[macro_use]
 extern crate huber_common;
+#[macro_use]
+extern crate maplit;
 
 use std::env;
 use std::process::exit;

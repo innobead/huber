@@ -10,5 +10,4 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "containerd-{version}.linux-amd64.tar.gz"
-      checksum: ~
 detail: ~

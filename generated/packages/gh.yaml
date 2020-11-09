@@ -10,13 +10,10 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "gh_{version}_linux_amd64.tar.gz"
-      checksum: "gh_{version}_checksums.txt"
   - LinuxArm64:
       artifact_templates:
         - "gh_{version}_linux_arm64.tar.gz"
-      checksum: "gh_{version}_checksums.txt"
   - MacOS:
       artifact_templates:
         - "gh_{version}_macOS_amd64.tar.gz"
-      checksum: "gh_{version}_checksums.txt"
 detail: ~

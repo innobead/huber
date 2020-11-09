@@ -12,17 +12,14 @@ targets:
         - "{version}/krew.tar.gz"
       executable_templates:
         - krew-linux_amd64
-      checksum: ~
   - MacOS:
       artifact_templates:
         - "{version}/krew.tar.gz"
       executable_templates:
         - krew-darwin_amd64
-      checksum: ~
   - Windows:
       artifact_templates:
         - "{version}/krew.tar.gz"
       executable_templates:
         - krew-windows_amd64.exe
-      checksum: ~
 detail: ~

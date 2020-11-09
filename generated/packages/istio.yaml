@@ -10,13 +10,10 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "istio-{version}-linux-amd64.tar.gz"
-      checksum: ~
   - LinuxArm64:
       artifact_templates:
         - "istio-{version}-linux-arm64.tar.gz"
-      checksum: ~
   - MacOS:
       artifact_templates:
         - "istio-{version}-osx.tar.gz"
-      checksum: ~
 detail: ~

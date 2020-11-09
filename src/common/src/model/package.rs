@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 use crate::result::Result;
 use serde::export::fmt::Display;
 use serde::export::Formatter;
+use std::collections::HashMap;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Package {
@@ -50,7 +51,8 @@ pub struct PackageManagement {
     pub artifact_templates: Vec<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub executable_templates: Option<Vec<String>>,
-    pub checksum: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub executable_mappings: Option<HashMap<String, String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub install_commands: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]

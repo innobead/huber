@@ -10,17 +10,13 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "{version}/k3sup"
-      checksum: ~
   - LinuxArm64:
       artifact_templates:
         - "{version}/k3sup-arm64"
-      checksum: ~
   - MacOS:
       artifact_templates:
         - "{version}/k3sup-darwin"
-      checksum: ~
   - Windows:
       artifact_templates:
         - "{version}/k3sup.exe"
-      checksum: ~
 detail: ~

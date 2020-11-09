@@ -13,7 +13,7 @@ pub fn release() -> Package {
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/deno-x86_64-unknown-linux-gnu.zip".to_string()],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
@@ -21,7 +21,7 @@ pub fn release() -> Package {
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["{version}/deno-x86_64-apple-darwin.zip".to_string()],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
@@ -29,7 +29,7 @@ pub fn release() -> Package {
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["{version}/deno-x86_64-pc-windows-msvc.zip".to_string()],
                 executable_templates: None,
-                checksum: None,
+                executable_mappings: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
