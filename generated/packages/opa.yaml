@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: opa
+description: "An open source, general-purpose policy engine."
+source:
+  Github:
+    owner: open-policy-agent
+    repo: opa
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/opa_linux_amd64"
+      checksum: ~
+  - MacOS:
+      artifact_templates:
+        - "{version}/opa_darwin_amd64"
+      checksum: ~
+  - Windows:
+      artifact_templates:
+        - "{version}/opa_windows_amd64.exe"
+      checksum: ~
+detail: ~

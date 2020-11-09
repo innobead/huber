@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: dasel
+description: "Query and update data structures from the command line. Comparable to jq/yq but supports JSON, TOML, YAML, XML and CSV with zero runtime dependencies."
+source:
+  Github:
+    owner: TomWright
+    repo: dasel
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/dasel_linux_amd64"
+      checksum: ~
+  - MacOS:
+      artifact_templates:
+        - "{version}/dasel_macos_amd64"
+      checksum: ~
+  - Windows:
+      artifact_templates:
+        - "{version}/dasel_windows_amd64.exe"
+      checksum: ~
+detail: ~

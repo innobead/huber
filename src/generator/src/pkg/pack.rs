@@ -3,44 +3,29 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "go".to_string(),
+        name: "pack".to_string(),
         source: PackageSource::Github {
-            owner: "golang".to_string(),
-            repo: "go".to_string(),
+            owner: "buildpacks".to_string(),
+            repo: "pack".to_string(),
         },
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "https://golang.org/dl/go{version}.linux-amd64.tar.gz".to_string()
-                ],
-                checksum: None,
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
-            }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec![
-                    "https://golang.org/dl/go{version}.linux-arm64.tar.gz".to_string()
-                ],
+                artifact_templates: vec!["pack-v{version}-linux.tgz".to_string()],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec![
-                    "https://golang.org/dl/go{version}.darwin-amd64.tar.gz".to_string()
-                ],
+                artifact_templates: vec!["pack-v{version}-macos.tgz".to_string()],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
             }),
             PackageTargetType::Windows(PackageManagement {
-                artifact_templates: vec![
-                    "https://golang.org/dl/go{version}.windows-amd64.zip".to_string()
-                ],
+                artifact_templates: vec!["pack-v{version}-windows.zip".to_string()],
                 checksum: None,
                 install_commands: None,
                 uninstall_commands: None,

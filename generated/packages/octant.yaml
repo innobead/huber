@@ -1,0 +1,26 @@
+# This is generated. Don't modify.
+---
+name: octant
+description: Highly extensible platform for developers to better understand the complexity of Kubernetes clusters.
+source:
+  Github:
+    owner: vmware-tanzu
+    repo: octant
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "octant_{version}_Linux-64bit.tar.gz"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "octant_{version}_Linux-arm64.tar.gz"
+      checksum: ~
+  - MacOS:
+      artifact_templates:
+        - "octant_{version}_macOS-64bit.tar.gz"
+      checksum: ~
+  - Windows:
+      artifact_templates:
+        - "octant_{version}_Windows-64bit.tar.gz"
+      checksum: ~
+detail: ~

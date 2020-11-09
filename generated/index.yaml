@@ -1,7 +1,13 @@
 # This is generated. Don't modify.
 ---
+- name: bat
+  owner: sharkdp
+  source: github
 - name: containerd
   owner: containerd
+  source: github
+- name: dasel
+  owner: TomWright
   source: github
 - name: deno
   owner: denoland
@@ -32,6 +38,15 @@
   source: github
 - name: kubefire
   owner: innobead
+  source: github
+- name: octant
+  owner: vmware-tanzu
+  source: github
+- name: opa
+  owner: open-policy-agent
+  source: github
+- name: pack
+  owner: buildpacks
   source: github
 - name: pulumi
   owner: pulumi

@@ -71,6 +71,8 @@ fn releases() -> Vec<Package> {
     vec![
         // tools
         gh::release(),
+        dasel::release(),
+        bat::release(),
         // infra
         pulumi::release(),
         // app development
@@ -86,6 +88,9 @@ fn releases() -> Vec<Package> {
         fleet::release(),
         kube_bench::release(),
         trivy::release(),
+        octant::release(),
+        pack::release(),
+        opa::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
