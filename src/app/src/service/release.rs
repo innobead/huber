@@ -327,6 +327,7 @@ impl ReleaseTrait for ReleaseService {
                         }
                     }
 
+                    let exec_filename = trim_os_arch(&exec_filename);
                     let p = config.bin_dir()?.join(exec_filename);
                     if p.exists() {
                         results.push(p.to_str().unwrap().to_string());
