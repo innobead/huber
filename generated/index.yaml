@@ -57,6 +57,9 @@
 - name: rke
   owner: rancher
   source: github
+- name: submariner
+  owner: submariner-io
+  source: github
 - name: trivy
   owner: aquasecurity
   source: github

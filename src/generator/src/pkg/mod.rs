@@ -21,3 +21,4 @@ pub mod typescript;
 pub mod velero;
 pub mod dasel;
 pub mod bat;
+pub mod submariner;

@@ -91,6 +91,7 @@ fn releases() -> Vec<Package> {
         octant::release(),
         pack::release(),
         opa::release(),
+        submariner::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
