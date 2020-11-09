@@ -197,6 +197,8 @@ impl ReleaseTrait for ReleaseService {
                 "Ignored to link {:?} to {:?} because it does not mentioned in executable_templates {:?}",
                 &file, &exec_file_path, exec_templates
             );
+
+            return Ok(());
         }
 
         // check if filename has invalid extension

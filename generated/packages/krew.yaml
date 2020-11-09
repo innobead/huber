@@ -15,13 +15,13 @@ targets:
       checksum: ~
   - MacOS:
       artifact_templates:
-        - "{version}/kind-darwin-amd64"
+        - "{version}/krew.tar.gz"
       executable_templates:
         - krew-darwin_amd64
       checksum: ~
   - Windows:
       artifact_templates:
-        - "{version}/krew.exe"
+        - "{version}/krew.tar.gz"
       executable_templates:
         - krew-windows_amd64.exe
       checksum: ~
