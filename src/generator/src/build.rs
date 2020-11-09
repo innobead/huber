@@ -86,6 +86,7 @@ fn releases() -> Vec<Package> {
         k3s::release(),
         k3sup::release(),
         k3ai::release(),
+        k3d::release(),
         rke::release(),
         rio::release(),
         istio::release(),

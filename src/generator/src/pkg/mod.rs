@@ -26,3 +26,4 @@ pub mod submariner;
 pub mod trivy;
 pub mod typescript;
 pub mod velero;
+pub mod k3d;
