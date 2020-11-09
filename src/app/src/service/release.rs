@@ -34,6 +34,7 @@ pub(crate) trait ReleaseTrait {
     fn set_current(&self, release: &mut Release) -> Result<()>;
     fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<()>;
     fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()>;
+    fn get_executables_for_current(&self, pkg: &Package) -> Result<Vec<String>>;
     fn delete_release(&self, release: &Release) -> Result<()>;
     fn download_install_github_package(
         &self,
@@ -90,7 +91,12 @@ impl ReleaseTrait for ReleaseService {
             .current_pkg_manifest_file(pkg)?;
         let f = File::open(f)?;
 
-        Ok(serde_yaml::from_reader(f)?)
+        // add linked executables in the release
+        let mut release: Release = serde_yaml::from_reader(f)?;
+        let executables = self.get_executables_for_current(&release.package)?;
+        release.executables = Some(executables);
+
+        Ok(release)
     }
 
     fn set_current(&self, release: &mut Release) -> Result<()> {
@@ -288,6 +294,48 @@ impl ReleaseTrait for ReleaseService {
         }
 
         Ok(())
+    }
+
+    fn get_executables_for_current(&self, pkg: &Package) -> Result<Vec<String>> {
+        let config = self.config.as_ref().unwrap();
+        let mut results: Vec<String> = vec![];
+
+        let pkg_dir = config.current_pkg_dir(&pkg)?;
+        let pkg_bin_dir = config.current_pkg_bin_dir(&pkg)?;
+        let exec_mappings: HashMap<String, String> =
+            pkg.target()?.executable_mappings.unwrap_or(hashmap![]);
+
+        let scan_dirs = vec![pkg_dir, pkg_bin_dir];
+        for dir in scan_dirs {
+            debug!("Scanning executables in {:?}", dir);
+
+            if !dir.exists() {
+                debug!("Ignored scanning {:?}, because it does not exist", dir);
+                continue;
+            }
+
+            for entry in read_dir(&dir)?.into_iter() {
+                let entry = entry?;
+                let path = entry.path();
+
+                if path.is_file() {
+                    let mut exec_filename = path.file_name().unwrap().to_str().unwrap().to_string();
+
+                    if exec_mappings.len() > 0 {
+                        if let Some(mapped_exec_name) = exec_mappings.get(&exec_filename) {
+                            exec_filename = mapped_exec_name.clone();
+                        }
+                    }
+
+                    let p = config.bin_dir()?.join(exec_filename);
+                    if p.exists() {
+                        results.push(p.to_str().unwrap().to_string());
+                    }
+                }
+            }
+        }
+
+        Ok(results)
     }
 
     fn delete_release(&self, release: &Release) -> Result<()> {
@@ -611,6 +659,7 @@ impl ItemOperationTrait for ReleaseService {
                         version: filename.to_string(),
                         current: current_pkg.version == filename.to_string(),
                         package: pkg.clone(),
+                        executables: None,
                     });
                 }
             }

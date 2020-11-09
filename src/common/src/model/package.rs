@@ -1,12 +1,13 @@
 use std::{env, fmt};
+use std::collections::HashMap;
 
 use hubcaps::releases::Release as HubcapsRelease;
 use serde::{Deserialize, Serialize};
-
-use crate::result::Result;
 use serde::export::fmt::Display;
 use serde::export::Formatter;
-use std::collections::HashMap;
+
+use crate::model::release::VecExtensionTrait;
+use crate::result::Result;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Package {
@@ -263,5 +264,11 @@ impl From<Package> for PackageSummary {
             source: Some(p.source.url()),
             version: p.version.clone(),
         }
+    }
+}
+
+impl VecExtensionTrait for Vec<PackageSummary> {
+    fn sort_by_version(&mut self) {
+        self.sort_by(|x, y| y.version.cmp(&x.version));
     }
 }

@@ -26,6 +26,7 @@ pub struct Release {
     pub version: String,
     pub current: bool,
     pub package: Package,
+    pub executables: Option<Vec<String>>,
 }
 
 impl Display for Release {
@@ -80,6 +81,7 @@ impl From<hubcaps::releases::Release> for Release {
                 version: Some(r.tag_name.clone()),
                 description: None,
             },
+            executables: None,
         }
     }
 }

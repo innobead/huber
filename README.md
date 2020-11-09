@@ -195,14 +195,14 @@ targets:
  velero  v1.5.2        true 
  k3s     v1.19.3+k3s2  true
 
-❯ huber show -n k3s
- Name  Version       Current 
- k3s   v1.19.3+k3s2  true
+❯ huber show -n velero
+ Name    Version  Current  Executables 
+ velero  v1.5.1   true     - /home/davidko/.huber/bin/velero 
 
-❯ huber show -n k3s --all
- Name  Version        Current 
- k3s   v1.19.3+k3s2   false 
- k3s   v1.18.10+k3s2  true 
+❯ huber show -n velero --all
+ Name    Version  Current  Executables 
+ velero  v1.5.2   false     
+ velero  v1.5.1   true     - /home/davidko/.huber/bin/velero
 
 ```
 

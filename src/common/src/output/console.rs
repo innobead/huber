@@ -3,7 +3,7 @@ use std::io::Write;
 
 use anyhow::Result;
 use inflector::Inflector;
-use prettytable::{Cell, format, Row, Table};
+use prettytable::{format, Cell, Row, Table};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 

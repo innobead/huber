@@ -12,6 +12,7 @@ use huber_common::result::Result;
 use crate::cmd::CommandTrait;
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use huber_common::model::release::VecExtensionTrait;
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -59,11 +60,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
         let pkg_service = container.get::<PackageService>().unwrap();
 
         if matches.is_present("name") && matches.is_present("all") {
-            let pkgs: Vec<PackageSummary> = pkg_service
+            let mut pkgs: Vec<PackageSummary> = pkg_service
                 .find(&matches.value_of("name").unwrap().to_string())?
                 .into_iter()
                 .map(|it| PackageSummary::from(it))
                 .collect();
+            pkgs.sort_by_version();
 
             return output!(config.output_format, .display(
                 stdout(),

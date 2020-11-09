@@ -14,6 +14,7 @@ use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::ItemOperationTrait;
 use huber_common::model::release::VecExtensionTrait;
 
+
 pub(crate) const CMD_NAME: &str = "show";
 
 pub(crate) struct ShowCmd;
@@ -52,10 +53,10 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
         let release_service = container.get::<ReleaseService>().unwrap();
         let pkg_service = container.get::<PackageService>().unwrap();
 
-        let excluded_keys = if matches.is_present("detail") {
-            Some(vec![])
+        let mut excluded_keys = if matches.is_present("detail") {
+            vec![]
         } else {
-            Some(vec!["package"])
+            vec!["package"]
         };
 
         if matches.is_present("name") {
@@ -72,11 +73,19 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
                 let mut releases = release_service.find(&pkg)?;
                 releases.sort_by_version();
 
+                releases = releases.into_iter().map(|it| {
+                    if it.current {
+                        release_service.current(&it.package).unwrap()
+                    } else {
+                        it
+                    }
+                }).collect();
+
                 return output!(config.output_format, .display(
                     stdout(),
                     &releases,
                     None,
-                    excluded_keys,
+                    Some(excluded_keys),
                 ));
             }
 
@@ -84,12 +93,13 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
                 stdout(),
                 &release,
                 None,
-                excluded_keys,
+                Some(excluded_keys),
             ));
         }
 
         let mut current_releases = release_service.list()?;
         current_releases.sort_by_version();
+        excluded_keys.push("executables");
 
         let releases = if matches.is_present("all") {
             let mut all_releases = vec![];
@@ -111,7 +121,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
             stdout(),
             &releases,
             None,
-            excluded_keys,
+            Some(excluded_keys),
         ))
     }
 }
