@@ -1,33 +1,32 @@
 use std::fs;
-use std::fs::{read_dir, remove_dir_all, remove_file, File};
+use std::fs::{File, read_dir, remove_dir_all, remove_file};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{uncompress_archive, Ownership};
+use compress_tools::{Ownership, uncompress_archive};
+use fs_extra::move_items;
 use inflector::cases::classcase::is_class_case;
 use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
 use log::{debug, info};
 use semver::Version;
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
-
 use tokio::runtime::Runtime;
 use url::Url;
 use urlencoding::decode;
 
 use huber_common::config::Config;
 use huber_common::di::di_container;
+use huber_common::file::trim_os_arch;
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
-use fs_extra::move_items;
-use huber_common::file::trim_os_arch;
+use crate::service::package::PackageService;
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
@@ -187,19 +186,21 @@ impl ReleaseTrait for ReleaseService {
 
     fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<()> {
         let config = self.config.as_ref().unwrap();
-        let exec_filename = trim_os_arch(file.file_name().unwrap().to_str().unwrap());
-        let exec_file_path = config.bin_dir()?.join(&exec_filename);
+        let exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
 
         // if exec_templates specified, ignore not matched files
         let exec_templates: Vec<String> = release.package.target()?.executable_templates.unwrap_or(vec![]);
         if exec_templates.len() > 0 && !exec_templates.contains(&exec_filename) {
             info!(
-                "Ignored to link {:?} to {:?} because it does not mentioned in executable_templates {:?}",
-                &file, &exec_file_path, exec_templates
+                "Ignored to link {:?} because it does not mentioned in executable_templates {:?}",
+                &file, exec_templates
             );
 
             return Ok(());
         }
+
+        let exec_filename = trim_os_arch(&exec_filename);
+        let exec_file_path = config.bin_dir()?.join(&exec_filename);
 
         // check if filename has invalid extension
         let exec_filename_without_version = exec_filename.as_str().replace(&release.version, "");
@@ -335,7 +336,7 @@ impl ReleaseTrait for ReleaseService {
 
                 let mut dest_f = File::create(&download_file_path)?;
                 let bytes = response.bytes().await?;
-                    dest_f.write(&bytes)?;
+                dest_f.write(&bytes)?;
 
                 let ext = download_file_path.extension();
                 debug!("{:?}", ext);
@@ -351,7 +352,7 @@ impl ReleaseTrait for ReleaseService {
                     fs_extra::file::move_file(
                         &download_file_path,
                         &dest_f,
-                        &option
+                        &option,
                     )?;
 
                     continue;
@@ -381,7 +382,8 @@ impl ReleaseTrait for ReleaseService {
                         info!("Moving {:?}, {:?}", &extra_content_dir, &pkg_dir);
 
                         let copy_items: Vec<PathBuf> = extra_content_dir.read_dir()?.map(|it| it.unwrap().path()).collect();
-                        let option = fs_extra::dir::CopyOptions::new();
+                        let mut option = fs_extra::dir::CopyOptions::new();
+                        option.overwrite = true;
                         move_items(&copy_items, &pkg_dir, &option)?;
 
                         info!("Removing temp files {:?}, {:?}", download_file_path, extract_dir);

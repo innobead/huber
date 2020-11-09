@@ -94,6 +94,7 @@ fn releases() -> Vec<Package> {
         submariner::release(),
         kind::release(),
         krew::release(),
+        minikube::release(),
         // runtime
         containerd::release(),
         firecracker::release(),

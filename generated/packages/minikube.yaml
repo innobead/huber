@@ -1,0 +1,26 @@
+# This is generated. Don't modify.
+---
+name: minikube
+description: Run Kubernetes locally
+source:
+  Github:
+    owner: kubernetes
+    repo: minikube
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/minikube-linux-amd64"
+      checksum: ~
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/minikube-linux-arm64"
+      checksum: ~
+  - MacOS:
+      artifact_templates:
+        - "{version}/minikube-darwin-amd64"
+      checksum: ~
+  - Windows:
+      artifact_templates:
+        - "{version}/minikube-windows-amd64"
+      checksum: ~
+detail: ~

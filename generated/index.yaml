@@ -45,6 +45,9 @@
 - name: kubefire
   owner: innobead
   source: github
+- name: minikube
+  owner: kubernetes
+  source: github
 - name: octant
   owner: vmware-tanzu
   source: github

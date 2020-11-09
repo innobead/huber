@@ -24,3 +24,4 @@ pub mod bat;
 pub mod submariner;
 pub mod kind;
 pub mod krew;
+pub mod minikube;
