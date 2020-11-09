@@ -113,12 +113,16 @@ export PATH=$HOME/.huber/bin:$PATH
 Installing k3s
 Downloading package artifacts from github
 Setting k3s (version: v1.19.3+k3s2, source: github) as the current package
+Installed executables:
+ - /home/davidko/.huber/bin/k3s
 k3s (version: v1.19.3+k3s2, source: github) installed
 
 ❯ huber install k3s -v v1.18.10+k3s2
 Updating k3s to k3s (version: v1.19.3+k3s2, source: github)
 Downloading package artifacts from github
 Setting k3s (version: v1.18.10+k3s2, source: github) as the current package
+Installed executables:
+ - /home/davidko/.huber/bin/k3s
 k3s (version: v1.18.10+k3s2, source: github) updated
 
 ```
@@ -144,6 +148,8 @@ velero updated
 
 ❯ huber current gh -v v1.2.0
 Setting gh (version: v1.2.0, source: github) as the current package
+Updated executables:
+ - /home/davidko/.huber/bin/gh
 gh (version: v1.2.0, source: github) as current updated
 
 ❯ huber show -n gh --all
@@ -195,11 +201,11 @@ targets:
  velero  v1.5.2        true 
  k3s     v1.19.3+k3s2  true
 
-❯ huber show -n velero
+❯ huber show velero
  Name    Version  Current  Executables 
  velero  v1.5.1   true     - /home/davidko/.huber/bin/velero 
 
-❯ huber show -n velero --all
+❯ huber show velero --all
  Name    Version  Current  Executables 
  velero  v1.5.2   false     
  velero  v1.5.1   true     - /home/davidko/.huber/bin/velero

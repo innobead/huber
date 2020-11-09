@@ -31,8 +31,8 @@ use std::collections::HashMap;
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
-    fn set_current(&self, release: &mut Release) -> Result<()>;
-    fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<()>;
+    fn set_current(&self, release: &mut Release) -> Result<Vec<String>>;
+    fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<Option<String>>;
     fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()>;
     fn get_executables_for_current(&self, pkg: &Package) -> Result<Vec<String>>;
     fn delete_release(&self, release: &Release) -> Result<()>;
@@ -99,7 +99,7 @@ impl ReleaseTrait for ReleaseService {
         Ok(release)
     }
 
-    fn set_current(&self, release: &mut Release) -> Result<()> {
+    fn set_current(&self, release: &mut Release) -> Result<Vec<String>> {
         info!("Setting the current release: {}", &release);
 
         let config = self.config.as_ref().unwrap();
@@ -125,6 +125,7 @@ impl ReleaseTrait for ReleaseService {
             "Updating the current release bin symbolic links: {}",
             &release
         );
+        let mut linked_exe_files: Vec<String> = vec![];
         let scan_dirs = vec![&current_pkg_dir, &current_bin_dir];
         for dir in scan_dirs {
             info!("Scanning executables in {:?}", dir);
@@ -138,7 +139,9 @@ impl ReleaseTrait for ReleaseService {
                 let entry = entry?;
                 let path = entry.path();
                 if path.is_file() {
-                    self.link_executables_for_current(&release, &path)?;
+                    if let Some(p) = self.link_executables_for_current(&release, &path)? {
+                        linked_exe_files.push(p);
+                    }
                 }
             }
         }
@@ -189,10 +192,10 @@ impl ReleaseTrait for ReleaseService {
         let release_f = File::create(release_f)?;
         serde_yaml::to_writer(release_f, &release)?;
 
-        Ok(())
+        Ok(linked_exe_files)
     }
 
-    fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<()> {
+    fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<Option<String>> {
         let config = self.config.as_ref().unwrap();
         let mut exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
 
@@ -208,7 +211,7 @@ impl ReleaseTrait for ReleaseService {
                 &file, exec_templates
             );
 
-            return Ok(());
+            return Ok(None)
         }
 
         // update linked exec name according to executable_mappings if it exists
@@ -237,7 +240,7 @@ impl ReleaseTrait for ReleaseService {
                 &file, &exec_file_path, ext
             );
 
-            return Ok(());
+            return Ok(None)
         }
 
         if is_upper_case(exec_filename_without_version.clone())
@@ -249,14 +252,14 @@ impl ReleaseTrait for ReleaseService {
                 &file, &exec_file_path
             );
 
-            return Ok(());
+            return Ok(None);
         }
 
         if file.extension().is_none() && !file.is_executable() {
             info!("Making {:?} as executable", &file);
             fs::set_permissions(&file, fs::Permissions::from_mode(0o755))?;
 
-            return Ok(());
+            return Ok(None)
         }
 
         if !file.is_executable() {
@@ -265,11 +268,13 @@ impl ReleaseTrait for ReleaseService {
                 &file, &exec_file_path
             );
 
-            return Ok(());
+            return Ok(None)
         }
 
         info!("Linking {:?} to {:?}", &file, &exec_file_path);
-        Ok(symlink_file(file, exec_file_path)?)
+        symlink_file(file, &exec_file_path)?;
+
+        Ok(Some(exec_file_path.to_str().unwrap().to_string()))
     }
 
     fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()> {
@@ -591,7 +596,10 @@ impl ItemOperationTrait for ReleaseService {
                 self.download_install_github_package(obj, &p)?;
 
                 println!("Setting {} as the current package", release);
-                self.set_current(&mut release)?;
+                let executables = self.set_current(&mut release)?;
+
+                println!("{}", format!("Installed executables:\n - {}", executables.join(" - ")).trim_end_matches("- "));
+                release.executables = Some(executables);
 
                 Ok(release)
             }

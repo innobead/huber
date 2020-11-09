@@ -32,9 +32,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
             .about("Shows installed packages")
             .args(&vec![
                 Arg::with_name("name")
-                    .short("n")
-                    .long("name")
-                    .value_name("string")
+                    .value_name("package name")
                     .help("Package name")
                     .takes_value(true),
                 Arg::with_name("all")
