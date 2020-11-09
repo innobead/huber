@@ -13,7 +13,6 @@ pub fn release() -> Package {
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
                     "{version}/kubefire-linux-amd64".to_string(),
-                    "{version}/host-local-rev-linux-amd64".to_string(),
                 ],
                 checksum: None,
                 install_commands: None,
@@ -23,7 +22,6 @@ pub fn release() -> Package {
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec![
                     "{version}/kubefire-linux-arm64".to_string(),
-                    "{version}/host-local-rev-linux-arm64".to_string(),
                 ],
                 checksum: None,
                 install_commands: None,
