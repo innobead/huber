@@ -32,30 +32,34 @@ export PATH=$HOME/.huber/bin:$PATH
 
 ```console
 ❯ huber search
- Name         Description                                                                                                                                             Source 
- bat          A cat(1) clone with wings.                                                                                                                              https://github.com/sharkdp/bat 
- containerd   An open and reliable container runtime                                                                                                                  https://github.com/containerd/containerd 
- dasel        Query and update data structures from the command line. Comparable to jq/yq but supports JSON, TOML, YAML, XML and CSV with zero runtime dependencies.  https://github.com/TomWright/dasel 
- deno         A secure JavaScript and TypeScript runtime                                                                                                              https://github.com/denoland/deno 
- firecracker  Secure and fast microVMs for serverless computing.                                                                                                      https://github.com/firecracker-microvm/firecracker 
- fleet        Manage large fleets of Kubernetes clusters                                                                                                              https://github.com/rancher/fleet 
- gh           GitHub’s official command line tool                                                                                                                     https://github.com/cli/cli 
- helm         The Kubernetes Package Manager                                                                                                                          https://github.com/helm/helm 
- istio        Connect, secure, control, and observe services.                                                                                                         https://github.com/istio/istio 
- k3s          Lightweight Kubernetes                                                                                                                                  https://github.com/rancher/k3s 
- k3sup        bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                                                                       https://github.com/alexellis/k3sup 
- kube-bench   Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kubernetes Benchmark                                   https://github.com/aquasecurity/kube-bench 
- kubefire     KubeFire, creates and manages Kubernetes Clusters using Firecracker microVMs                                                                            https://github.com/innobead/kubefire 
- octant       Highly extensible platform for developers to better understand the complexity of Kubernetes clusters.                                                   https://github.com/vmware-tanzu/octant 
- opa          An open source, general-purpose policy engine.                                                                                                          https://github.com/open-policy-agent/opa 
- pack         CLI for building apps using Cloud Native Buildpacks                                                                                                     https://github.com/buildpacks/pack 
- pulumi       Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                                                                      https://github.com/pulumi/pulumi 
- rio          Application Deployment Engine for Kubernetes                                                                                                            https://github.com/rancher/rio 
- rke          Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that runs entirely within containers.                      https://github.com/rancher/rke 
- submariner   Submariner's Operator installs and maintains your Submariner deployment.                                                                                https://github.com/submariner-io/submariner-operator 
- trivy        A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI                                                                        https://github.com/aquasecurity/trivy 
- typescript   TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                                                                        https://github.com/microsoft/TypeScript 
- velero       Backup and migrate Kubernetes applications and their persistent volumes                                                                                 https://github.com/vmware-tanzu/velero 
+ Name         Description                                                                                              Source 
+ bat          A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
+ containerd   An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
+ dasel        Query and update data structures from the command line. Comparable to jq/yq but supports JSON, TOML,...  https://github.com/TomWright/dasel 
+ deno         A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
+ firecracker  Secure and fast microVMs for serverless computing.                                                       https://github.com/firecracker-microvm/firecracker 
+ fleet        Manage large fleets of Kubernetes clusters                                                               https://github.com/rancher/fleet 
+ gh           GitHub’s official command line tool                                                                      https://github.com/cli/cli 
+ helm         The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
+ istio        Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
+ k3ai         K3ai is a lightweight, fully automated, AI infrastructure-in-a-box solution that allows anyone to ex...  https://github.com/kf5i/k3ai 
+ k3s          Lightweight Kubernetes                                                                                   https://github.com/rancher/k3s 
+ k3sup        bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
+ kind         Kubernetes IN Docker - local clusters for testing Kubernetes                                             https://github.com/kubernetes-sigs/kind 
+ krew         📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
+ kube-bench   Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
+ kubefire     KubeFire, creates and manages Kubernetes Clusters using Firecracker microVMs                             https://github.com/innobead/kubefire 
+ minikube     Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
+ octant       Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
+ opa          An open source, general-purpose policy engine.                                                           https://github.com/open-policy-agent/opa 
+ pack         CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
+ pulumi       Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                       https://github.com/pulumi/pulumi 
+ rio          Application Deployment Engine for Kubernetes                                                             https://github.com/rancher/rio 
+ rke          Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that ru...  https://github.com/rancher/rke 
+ submariner   Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
+ trivy        A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI                         https://github.com/aquasecurity/trivy 
+ typescript   TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
+ velero       Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
 
 ```
 
