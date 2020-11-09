@@ -9,7 +9,7 @@ source:
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "{version}/k3sup"
+        - "{version}/install"
       executable_mappings:
         install: k3ai-install
 detail: ~

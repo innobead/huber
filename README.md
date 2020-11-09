@@ -60,6 +60,7 @@ export PATH=$HOME/.huber/bin:$PATH
  trivy        A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI                         https://github.com/aquasecurity/trivy 
  typescript   TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
  velero       Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
+ ...
 
 ```
 
