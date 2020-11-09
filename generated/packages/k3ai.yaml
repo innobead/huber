@@ -1,0 +1,15 @@
+# This is generated. Don't modify.
+---
+name: k3ai
+description: "K3ai is a lightweight, fully automated, AI infrastructure-in-a-box solution that allows anyone to experiment quickly with Kubeflow pipelines. K3ai  is perfect for anything from Edge to laptops."
+source:
+  Github:
+    owner: kf5i
+    repo: k3ai
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/k3sup"
+      executable_mappings:
+        install: k3ai-install
+detail: ~

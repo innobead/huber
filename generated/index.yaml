@@ -27,6 +27,9 @@
 - name: istio
   owner: istio
   source: github
+- name: k3ai
+  owner: kf5i
+  source: github
 - name: k3s
   owner: rancher
   source: github
