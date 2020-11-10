@@ -15,6 +15,9 @@
 ### Cargo
 
 ```console
+# Install cargo
+curl https://sh.rustup.rs -sSf | sh
+
 # Have cargo, rustc installed via rustup
 make install
 
