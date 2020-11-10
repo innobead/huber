@@ -27,6 +27,9 @@
 - name: helm
   owner: helm
   source: github
+- name: hub
+  owner: github
+  source: github
 - name: istio
   owner: istio
   source: github

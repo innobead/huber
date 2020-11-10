@@ -37,3 +37,4 @@ pub mod packer;
 pub mod nomad;
 pub mod consul;
 pub mod waypoint;
+pub mod hub;
