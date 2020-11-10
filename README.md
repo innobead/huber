@@ -34,6 +34,7 @@ export PATH=$HOME/.huber/bin:$PATH
 ❯ huber search
  Name         Description                                                                                              Source 
  bat          A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
+ consul       Consul is a distributed, highly available, and data center aware solution to connect and configure a...  https://github.com/hashicorp/consul 
  containerd   An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
  dasel        Query and update data structures from the command line. Comparable to jq/yq but supports JSON, TOML,...  https://github.com/TomWright/dasel 
  deno         A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
@@ -43,35 +44,52 @@ export PATH=$HOME/.huber/bin:$PATH
  helm         The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
  istio        Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
  k3ai         K3ai is a lightweight, fully automated, AI infrastructure-in-a-box solution that allows anyone to ex...  https://github.com/kf5i/k3ai 
+ k3d          Little helper to run Rancher Lab's k3s in Docker                                                         https://github.com/rancher/k3d 
  k3s          Lightweight Kubernetes                                                                                   https://github.com/rancher/k3s 
  k3sup        bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
  kind         Kubernetes IN Docker - local clusters for testing Kubernetes                                             https://github.com/kubernetes-sigs/kind 
+ kpt                                                                                                                   https://github.com/GoogleContainerTools/kpt 
  krew         📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
  kube-bench   Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
  kubefire     KubeFire, creates and manages Kubernetes Clusters using Firecracker microVMs                             https://github.com/innobead/kubefire 
  minikube     Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
+ nomad        Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
  octant       Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
+ okteto       Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
  opa          An open source, general-purpose policy engine.                                                           https://github.com/open-policy-agent/opa 
+ oras         OCI Registry As Storage                                                                                  https://github.com/deislabs/oras 
  pack         CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
+ packer       Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 
  pulumi       Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                       https://github.com/pulumi/pulumi 
  rio          Application Deployment Engine for Kubernetes                                                             https://github.com/rancher/rio 
  rke          Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that ru...  https://github.com/rancher/rke 
+ skaffold     Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
+ sonobuoy     Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
  submariner   Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
+ terraform    Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
  trivy        A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI                         https://github.com/aquasecurity/trivy 
  typescript   TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
  velero       Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
- ...
+ waypoint     A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
+...
 
 ```
 
 ## Searching available package versions
 
 ```console
-❯ huber search -n k3s
+❯ huber search k3s
  Name  Description             Source 
  k3s   Lightweight Kubernetes  "https://github.com/rancher/k3s" 
 
-❯ huber search -n k3s --all
+❯ huber search -p k3 -a
+ Name   Description                                                                                              Source 
+ k3ai   K3ai is a lightweight, fully automated, AI infrastructure-in-a-box solution that allows anyone to ex...  https://github.com/kf5i/k3ai 
+ k3d    Little helper to run Rancher Lab's k3s in Docker                                                         https://github.com/rancher/k3d 
+ k3s    Lightweight Kubernetes                                                                                   https://github.com/rancher/k3s 
+ k3sup  bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
+
+❯ huber search k3s --all
  Name  Version 
  k3s   v1.19.3+k3s2 
  k3s   v1.18.10+k3s2 

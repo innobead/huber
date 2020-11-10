@@ -31,9 +31,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
             .about("Searches package")
             .args(&[
                 Arg::with_name("name")
-                    .value_name("string")
-                    .short("n")
-                    .long("name")
+                    .value_name("package name")
                     .help("Package name")
                     .takes_value(true),
                 Arg::with_name("owner")
