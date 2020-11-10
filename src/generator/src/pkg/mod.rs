@@ -27,3 +27,8 @@ pub mod trivy;
 pub mod typescript;
 pub mod velero;
 pub mod k3d;
+pub mod okteto;
+pub mod sonobuoy;
+pub mod skaffold;
+pub mod kpt;
+pub mod oras;

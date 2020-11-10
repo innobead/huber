@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: okteto
+description: Develop your applications directly in your Kubernetes Cluster
+source:
+  Github:
+    owner: okteto
+    repo: okteto
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/okteto-Linux-x86_64"
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/okteto-Linux-arm64"
+  - MacOS:
+      artifact_templates:
+        - "{version}/okteto-Darwin-x86_64"
+  - Windows:
+      artifact_templates:
+        - "{version}/okteto.exe"
+detail: ~

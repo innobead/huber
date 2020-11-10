@@ -79,6 +79,10 @@ fn releases() -> Vec<Package> {
         // infra
         pulumi::release(),
         // app development
+        okteto::release(),
+        skaffold::release(),
+        kpt::release(),
+        oras::release(),
         // cloud native, kubernetes
         velero::release(),
         helm::release(),
@@ -100,6 +104,7 @@ fn releases() -> Vec<Package> {
         kind::release(),
         krew::release(),
         minikube::release(),
+        sonobuoy::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
