@@ -11,6 +11,10 @@ help:
 build: fmt ## Build binaries
 	cargo build $(CARGO_OPTS) --bins
 
+.PHONY: test
+test: ## Run tests
+	cargo test $(CARGO_OPTS)
+
 .PHONY: fmt
 fmt: ## Format & Lint codes
 	rustup component add rustfmt clippy
