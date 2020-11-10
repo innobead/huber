@@ -4,9 +4,9 @@
 
 - Manages released artifacts from github, and decide which version as the current to use ✅
 - Manages a awesome package list including popular star github projects across different development areas ✅
-- Provides to manage self own package list for any development purpose *(soon)*
-- 'huber.yaml' can be created in any public/private github repo to be aware to Huber to manage released artifacts *(soon)*   
-- Supports cross platforms *(Linux ready, MacOS andWindows soon)* 
+- Supports to manage self own package list for any development purpose *(soon)*
+- Supports 'huber.yaml' in any public/private github repo aware to Huber to manage the described packages *(soon)*   
+- Supports cross platforms *(Linux ready, MacOS and, Windows soon)* 
 
 # Getting Started
 
