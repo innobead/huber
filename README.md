@@ -3,7 +3,7 @@
 **Huber** is a single development entry to simplify 'github release' package management. 
 
 - Manages released artifacts from github, and decide which version as the current to use ✅
-- Provides a managed package list of famous started github projects ✅
+- Manages a awesome package list including popular star github projects across different development areas ✅
 - Provides to manage self own package list for any development purpose *(soon)*
 - 'huber.yaml' can be created in any public/private github repo to be aware to Huber to manage released artifacts *(soon)*   
 - Supports cross platforms *(Linux ready, MacOS andWindows soon)* 
