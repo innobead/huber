@@ -27,12 +27,12 @@ pub struct Release {
     pub current: bool,
     pub package: Package,
     pub executables: Option<Vec<String>>,
-    pub kind: ReleaseKind,
+    #[serde(skip_deserializing)]
+    pub kind: Option<ReleaseKind>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum ReleaseKind {
-    Unknown,
     Draft,
     PreRelease,
     Release
@@ -100,7 +100,7 @@ impl From<hubcaps::releases::Release> for Release {
                 release_kind: Some(release_kind.clone()),
             },
             executables: None,
-            kind: release_kind
+            kind: Some(release_kind)
         }
     }
 }

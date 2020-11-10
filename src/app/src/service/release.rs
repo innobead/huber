@@ -21,7 +21,7 @@ use huber_common::config::Config;
 use huber_common::di::di_container;
 use huber_common::file::trim_os_arch;
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
-use huber_common::model::release::{Release, ReleaseIndex, ReleaseKind};
+use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
@@ -678,7 +678,7 @@ impl ItemOperationTrait for ReleaseService {
                         current: current_pkg.version == filename.to_string(),
                         package: pkg.clone(),
                         executables: None,
-                        kind: ReleaseKind::Unknown
+                        kind: None
                     });
                 }
             }

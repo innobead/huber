@@ -20,6 +20,7 @@ pub struct Package {
     pub detail: Option<PackageDetailType>,
     // display purpose, injected from release
     #[serde(skip_serializing_if = "Option::is_none")]
+    #[serde(skip_deserializing)]
     pub release_kind: Option<ReleaseKind>,
 }
 

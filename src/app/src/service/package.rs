@@ -70,7 +70,7 @@ impl ItemOperationTrait for PackageService {
                         .map(|it| {
                             let mut pkg = it.package;
                             pkg.version = Some(it.version);
-                            pkg.release_kind = Some(it.kind);
+                            pkg.release_kind = it.kind;
 
                             pkg
                         })

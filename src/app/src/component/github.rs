@@ -120,7 +120,7 @@ impl GithubClientTrait for GithubClient {
                 release.package.name = pkg.name.clone();
                 release.package.source = pkg.source.clone();
                 release.package.targets = pkg.targets.clone();
-                release.package.release_kind = Some(release.kind.clone());
+                release.package.release_kind = release.kind.clone();
 
                 release
             })
