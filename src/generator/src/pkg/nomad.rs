@@ -3,7 +3,7 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "terraform".to_string(),
+        name: "nomad".to_string(),
         source: PackageSource::Github {
             owner: "hashicorp".to_string(),
             repo: "nomad".to_string(),
@@ -23,7 +23,7 @@ pub fn release() -> Package {
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec![
-                    "https://releases.hashicorp.com/packer/{version}/packer_{version}_linux_arm64.zip"
+                    "https://releases.hashicorp.com/packer/{version}/nomad_{version}_linux_arm64.zip"
                         .to_string(),
                 ],
                 executable_templates: None,

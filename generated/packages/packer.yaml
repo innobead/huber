@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: packer
+description: Packer is a tool for creating identical machine images for multiple platforms from a single source configuration.
+source:
+  Github:
+    owner: hashicorp
+    repo: packer
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "https://releases.hashicorp.com/packer/{version}/packer_{version}_linux_amd64.zip"
+  - LinuxArm64:
+      artifact_templates:
+        - "https://releases.hashicorp.com/packer/{version}/packer_{version}_linux_arm64.zip"
+  - MacOS:
+      artifact_templates:
+        - "https://releases.hashicorp.com/packer/{version}/packer_{version}_darwin_amd64.zip"
+  - Windows:
+      artifact_templates:
+        - "https://releases.hashicorp.com/packer/{version}/packer_{version}_windows_amd64.zip"
+detail: ~

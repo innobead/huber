@@ -112,6 +112,7 @@ fn releases() -> Vec<Package> {
         // runtime
         containerd::release(),
         firecracker::release(),
+        nomad::release(),
         // programing
         deno::release(),
         typescript::release(),

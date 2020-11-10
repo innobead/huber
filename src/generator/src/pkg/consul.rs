@@ -3,7 +3,7 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "terraform".to_string(),
+        name: "consul".to_string(),
         source: PackageSource::Github {
             owner: "hashicorp".to_string(),
             repo: "consul".to_string(),

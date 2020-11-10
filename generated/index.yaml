@@ -3,6 +3,9 @@
 - name: bat
   owner: sharkdp
   source: github
+- name: consul
+  owner: hashicorp
+  source: github
 - name: containerd
   owner: containerd
   source: github
@@ -57,6 +60,9 @@
 - name: minikube
   owner: kubernetes
   source: github
+- name: nomad
+  owner: hashicorp
+  source: github
 - name: octant
   owner: vmware-tanzu
   source: github
@@ -71,6 +77,9 @@
   source: github
 - name: pack
   owner: buildpacks
+  source: github
+- name: packer
+  owner: hashicorp
   source: github
 - name: pulumi
   owner: pulumi
@@ -93,15 +102,6 @@
 - name: terraform
   owner: hashicorp
   source: github
-- name: terraform
-  owner: hashicorp
-  source: github
-- name: terraform
-  owner: hashicorp
-  source: github
-- name: terraform
-  owner: hashicorp
-  source: github
 - name: trivy
   owner: aquasecurity
   source: github
@@ -110,4 +110,7 @@
   source: github
 - name: velero
   owner: vmware-tanzu
+  source: github
+- name: waypoint
+  owner: hashicorp
   source: github
