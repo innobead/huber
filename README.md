@@ -1,4 +1,4 @@
-# What is Huber?
+# What is Huber 📦
 
 **Huber** is a single development entry to simplify 'github release' package management. 
 
