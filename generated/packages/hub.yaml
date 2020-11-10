@@ -10,6 +10,8 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "hub-linux-amd64-{version}.tgz"
+      executable_mappings:
+        install: hub-install
   - LinuxArm64:
       artifact_templates:
         - "hub-linux-arm64-{version}.tgz"

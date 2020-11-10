@@ -13,7 +13,9 @@ pub fn release() -> Package {
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["hub-linux-amd64-{version}.tgz".to_string()],
                 executable_templates: None,
-                executable_mappings: None,
+                executable_mappings: Some(hashmap! {
+                    "install".to_string() => "hub-install".to_string()
+                }),
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,

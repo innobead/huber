@@ -58,7 +58,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for CurrentCmd {
             Some(mut r) => {
                 println!("Setting {} as the current package", &r);
                 let executables = release_service.set_current(&mut r)?;
-                println!("{}", format!("Updated executables:\n - {}", executables.join(" - ")).trim_end_matches("- "));
+                println!("{}", format!("Updated executables:\n - {}", executables.join("\n - ")).trim_end_matches("- "));
                 println!("{} as current updated", &r);
 
                 Ok(())

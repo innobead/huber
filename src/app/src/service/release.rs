@@ -607,7 +607,7 @@ impl ItemOperationTrait for ReleaseService {
                 println!("Setting {} as the current package", release);
                 let executables = self.set_current(&mut release)?;
 
-                println!("{}", format!("Installed executables:\n - {}", executables.join(" - ")).trim_end_matches("- "));
+                println!("{}", format!("Installed executables:\n - {}", executables.join("\n - ")).trim_end_matches("- "));
                 release.executables = Some(executables);
 
                 Ok(release)
