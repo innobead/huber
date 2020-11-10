@@ -18,7 +18,7 @@
 # Install cargo
 curl https://sh.rustup.rs -sSf | sh
 
-# Have cargo, rustc installed via rustup
+# Install huber in $HOME/.cargo/bin
 make install
 
 # Add huber home/bin in your environment path
