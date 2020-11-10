@@ -93,6 +93,9 @@
 - name: rke
   owner: rancher
   source: github
+- name: rke2
+  owner: rancher
+  source: github
 - name: skaffold
   owner: GoogleContainerTools
   source: github
