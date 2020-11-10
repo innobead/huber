@@ -41,3 +41,4 @@ pub mod hub;
 pub mod rke2;
 pub mod tilt;
 pub mod kubectl;
+pub mod syncthing;

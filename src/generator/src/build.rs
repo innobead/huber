@@ -79,6 +79,7 @@ fn releases() -> Vec<Package> {
         terraform::release(),
         packer::release(),
         hub::release(),
+        syncthing::release(),
         // infra
         pulumi::release(),
         // app development

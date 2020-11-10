@@ -108,6 +108,9 @@
 - name: submariner
   owner: submariner-io
   source: github
+- name: syncthing
+  owner: syncthing
+  source: github
 - name: terraform
   owner: hashicorp
   source: github
