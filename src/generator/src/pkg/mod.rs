@@ -32,3 +32,8 @@ pub mod sonobuoy;
 pub mod skaffold;
 pub mod kpt;
 pub mod oras;
+pub mod terraform;
+pub mod packer;
+pub mod nomad;
+pub mod consul;
+pub mod waypoint;

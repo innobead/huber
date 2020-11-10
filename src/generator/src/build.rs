@@ -76,6 +76,8 @@ fn releases() -> Vec<Package> {
         gh::release(),
         dasel::release(),
         bat::release(),
+        terraform::release(),
+        packer::release(),
         // infra
         pulumi::release(),
         // app development
@@ -83,6 +85,7 @@ fn releases() -> Vec<Package> {
         skaffold::release(),
         kpt::release(),
         oras::release(),
+        waypoint::release(),
         // cloud native, kubernetes
         velero::release(),
         helm::release(),
@@ -105,6 +108,7 @@ fn releases() -> Vec<Package> {
         krew::release(),
         minikube::release(),
         sonobuoy::release(),
+        consul::release(),
         // runtime
         containerd::release(),
         firecracker::release(),

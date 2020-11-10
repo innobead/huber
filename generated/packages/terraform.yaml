@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: terraform
+description: "Consul is a distributed, highly available, and data center aware solution to connect and configure applications across dynamic, distributed infrastructure."
+source:
+  Github:
+    owner: hashicorp
+    repo: consul
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "https://releases.hashicorp.com/consul/{version}/consul_{version}_linux_amd64.zip"
+  - LinuxArm64:
+      artifact_templates:
+        - "https://releases.hashicorp.com/consul/{version}/consul_{version}_linux_arm64.zip"
+  - MacOS:
+      artifact_templates:
+        - "https://releases.hashicorp.com/consul/{version}/consul_{version}_darwin_amd64.zip"
+  - Windows:
+      artifact_templates:
+        - "https://releases.hashicorp.com/consul/{version}/consul_{version}_windows_amd64.zip"
+detail: ~
