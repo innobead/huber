@@ -26,7 +26,7 @@ pub fn trim_os_arch(str: &str) -> String {
     let arch_pattern = arch_pattern.join("|");
 
     let re = Regex::new(&format!(
-        r"(?i)([-_]v\d+.\d+.\d+)?[-_]({})[-_]({})[-_]*",
+        r"(?i)([-_]v\d+.\d+.\d+)?[-_.]({})[-_]({})[-_]*",
         os_pattern, arch_pattern
     ))
     .unwrap();
@@ -44,6 +44,7 @@ mod test {
             ("name-Linux-aarch64", "name"),
             ("name-linux-Arm64", "name"),
             ("name_Linux-64bit", "name"),
+            ("name.Linux-64bit", "name"),
             ("name_macOS-64bit", "name"),
             ("name-v1.0.0_macOS-64bit", "name"),
             ("name_v1.0.0_macOS-64bit", "name"),
