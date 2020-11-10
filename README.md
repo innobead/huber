@@ -93,37 +93,37 @@ export PATH=$HOME/.huber/bin:$PATH
  k3sup  bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
 
 ❯ huber search k3s --all
- Name  Version 
- k3s   v1.19.3+k3s2 
- k3s   v1.18.10+k3s2 
- k3s   v1.17.13+k3s2 
- k3s   v1.19.3-rc1+k3s2 
- k3s   v1.17.13-rc1+k3s2 
- k3s   v1.18.10-rc1+k3s2 
- k3s   v1.18.10+k3s1 
- k3s   v1.17.13+k3s1 
- k3s   v1.18.10-rc1+k3s1 
- k3s   v1.17.13-rc1+k3s1 
- k3s   v1.19.3-rc1+k3s1 
- k3s   v1.19.3+k3s1 
- k3s   v1.19.2+k3s1 
- k3s   v1.19.2-rc2+k3s1 
- k3s   v1.19.2-rc1+k3s1 
- k3s   v1.18.9-rc1+k3s1 
- k3s   v1.17.12+k3s1 
- k3s   v1.18.9+k3s1 
- k3s   v1.19.1-rc2+k3s1 
- k3s   v1.19.1+k3s1 
- k3s   v1.19.1-rc1+k3s1 
- k3s   v1.16.15+k3s1 
- k3s   v1.18.8-rc1+k3s1 
- k3s   v1.17.11-rc1+k3s1 
- k3s   v1.16.14-rc1+k3s1 
- k3s   v1.16.14+k3s1 
- k3s   v1.17.11+k3s1 
- k3s   v1.18.8+k3s1 
- k3s   v1.16.13+k3s1 
- k3s   v1.17.9+k3s1 
+ Name  Version            Kind 
+ k3s   v1.19.3-rc1+k3s2   PreRelease 
+ k3s   v1.19.3-rc1+k3s1   PreRelease 
+ k3s   v1.19.3+k3s2       Release 
+ k3s   v1.19.3+k3s1       Release 
+ k3s   v1.19.2-rc2+k3s1   PreRelease 
+ k3s   v1.19.2-rc1+k3s1   PreRelease 
+ k3s   v1.19.2+k3s1       Release 
+ k3s   v1.19.1-rc2+k3s1   PreRelease 
+ k3s   v1.19.1-rc1+k3s1   PreRelease 
+ k3s   v1.19.1+k3s1       Release 
+ k3s   v1.18.9-rc1+k3s1   PreRelease 
+ k3s   v1.18.9+k3s1       Release 
+ k3s   v1.18.8-rc1+k3s1   PreRelease 
+ k3s   v1.18.8+k3s1       Release 
+ k3s   v1.18.10-rc1+k3s2  PreRelease 
+ k3s   v1.18.10-rc1+k3s1  PreRelease 
+ k3s   v1.18.10+k3s2      Release 
+ k3s   v1.18.10+k3s1      Release 
+ k3s   v1.17.9+k3s1       Release 
+ k3s   v1.17.13-rc1+k3s2  PreRelease 
+ k3s   v1.17.13-rc1+k3s1  PreRelease 
+ k3s   v1.17.13+k3s2      Release 
+ k3s   v1.17.13+k3s1      Release 
+ k3s   v1.17.12+k3s1      Release 
+ k3s   v1.17.11-rc1+k3s1  PreRelease 
+ k3s   v1.17.11+k3s1      Release 
+ k3s   v1.16.15+k3s1      Release 
+ k3s   v1.16.14-rc1+k3s1  PreRelease 
+ k3s   v1.16.14+k3s1      Release 
+ k3s   v1.16.13+k3s1      Release 
 
 ```
 
