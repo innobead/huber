@@ -114,6 +114,7 @@ fn releases() -> Vec<Package> {
         minikube::release(),
         sonobuoy::release(),
         consul::release(),
+        ctlptl::release(),
         // runtime
         containerd::release(),
         firecracker::release(),

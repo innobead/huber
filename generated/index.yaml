@@ -9,6 +9,9 @@
 - name: containerd
   owner: containerd
   source: github
+- name: ctlptl
+  owner: tilt-dev
+  source: github
 - name: dasel
   owner: TomWright
   source: github
