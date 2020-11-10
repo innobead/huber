@@ -258,8 +258,6 @@ impl ReleaseTrait for ReleaseService {
         if file.extension().is_none() && !file.is_executable() {
             info!("Making {:?} as executable", &file);
             fs::set_permissions(&file, fs::Permissions::from_mode(0o755))?;
-
-            return Ok(None)
         }
 
         if !file.is_executable() {
@@ -422,6 +420,9 @@ impl ReleaseTrait for ReleaseService {
 
                 info!("Saving {} to {:?}", &download_url, download_file_path);
 
+                let _ = remove_file(&download_file_path);
+                let _ = remove_dir_all(&download_file_path);
+
                 let mut dest_f = File::create(&download_file_path)?;
                 let bytes = response.bytes().await?;
                 dest_f.write(&bytes)?;
@@ -467,9 +468,17 @@ impl ReleaseTrait for ReleaseService {
                             extra_content_dir = entry.path();
                         }
 
-                        info!("Moving {:?}, {:?}", &extra_content_dir, &pkg_dir);
+                        let copy_items: Vec<PathBuf> = if extra_content_dir.is_dir() {
+                            info!("Moving {:?}/* to {:?}", &extra_content_dir, &pkg_dir);
 
-                        let copy_items: Vec<PathBuf> = extra_content_dir.read_dir()?.map(|it| it.unwrap().path()).collect();
+                            extra_content_dir.read_dir()?.map(|it| {
+                                it.unwrap().path()
+                            }).collect()
+                        } else {
+                            info!("Moving {:?} to {:?}", &extra_content_dir, &pkg_dir);
+                            vec![extra_content_dir]
+                        };
+
                         let mut option = fs_extra::dir::CopyOptions::new();
                         option.overwrite = true;
                         move_items(&copy_items, &pkg_dir, &option)?;
