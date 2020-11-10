@@ -1,6 +1,6 @@
 # What is Huber 📦
 
-**Huber** is a single development entry to simplify 'github release' package management. 
+**Huber** is a single development entry to simplify `GitHub release` package management of a live awesome list of GitHub projects.
 
 - Manages released artifacts from github, and decide which version as the current to use ✅
 - Manages a awesome package list including popular star github projects across different development areas ✅
