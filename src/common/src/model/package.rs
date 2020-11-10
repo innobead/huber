@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 use serde::export::fmt::Display;
 use serde::export::Formatter;
 
-use crate::model::release::VecExtensionTrait;
+use crate::model::release::{VecExtensionTrait, ReleaseKind};
 use crate::result::Result;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -18,6 +18,9 @@ pub struct Package {
     pub source: PackageSource,
     pub targets: Vec<PackageTargetType>,
     pub detail: Option<PackageDetailType>,
+    // display purpose, injected from release
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub release_kind: Option<ReleaseKind>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -26,6 +29,7 @@ pub struct PackageSummary {
     pub description: Option<String>,
     pub source: Option<String>,
     pub version: Option<String>,
+    pub kind: Option<ReleaseKind>
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -263,6 +267,7 @@ impl From<Package> for PackageSummary {
             description: p.description.clone(),
             source: Some(p.source.url()),
             version: p.version.clone(),
+            kind: p.release_kind.clone(),
         }
     }
 }

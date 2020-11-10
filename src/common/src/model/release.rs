@@ -27,6 +27,15 @@ pub struct Release {
     pub current: bool,
     pub package: Package,
     pub executables: Option<Vec<String>>,
+    pub kind: ReleaseKind,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub enum ReleaseKind {
+    Unknown,
+    Draft,
+    PreRelease,
+    Release
 }
 
 impl Display for Release {
@@ -43,6 +52,14 @@ impl Display for Release {
 
 impl From<hubcaps::releases::Release> for Release {
     fn from(r: hubcaps::releases::Release) -> Self {
+        let release_kind = if r.draft {
+            ReleaseKind::Draft
+        } else if r.prerelease {
+            ReleaseKind::PreRelease
+        } else {
+            ReleaseKind::Release
+        };
+
         Release {
             name: "".to_string(),
             version: r.tag_name.clone(),
@@ -80,8 +97,10 @@ impl From<hubcaps::releases::Release> for Release {
                 }),
                 version: Some(r.tag_name.clone()),
                 description: None,
+                release_kind: Some(release_kind.clone()),
             },
             executables: None,
+            kind: release_kind
         }
     }
 }

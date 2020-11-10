@@ -87,7 +87,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
             stdout(),
             &pkgs,
             None,
-            Some(vec!["version"]),
+            Some(vec!["version", "kind"]),
         ))
     }
 }

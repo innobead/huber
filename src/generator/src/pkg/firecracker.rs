@@ -35,5 +35,6 @@ pub fn release() -> Package {
         ],
         version: None,
         description: None,
+        release_kind: None
     }
 }
