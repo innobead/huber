@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: tilt
+description: A multi-service dev environment for teams on Kubernetes
+source:
+  Github:
+    owner: tilt-dev
+    repo: tilt
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "tilt.{version}.linux.x86_64.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "tilt.{version}.mac.x86_64.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "tilt.{version}.windows.x86_64.zip"
+detail: ~

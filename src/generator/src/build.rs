@@ -87,6 +87,7 @@ fn releases() -> Vec<Package> {
         kpt::release(),
         oras::release(),
         waypoint::release(),
+        tilt::release(),
         // cloud native, kubernetes
         velero::release(),
         helm::release(),
