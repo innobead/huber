@@ -67,4 +67,4 @@ case $os in
   ;;
 esac
 
-install_rust
+install_rust_dependencies
