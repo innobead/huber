@@ -45,7 +45,13 @@ function install_macos_dependencies() {
     (brew list $pkg && brew upgrade $pkg) || brew install $pkg
   done
 
-  echo "export PATH=/usr/local/opt/libarchive/bin:\$PATH" >> "$HOME"/.bash_profile
+  {
+    echo "export PATH=/usr/local/opt/libarchive/bin:\$PATH"
+    echo "export LDFLAGS=-L/usr/local/opt/libarchive/lib"
+    echo "export CPPFLAGS=-I/usr/local/opt/libarchive/include"
+    echo "export PKG_CONFIG_PATH=/usr/local/opt/libarchive/lib/pkgconfig"
+  } >> "$HOME"/.bashrc
+
   # shellcheck disable=SC1090
   . "$HOME"/.bashrc
 }

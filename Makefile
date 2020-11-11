@@ -2,6 +2,7 @@ PROJECT:=$(shell basename $(CURDIR))
 COMMIT:=$(shell git rev-parse --short HEAD 2>/dev/null)-$(shell date "+%Y%m%d%H%M%S")
 TAG:=$(shell git describe --tags --dirty 2>/dev/null)
 BUILD_CACHE_DIR:=$(CURDIR)/.cache
+BUILD_DIR := $(CURDIR)/.target
 
 .PHONY: help
 help:
@@ -27,6 +28,7 @@ fmt: ## Format & Lint codes
 .PHONY: release
 release: ## Release binaries
 	CARGO_OPTS="--release" $(MAKE) build
+	mkdir -p $(BUILD_DIR) && cp $(CURDIR)/target/release/huber $(BUILD_DIR)
 
 .PHONY: install
 install: ## Install binaries
@@ -35,7 +37,7 @@ install: ## Install binaries
 .PHONY: clean
 clean: ## Clean build caches
 	cargo clean
-	rm -rf $(BUILD_CACHE_DIR)
+	rm -rf $(BUILD_CACHE_DIR) $(BUILD_DIR)
 
 .PHONY: fix
 fix:  ## Fix code
@@ -45,3 +47,7 @@ fix:  ## Fix code
 generate: ## Generate managed package list
 	echo "Need to have GITHUB_TOKEN to automatically generate package description"
 	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build --manifest-path=./src/generator/Cargo.toml
+
+.PHONY: checksum
+checksum: ## Generate checksum files for built executables
+	$(CURDIR)/hack/generate-checksum.sh $(BUILD_DIR)
