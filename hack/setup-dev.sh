@@ -30,9 +30,8 @@ function install_macos_dependencies() {
   brew untap local/python2
   brew update
   brew upgrade
-  brew install libarchieve
+  brew install libarchive
 
-  set -x -e
   for pkg in \
     autoconf \
     automake \
@@ -51,6 +50,7 @@ function install_rust_dependencies() {
   if [[ -z $(command -v cargo 2>/dev/null) ]]; then
     curl https://sh.rustup.rs -sSf | sh
   fi
+  cargo version
 
   echo "export PATH=\$HOME/.cargo/bin:\$PATH" >>"$HOME"/.bashrc
   # shellcheck disable=SC1090

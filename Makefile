@@ -13,11 +13,11 @@ setup-dev: ## Prepare environment
 
 .PHONY: build
 build: fmt ## Build binaries
-	cargo build $(CARGO_OPTS) --bins
+	cargo build $(CARGO_OPTS) --workspace --exclude=huber-generator
 
 .PHONY: test
 test: ## Run tests
-	cargo test $(CARGO_OPTS)
+	cargo test $(CARGO_OPTS) --workspace --exclude=huber-generator
 
 .PHONY: fmt
 fmt: ## Format & Lint codes
@@ -39,9 +39,9 @@ clean: ## Clean build caches
 
 .PHONY: fix
 fix:  ## Fix code
-	echo cargo fix --allow-dirty --bins
+	echo cargo fix --allow-dirty
 
 .PHONY: generate
 generate: ## Generate managed package list
 	echo "Need to have GITHUB_TOKEN to automatically generate package description"
-	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build --manifest-path ./src/generator/Cargo.toml
+	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build --manifest-path=./src/generator/Cargo.toml
