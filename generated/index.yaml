@@ -1,5 +1,8 @@
 # This is generated. Don't modify.
 ---
+- name: arkade
+  owner: alexellis
+  source: github
 - name: bat
   owner: sharkdp
   source: github
@@ -20,6 +23,9 @@
   source: github
 - name: deno
   owner: denoland
+  source: github
+- name: faas-cli
+  owner: openfaas
   source: github
 - name: firecracker
   owner: firecracker-microvm

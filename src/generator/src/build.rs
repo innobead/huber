@@ -116,6 +116,8 @@ fn releases() -> Vec<Package> {
         sonobuoy::release(),
         consul::release(),
         ctlptl::release(),
+        arkade::release(),
+        faas_cli::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
