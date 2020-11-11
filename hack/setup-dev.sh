@@ -29,8 +29,7 @@ function install_macos_dependencies() {
   brew untap local/openssl
   brew untap local/python2
   brew update
-  brew upgrade
-  brew install libarchive
+  # brew upgrade
 
   for pkg in \
     autoconf \
@@ -41,9 +40,14 @@ function install_macos_dependencies() {
     xz \
     lz4 \
     zstd \
-    openssl; do
+    openssl \
+    libarchive; do
     (brew list $pkg && brew upgrade $pkg) || brew install $pkg
   done
+
+  echo "export PATH=/usr/local/opt/libarchive/bin:\$PATH" >> "$HOME"/.bash_profile
+  # shellcheck disable=SC1090
+  . "$HOME"/.bashrc
 }
 
 function install_rust_dependencies() {
