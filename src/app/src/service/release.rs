@@ -229,18 +229,29 @@ impl ReleaseTrait for ReleaseService {
         let exec_filename = trim_os_arch(&exec_filename);
         let exec_file_path = config.bin_dir()?.join(&exec_filename);
 
+        if exec_filename.starts_with(".") {
+            info!(
+                "Ignored to link {:?} to {:?} because it's a hidden file",
+                &file, &exec_file_path
+            );
+
+            return Ok(None)
+        }
+
         // check if filename has invalid extension
         let exec_filename_without_version = exec_filename.as_str().replace(&release.version, "");
         let exec_file_path_without_version =
             file.parent().unwrap().join(&exec_filename_without_version);
 
         if let Some(ext) = exec_file_path_without_version.extension() {
-            info!(
-                "Ignored to link {:?} to {:?} because of suffix {:?}",
-                &file, &exec_file_path, ext
-            );
+            if ext.to_str().unwrap() != "exe" {
+                info!(
+                    "Ignored to link {:?} to {:?} because of suffix {:?}",
+                    &file, &exec_file_path, ext
+                );
 
-            return Ok(None)
+                return Ok(None)
+            }
         }
 
         if is_upper_case(exec_filename_without_version.clone())
@@ -448,9 +459,14 @@ impl ReleaseTrait for ReleaseService {
                 }
 
                 match ext {
-                    None => info!("Ignored {:?}, because it is not executable and archived", &download_file_path),
+                    None => info!("Ignored {:?}, because it is not archived", &download_file_path),
 
                     Some(ext) => {
+                        if ext.to_str().unwrap() == "exe" {
+                            info!("Ignored {:?}, because it is not archived and w/ suffix 'exe'", &download_file_path);
+                            continue
+                        }
+
                         // uncompress
                         info!("Decompressing {} which has extension {:?}", filename, ext);
 

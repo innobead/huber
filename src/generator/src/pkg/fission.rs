@@ -18,7 +18,7 @@ pub fn release() -> Package {
                 ],
                 executable_templates: None,
                 executable_mappings: Some(hashmap! {
-                    "fission-cli".to_string() => "fission".to_string()
+                    "fission-cli-linux".to_string() => "fission".to_string()
                 }),
                 install_commands: None,
                 uninstall_commands: None,
@@ -26,13 +26,13 @@ pub fn release() -> Package {
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/fission-cli-linux".to_string(),
+                    "{version}/fission-cli-osx".to_string(),
                     "fission-all-{version}.tgz".to_string(),
                     "fission-core-{version}.tgz".to_string(),
                 ],
                 executable_templates: None,
                 executable_mappings: Some(hashmap! {
-                    "fission-cli".to_string() => "fission".to_string()
+                    "fission-cli-osx".to_string() => "fission".to_string()
                 }),
                 install_commands: None,
                 uninstall_commands: None,
@@ -40,13 +40,13 @@ pub fn release() -> Package {
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/fission-cli-linux".to_string(),
+                    "{version}/fission-cli-windows.exe".to_string(),
                     "fission-all-{version}.tgz".to_string(),
                     "fission-core-{version}.tgz".to_string(),
                 ],
                 executable_templates: None,
                 executable_mappings: Some(hashmap! {
-                    "fission-cli".to_string() => "fission".to_string()
+                    "fission-cli-windows.exe".to_string() => "fission.exe".to_string()
                 }),
                 install_commands: None,
                 uninstall_commands: None,

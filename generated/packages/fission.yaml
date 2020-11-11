@@ -13,19 +13,19 @@ targets:
         - "fission-all-{version}.tgz"
         - "fission-core-{version}.tgz"
       executable_mappings:
-        fission-cli: fission
+        fission-cli-linux: fission
   - MacOS:
       artifact_templates:
-        - "{version}/fission-cli-linux"
+        - "{version}/fission-cli-osx"
         - "fission-all-{version}.tgz"
         - "fission-core-{version}.tgz"
       executable_mappings:
-        fission-cli: fission
+        fission-cli-osx: fission
   - Windows:
       artifact_templates:
-        - "{version}/fission-cli-linux"
+        - "{version}/fission-cli-windows.exe"
         - "fission-all-{version}.tgz"
         - "fission-core-{version}.tgz"
       executable_mappings:
-        fission-cli: fission
+        fission-cli-windows.exe: fission.exe
 detail: ~
