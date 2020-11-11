@@ -108,6 +108,7 @@ fn releases() -> Vec<Package> {
         octant::release(),
         pack::release(),
         opa::release(),
+        conftest::release(),
         submariner::release(),
         kind::release(),
         krew::release(),

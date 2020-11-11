@@ -43,3 +43,4 @@ pub mod tilt;
 pub mod kubectl;
 pub mod syncthing;
 pub mod ctlptl;
+pub mod conftest;

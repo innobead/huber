@@ -3,6 +3,9 @@
 - name: bat
   owner: sharkdp
   source: github
+- name: conftest
+  owner: open-policy-agent
+  source: github
 - name: consul
   owner: hashicorp
   source: github
