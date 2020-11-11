@@ -34,7 +34,7 @@ jobs:
         run: make setup-dev
 
       - name: Run tests
-        run: make test
+        run: source ~/.bashrc && make test
 
       - name: Build all artifacts
         run: make build
