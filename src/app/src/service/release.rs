@@ -32,7 +32,11 @@ use std::collections::HashMap;
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
     fn set_current(&self, release: &mut Release) -> Result<Vec<String>>;
-    fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<Option<String>>;
+    fn link_executables_for_current(
+        &self,
+        release: &Release,
+        file: &PathBuf,
+    ) -> Result<Option<String>>;
     fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()>;
     fn get_executables_for_current(&self, pkg: &Package) -> Result<Vec<String>>;
     fn delete_release(&self, release: &Release) -> Result<()>;
@@ -195,7 +199,11 @@ impl ReleaseTrait for ReleaseService {
         Ok(linked_exe_files)
     }
 
-    fn link_executables_for_current(&self, release: &Release, file: &PathBuf) -> Result<Option<String>> {
+    fn link_executables_for_current(
+        &self,
+        release: &Release,
+        file: &PathBuf,
+    ) -> Result<Option<String>> {
         let config = self.config.as_ref().unwrap();
         let mut exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
 
@@ -211,7 +219,7 @@ impl ReleaseTrait for ReleaseService {
                 &file, exec_templates
             );
 
-            return Ok(None)
+            return Ok(None);
         }
 
         // update linked exec name according to executable_mappings if it exists
@@ -235,7 +243,7 @@ impl ReleaseTrait for ReleaseService {
                 &file, &exec_file_path
             );
 
-            return Ok(None)
+            return Ok(None);
         }
 
         // check if filename has invalid extension
@@ -250,7 +258,7 @@ impl ReleaseTrait for ReleaseService {
                     &file, &exec_file_path, ext
                 );
 
-                return Ok(None)
+                return Ok(None);
             }
         }
 
@@ -277,7 +285,7 @@ impl ReleaseTrait for ReleaseService {
                 &file, &exec_file_path
             );
 
-            return Ok(None)
+            return Ok(None);
         }
 
         info!("Linking {:?} to {:?}", &file, &exec_file_path);
@@ -623,7 +631,11 @@ impl ItemOperationTrait for ReleaseService {
                 println!("Setting {} as the current package", release);
                 let executables = self.set_current(&mut release)?;
 
-                println!("{}", format!("Installed executables:\n - {}", executables.join("\n - ")).trim_end_matches("- "));
+                println!(
+                    "{}",
+                    format!("Installed executables:\n - {}", executables.join("\n - "))
+                        .trim_end_matches("- ")
+                );
                 release.executables = Some(executables);
 
                 Ok(release)
@@ -694,7 +706,7 @@ impl ItemOperationTrait for ReleaseService {
                         current: current_pkg.version == filename.to_string(),
                         package: pkg.clone(),
                         executables: None,
-                        kind: None
+                        kind: None,
                     });
                 }
             }

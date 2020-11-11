@@ -14,7 +14,6 @@ use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::ItemOperationTrait;
 use huber_common::model::release::VecExtensionTrait;
 
-
 pub(crate) const CMD_NAME: &str = "show";
 
 pub(crate) struct ShowCmd;
@@ -71,13 +70,16 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
                 let mut releases = release_service.find(&pkg)?;
                 releases.sort_by_version();
 
-                releases = releases.into_iter().map(|it| {
-                    if it.current {
-                        release_service.current(&it.package).unwrap()
-                    } else {
-                        it
-                    }
-                }).collect();
+                releases = releases
+                    .into_iter()
+                    .map(|it| {
+                        if it.current {
+                            release_service.current(&it.package).unwrap()
+                        } else {
+                            it
+                        }
+                    })
+                    .collect();
 
                 return output!(config.output_format, .display(
                     stdout(),

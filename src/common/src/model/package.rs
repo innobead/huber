@@ -1,12 +1,12 @@
-use std::{env, fmt};
 use std::collections::HashMap;
+use std::{env, fmt};
 
 use hubcaps::releases::Release as HubcapsRelease;
-use serde::{Deserialize, Serialize};
 use serde::export::fmt::Display;
 use serde::export::Formatter;
+use serde::{Deserialize, Serialize};
 
-use crate::model::release::{VecExtensionTrait, ReleaseKind};
+use crate::model::release::{ReleaseKind, VecExtensionTrait};
 use crate::result::Result;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -30,7 +30,7 @@ pub struct PackageSummary {
     pub description: Option<String>,
     pub source: Option<String>,
     pub version: Option<String>,
-    pub kind: Option<ReleaseKind>
+    pub kind: Option<ReleaseKind>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]

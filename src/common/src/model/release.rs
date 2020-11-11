@@ -35,7 +35,7 @@ pub struct Release {
 pub enum ReleaseKind {
     Draft,
     PreRelease,
-    Release
+    Release,
 }
 
 impl Display for Release {
@@ -100,7 +100,7 @@ impl From<hubcaps::releases::Release> for Release {
                 release_kind: Some(release_kind.clone()),
             },
             executables: None,
-            kind: Some(release_kind)
+            kind: Some(release_kind),
         }
     }
 }

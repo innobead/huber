@@ -7,6 +7,10 @@ BUILD_CACHE_DIR:=$(CURDIR)/.cache
 help:
 	@grep -E '^[a-zA-Z%_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
+.PHONY: env
+setup-dev: ## Prepare environment
+	$(CURDIR)/hack/setup-dev.sh
+
 .PHONY: build
 build: fmt ## Build binaries
 	cargo build $(CARGO_OPTS) --bins

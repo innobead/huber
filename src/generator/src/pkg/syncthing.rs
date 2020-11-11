@@ -11,9 +11,7 @@ pub fn release() -> Package {
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "syncthing-linux-amd64-v{version}.tar.gz".to_string()
-                ],
+                artifact_templates: vec!["syncthing-linux-amd64-v{version}.tar.gz".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -47,6 +45,6 @@ pub fn release() -> Package {
         ],
         version: None,
         description: None,
-        release_kind: None
+        release_kind: None,
     }
 }

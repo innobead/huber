@@ -112,6 +112,6 @@ fn create_huber_package() -> Package {
         detail: None,
         version: None,
         description: None,
-        release_kind: None
+        release_kind: None,
     }
 }
