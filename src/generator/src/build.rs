@@ -118,6 +118,7 @@ fn releases() -> Vec<Package> {
         ctlptl::release(),
         arkade::release(),
         faas_cli::release(),
+        fission::release(),
         // runtime
         containerd::release(),
         firecracker::release(),

@@ -1,0 +1,31 @@
+# This is generated. Don't modify.
+---
+name: fission
+description: Fast and Simple Serverless Functions for Kubernetes
+source:
+  Github:
+    owner: fission
+    repo: fission
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/fission-cli-linux"
+        - "fission-all-{version}.tgz"
+        - "fission-core-{version}.tgz"
+      executable_mappings:
+        fission-cli: fission
+  - MacOS:
+      artifact_templates:
+        - "{version}/fission-cli-linux"
+        - "fission-all-{version}.tgz"
+        - "fission-core-{version}.tgz"
+      executable_mappings:
+        fission-cli: fission
+  - Windows:
+      artifact_templates:
+        - "{version}/fission-cli-linux"
+        - "fission-all-{version}.tgz"
+        - "fission-core-{version}.tgz"
+      executable_mappings:
+        fission-cli: fission
+detail: ~

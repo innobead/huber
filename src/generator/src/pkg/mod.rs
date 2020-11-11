@@ -46,3 +46,4 @@ pub mod ctlptl;
 pub mod conftest;
 pub mod arkade;
 pub mod faas_cli;
+pub mod fission;

@@ -30,6 +30,9 @@
 - name: firecracker
   owner: firecracker-microvm
   source: github
+- name: fission
+  owner: fission
+  source: github
 - name: fleet
   owner: rancher
   source: github
