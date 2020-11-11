@@ -14,7 +14,6 @@ pub fn release() -> Package {
                 artifact_templates: vec![
                     "{version}/fission-cli-linux".to_string(),
                     "fission-all-{version}.tgz".to_string(),
-                    "fission-core-{version}.tgz".to_string(),
                 ],
                 executable_templates: None,
                 executable_mappings: Some(hashmap! {
@@ -28,7 +27,6 @@ pub fn release() -> Package {
                 artifact_templates: vec![
                     "{version}/fission-cli-osx".to_string(),
                     "fission-all-{version}.tgz".to_string(),
-                    "fission-core-{version}.tgz".to_string(),
                 ],
                 executable_templates: None,
                 executable_mappings: Some(hashmap! {
@@ -42,7 +40,6 @@ pub fn release() -> Package {
                 artifact_templates: vec![
                     "{version}/fission-cli-windows.exe".to_string(),
                     "fission-all-{version}.tgz".to_string(),
-                    "fission-core-{version}.tgz".to_string(),
                 ],
                 executable_templates: None,
                 executable_mappings: Some(hashmap! {
