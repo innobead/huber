@@ -18,7 +18,7 @@ build: fmt ## Build binaries
 
 .PHONY: test
 test: ## Run tests
-	cargo test $(CARGO_OPTS) --workspace --exclude=huber-generator
+	env && cargo test $(CARGO_OPTS) --workspace --exclude=huber-generator
 
 .PHONY: fmt
 fmt: ## Format & Lint codes
