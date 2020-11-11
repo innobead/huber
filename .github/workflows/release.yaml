@@ -25,31 +25,31 @@ jobs:
 
       - name: Build all artifacts
         run: make release
-#
-#      - name: Create changelog
-#        id: changelog
-#        uses: innobead/github-release-notes-action@master
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#
-#      - name: Create release and upload artifacts
-#        id: upload-release-asset
-#        run: |
-#          set -x
-#
-#          assets=()
-#
-#          while IFS= read -r -d '' f; do
-#            if [[ -f "$f" ]]; then
-#              assets+=("-a" "./$f")
-#            fi
-#          done < <(find ./target -print0)
-#
-#          tag_name="${GITHUB_REF##*/}"
-#          hub release edit -d "${assets[@]}" -m "" "$tag_name"
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+
+      - name: Create changelog
+        id: changelog
+        uses: innobead/github-release-notes-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release and upload artifacts
+        id: upload-release-asset
+        run: |
+          set -x
+
+          assets=()
+
+          while IFS= read -r -d '' f; do
+            if [[ -f "$f" ]]; then
+              assets+=("-a" "./$f")
+            fi
+          done < <(find ./.target -print0)
+
+          tag_name="${GITHUB_REF##*/}"
+          hub release edit -d "${assets[@]}" -m "" "$tag_name"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
 
 
   release-macos:
@@ -62,7 +62,25 @@ jobs:
         run: make setup-dev
 
       - name: Run tests
-        run: make test
+        run: source ~/.bashrc && make test
 
       - name: Build all artifacts
-        run: make release
+        run: source ~/.bashrc && make release
+
+      - name: Create release and upload artifacts
+        id: upload-release-asset
+        run: |
+          set -x
+
+          assets=()
+
+          while IFS= read -r -d '' f; do
+            if [[ -f "$f" ]]; then
+              assets+=("-a" "./$f")
+            fi
+          done < <(find ./.target -print0)
+
+          tag_name="${GITHUB_REF##*/}"
+          hub release edit -d "${assets[@]}" -m "" "$tag_name"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
