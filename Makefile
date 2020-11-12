@@ -33,6 +33,7 @@ release: ## Release binaries
 .PHONY: install
 install: ## Install binaries
 	cargo install $(CARGO_OPTS) --path ./src/app/ --bins
+	mkdir -p ~/.huber/bin && cp ~/.cargo/bin/huber ~/.huber/bin && $(CURDIR)/hack/update-env.sh
 
 .PHONY: clean
 clean: ## Clean build caches

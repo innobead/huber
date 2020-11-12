@@ -1,4 +1,4 @@
-use std::fs::{remove_dir_all, read_dir};
+use std::fs::{read_dir, remove_dir_all};
 use std::sync::Arc;
 
 use clap::crate_version;
@@ -10,7 +10,6 @@ use huber_common::model::package::{Package, PackageSource};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-
 
 pub(crate) trait UpdateTrait {
     fn has_update(&self) -> Result<(bool, String)>;
@@ -100,7 +99,7 @@ impl UpdateTrait for UpdateService {
                 let path = entry.path();
 
                 if path.file_name().unwrap().to_str().unwrap() == "huber" {
-                    continue
+                    continue;
                 }
 
                 let _ = remove_dir_all(path);
