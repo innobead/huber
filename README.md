@@ -24,8 +24,10 @@ make install
 # Tutorials
 
 > Note: 
-> If encountering github access rate limitation, suggest to set GITHUB_TOKEN environment when running huber command, 
+> If encountering github access rate limitation, suggest to set **GITHUB_TOKEN** environment when running huber command, 
 > or use the global option '--github-token' instead.
+>
+> Ref: [how to create a personal access token](https://github.com/settings/tokens)
 
 ## Searching available packages
 
