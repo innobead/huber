@@ -24,11 +24,20 @@ case $os in
 "Darwin")
     filename="huber-darwin-adm64"
   ;;
+*)
+  echo "The platform is not supported" > /dev/stderr
+  exit 1
+  ;;
 esac
 
 echo $filename
 # shellcheck disable=SC2046
-curl -sfSLO "https://github.com/innobead/kubefire/releases/download/$(get_latest_release)/$filename" && \
+curl -sfSLO "https://github.com/innobead/huber/releases/download/$(get_latest_release)/$filename" && \
  chmod +x $filename && \
- make -p ~/.huber/sbin && \
- mv $filename /usr/local/bin/kubefire
+ make -p ~/.huber/bin && \
+ mv $filename ~/.huber/bin
+
+export_statement="export PATH=\$HOME/.huber/bin:\$PATH"
+if ! grep -Fxq "$export_statement"  ~/.bashrc; then
+  echo "export PATH=\$HOME/.huber/bin:\$PATH" >> ~/.bashrc
+fi
