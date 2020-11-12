@@ -4,13 +4,14 @@ pub(crate) mod cache;
 pub(crate) mod package;
 pub(crate) mod release;
 pub(crate) mod update;
+pub(crate) mod repo;
 
 pub(crate) trait ItemOperationTrait: ItemSearchTrait {
     type Item;
     type ItemInstance;
     type Condition;
 
-    fn create(&self, obj: &Self::Item) -> Result<Self::ItemInstance>;
+    fn create(&self, obj: Self::Item) -> Result<Self::ItemInstance>;
     fn update(&self, obj: &Self::Item) -> Result<Self::ItemInstance>;
     fn delete(&self, name: &str) -> Result<()>;
     fn list(&self) -> Result<Vec<Self::ItemInstance>>;

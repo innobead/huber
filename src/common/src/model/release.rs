@@ -27,7 +27,6 @@ pub struct Release {
     pub current: bool,
     pub package: Package,
     pub executables: Option<Vec<String>>,
-    #[serde(skip_deserializing)]
     pub kind: Option<ReleaseKind>,
 }
 

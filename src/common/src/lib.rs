@@ -10,3 +10,4 @@ pub mod macro_rule;
 pub mod model;
 pub mod output;
 pub mod result;
+pub mod str;

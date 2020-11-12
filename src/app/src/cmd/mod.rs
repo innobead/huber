@@ -14,6 +14,7 @@ use crate::cmd::current::CurrentCmd;
 use crate::cmd::flush::FlushCmd;
 use crate::cmd::info::InfoCmd;
 use crate::cmd::install::InstallCmd;
+use crate::cmd::repo::RepoCmd;
 use crate::cmd::reset::ResetCmd;
 use crate::cmd::root::{ARG_GITHUB_TOKEN, ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
 use crate::cmd::search::SearchCmd;
@@ -21,11 +22,13 @@ use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::update::UpdateCmd;
+use std::env;
 
 pub(crate) mod current;
 pub(crate) mod flush;
 pub(crate) mod info;
 pub(crate) mod install;
+pub(crate) mod repo;
 pub(crate) mod reset;
 pub(crate) mod root;
 pub(crate) mod search;
@@ -33,13 +36,35 @@ pub(crate) mod self_update;
 pub(crate) mod show;
 pub(crate) mod uninstall;
 pub(crate) mod update;
+pub(crate) mod refresh;
 
 pub(crate) trait CommandTrait<'a, 'b> {
     fn app(&self) -> App<'a, 'b>;
     fn run(&self, config: &Config, matches: &ArgMatches<'a>) -> Result<()>;
 }
 
-pub(crate) fn process_args(config: &mut Config, matches: &ArgMatches) {
+pub(crate) fn prepare_arg_matches<'a, 'b>(app: App<'a, 'b>) -> ArgMatches<'a> {
+    let mut args = env::args();
+    match args {
+        _ if args.len() == 1 => {
+            app.get_matches_from(vec![args.nth(0).unwrap(), "help".to_string()])
+        }
+        _ if args.len() == 2 => {
+            let arg1 = args.nth(0).unwrap();
+            let arg2 = args.nth(0).unwrap();
+
+            if ["repo"].contains(&arg2.as_str()) {
+                app.get_matches_from(vec![arg1, arg2, "help".to_string()])
+            } else {
+                app.get_matches()
+            }
+        }
+
+        _ => app.get_matches(),
+    }
+}
+
+pub(crate) fn process_arg_matches(config: &mut Config, matches: &ArgMatches) {
     if let Some(level) = matches.value_of(ARG_LOG_LEVEL) {
         if let Ok(level) = Level::from_str(&level.to_lowercase()) {
             config.log_level = level;
@@ -111,6 +136,11 @@ pub(crate) fn process_cmds(
 
         (cmd::update::CMD_NAME, Some(sub_matches)) => di_container()
             .get::<UpdateCmd>()
+            .unwrap()
+            .run(config, sub_matches),
+
+        (cmd::repo::CMD_NAME, Some(sub_matches)) => di_container()
+            .get::<RepoCmd>()
             .unwrap()
             .run(config, sub_matches),
 

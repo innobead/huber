@@ -35,10 +35,6 @@ impl Config {
         Logger::init(&self)
     }
 
-    pub fn repo_dir(&self) -> Result<PathBuf> {
-        dir(self.home_dir.join("repos"))
-    }
-
     pub fn sbin_dir(&self) -> Result<PathBuf> {
         dir(self.home_dir.join("sbin"))
     }
@@ -47,12 +43,29 @@ impl Config {
         dir(self.home_dir.join("bin"))
     }
 
-    pub fn huber_repo_dir(&self) -> Result<PathBuf> {
-        dir(self.repo_dir()?.join("huber"))
-    }
-
     pub fn temp_dir(&self) -> Result<PathBuf> {
         dir(env::temp_dir().join("huber"))
+    }
+
+    pub fn repo_root_dir(&self) -> Result<PathBuf> {
+        dir(self.home_dir.join("repos"))
+    }
+
+    pub fn huber_repo_dir(&self) -> Result<PathBuf> {
+        dir(self.repo_root_dir()?.join("huber"))
+    }
+
+
+    pub fn unmanaged_repo_dir(&self, name: &str) -> Result<PathBuf> {
+        dir(self.repo_root_dir()?.join(name))
+    }
+
+    pub fn unmanaged_repo_file(&self, name: &str) -> Result<PathBuf> {
+        Ok(self.unmanaged_repo_dir(name)?.join("repo.yaml"))
+    }
+
+    pub fn unmanaged_repo_pkgs_file(&self, name: &str) -> Result<PathBuf> {
+        Ok(self.unmanaged_repo_dir(name)?.join("huber.yaml"))
     }
 
     pub fn managed_pkg_root_dir(&self) -> Result<PathBuf> {

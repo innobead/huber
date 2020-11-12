@@ -93,9 +93,9 @@ impl UpdateTrait for UpdateService {
         let config = self.config.as_ref().unwrap();
 
         let _ = remove_dir_all(config.bin_dir()?);
-        let _ = remove_dir_all(config.huber_repo_dir()?);
         let _ = remove_dir_all(config.installed_pkg_root_dir()?);
         let _ = remove_dir_all(config.temp_dir()?);
+        let _ = remove_dir_all(config.repo_root_dir()?);
 
         Ok(())
     }

@@ -32,7 +32,7 @@ impl ItemOperationTrait for PackageService {
     type ItemInstance = Package;
     type Condition = String;
 
-    fn create(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
+    fn create(&self, _obj: Self::Item) -> Result<Self::ItemInstance> {
         unimplemented!()
     }
 

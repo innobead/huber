@@ -1,11 +1,12 @@
+use std::collections::HashMap;
 use std::fs;
-use std::fs::{read_dir, remove_dir_all, remove_file, File};
+use std::fs::{File, read_dir, remove_dir_all, remove_file};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{uncompress_archive, Ownership};
+use compress_tools::{Ownership, uncompress_archive};
 use fs_extra::move_items;
 use inflector::cases::classcase::is_class_case;
 use inflector::cases::uppercase::is_upper_case;
@@ -25,19 +26,21 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
-use std::collections::HashMap;
+use crate::service::package::PackageService;
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
     fn set_current(&self, release: &mut Release) -> Result<Vec<String>>;
+    fn clean_current(&self, pkg: &Package) -> Result<()>;
+
     fn link_executables_for_current(
         &self,
         release: &Release,
         file: &PathBuf,
     ) -> Result<Option<String>>;
     fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()>;
+
     fn get_executables_for_current(&self, pkg: &Package) -> Result<Vec<String>>;
     fn delete_release(&self, release: &Release) -> Result<()>;
     fn download_install_github_package(
@@ -45,7 +48,6 @@ pub(crate) trait ReleaseTrait {
         package: &Package,
         package_github: &GithubPackage,
     ) -> Result<()>;
-    fn clean_current(&self, pkg: &Package) -> Result<()>;
 }
 
 #[derive(Debug)]
@@ -432,7 +434,6 @@ impl ReleaseTrait for ReleaseService {
                 // download
                 info!("Downloading {}", &download_url);
 
-                let response = reqwest::get(&download_url).await?;
                 let pkg_dir = config.installed_pkg_dir(package, &version)?;
                 let filename = download_url.split("/").last().unwrap();
                 let download_file_path = config.temp_dir()?.join(filename);
@@ -442,9 +443,16 @@ impl ReleaseTrait for ReleaseService {
                 let _ = remove_file(&download_file_path);
                 let _ = remove_dir_all(&download_file_path);
 
-                let mut dest_f = File::create(&download_file_path)?;
-                let bytes = response.bytes().await?;
-                dest_f.write(&bytes)?;
+                let response = reqwest::get(&download_url).await?;
+                match response.error_for_status() {
+                    Err(e) => return Err(anyhow!("{:?}", e)),
+
+                    Ok(response) => {
+                        let mut dest_f = File::create(&download_file_path)?;
+                        let bytes = response.bytes().await?;
+                        dest_f.write(&bytes)?;
+                    }
+                }
 
                 let ext = download_file_path.extension();
                 debug!("{:?}", ext);
@@ -472,7 +480,7 @@ impl ReleaseTrait for ReleaseService {
                     Some(ext) => {
                         if ext.to_str().unwrap() == "exe" {
                             info!("Ignored {:?}, because it is not archived and w/ suffix 'exe'", &download_file_path);
-                            continue
+                            continue;
                         }
 
                         // uncompress
@@ -585,7 +593,7 @@ impl ItemOperationTrait for ReleaseService {
     type ItemInstance = Release;
     type Condition = Package;
 
-    fn create(&self, obj: &Self::Item) -> Result<Self::ItemInstance> {
+    fn create(&self, obj: Self::Item) -> Result<Self::ItemInstance> {
         info!("Creating release from package: {}", &obj);
 
         if self.has(&obj.name)? {

@@ -5,14 +5,15 @@ use clap::{App, Arg, ArgMatches};
 use huber_common::config::Config;
 use huber_common::di::di_container;
 use huber_common::model::package::PackageSummary;
+use huber_common::model::release::VecExtensionTrait;
 use huber_common::output::factory::FactoryConsole;
 use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
-use huber_common::model::release::VecExtensionTrait;
+use crate::service::cache::{CacheService, CacheTrait};
+use crate::service::package::PackageService;
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -56,6 +57,9 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
     fn run(&self, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = di_container();
         let pkg_service = container.get::<PackageService>().unwrap();
+        let cache_service = container.get::<CacheService>().unwrap();
+
+        let _ = cache_service.update_repositories()?;
 
         if matches.is_present("name") && matches.is_present("all") {
             let mut pkgs: Vec<PackageSummary> = pkg_service
@@ -69,7 +73,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
                 stdout(),
                 &pkgs,
                 None,
-                Some(vec!["description", "source"]),
+                Some(vec!["name", "description", "source"]),
             ));
         }
 

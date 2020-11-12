@@ -76,7 +76,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         }
 
         println!("Installing {}", &pkg);
-        let release = release_service.create(&pkg)?;
+        let release = release_service.create(pkg)?;
         println!("{} installed", release);
 
         Ok(())

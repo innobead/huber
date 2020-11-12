@@ -41,7 +41,7 @@ clean: ## Clean build caches
 
 .PHONY: fix
 fix:  ## Fix code
-	echo cargo fix --allow-dirty
+	cargo fix --allow-dirty
 
 .PHONY: generate
 generate: ## Generate managed package list
