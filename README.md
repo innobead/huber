@@ -10,7 +10,8 @@
 
 # Getting Started
 
-## Installing Huber (the development way provide for now, but the official release soon)
+## Installing Huber
+> *The development way is provided for now, but the official release soon
 
 ```console
 # Setup development environment
