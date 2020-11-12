@@ -11,9 +11,9 @@ use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::package::PackageService;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 pub(crate) const CMD_NAME: &str = "search";
 

@@ -23,13 +23,11 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RepoRemoveCmd {
         App::new(CMD_NAME)
             .visible_alias("rm")
             .about("Remove repositories")
-            .args(&vec![
-                Arg::with_name("name")
-                    .value_name("repo name")
-                    .help("Repository name")
-                    .takes_value(true)
-                    .required(true),
-            ])
+            .args(&vec![Arg::with_name("name")
+                .value_name("repo name")
+                .help("Repository name")
+                .takes_value(true)
+                .required(true)])
     }
 
     fn run(&self, _config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
@@ -39,7 +37,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RepoRemoveCmd {
         let repo_service = container.get::<RepoService>().unwrap();
 
         if !repo_service.has(name)? {
-            return Err(anyhow!("{} not found", name))
+            return Err(anyhow!("{} not found", name));
         }
 
         repo_service.delete(name)?;

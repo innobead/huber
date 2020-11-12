@@ -1,4 +1,4 @@
-use std::fs::{File, read_dir, remove_file, remove_dir_all};
+use std::fs::{read_dir, remove_dir_all, remove_file, File};
 use std::io::Write;
 use std::sync::Arc;
 
@@ -36,7 +36,12 @@ impl RepoService {
 impl ItemSearchTrait for RepoService {
     type SearchItem = Repository;
 
-    fn search(&self, name: Option<&str>, _pattern: Option<&str>, _owner: Option<&str>) -> Result<Vec<Self::SearchItem>> {
+    fn search(
+        &self,
+        name: Option<&str>,
+        _pattern: Option<&str>,
+        _owner: Option<&str>,
+    ) -> Result<Vec<Self::SearchItem>> {
         let repo = self.list()?.into_iter().find(|it| it.name == name.unwrap());
         if repo.is_some() {
             return Ok(vec![repo.unwrap()]);
@@ -143,7 +148,8 @@ impl RepoTrait for RepoService {
 
             url = if let Some(Credentials::Token(token)) = config.github_credentials.clone() {
                 let re = regex::Regex::new(r"(http|https)://")?;
-                re.replace(&url, format!("$1://{}@", token).as_str()).to_string()
+                re.replace(&url, format!("$1://{}@", token).as_str())
+                    .to_string()
             } else {
                 format!("{}/master/huber.yaml", url)
             };

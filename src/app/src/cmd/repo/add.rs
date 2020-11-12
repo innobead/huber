@@ -1,12 +1,12 @@
-use clap::{App, ArgMatches, Arg};
+use clap::{App, Arg, ArgMatches};
 
 use huber_common::config::Config;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use huber_common::di::di_container;
 use crate::service::repo::RepoService;
 use crate::service::ItemOperationTrait;
+use huber_common::di::di_container;
 use huber_common::model::repo::Repository;
 
 pub(crate) const CMD_NAME: &str = "add";
@@ -34,7 +34,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RepoAddCmd {
                     .value_name("repo url")
                     .help("Github repo URL")
                     .takes_value(true)
-                    .required(true)
+                    .required(true),
             ])
     }
 
@@ -46,12 +46,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RepoAddCmd {
         let repo_service = container.get::<RepoService>().unwrap();
 
         if repo_service.has(name)? {
-            return Err(anyhow!("{} already exists", name))
+            return Err(anyhow!("{} already exists", name));
         }
 
-        let repo = Repository{
+        let repo = Repository {
             name: name.to_string(),
-            url: url.to_string()
+            url: url.to_string(),
         };
         let repo = repo_service.create(repo)?;
 

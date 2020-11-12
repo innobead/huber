@@ -3,8 +3,8 @@ use huber_common::result::Result;
 pub(crate) mod cache;
 pub(crate) mod package;
 pub(crate) mod release;
-pub(crate) mod update;
 pub(crate) mod repo;
+pub(crate) mod update;
 
 pub(crate) trait ItemOperationTrait: ItemSearchTrait {
     type Item;

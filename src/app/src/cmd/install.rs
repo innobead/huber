@@ -5,10 +5,10 @@ use huber_common::di::di_container;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
+use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::ItemOperationTrait;
-use crate::service::cache::{CacheService, CacheTrait};
 
 pub(crate) const CMD_NAME: &str = "install";
 

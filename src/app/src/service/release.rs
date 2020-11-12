@@ -1,12 +1,12 @@
 use std::collections::HashMap;
 use std::fs;
-use std::fs::{File, read_dir, remove_dir_all, remove_file};
+use std::fs::{read_dir, remove_dir_all, remove_file, File};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{Ownership, uncompress_archive};
+use compress_tools::{uncompress_archive, Ownership};
 use fs_extra::move_items;
 use inflector::cases::classcase::is_class_case;
 use inflector::cases::uppercase::is_upper_case;
@@ -26,8 +26,8 @@ use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::{ItemOperationTrait, ItemSearchTrait};
 use crate::service::package::PackageService;
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;

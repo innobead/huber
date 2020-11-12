@@ -9,10 +9,8 @@ extern crate maplit;
 
 use std::sync::Arc;
 
-
-
 use huber_common::config::Config;
-use huber_common::di::{DIContainer};
+use huber_common::di::DIContainer;
 
 use crate::cmd::current::CurrentCmd;
 use crate::cmd::flush::FlushCmd;
@@ -27,13 +25,12 @@ use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::update::UpdateCmd;
 use crate::cmd::CommandTrait;
-use crate::service::cache::{CacheService};
+use crate::service::cache::CacheService;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
+use crate::service::repo::RepoService;
 use crate::service::update::UpdateService;
 use std::process::exit;
-use crate::service::repo::RepoService;
-use crate::cmd::refresh::RefreshCmd;
 
 mod cmd;
 mod component;
@@ -52,7 +49,6 @@ fn main() {
             // di!(SelfUpdateCmd.app()),
             di!(CurrentCmd.app()),
             di!(ResetCmd.app()),
-            di!(RefreshCmd.app()),
             di!(FlushCmd.app()),
             di!(RepoCmd.app()),
         ]);

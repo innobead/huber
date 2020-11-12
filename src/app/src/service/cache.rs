@@ -12,8 +12,8 @@ use huber_common::model::package::{Package, PackageIndex};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::ItemOperationTrait;
 use crate::service::repo::{RepoService, RepoTrait};
+use crate::service::ItemOperationTrait;
 
 pub(crate) trait CacheTrait {
     fn update_repositories(&self) -> Result<()>;
@@ -69,9 +69,12 @@ impl CacheTrait for CacheService {
         info!("Updating unmanaged repos");
         let repo_service = container.get::<RepoService>().unwrap();
         for repo in repo_service.list()? {
-            info!("Updating {:?}", config.unmanaged_repo_dir(&repo.name).unwrap());
+            info!(
+                "Updating {:?}",
+                config.unmanaged_repo_dir(&repo.name).unwrap()
+            );
             repo_service.download_save_pkgs_file(&repo.name, &repo.url)?;
-        };
+        }
 
         Ok(())
     }
@@ -85,16 +88,22 @@ impl CacheTrait for CacheService {
         let pkg_file = config.managed_pkg_manifest_file(name)?;
 
         if pkg_file.exists() {
-            Ok(serde_yaml::from_reader::<File, Package>(File::open(pkg_file)?)?)
+            Ok(serde_yaml::from_reader::<File, Package>(File::open(
+                pkg_file,
+            )?)?)
         } else {
             self.get_unmanaged_package(name)
         }
     }
 
     fn get_unmanaged_package(&self, name: &str) -> Result<Package> {
-        match self.list_unmanaged_packages()?.into_iter().find(|it| it.name == name) {
+        match self
+            .list_unmanaged_packages()?
+            .into_iter()
+            .find(|it| it.name == name)
+        {
             None => Err(anyhow!("{} not found", name)),
-            Some(pkg) => Ok(pkg)
+            Some(pkg) => Ok(pkg),
         }
     }
 
@@ -157,7 +166,10 @@ impl CacheTrait for CacheService {
     }
 
     fn has_unmanaged_package(&self, name: &str) -> Result<bool> {
-        Ok(self.list_unmanaged_packages()?.iter().any(|it| it.name == name))
+        Ok(self
+            .list_unmanaged_packages()?
+            .iter()
+            .any(|it| it.name == name))
     }
 
     fn get_package_indexes(&self) -> Result<Vec<PackageIndex>> {

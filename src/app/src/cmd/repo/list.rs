@@ -9,8 +9,8 @@ use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::CommandTrait;
-use crate::service::ItemOperationTrait;
 use crate::service::repo::RepoService;
+use crate::service::ItemOperationTrait;
 
 pub(crate) const CMD_NAME: &str = "list";
 

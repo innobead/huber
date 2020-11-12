@@ -55,7 +55,6 @@ impl Config {
         dir(self.repo_root_dir()?.join("huber"))
     }
 
-
     pub fn unmanaged_repo_dir(&self, name: &str) -> Result<PathBuf> {
         dir(self.repo_root_dir()?.join(name))
     }
