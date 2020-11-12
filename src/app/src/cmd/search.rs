@@ -57,8 +57,8 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
     fn run(&self, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
         let container = di_container();
         let pkg_service = container.get::<PackageService>().unwrap();
-        let cache_service = container.get::<CacheService>().unwrap();
 
+        let cache_service = container.get::<CacheService>().unwrap();
         let _ = cache_service.update_repositories()?;
 
         if matches.is_present("name") && matches.is_present("all") {

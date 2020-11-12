@@ -72,19 +72,14 @@ fn main() {
     // init DI managed objects
     // FIXME when reqwest upgrade with tokio 0.3, https://github.com/seanmonstar/reqwest/issues/1060
     // let runtime = Arc::new(Runtime::new().unwrap());
-
     di!(PackageService
         config=Some(config.clone()));
-
     di!(ReleaseService
         config=Some(config.clone()));
-
     di!(CacheService
         config=Some(config.clone()));
-
     di!(UpdateService
         config=Some(config.clone()));
-
     di!(RepoService
         config=Some(config.clone()));
 

@@ -8,6 +8,7 @@ use crate::cmd::CommandTrait;
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::ItemOperationTrait;
+use crate::service::cache::{CacheService, CacheTrait};
 
 pub(crate) const CMD_NAME: &str = "install";
 
@@ -45,6 +46,9 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
         let pkg_service = container.get::<PackageService>().unwrap();
+
+        let cache_service = container.get::<CacheService>().unwrap();
+        let _ = cache_service.update_repositories()?;
 
         if !pkg_service.has(name)? {
             return Err(anyhow!("{} not found", name));
