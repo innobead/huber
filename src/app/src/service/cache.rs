@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::path::PathBuf;
+
 use std::sync::Arc;
 
 use log::info;
@@ -16,7 +16,7 @@ use crate::service::ItemOperationTrait;
 use crate::service::repo::{RepoService, RepoTrait};
 
 pub(crate) trait CacheTrait {
-    fn update_repositories(&self) -> Result<PathBuf>;
+    fn update_repositories(&self) -> Result<()>;
     fn get_package(&self, name: &str) -> Result<Package>;
     fn get_unmanaged_package(&self, name: &str) -> Result<Package>;
     fn list_packages(&self, pattern: &str, owner: &str) -> Result<Vec<Package>>;
@@ -47,16 +47,18 @@ impl CacheService {
 }
 
 impl CacheTrait for CacheService {
-    fn update_repositories(&self) -> Result<PathBuf> {
+    fn update_repositories(&self) -> Result<()> {
         info!("Updating repos");
 
         let container = di_container();
         let config = self.config.as_ref().unwrap();
-        let dir = config.huber_repo_dir()?;
 
         let mut runtime = Runtime::new().unwrap();
-        info!("Updating huber repo");
+        info!("Updating managed repos");
         runtime.block_on(async {
+            let dir = config.huber_repo_dir()?;
+            info!("Updating {:?}", dir);
+
             let client = GithubClient::new(
                 config.github_credentials.clone(),
                 config.git_ssh_key.clone(),
@@ -64,13 +66,14 @@ impl CacheTrait for CacheService {
             client.clone("innobead", "huber", dir.clone()).await
         })?;
 
-        info!("Update unmanaged repos");
+        info!("Updating unmanaged repos");
         let repo_service = container.get::<RepoService>().unwrap();
         for repo in repo_service.list()? {
+            info!("Updating {:?}", config.unmanaged_repo_dir(&repo.name).unwrap());
             repo_service.download_save_pkgs_file(&repo.name, &repo.url)?;
         };
 
-        Ok(dir)
+        Ok(())
     }
 
     fn get_package(&self, name: &str) -> Result<Package> {

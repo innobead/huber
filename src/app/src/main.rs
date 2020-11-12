@@ -22,7 +22,7 @@ use crate::cmd::repo::RepoCmd;
 use crate::cmd::reset::ResetCmd;
 use crate::cmd::root::RootCmd;
 use crate::cmd::search::SearchCmd;
-use crate::cmd::self_update::SelfUpdateCmd;
+
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::update::UpdateCmd;

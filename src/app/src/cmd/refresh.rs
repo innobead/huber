@@ -32,8 +32,8 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RefreshCmd {
         let container = di_container();
         let cache_service = container.get::<CacheService>().unwrap();
 
-        let dir = cache_service.update_repositories()?;
-        println!("{} updated", dir.to_str().unwrap());
+        let _ = cache_service.update_repositories()?;
+        println!("{}", "Repositories updated");
 
         Ok(())
     }
