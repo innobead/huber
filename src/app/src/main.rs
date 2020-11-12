@@ -49,7 +49,7 @@ fn main() {
             di!(SearchCmd.app()),
             di!(ShowCmd.app()),
             di!(InfoCmd.app()),
-            di!(SelfUpdateCmd.app()),
+            // di!(SelfUpdateCmd.app()),
             di!(CurrentCmd.app()),
             di!(ResetCmd.app()),
             di!(RefreshCmd.app()),
