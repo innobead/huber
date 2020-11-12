@@ -10,19 +10,14 @@
 
 # Getting Started
 
-## Installing Huber (official release soon)
-
-### Cargo
+## Installing Huber (the development way provide for now, but the official release soon)
 
 ```console
-# Install cargo
-curl https://sh.rustup.rs -sSf | sh
+# Setup development environment
+make set-dev
 
-# Install huber in $HOME/.cargo/bin
+# Install huber in $HOME/.cargo/bin, $HOME/.huber/bin and update ~/.bashrc
 make install
-
-# Add huber home/bin in your environment path
-export PATH=$HOME/.huber/bin:$PATH
 ```
 
 # Tutorials
