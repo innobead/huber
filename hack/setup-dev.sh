@@ -8,10 +8,10 @@ set -o xtrace
 function install_linux_dependencies() {
   if [[ $(command -v apt) ]]; then
     sudo apt update
-    sudo apt install -y build-essential libssl-dev libarchive-dev git pkg-config curl
+    sudo apt install -y build-essential libssl-dev libarchive-dev git pkg-config curl sudo
   elif [[ $(command -v zypper) ]]; then
     sudo zypper install -y -t pattern devel_basis
-    sudo zypper install -y libopenssl-devel libarchive-devel git pkg-config curl
+    sudo zypper install -y libopenssl-devel libarchive-devel git pkg-config curl sudo
   else
     echo "Only openSUSE, Ubuntu supported" >/dev/stderr
     exit 1
@@ -62,7 +62,11 @@ function install_rust_dependencies() {
   fi
   cargo version
 
-  echo "export PATH=\$HOME/.cargo/bin:\$PATH" >>"$HOME"/.bashrc
+  export_statement="export PATH=\$HOME/.cargo/bin:\$PATH"
+  if ! grep -Fxq "$export_statement"  ~/.bashrc; then
+    echo "$export_statement" >> ~/.bashrc
+  fi
+
   # shellcheck disable=SC1090
   . "$HOME"/.bashrc
 }
