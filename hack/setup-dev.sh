@@ -24,10 +24,6 @@ function install_macos_dependencies() {
   fi
 
   # https://github.com/libarchive/libarchive/blob/master/.github/workflows/ci.yml
-  brew uninstall openssl@1.0.2t
-  brew uninstall python@2.7.17
-  brew untap local/openssl
-  brew untap local/python2
   brew update
   # brew upgrade
 
@@ -37,10 +33,6 @@ function install_macos_dependencies() {
     libtool \
     pkg-config \
     cmake \
-    xz \
-    lz4 \
-    zstd \
-    openssl \
     libarchive; do
     (brew list $pkg && brew upgrade $pkg) || brew install $pkg
   done
