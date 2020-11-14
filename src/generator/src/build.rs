@@ -121,6 +121,7 @@ fn releases() -> Vec<Package> {
         fission::release(),
         k9s::release(),
         lens::release(),
+        k0s::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
