@@ -3,7 +3,7 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "PowerShell".to_string(),
+        name: "powershell".to_string(),
         source: PackageSource::Github {
             owner: "PowerShell".to_string(),
             repo: "PowerShell".to_string(),

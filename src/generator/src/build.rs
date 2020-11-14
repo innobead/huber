@@ -80,7 +80,7 @@ fn releases() -> Vec<Package> {
         packer::release(),
         hub::release(),
         syncthing::release(),
-        powershell::release(),
+        hell::release(),
         // infra
         pulumi::release(),
         // app development

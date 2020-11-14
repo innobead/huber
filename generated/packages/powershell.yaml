@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 ---
-name: PowerShell
+name: powershell
 description: PowerShell for every system!
 source:
   Github:

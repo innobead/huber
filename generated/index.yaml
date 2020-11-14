@@ -1,8 +1,5 @@
 # This is generated. Don't modify.
 ---
-- name: PowerShell
-  owner: PowerShell
-  source: github
 - name: arkade
   owner: alexellis
   source: github
@@ -113,6 +110,9 @@
   source: github
 - name: packer
   owner: hashicorp
+  source: github
+- name: powershell
+  owner: PowerShell
   source: github
 - name: pulumi
   owner: pulumi
