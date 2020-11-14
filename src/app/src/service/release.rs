@@ -8,7 +8,6 @@ use std::sync::Arc;
 
 use compress_tools::{Ownership, uncompress_archive};
 use fs_extra::move_items;
-use inflector::cases::classcase::is_class_case;
 use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
 use log::{debug, info};
@@ -269,8 +268,8 @@ impl ReleaseTrait for ReleaseService {
         }
 
         if is_upper_case(exec_filename_without_version.clone())
-            || is_class_case(exec_filename_without_version.clone())
             || exec_filename_without_version.starts_with("_")
+            || exec_filename_without_version.starts_with(".")
         {
             info!(
                 "Ignored to link {:?} to {:?} because of file name patterns (uppercase, class cass or starts with _)",

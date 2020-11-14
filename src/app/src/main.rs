@@ -7,11 +7,13 @@ extern crate huber_common;
 #[macro_use]
 extern crate maplit;
 
+use std::process::exit;
 use std::sync::Arc;
 
 use huber_common::config::Config;
 use huber_common::di::DIContainer;
 
+use crate::cmd::CommandTrait;
 use crate::cmd::current::CurrentCmd;
 use crate::cmd::flush::FlushCmd;
 use crate::cmd::info::InfoCmd;
@@ -20,17 +22,14 @@ use crate::cmd::repo::RepoCmd;
 use crate::cmd::reset::ResetCmd;
 use crate::cmd::root::RootCmd;
 use crate::cmd::search::SearchCmd;
-
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::update::UpdateCmd;
-use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::repo::RepoService;
 use crate::service::update::UpdateService;
-use std::process::exit;
 
 mod cmd;
 mod component;

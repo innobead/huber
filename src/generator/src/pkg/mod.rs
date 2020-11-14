@@ -50,3 +50,4 @@ pub mod typescript;
 pub mod velero;
 pub mod waypoint;
 pub mod k0s;
+pub mod powershell;
