@@ -119,6 +119,8 @@ fn releases() -> Vec<Package> {
         arkade::release(),
         faas_cli::release(),
         fission::release(),
+        k9s::release(),
+        lens::release(),
         // runtime
         containerd::release(),
         firecracker::release(),

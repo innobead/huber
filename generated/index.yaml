@@ -60,6 +60,9 @@
 - name: k3sup
   owner: alexellis
   source: github
+- name: k9s
+  owner: derailed
+  source: github
 - name: kind
   owner: kubernetes-sigs
   source: github
@@ -77,6 +80,9 @@
   source: github
 - name: kubefire
   owner: innobead
+  source: github
+- name: lens
+  owner: lensapp
   source: github
 - name: minikube
   owner: kubernetes

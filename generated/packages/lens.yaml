@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: lens
+description: Lens - The Kubernetes IDE
+source:
+  Github:
+    owner: lensapp
+    repo: lens
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "Lens-{version}.AppImage"
+  - MacOS:
+      artifact_templates:
+        - "Lens-{version}.dmg"
+  - Windows:
+      artifact_templates:
+        - "Lens-Setup-{version}.exe"
+detail: ~

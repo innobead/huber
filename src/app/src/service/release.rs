@@ -1,12 +1,12 @@
 use std::collections::HashMap;
 use std::fs;
-use std::fs::{read_dir, remove_dir_all, remove_file, File};
+use std::fs::{File, read_dir, remove_dir_all, remove_file};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
-use compress_tools::{uncompress_archive, Ownership};
+use compress_tools::{Ownership, uncompress_archive};
 use fs_extra::move_items;
 use inflector::cases::classcase::is_class_case;
 use inflector::cases::uppercase::is_upper_case;
@@ -24,10 +24,14 @@ use huber_common::file::trim_os_arch;
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
+use huber_common::str::OsStrExt;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::package::PackageService;
 use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::service::package::PackageService;
+
+const SUPPORTED_ARCHIVE_TYPES: [&str; 7] = ["tar.gz", "tar.xz", "zip", "gz", "xz", "tar", "tgz"];
+const SUPPORTED_EXTRA_EXECUTABLE_TYPES: [&str; 3] = ["exe", "AppImage", "dmg"];
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
@@ -254,7 +258,7 @@ impl ReleaseTrait for ReleaseService {
             file.parent().unwrap().join(&exec_filename_without_version);
 
         if let Some(ext) = exec_file_path_without_version.extension() {
-            if ext.to_str().unwrap() != "exe" {
+            if !SUPPORTED_EXTRA_EXECUTABLE_TYPES.contains(&ext.to_str_direct()) {
                 info!(
                     "Ignored to link {:?} to {:?} because of suffix {:?}",
                     &file, &exec_file_path, ext
@@ -387,8 +391,6 @@ impl ReleaseTrait for ReleaseService {
         info!("Downloading github package artifacts {}", &package);
 
         let config = self.config.as_ref().unwrap();
-        let supported_archive_types = vec!["tar.gz", "tar.xz", "zip", "gz", "xz", "tar", "tgz"];
-
         let version = &package_github.tag_name;
         let pkg_mgmt = package.target()?;
         let mut asset_names: Vec<String> = pkg_mgmt
@@ -457,7 +459,7 @@ impl ReleaseTrait for ReleaseService {
                 let ext = download_file_path.extension();
                 debug!("{:?}", ext);
                 if ext.is_none()
-                    || !supported_archive_types.contains(&ext.unwrap().to_str().unwrap())
+                    || !SUPPORTED_ARCHIVE_TYPES.contains(&ext.unwrap().to_str().unwrap())
                 {
                     let dest_f = pkg_dir.join(&filename);
 
