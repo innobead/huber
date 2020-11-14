@@ -84,11 +84,20 @@
 - name: kubefire
   owner: innobead
   source: github
+- name: kudo
+  owner: kudobuilder
+  source: github
+- name: kuttl
+  owner: kudobuilder
+  source: github
 - name: lens
   owner: lensapp
   source: github
 - name: minikube
   owner: kubernetes
+  source: github
+- name: mkcert
+  owner: FiloSottile
   source: github
 - name: nomad
   owner: hashicorp

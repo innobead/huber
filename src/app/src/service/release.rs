@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::fs;
-use std::fs::{File, read_dir, remove_dir_all, remove_file};
+use std::fs::{File, read_dir, read_link, remove_dir_all, remove_file};
 use std::io::Write;
 use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
@@ -456,7 +456,6 @@ impl ReleaseTrait for ReleaseService {
                 }
 
                 let ext = download_file_path.extension();
-                debug!("{:?}", ext);
                 if ext.is_none()
                     || !SUPPORTED_ARCHIVE_TYPES.contains(&ext.unwrap().to_str().unwrap())
                 {
@@ -501,11 +500,23 @@ impl ReleaseTrait for ReleaseService {
                             extra_content_dir = entry.path();
                         }
 
-                        let copy_items: Vec<PathBuf> = if extra_content_dir.is_dir() {
+                        let mut extra_links: HashMap<PathBuf, PathBuf> = hashmap! {};
+                        let items_to_copy: Vec<PathBuf> = if extra_content_dir.is_dir() {
                             info!("Moving {:?}/* to {:?}", &extra_content_dir, &pkg_dir);
 
-                            extra_content_dir.read_dir()?.map(|it| {
-                                it.unwrap().path()
+                            extra_content_dir.read_dir()?.filter_map(|it| {
+                                let p = it.unwrap().path();
+
+                                match read_link(&p) {
+                                    Ok(src_link) => {
+                                        let dest_link = pkg_dir.join(p.file_name().unwrap().to_str_direct());
+                                        extra_links.insert(dest_link, src_link.clone());
+                                        None
+                                    } ,
+                                    Err(_) => {
+                                        Some(p)
+                                    }
+                                }
                             }).collect()
                         } else {
                             info!("Moving {:?} to {:?}", &extra_content_dir, &pkg_dir);
@@ -514,7 +525,12 @@ impl ReleaseTrait for ReleaseService {
 
                         let mut option = fs_extra::dir::CopyOptions::new();
                         option.overwrite = true;
-                        move_items(&copy_items, &pkg_dir, &option)?;
+                        move_items(&items_to_copy, &pkg_dir, &option)?;
+
+                        for (dest_link, src_link) in extra_links {
+                            info!("Add extra linked files {:?} to {:?}", src_link, dest_link);
+                            symlink_file(src_link, dest_link)?
+                        }
 
                         info!("Removing temp files {:?}, {:?}", download_file_path, extract_dir);
 

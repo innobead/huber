@@ -51,3 +51,6 @@ pub mod velero;
 pub mod waypoint;
 pub mod k0s;
 pub mod powershell;
+pub mod kudo;
+pub mod kuttl;
+pub mod mkcert;

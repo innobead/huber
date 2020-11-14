@@ -42,11 +42,11 @@ clean: ## Clean build caches
 
 .PHONY: fix
 fix:  ## Fix code
-	cargo fix --allow-dirty
+	cargo fix --allow-dirty || cargo fix --allow-staged
 
 .PHONY: generate
 generate: ## Generate managed package list
-	echo "Need to have GITHUB_TOKEN to automatically generate package description"
+	@echo "! Must have GITHUB_TOKEN to automatically generate package description"
 	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build --manifest-path=./src/generator/Cargo.toml
 
 .PHONY: checksum

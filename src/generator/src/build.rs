@@ -80,7 +80,8 @@ fn releases() -> Vec<Package> {
         packer::release(),
         hub::release(),
         syncthing::release(),
-        hell::release(),
+        powershell::release(),
+        mkcert::release(),
         // infra
         pulumi::release(),
         // app development
@@ -123,6 +124,8 @@ fn releases() -> Vec<Package> {
         k9s::release(),
         lens::release(),
         k0s::release(),
+        kudo::release(),
+        kuttl::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
