@@ -1,16 +1,22 @@
+use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
 use huber_common::config::Config;
-use huber_common::di::di_container;
+use huber_common::di::DIContainer;
 use huber_common::result::Result;
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::release::ReleaseService;
 use crate::service::ItemOperationTrait;
 
+use huber_procmacro::process_lock;
 pub(crate) const CMD_NAME: &str = "uninstall";
 
+#[derive(Debug)]
 pub(crate) struct UninstallCmd;
+
+unsafe impl Send for UninstallCmd {}
+unsafe impl Sync for UninstallCmd {}
 
 impl UninstallCmd {
     pub(crate) fn new() -> Self {
@@ -31,11 +37,19 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UninstallCmd {
                     .takes_value(true),
             )
     }
+}
 
-    fn run(&self, _config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+#[async_trait]
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UninstallCmd {
+    async fn run(
+        &self,
+        _config: &Config,
+        container: &DIContainer,
+        matches: &ArgMatches<'a>,
+    ) -> Result<()> {
+        process_lock!();
+
         let name = matches.value_of("name").unwrap();
-
-        let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
 
         if !release_service.has(name)? {

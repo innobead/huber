@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use crate::model::release::{ReleaseKind, VecExtensionTrait};
 use crate::result::Result;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Package {
     pub name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -24,7 +24,11 @@ pub struct Package {
     pub release_kind: Option<ReleaseKind>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+unsafe impl Send for Package {}
+
+unsafe impl Sync for Package {}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PackageSummary {
     pub name: String,
     pub description: Option<String>,
@@ -33,18 +37,18 @@ pub struct PackageSummary {
     pub kind: Option<ReleaseKind>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum PackageSource {
     Github { owner: String, repo: String },
     Helm { registry: String, repo: String },
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum PackageDetailType {
     Github { package: GithubPackage },
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub enum PackageTargetType {
     LinuxAmd64(PackageManagement),
     LinuxArm64(PackageManagement),
@@ -52,7 +56,7 @@ pub enum PackageTargetType {
     Windows(PackageManagement),
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PackageManagement {
     pub artifact_templates: Vec<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -67,7 +71,7 @@ pub struct PackageManagement {
     pub upgrade_commands: Option<Vec<String>>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GithubPackage {
     pub url: String,
     pub html_url: String,
@@ -89,7 +93,7 @@ pub struct GithubPackage {
     pub assets: Vec<GithubAsset>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct GithubAsset {
     pub url: String,
     pub browser_download_url: String,
@@ -104,7 +108,7 @@ pub struct GithubAsset {
     pub updated_at: String,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PackageIndex {
     pub name: String,
     pub owner: String,

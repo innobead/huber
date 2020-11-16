@@ -25,12 +25,25 @@ pub fn trim_os_arch(str: &str) -> String {
     arch_pattern.sort_by(revert_sort);
     let arch_pattern = arch_pattern.join("|");
 
-    let re = Regex::new(&format!(
-        r"(?i)([-_]v\d+.\d+.\d+)?[-_.]({})[-_]({})[-_]*",
-        os_pattern, arch_pattern
-    ))
-    .unwrap();
-    re.replace_all(str, "").to_string()
+    let res = vec![
+        Regex::new(&format!(
+            r"(?i)([-_]v\d+.\d+.\d+)?[-_.]({})[-_]({})[-_]*",
+            os_pattern, arch_pattern
+        ))
+        .unwrap(),
+        Regex::new(&format!(
+            r"(?i)([-_]v\d+.\d+.\d+)?[-_]({})[-_]*",
+            arch_pattern
+        ))
+        .unwrap(),
+    ];
+
+    let re = res.iter().find(|it| it.is_match(str));
+    if let Some(re) = re {
+        re.replace_all(str, "").to_string()
+    } else {
+        str.to_string()
+    }
 }
 
 #[cfg(test)]
@@ -48,6 +61,7 @@ mod test {
             ("name_macOS-64bit", "name"),
             ("name-v1.0.0_macOS-64bit", "name"),
             ("name_v1.0.0_macOS-64bit", "name"),
+            ("name-v1.0.0-x86_64", "name"),
         ];
 
         for x in data {

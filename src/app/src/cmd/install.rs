@@ -1,18 +1,25 @@
+use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
 use huber_common::config::Config;
-use huber_common::di::di_container;
+use huber_common::di::DIContainer;
 use huber_common::result::Result;
+use huber_procmacro::process_lock;
 
-use crate::cmd::CommandTrait;
-use crate::service::cache::{CacheService, CacheTrait};
+use crate::cmd::{CommandAsyncTrait, CommandTrait};
+use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
-use crate::service::ItemOperationTrait;
+use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
 pub(crate) const CMD_NAME: &str = "install";
 
+#[derive(Debug)]
 pub(crate) struct InstallCmd;
+
+unsafe impl Send for InstallCmd {}
+
+unsafe impl Sync for InstallCmd {}
 
 impl InstallCmd {
     pub(crate) fn new() -> Self {
@@ -39,16 +46,25 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
                     .takes_value(true),
             ])
     }
+}
 
-    fn run(&self, _config: &Config, matches: &ArgMatches) -> Result<()> {
+#[async_trait]
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for InstallCmd {
+    async fn run(
+        &self,
+        _config: &Config,
+        container: &DIContainer,
+        matches: &ArgMatches<'a>,
+    ) -> Result<()> {
+        process_lock!();
+
         let name = matches.value_of("name").unwrap();
 
-        let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
         let pkg_service = container.get::<PackageService>().unwrap();
 
         let cache_service = container.get::<CacheService>().unwrap();
-        let _ = cache_service.update_repositories()?;
+        let _ = cache_service.update_repositories().await?;
 
         if !pkg_service.has(name)? {
             return Err(anyhow!("{} not found", name));
@@ -67,7 +83,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
                     } else {
                         println!("Updating {} to {}", pkg, release);
 
-                        let release = release_service.update(&pkg)?;
+                        let release = release_service.update(&pkg).await?;
                         println!("{} updated", release);
                         Ok(())
                     }
@@ -80,7 +96,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
         }
 
         println!("Installing {}", &pkg);
-        let release = release_service.create(pkg)?;
+        let release = release_service.create(pkg).await?;
         println!("{} installed", release);
 
         Ok(())

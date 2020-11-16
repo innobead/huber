@@ -10,9 +10,10 @@ edition = "2018"
 proc-macro = true
 
 [dependencies]
-#huber-common = { path = "../common" }
-#thiserror = "1.0"
+huber-common = { path = "../common" }
 proc-macro2 = "1.0"
 syn = "1.0"
 quote = "1.0"
-
+fs2 = "0.4.3"
+dirs = "3.0.1"
+log = "0.4"

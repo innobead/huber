@@ -12,7 +12,7 @@ pub trait VecExtensionTrait {
     fn sort_by_version(&mut self);
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ReleaseIndex {
     pub name: String,
     pub version: String,
@@ -20,7 +20,7 @@ pub struct ReleaseIndex {
     pub source: String,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Release {
     pub name: String,
     pub version: String,
@@ -29,8 +29,10 @@ pub struct Release {
     pub executables: Option<Vec<String>>,
     pub kind: Option<ReleaseKind>,
 }
+unsafe impl Send for Release {}
+unsafe impl Sync for Release {}
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
 pub enum ReleaseKind {
     Draft,
     PreRelease,

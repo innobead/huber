@@ -1,16 +1,22 @@
+use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
 use huber_common::config::Config;
-use huber_common::di::di_container;
+use huber_common::di::DIContainer;
 use huber_common::result::Result;
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::repo::RepoService;
 use crate::service::ItemOperationTrait;
 
 pub(crate) const CMD_NAME: &str = "remove";
 
+#[derive(Debug)]
 pub(crate) struct RepoRemoveCmd;
+
+unsafe impl Send for RepoRemoveCmd {}
+unsafe impl Sync for RepoRemoveCmd {}
+use huber_procmacro::process_lock;
 
 impl RepoRemoveCmd {
     pub(crate) fn new() -> Self {
@@ -29,11 +35,19 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RepoRemoveCmd {
                 .takes_value(true)
                 .required(true)])
     }
+}
 
-    fn run(&self, _config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+#[async_trait]
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoRemoveCmd {
+    async fn run(
+        &self,
+        _config: &Config,
+        container: &DIContainer,
+        matches: &ArgMatches<'a>,
+    ) -> Result<()> {
+        process_lock!();
+
         let name = matches.value_of("name").unwrap();
-
-        let container = di_container();
         let repo_service = container.get::<RepoService>().unwrap();
 
         if !repo_service.has(name)? {

@@ -1,11 +1,13 @@
+use std::env;
 use std::str::FromStr;
 
+use async_trait::async_trait;
 use clap::{App, ArgMatches};
 use hubcaps::Credentials;
 use log::Level;
 
 use huber_common::config::Config;
-use huber_common::di::{di_container, DIContainer, MutableArc};
+use huber_common::di::DIContainer;
 use huber_common::output::OutputFormat;
 use huber_common::result::Result;
 
@@ -22,7 +24,6 @@ use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::update::UpdateCmd;
-use std::env;
 
 pub(crate) mod current;
 pub(crate) mod flush;
@@ -37,9 +38,18 @@ pub(crate) mod show;
 pub(crate) mod uninstall;
 pub(crate) mod update;
 
-pub(crate) trait CommandTrait<'a, 'b> {
+pub(crate) trait CommandTrait<'a, 'b>: CommandAsyncTrait<'a, 'b> {
     fn app(&self) -> App<'a, 'b>;
-    fn run(&self, config: &Config, matches: &ArgMatches<'a>) -> Result<()>;
+}
+
+#[async_trait]
+pub(crate) trait CommandAsyncTrait<'a, 'b> {
+    async fn run(
+        &self,
+        config: &Config,
+        container: &DIContainer,
+        matches: &ArgMatches<'a>,
+    ) -> Result<()>;
 }
 
 pub(crate) fn prepare_arg_matches<'a, 'b>(app: App<'a, 'b>) -> ArgMatches<'a> {
@@ -81,67 +91,100 @@ pub(crate) fn process_arg_matches(config: &mut Config, matches: &ArgMatches) {
     }
 }
 
-pub(crate) fn process_cmds(
+pub(crate) async fn process_cmds(
     // runtime: &Runtime,
     config: &Config,
-    matches: &ArgMatches,
-    _container_rc: MutableArc<DIContainer>,
+    container: &DIContainer,
+    matches: &ArgMatches<'_>,
 ) -> Result<()> {
     match matches.subcommand() {
-        (cmd::current::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<CurrentCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::current::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<CurrentCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::flush::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<FlushCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::flush::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<FlushCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::info::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<InfoCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::info::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<InfoCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::install::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<InstallCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::install::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<InstallCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::reset::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<ResetCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::reset::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<ResetCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::search::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<SearchCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::search::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<SearchCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::self_update::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<SelfUpdateCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::self_update::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<SelfUpdateCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::show::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<ShowCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::show::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<ShowCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::uninstall::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<UninstallCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::uninstall::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<UninstallCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::update::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<UpdateCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::update::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<UpdateCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
-        (cmd::repo::CMD_NAME, Some(sub_matches)) => di_container()
-            .get::<RepoCmd>()
-            .unwrap()
-            .run(config, sub_matches),
+        (cmd::repo::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<RepoCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
 
         _ => unimplemented!("command not implemented"),
     }

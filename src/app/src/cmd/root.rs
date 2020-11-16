@@ -1,16 +1,21 @@
+use async_trait::async_trait;
 use clap::{crate_name, crate_version, App, Arg, ArgMatches};
 
 use huber_common::config::Config;
 use huber_common::result::Result;
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandAsyncTrait, CommandTrait};
+use huber_common::di::DIContainer;
 
 pub(crate) const ARG_LOG_LEVEL: &str = "log-level";
 pub(crate) const ARG_OUTPUT_TYPE: &str = "output";
 pub(crate) const ARG_GITHUB_TOKEN: &str = "github-token";
 // pub(crate) const ARG_GIT_SSH_KEY: &str = "git-key";
 
-pub(crate) struct RootCmd {}
+#[derive(Debug)]
+pub(crate) struct RootCmd;
+unsafe impl Send for RootCmd {}
+unsafe impl Sync for RootCmd {}
 
 impl RootCmd {
     pub(crate) fn new() -> Self {
@@ -58,8 +63,16 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
                 //     .global(true),
             ])
     }
+}
 
-    fn run(&self, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
+#[async_trait]
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RootCmd {
+    async fn run(
+        &self,
+        _config: &Config,
+        _container: &DIContainer,
+        _matches: &ArgMatches<'a>,
+    ) -> Result<()> {
         unimplemented!()
     }
 }

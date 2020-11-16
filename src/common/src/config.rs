@@ -35,6 +35,10 @@ impl Config {
         Logger::init(&self)
     }
 
+    pub fn lock_file(&self) -> Result<PathBuf> {
+        Ok(self.home_dir.join("lock"))
+    }
+
     pub fn sbin_dir(&self) -> Result<PathBuf> {
         dir(self.home_dir.join("sbin"))
     }

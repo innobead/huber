@@ -52,3 +52,8 @@ generate: ## Generate managed package list
 .PHONY: checksum
 checksum: ## Generate checksum files for built executables
 	$(CURDIR)/hack/generate-checksum.sh $(BUILD_DIR)
+
+.PHONY: udep
+udep: ## Check undepedencies
+	cargo install cargo-udeps --locked
+	cargo +nightly udeps  --workspace --exclude=huber-generator

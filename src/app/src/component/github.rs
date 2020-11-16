@@ -37,6 +37,8 @@ pub(crate) struct GithubClient {
     github: Github,
     git_ssh_key: Option<PathBuf>,
 }
+unsafe impl Send for GithubClient {}
+unsafe impl Sync for GithubClient {}
 
 impl GithubClient {
     pub(crate) fn new(
@@ -83,6 +85,7 @@ impl GithubClientTrait for GithubClient {
         release.package.name = pkg.name.clone();
         release.package.source = pkg.source.clone();
         release.package.targets = pkg.targets.clone();
+        release.package.version = Some(release.version.clone());
 
         Ok(release)
     }
@@ -103,6 +106,7 @@ impl GithubClientTrait for GithubClient {
         release.package.name = pkg.name.clone();
         release.package.source = pkg.source.clone();
         release.package.targets = pkg.targets.clone();
+        release.package.version = Some(release.version.clone());
 
         Ok(release)
     }

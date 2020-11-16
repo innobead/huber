@@ -1,15 +1,22 @@
+use async_trait::async_trait;
 use clap::{App, ArgMatches};
 
 use huber_common::config::Config;
+use huber_common::di::DIContainer;
 use huber_common::result::Result;
+use huber_procmacro::process_lock;
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::update::{UpdateService, UpdateTrait};
-use huber_common::di::di_container;
 
 pub(crate) const CMD_NAME: &str = "reset";
 
+#[derive(Debug)]
 pub(crate) struct ResetCmd;
+
+unsafe impl Send for ResetCmd {}
+
+unsafe impl Sync for ResetCmd {}
 
 impl ResetCmd {
     pub(crate) fn new() -> Self {
@@ -23,13 +30,22 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ResetCmd {
             .visible_alias("r")
             .about("Resets huber")
             .long_about(
-            "Resetting huber means the generated data by huber will be removed \
+                "Resetting huber means the generated data by huber will be removed \
             like the installed packages, created caches and index files, then have the clean state.",
-        )
+            )
     }
+}
 
-    fn run(&self, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
-        let container = di_container();
+#[async_trait]
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ResetCmd {
+    async fn run(
+        &self,
+        _config: &Config,
+        container: &DIContainer,
+        _matches: &ArgMatches<'a>,
+    ) -> Result<()> {
+        process_lock!();
+
         let update_service = container.get::<UpdateService>().unwrap();
 
         println!(

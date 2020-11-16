@@ -4,22 +4,17 @@ version = "0.1.0"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2018"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 log = "0.4"
-fern = "0.5"
+pretty_env_logger = "0.3"
 lazy_static = "1.4.0"
 anyhow = "1.0"
-#thiserror = "1.0"
 dirs = "3.0.1"
 serde = { version = "1.0.117", features = ["derive"] }
 serde_json = { version = "1.0", features = ["preserve_order"] }
 serde_yaml = "0.8.13"
 hubcaps = "0.6"
-#backtrace = "0.3"
 prettytable-rs = "0.8"
 Inflector = "*"
 chrono = "0.4"
 regex = "1.4.1"
-fs2 = "0.4.3"

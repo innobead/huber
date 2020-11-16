@@ -1,17 +1,22 @@
+use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
 use huber_common::config::Config;
-use huber_common::di::di_container;
+use huber_common::di::DIContainer;
 use huber_common::result::Result;
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
-use crate::service::ItemOperationTrait;
+use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
 pub(crate) const CMD_NAME: &str = "update";
 
+#[derive(Debug)]
 pub(crate) struct UpdateCmd;
+
+unsafe impl Send for UpdateCmd {}
+unsafe impl Sync for UpdateCmd {}
 
 impl UpdateCmd {
     pub(crate) fn new() -> Self {
@@ -30,11 +35,20 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UpdateCmd {
                 .required(true)
                 .takes_value(true)])
     }
+}
+use huber_procmacro::process_lock;
 
-    fn run(&self, _config: &Config, matches: &ArgMatches) -> Result<()> {
+#[async_trait]
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {
+    async fn run(
+        &self,
+        _config: &Config,
+        container: &DIContainer,
+        matches: &ArgMatches<'a>,
+    ) -> Result<()> {
+        process_lock!();
+
         let name = matches.value_of("name").unwrap();
-
-        let container = di_container();
         let release_service = container.get::<ReleaseService>().unwrap();
         let pkg_service = container.get::<PackageService>().unwrap();
 
@@ -46,7 +60,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UpdateCmd {
         let release = release_service.current(&pkg)?;
 
         println!("Updating {} to the latest version", release);
-        release_service.update(&pkg)?;
+        release_service.update(&pkg).await?;
         println!("{} updated", pkg);
 
         Ok(())

@@ -3,32 +3,47 @@ use std::io::Write;
 use std::sync::Arc;
 
 use anyhow::Result;
+use async_trait::async_trait;
 use hubcaps::Credentials;
 use log::info;
-use tokio::runtime::Runtime;
 
 use huber_common::config::Config;
+use huber_common::di::DIContainer;
 use huber_common::model::package::Package;
 use huber_common::model::repo::Repository;
 use huber_common::str::OsStrExt;
 
-use crate::service::{ItemOperationTrait, ItemSearchTrait};
+use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 
 pub(crate) trait RepoTrait {
     fn get_packages_by_repo(&self, name: &str) -> Result<Vec<Package>>;
-    fn download_save_pkgs_file(&self, name: &str, url: &str) -> Result<()>;
 }
 
+#[async_trait]
+pub(crate) trait RepoAsyncTrait {
+    async fn download_save_pkgs_file(&self, name: &str, url: &str) -> Result<()>;
+}
+
+#[derive(Debug)]
 pub(crate) struct RepoService {
     pub(crate) config: Option<Arc<Config>>,
-    pub(crate) runtime: Option<Arc<Runtime>>,
+    pub(crate) container: Option<Arc<DIContainer>>,
+}
+unsafe impl Send for RepoService {}
+unsafe impl Sync for RepoService {}
+
+impl ServiceTrait for RepoService {
+    fn set_shared_properties(&mut self, config: Arc<Config>, container: Arc<DIContainer>) {
+        self.config = Some(config);
+        self.container = Some(container);
+    }
 }
 
 impl RepoService {
     pub(crate) fn new() -> Self {
         Self {
             config: None,
-            runtime: None,
+            container: None,
         }
     }
 }
@@ -56,22 +71,6 @@ impl ItemOperationTrait for RepoService {
     type ItemInstance = Repository;
     type Condition = String;
 
-    fn create(&self, obj: Self::Item) -> Result<Self::ItemInstance> {
-        let config = self.config.as_ref().unwrap();
-
-        let path = config.unmanaged_repo_file(&obj.name)?;
-        let file = File::create(&path)?;
-        serde_yaml::to_writer(file, &obj)?;
-
-        self.download_save_pkgs_file(&obj.name, &obj.url)?;
-
-        Ok(obj)
-    }
-
-    fn update(&self, _obj: &Self::Item) -> Result<Self::ItemInstance> {
-        unimplemented!()
-    }
-
     fn delete(&self, name: &str) -> Result<()> {
         let config = self.config.as_ref().unwrap();
 
@@ -84,6 +83,7 @@ impl ItemOperationTrait for RepoService {
         Ok(())
     }
 
+    // FIXME enhance performance
     fn list(&self) -> Result<Vec<Self::ItemInstance>> {
         let config = self.config.as_ref().unwrap();
 
@@ -113,11 +113,34 @@ impl ItemOperationTrait for RepoService {
         Ok(repos)
     }
 
-    fn find(&self, _condition: &Self::Condition) -> Result<Vec<Self::ItemInstance>> {
+    fn get(&self, _name: &str) -> Result<Self::ItemInstance> {
+        unimplemented!()
+    }
+}
+
+#[async_trait]
+impl ItemOperationAsyncTrait for RepoService {
+    type Item_ = Repository;
+    type ItemInstance_ = Repository;
+    type Condition_ = String;
+
+    async fn create(&self, obj: Self::Item_) -> Result<Self::ItemInstance_> {
+        let config = self.config.as_ref().unwrap();
+
+        let path = config.unmanaged_repo_file(&obj.name)?;
+        let file = File::create(&path)?;
+        serde_yaml::to_writer(file, &obj)?;
+
+        self.download_save_pkgs_file(&obj.name, &obj.url).await?;
+
+        Ok(obj)
+    }
+
+    async fn update(&self, _obj: &Self::Item_) -> Result<Self::ItemInstance_> {
         unimplemented!()
     }
 
-    fn get(&self, _name: &str) -> Result<Self::ItemInstance> {
+    async fn find(&self, _condition: &Self::Condition_) -> Result<Vec<Self::ItemInstance_>> {
         unimplemented!()
     }
 }
@@ -130,41 +153,41 @@ impl RepoTrait for RepoService {
 
         Ok(serde_yaml::from_reader(f)?)
     }
+}
 
-    fn download_save_pkgs_file(&self, name: &str, url: &str) -> Result<()> {
+#[async_trait]
+impl RepoAsyncTrait for RepoService {
+    async fn download_save_pkgs_file(&self, name: &str, url: &str) -> Result<()> {
         let config = self.config.as_ref().unwrap();
-        let mut runtime = Runtime::new().unwrap();
 
-        runtime.block_on(async {
-            let path = config.unmanaged_repo_pkgs_file(&name)?;
-            if path.exists() {
-                let _ = remove_file(&path);
+        let path = config.unmanaged_repo_pkgs_file(&name)?;
+        if path.exists() {
+            let _ = remove_file(&path);
+        }
+
+        info!("Saving {} to {:?}", &url, &path);
+
+        let mut url = url.to_string();
+        url = url.replace("github.com", "raw.githubusercontent.com") + "/master/huber.yaml";
+
+        url = if let Some(Credentials::Token(token)) = config.github_credentials.clone() {
+            let re = regex::Regex::new(r"(http|https)://")?;
+            re.replace(&url, format!("$1://{}@", token).as_str())
+                .to_string()
+        } else {
+            format!("{}/master/huber.yaml", url)
+        };
+
+        let response = reqwest::get(&url.to_string()).await?;
+        match response.error_for_status() {
+            Err(e) => Err(anyhow!("{:?}", e)),
+            Ok(response) => {
+                let mut f = File::create(&path)?;
+                let bytes = response.bytes().await?;
+                f.write(&bytes)?;
+
+                Ok(())
             }
-
-            info!("Saving {} to {:?}", &url, &path);
-
-            let mut url = url.to_string();
-            url = url.replace("github.com", "raw.githubusercontent.com") + "/master/huber.yaml";
-
-            url = if let Some(Credentials::Token(token)) = config.github_credentials.clone() {
-                let re = regex::Regex::new(r"(http|https)://")?;
-                re.replace(&url, format!("$1://{}@", token).as_str())
-                    .to_string()
-            } else {
-                format!("{}/master/huber.yaml", url)
-            };
-
-            let response = reqwest::get(&url.to_string()).await?;
-            match response.error_for_status() {
-                Err(e) => Err(anyhow!("{:?}", e)),
-                Ok(response) => {
-                    let mut f = File::create(&path)?;
-                    let bytes = response.bytes().await?;
-                    f.write(&bytes)?;
-
-                    Ok(())
-                }
-            }
-        })
+        }
     }
 }

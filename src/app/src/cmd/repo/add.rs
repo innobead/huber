@@ -1,17 +1,23 @@
+use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
 use huber_common::config::Config;
+use huber_common::di::DIContainer;
+use huber_common::model::repo::Repository;
 use huber_common::result::Result;
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::repo::RepoService;
-use crate::service::ItemOperationTrait;
-use huber_common::di::di_container;
-use huber_common::model::repo::Repository;
+use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
 pub(crate) const CMD_NAME: &str = "add";
 
+#[derive(Debug)]
 pub(crate) struct RepoAddCmd;
+
+unsafe impl Send for RepoAddCmd {}
+unsafe impl Sync for RepoAddCmd {}
+use huber_procmacro::process_lock;
 
 impl RepoAddCmd {
     pub(crate) fn new() -> Self {
@@ -37,12 +43,21 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RepoAddCmd {
                     .required(true),
             ])
     }
+}
 
-    fn run(&self, _config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
+#[async_trait]
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoAddCmd {
+    async fn run(
+        &self,
+        _config: &Config,
+        container: &DIContainer,
+        matches: &ArgMatches<'a>,
+    ) -> Result<()> {
+        process_lock!();
+
         let name = matches.value_of("name").unwrap();
         let url = matches.value_of("url").unwrap();
 
-        let container = di_container();
         let repo_service = container.get::<RepoService>().unwrap();
 
         if repo_service.has(name)? {
@@ -53,7 +68,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RepoAddCmd {
             name: name.to_string(),
             url: url.to_string(),
         };
-        let repo = repo_service.create(repo)?;
+        let repo = repo_service.create(repo).await?;
 
         println!("{} added", repo);
 

@@ -1,16 +1,21 @@
+use async_trait::async_trait;
 use clap::{App, ArgMatches};
 
 use huber_common::config::Config;
-use huber_common::di::di_container;
 use huber_common::result::Result;
 
-use crate::cmd::CommandTrait;
-use crate::service::update::UpdateService;
-use crate::service::update::UpdateTrait;
+use crate::cmd::{CommandAsyncTrait, CommandTrait};
+use crate::service::update::{UpdateAsyncTrait, UpdateService};
+
+use huber_common::di::DIContainer;
 
 pub(crate) const CMD_NAME: &str = "self-update";
 
+#[derive(Debug)]
 pub(crate) struct SelfUpdateCmd;
+
+unsafe impl Send for SelfUpdateCmd {}
+unsafe impl Sync for SelfUpdateCmd {}
 
 impl SelfUpdateCmd {
     pub(crate) fn new() -> Self {
@@ -24,15 +29,25 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SelfUpdateCmd {
             .visible_alias("su")
             .about("Updates huber")
     }
+}
+use huber_procmacro::process_lock;
 
-    fn run(&self, _config: &Config, _matches: &ArgMatches<'a>) -> Result<()> {
-        let container = di_container();
+#[async_trait]
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for SelfUpdateCmd {
+    async fn run(
+        &self,
+        _config: &Config,
+        container: &DIContainer,
+        _matches: &ArgMatches<'a>,
+    ) -> Result<()> {
+        process_lock!();
+
         let update_service = container.get::<UpdateService>().unwrap();
 
-        let r = update_service.has_update()?;
+        let r = update_service.has_update().await?;
         if r.0 {
             println!("Updating huber to {}", r.1);
-            update_service.update()?;
+            update_service.update().await?;
             return Ok(());
         }
 

@@ -1,22 +1,27 @@
 use std::io::stdout;
 
 use anyhow::Result;
+use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
 use huber_common::config::Config;
-use huber_common::di::di_container;
+use huber_common::di::DIContainer;
+use huber_common::model::release::VecExtensionTrait;
 use huber_common::output::factory::FactoryConsole;
 use huber_common::output::OutputTrait;
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
-use crate::service::ItemOperationTrait;
-use huber_common::model::release::VecExtensionTrait;
+use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
 pub(crate) const CMD_NAME: &str = "show";
 
+#[derive(Debug)]
 pub(crate) struct ShowCmd;
+
+unsafe impl Send for ShowCmd {}
+unsafe impl Sync for ShowCmd {}
 
 impl ShowCmd {
     pub(crate) fn new() -> Self {
@@ -44,11 +49,18 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
                     .help("Show the detailed info of release"),
             ])
     }
+}
 
-    fn run(&self, config: &Config, matches: &ArgMatches<'a>) -> Result<()> {
-        let container = di_container();
-        let release_service = container.get::<ReleaseService>().unwrap();
+#[async_trait]
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ShowCmd {
+    async fn run(
+        &self,
+        config: &Config,
+        container: &DIContainer,
+        matches: &ArgMatches<'a>,
+    ) -> Result<()> {
         let pkg_service = container.get::<PackageService>().unwrap();
+        let release_service = container.get::<ReleaseService>().unwrap();
 
         let mut excluded_keys = if matches.is_present("detail") {
             vec![]
@@ -67,7 +79,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
             let release = release_service.current(&pkg)?;
 
             if matches.is_present("all") {
-                let mut releases = release_service.find(&pkg)?;
+                let mut releases = release_service.find(&pkg).await?;
                 releases.sort_by_version();
 
                 releases = releases
@@ -105,7 +117,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
             let mut all_releases = vec![];
 
             for cr in current_releases.iter() {
-                let mut releases = release_service.find(&cr.package)?;
+                let mut releases = release_service.find(&cr.package).await?;
                 releases.sort_by_version();
 
                 all_releases.append(&mut releases);
