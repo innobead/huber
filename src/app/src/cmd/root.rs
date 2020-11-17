@@ -57,6 +57,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
                     .value_name("string")
                     .short("k")
                     .long(ARG_GITHUB_KEY)
+                    .env("GITHUB_KEY")
                     .help("Github SSH private key path for authenticating public/private github repository access. This is required if you connect github w/ SSH instead of https")
                     .takes_value(true)
                     .global(true),

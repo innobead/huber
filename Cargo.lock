@@ -742,6 +742,7 @@ dependencies = [
 name = "huber-procmacro"
 version = "0.1.0"
 dependencies = [
+ "anyhow",
  "dirs 3.0.1",
  "fs2",
  "huber-common",

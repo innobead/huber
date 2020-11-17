@@ -1,6 +1,7 @@
 extern crate proc_macro;
 
 use proc_macro::TokenStream;
+
 use quote::quote;
 
 #[proc_macro]
@@ -19,13 +20,16 @@ pub fn process_lock(_item: TokenStream) -> TokenStream {
         }.unwrap();
 
         let r = f.try_lock_exclusive();
-        info!("{:?} {:?}", lock_path, r);
+        match r {
+            Ok(_) => {
+                info!("{}: {:?}", "Locking the operation", lock_path);
+            },
 
-        if let Err(e) = r {
-            panic!("huber is already running by another process for the exclusion operation. Please try after the operation finished. {:?}", e)
+            Err(e) => {
+                error!("{:?}: {:?}", lock_path, e);
+                return Err(anyhow!("huber is already running by another process for the exclusion operation. Please try after the operation finished. {:?}", e))
+            }
         }
-
-        info!("{}", "Locking the operation");
     };
 
     result.into()
