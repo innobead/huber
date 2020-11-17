@@ -54,7 +54,7 @@ jobs:
 
   release-macos:
     name: Release for MacOS
-    needs: release-linux
+#    needs: release-linux
     runs-on: macos-latest
     steps:
       - name: Checkout code
