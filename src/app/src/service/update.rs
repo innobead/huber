@@ -72,6 +72,7 @@ impl UpdateTrait for UpdateService {
         let _ = remove_dir_all(config.temp_dir()?);
         let _ = remove_dir_all(config.repo_root_dir()?);
         let _ = remove_file(config.lock_file()?);
+        let _ = remove_file(config.config_file()?);
 
         Ok(())
     }
