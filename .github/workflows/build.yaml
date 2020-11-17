@@ -10,6 +10,7 @@ on:
 
 jobs:
   build-linux:
+    name: Build for Linux
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -25,6 +26,7 @@ jobs:
         run: make build
 
   build-macos:
+    name: Build for MacOS
     runs-on: macos-latest
     steps:
       - name: Checkout code
