@@ -1,12 +1,14 @@
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::Config;
 use huber_common::model::repo::Repository;
 use huber_common::result::Result;
+use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
+use huber_common::model::config::ConfigPath;
 use crate::service::repo::RepoService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
@@ -16,8 +18,8 @@ pub(crate) const CMD_NAME: &str = "add";
 pub(crate) struct RepoAddCmd;
 
 unsafe impl Send for RepoAddCmd {}
+
 unsafe impl Sync for RepoAddCmd {}
-use huber_procmacro::process_lock;
 
 impl RepoAddCmd {
     pub(crate) fn new() -> Self {

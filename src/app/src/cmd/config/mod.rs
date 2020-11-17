@@ -6,38 +6,36 @@ use huber_common::model::config::Config;
 use huber_common::result::Result;
 
 use crate::cmd;
-use crate::cmd::repo::add::RepoAddCmd;
-use crate::cmd::repo::list::RepoListCmd;
-use crate::cmd::repo::remove::RepoRemoveCmd;
+use crate::cmd::config::show::ConfigShowCmd;
+use crate::cmd::config::update::ConfigUpdateCmd;
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 
-pub(crate) mod add;
-pub(crate) mod list;
-pub(crate) mod remove;
+pub(crate) mod show;
+pub(crate) mod update;
 
-pub(crate) const CMD_NAME: &str = "repo";
+pub(crate) const CMD_NAME: &str = "config";
 
 #[derive(Debug)]
-pub(crate) struct RepoCmd;
+pub(crate) struct ConfigCmd;
 
-unsafe impl Send for RepoCmd {}
+unsafe impl Send for ConfigCmd {}
 
-unsafe impl Sync for RepoCmd {}
+unsafe impl Sync for ConfigCmd {}
 
-impl RepoCmd {
+impl ConfigCmd {
     pub(crate) fn new() -> Self {
         Self {}
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for RepoCmd {
+impl<'a, 'b> CommandTrait<'a, 'b> for ConfigCmd {
     fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Manages repositories")
+        App::new(CMD_NAME).about("Manages the configuration")
     }
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoCmd {
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ConfigCmd {
     async fn run(
         &self,
         config: &Config,
@@ -45,25 +43,17 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoCmd {
         matches: &ArgMatches<'a>,
     ) -> Result<()> {
         match matches.subcommand() {
-            (cmd::repo::add::CMD_NAME, Some(sub_matches)) => {
+            (cmd::config::show::CMD_NAME, Some(sub_matches)) => {
                 container
-                    .get::<RepoAddCmd>()
+                    .get::<ConfigShowCmd>()
                     .unwrap()
                     .run(config, container, sub_matches)
                     .await
             }
 
-            (cmd::repo::remove::CMD_NAME, Some(sub_matches)) => {
+            (cmd::config::update::CMD_NAME, Some(sub_matches)) => {
                 container
-                    .get::<RepoRemoveCmd>()
-                    .unwrap()
-                    .run(config, container, sub_matches)
-                    .await
-            }
-
-            (cmd::repo::list::CMD_NAME, Some(sub_matches)) => {
-                container
-                    .get::<RepoListCmd>()
+                    .get::<ConfigUpdateCmd>()
                     .unwrap()
                     .run(config, container, sub_matches)
                     .await
@@ -76,3 +66,8 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoCmd {
         }
     }
 }
+
+pub(crate) const ARG_LOG_LEVEL: &str = "log-level";
+pub(crate) const ARG_OUTPUT_TYPE: &str = "output";
+pub(crate) const ARG_GITHUB_TOKEN: &str = "github-token";
+pub(crate) const ARG_GITHUB_KEY: &str = "github-key";

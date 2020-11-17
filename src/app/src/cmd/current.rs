@@ -1,14 +1,15 @@
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::Config;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
+use huber_common::model::config::ConfigPath;
 use crate::service::package::PackageService;
-use crate::service::release::{ReleaseService, ReleaseTrait};
+use crate::service::release::{ReleaseService, ReleaseAsyncTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
 pub(crate) const CMD_NAME: &str = "current";
@@ -38,9 +39,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for CurrentCmd {
                     .required(true)
                     .takes_value(true),
                 Arg::with_name("version")
-                    .value_name("string")
-                    .long("version")
-                    .short("v")
+                    .value_name("package version")
                     .help("Package version")
                     .required(true)
                     .takes_value(true),
@@ -70,10 +69,27 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for CurrentCmd {
         let releases = release_service.find(&pkg).await?;
         let version = matches.value_of("version").unwrap();
 
-        match releases.into_iter().find(|it| it.version == version) {
-            Some(mut r) => {
-                println!("Setting {} as the current package", &r);
+        if let Some(mut r) = releases.into_iter().find(|it| it.version == version) {
+            println!("Setting {} as the current package", &r);
+            let executables = release_service.set_current(&mut r).await?;
+
+            println!(
+                "{}",
+                format!("Updated executables:\n - {}", executables.join("\n - "))
+                    .trim_end_matches("- ")
+            );
+            println!("{} as current updated", &r);
+
+            Ok(())
+        } else {
+            Err(anyhow!("{} not found", version))
+        }
+
+        /*for mut r in releases.into_iter() {
+            println!("Setting {} as the current package", &r);
+            if r.version == version {
                 let executables = release_service.set_current(&mut r)?;
+
                 println!(
                     "{}",
                     format!("Updated executables:\n - {}", executables.join("\n - "))
@@ -81,10 +97,12 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for CurrentCmd {
                 );
                 println!("{} as current updated", &r);
 
-                Ok(())
+                continue;
             }
 
-            None => Err(anyhow!("{} not found", version)),
+            release_service.clean_current(&r)?;
         }
+
+        Ok(())*/
     }
 }

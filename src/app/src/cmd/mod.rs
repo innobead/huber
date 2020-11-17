@@ -3,28 +3,29 @@ use std::str::FromStr;
 
 use async_trait::async_trait;
 use clap::{App, ArgMatches};
-use hubcaps::Credentials;
 use log::Level;
 
-use huber_common::config::Config;
+use config::{ARG_GITHUB_KEY, ARG_GITHUB_TOKEN, ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
+use current::CurrentCmd;
+use flush::FlushCmd;
 use huber_common::di::DIContainer;
+use huber_common::model::config::Config;
 use huber_common::output::OutputFormat;
 use huber_common::result::Result;
+use info::InfoCmd;
+use install::InstallCmd;
+use repo::RepoCmd;
+use reset::ResetCmd;
+use search::SearchCmd;
+use self_update::SelfUpdateCmd;
+use show::ShowCmd;
+use uninstall::UninstallCmd;
+use update::UpdateCmd;
 
 use crate::cmd;
-use crate::cmd::current::CurrentCmd;
-use crate::cmd::flush::FlushCmd;
-use crate::cmd::info::InfoCmd;
-use crate::cmd::install::InstallCmd;
-use crate::cmd::repo::RepoCmd;
-use crate::cmd::reset::ResetCmd;
-use crate::cmd::root::{ARG_GITHUB_TOKEN, ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
-use crate::cmd::search::SearchCmd;
-use crate::cmd::self_update::SelfUpdateCmd;
-use crate::cmd::show::ShowCmd;
-use crate::cmd::uninstall::UninstallCmd;
-use crate::cmd::update::UpdateCmd;
+use crate::cmd::config::ConfigCmd;
 
+pub(crate) mod config;
 pub(crate) mod current;
 pub(crate) mod flush;
 pub(crate) mod info;
@@ -62,7 +63,7 @@ pub(crate) fn prepare_arg_matches<'a, 'b>(app: App<'a, 'b>) -> ArgMatches<'a> {
             let arg1 = args.nth(0).unwrap();
             let arg2 = args.nth(0).unwrap();
 
-            if ["repo"].contains(&arg2.as_str()) {
+            if ["repo", "config"].contains(&arg2.as_str()) {
                 app.get_matches_from(vec![arg1, arg2, "help".to_string()])
             } else {
                 app.get_matches()
@@ -73,22 +74,34 @@ pub(crate) fn prepare_arg_matches<'a, 'b>(app: App<'a, 'b>) -> ArgMatches<'a> {
     }
 }
 
-pub(crate) fn process_arg_matches(config: &mut Config, matches: &ArgMatches) {
-    if let Some(level) = matches.value_of(ARG_LOG_LEVEL) {
-        if let Ok(level) = Level::from_str(&level.to_lowercase()) {
-            config.log_level = level;
+pub(crate) fn process_arg_matches(config: &mut Config, matches: &ArgMatches) -> bool {
+    let mut updated = false;
+
+    if let Some(arg) = matches.value_of(ARG_LOG_LEVEL) {
+        if let Ok(result) = Level::from_str(&arg.to_lowercase()) {
+            config.log_level = result.to_string();
+            updated = true;
         }
     }
 
-    if let Some(output) = matches.value_of(ARG_OUTPUT_TYPE) {
-        if let Ok(level) = OutputFormat::from_str(output) {
-            config.output_format = level;
+    if let Some(arg) = matches.value_of(ARG_OUTPUT_TYPE) {
+        if let Ok(result) = OutputFormat::from_str(arg) {
+            config.output_format = result;
+            updated = true;
         }
     }
 
-    if let Some(output) = matches.value_of(ARG_GITHUB_TOKEN) {
-        config.github_credentials = Some(Credentials::Token(output.to_string()))
+    if let Some(arg) = matches.value_of(ARG_GITHUB_TOKEN) {
+        config.github_token = Some(arg.to_string());
+        updated = true;
     }
+
+    if let Some(arg) = matches.value_of(ARG_GITHUB_KEY) {
+        config.github_key = Some(arg.to_string());
+        updated = true;
+    }
+
+    updated
 }
 
 pub(crate) async fn process_cmds(
@@ -181,6 +194,14 @@ pub(crate) async fn process_cmds(
         (cmd::repo::CMD_NAME, Some(sub_matches)) => {
             container
                 .get::<RepoCmd>()
+                .unwrap()
+                .run(config, container, sub_matches)
+                .await
+        }
+
+        (cmd::config::CMD_NAME, Some(sub_matches)) => {
+            container
+                .get::<ConfigCmd>()
                 .unwrap()
                 .run(config, container, sub_matches)
                 .await

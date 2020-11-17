@@ -2,11 +2,12 @@ use std::sync::Arc;
 
 use async_trait::async_trait;
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::Config;
 use huber_common::result::Result;
 
 pub(crate) mod cache;
+pub(crate) mod config;
 pub(crate) mod package;
 pub(crate) mod release;
 pub(crate) mod repo;

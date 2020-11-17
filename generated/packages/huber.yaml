@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: huber
+description: "Huber,  simplify `GitHub release` package management 📦 with a live awesome list of GitHub projects"
+source:
+  Github:
+    owner: innobead
+    repo: huber
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/huber-linux-amd64"
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/huber-linux-arm64"
+  - MacOS:
+      artifact_templates:
+        - "{version}/huber-darwin-amd64"
+detail: ~

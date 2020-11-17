@@ -54,3 +54,4 @@ pub mod trivy;
 pub mod typescript;
 pub mod velero;
 pub mod waypoint;
+pub mod huber;

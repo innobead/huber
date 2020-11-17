@@ -45,6 +45,9 @@
 - name: hub
   owner: github
   source: github
+- name: huber
+  owner: innobead
+  source: github
 - name: istio
   owner: istio
   source: github

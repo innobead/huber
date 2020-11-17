@@ -6,7 +6,7 @@ use quote::quote;
 #[proc_macro]
 pub fn process_lock(_item: TokenStream) -> TokenStream {
     let result = quote! {
-        use huber_common::config::Config;
+        use huber_common::model::config::Config;
         use std::fs::File;
         use fs2::FileExt;
         use log::{error, info};

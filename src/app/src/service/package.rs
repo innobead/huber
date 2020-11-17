@@ -3,8 +3,8 @@ use std::sync::Arc;
 use async_trait::async_trait;
 use log::debug;
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::{Config, ConfigFieldConvertTrait};
 use huber_common::model::package::{Package, PackageSource};
 use huber_common::result::Result;
 
@@ -76,10 +76,7 @@ impl ItemOperationAsyncTrait for PackageService {
 
         let config = self.config.as_ref().unwrap();
 
-        let client = GithubClient::new(
-            config.github_credentials.clone(),
-            config.git_ssh_key.clone(),
-        );
+        let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
         let pkg = self.get(pkg_name)?;
 
         match &pkg.source {

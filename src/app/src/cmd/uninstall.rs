@@ -1,21 +1,23 @@
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::Config;
 use huber_common::result::Result;
+use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
+use huber_common::model::config::ConfigPath;
 use crate::service::release::ReleaseService;
 use crate::service::ItemOperationTrait;
 
-use huber_procmacro::process_lock;
 pub(crate) const CMD_NAME: &str = "uninstall";
 
 #[derive(Debug)]
 pub(crate) struct UninstallCmd;
 
 unsafe impl Send for UninstallCmd {}
+
 unsafe impl Sync for UninstallCmd {}
 
 impl UninstallCmd {

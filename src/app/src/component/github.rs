@@ -2,16 +2,15 @@ use std::fs::remove_dir_all;
 use std::path::{Path, PathBuf};
 
 use async_trait::async_trait;
-use git2::Repository;
+use git2::{Cred, RemoteCallbacks, Repository};
+use git2::build::RepoBuilder;
 use hubcaps::{Credentials, Github};
-use log::debug;
+use log::{debug, info};
 
 use huber_common::file::is_empty_dir;
 use huber_common::model::package::Package;
 use huber_common::model::release::Release;
 use huber_common::result::Result;
-
-const HUBER_GITHUB_REPO: &str = "https://github.com/innobead/huber";
 
 #[async_trait]
 pub(crate) trait GithubClientTrait {
@@ -35,19 +34,21 @@ pub(crate) trait GithubClientTrait {
 #[derive(Debug)]
 pub(crate) struct GithubClient {
     github: Github,
-    git_ssh_key: Option<PathBuf>,
+    github_key: Option<PathBuf>,
 }
+
 unsafe impl Send for GithubClient {}
+
 unsafe impl Sync for GithubClient {}
 
 impl GithubClient {
     pub(crate) fn new(
         github_credentials: Option<Credentials>,
-        git_ssh_key: Option<PathBuf>,
+        github_key: Option<PathBuf>,
     ) -> Self {
         Self {
             github: Github::new("huber", github_credentials).unwrap(),
-            git_ssh_key,
+            github_key,
         }
     }
 
@@ -70,6 +71,26 @@ impl GithubClient {
         reference.set_target(commit.id(), "")?;
 
         Ok(repo.checkout_head(Some(git2::build::CheckoutBuilder::default().force()))?)
+    }
+
+    fn create_builder_with_credentials<T: AsRef<Path> + 'static>(
+        &self,
+        key: T,
+    ) -> Result<RepoBuilder<'static>> {
+        let mut callbacks = RemoteCallbacks::new();
+        callbacks.credentials(move |_url, username_from_url, _allowed_types| {
+            Cred::ssh_key(username_from_url.unwrap(), None, key.as_ref(), None)
+        });
+
+        // Prepare fetch options.
+        let mut fo = git2::FetchOptions::new();
+        fo.remote_callbacks(callbacks);
+
+        // Prepare builder.
+        let mut builder = git2::build::RepoBuilder::new();
+        builder.fetch_options(fo);
+
+        Ok(builder)
     }
 }
 
@@ -142,13 +163,31 @@ impl GithubClientTrait for GithubClient {
     }
 
     async fn clone<P: AsRef<Path> + Send>(&self, owner: &str, repo: &str, dir: P) -> Result<()> {
-        debug!("Cloning huber github repo");
+        info!("Cloning huber github repo");
 
         let url = format!("https://github.com/{}/{}", owner, repo);
 
         if is_empty_dir(&dir) {
-            //Note: if encountering authentication required, probably hit this issue https://github.com/rust-lang/git2-rs/issues/463
-            Repository::clone(&url, dir)?;
+            let mut cloned = false;
+
+            if let Some(key) = self.github_key.as_ref() {
+                if key.exists() {
+                    info!("Cloning huber repo via SSH");
+
+                    let mut builder = self.create_builder_with_credentials(key.clone())?;
+                    builder.clone(&url, dir.as_ref())?;
+                    cloned = true;
+                } else {
+                    info!("The configured github key not found");
+                }
+            }
+
+            if !cloned {
+                info!("Cloning huber repo via https");
+                //Note: if encountering authentication required, probably hit this issue https://github.com/rust-lang/git2-rs/issues/463
+                Repository::clone(&url, &dir)?;
+            }
+
             return Ok(());
         }
 

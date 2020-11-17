@@ -6,8 +6,8 @@ use log::info;
 use rayon::prelude::*;
 use regex::Regex;
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{Package, PackageIndex};
 use huber_common::model::repo::Repository;
 use huber_common::result::Result;
@@ -196,10 +196,7 @@ impl CacheAsyncTrait for CacheService {
         let dir = config.huber_repo_dir()?;
         info!("Updating {:?}", dir);
 
-        let client = GithubClient::new(
-            config.github_credentials.clone(),
-            config.git_ssh_key.clone(),
-        );
+        let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
         info!("Updating managed repos");
         client.clone("innobead", "huber", dir.clone()).await?;

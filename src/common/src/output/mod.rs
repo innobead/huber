@@ -9,7 +9,7 @@ pub mod factory;
 pub mod json;
 pub mod yaml;
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Deserialize, Serialize)]
 pub enum OutputFormat {
     Console,
     Yaml,

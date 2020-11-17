@@ -1,17 +1,18 @@
-use std::fs::{read_dir, remove_dir_all};
+use std::fs::{read_dir, remove_dir_all, remove_file};
 use std::sync::Arc;
 
 use async_trait::async_trait;
 use clap::crate_version;
 use semver::Version;
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
-use huber_common::model::package::{Package, PackageSource};
+use huber_common::model::config::{Config, ConfigPath};
+
 use huber_common::result::Result;
 
-use crate::component::github::{GithubClient, GithubClientTrait};
-use crate::service::ServiceTrait;
+use crate::service::{ServiceTrait, ItemOperationTrait, ItemOperationAsyncTrait};
+use crate::service::release::ReleaseService;
+use crate::service::package::PackageService;
 
 pub(crate) trait UpdateTrait {
     fn reset(&self) -> Result<()>;
@@ -20,7 +21,7 @@ pub(crate) trait UpdateTrait {
 #[async_trait]
 pub(crate) trait UpdateAsyncTrait {
     async fn has_update(&self) -> Result<(bool, String)>;
-    async fn update(&self) -> Result<bool>;
+    async fn update(&self) -> Result<()>;
 }
 
 #[derive(Debug)]
@@ -28,7 +29,9 @@ pub(crate) struct UpdateService {
     pub(crate) config: Option<Arc<Config>>,
     pub(crate) container: Option<Arc<DIContainer>>,
 }
+
 unsafe impl Send for UpdateService {}
+
 unsafe impl Sync for UpdateService {}
 
 impl ServiceTrait for UpdateService {
@@ -68,6 +71,7 @@ impl UpdateTrait for UpdateService {
         let _ = remove_dir_all(config.installed_pkg_root_dir()?);
         let _ = remove_dir_all(config.temp_dir()?);
         let _ = remove_dir_all(config.repo_root_dir()?);
+        let _ = remove_file(config.lock_file()?);
 
         Ok(())
     }
@@ -76,65 +80,34 @@ impl UpdateTrait for UpdateService {
 #[async_trait]
 impl UpdateAsyncTrait for UpdateService {
     async fn has_update(&self) -> Result<(bool, String)> {
-        let config = self.config.as_ref().unwrap();
+        let container = self.container.as_ref().unwrap();
+        let pkg_service = container.get::<PackageService>().unwrap();
+        let release_service = container.get::<ReleaseService>().unwrap();
+
         let current_version = crate_version!();
+        let pkg = pkg_service.get("huber")?;
 
-        // Note: async closure is not stable yet. ex: async || -> Result<>, so can't use ? in async {}
-        let client = GithubClient::new(
-            config.github_credentials.clone(),
-            config.git_ssh_key.clone(),
-        );
-
-        let pkg = create_huber_package();
-        match client.get_latest_release("innobead", "huber", &pkg).await {
-            Err(e) => Err(e),
+        match release_service.get_latest(pkg).await {
+            Err(e) => Err(anyhow!("No update available: {:?}", e)),
             Ok(r) => Ok((
-                Version::parse(current_version) >= Version::parse(&r.version),
+                Version::parse(&r.version) > Version::parse(current_version),
                 r.version,
             )),
         }
     }
 
-    async fn update(&self) -> Result<bool> {
-        if !self.has_update().await?.0 {
-            return Ok(false);
-        }
+    async fn update(&self) -> Result<()> {
+        let container = self.container.as_ref().unwrap();
+        let pkg_service = container.get::<PackageService>().unwrap();
+        let release_service = container.get::<ReleaseService>().unwrap();
 
-        let config = self.config.as_ref().unwrap();
+        let _current_version = crate_version!();
+        let mut pkg = pkg_service.get("huber")?;
+        let release = release_service.get_latest(pkg.clone()).await?;
+        pkg.version = Some(release.version);
 
-        let client = GithubClient::new(
-            config.github_credentials.clone(),
-            config.git_ssh_key.clone(),
-        );
-
-        let pkg = create_huber_package();
-        match client.get_latest_release("innobead", "huber", &pkg).await {
-            Err(e) => Err(e),
-
-            Ok(r) => {
-                match client
-                    .download_artifacts(&r, config.bin_dir().unwrap())
-                    .await
-                {
-                    Err(e) => Err(e),
-                    Ok(_r_) => Ok(true),
-                }
-            }
-        }
+        release_service.update(&pkg).await?;
+        Ok(())
     }
 }
 
-fn create_huber_package() -> Package {
-    Package {
-        name: "huber".to_string(),
-        source: PackageSource::Github {
-            owner: "innobead".to_string(),
-            repo: "huber".to_string(),
-        },
-        targets: vec![],
-        detail: None,
-        version: None,
-        description: None,
-        release_kind: None,
-    }
-}

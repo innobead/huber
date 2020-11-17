@@ -6,51 +6,51 @@ use clap::{App, ArgMatches};
 use huber_common::di::DIContainer;
 use huber_common::model::config::Config;
 use huber_common::output::factory::FactoryConsole;
-use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
-use crate::service::repo::RepoService;
-use crate::service::ItemOperationTrait;
+use huber_common::output::OutputTrait;
+use crate::service::config::{ConfigService, ConfigTrait};
 
-pub(crate) const CMD_NAME: &str = "list";
+pub(crate) const CMD_NAME: &str = "show";
 
 #[derive(Debug)]
-pub(crate) struct RepoListCmd;
+pub(crate) struct ConfigShowCmd;
 
-unsafe impl Send for RepoListCmd {}
-unsafe impl Sync for RepoListCmd {}
+unsafe impl Send for ConfigShowCmd {}
 
-impl RepoListCmd {
+unsafe impl Sync for ConfigShowCmd {}
+
+impl ConfigShowCmd {
     pub(crate) fn new() -> Self {
         Self {}
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for RepoListCmd {
+impl<'a, 'b> CommandTrait<'a, 'b> for ConfigShowCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME)
-            .visible_alias("ls")
-            .about("List repositories")
+            .visible_alias("rm")
+            .about("Shows the configuration")
     }
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoListCmd {
+impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ConfigShowCmd {
     async fn run(
         &self,
         config: &Config,
         container: &DIContainer,
         _matches: &ArgMatches<'a>,
     ) -> Result<()> {
-        let repo_service = container.get::<RepoService>().unwrap();
+        let config_service = container.get::<ConfigService>().unwrap();
 
-        let repos = repo_service.list()?;
+        let c = config_service.get()?;
         output!(config.output_format, .display(
             stdout(),
-            &repos,
+            &c,
             None,
-            None,
+            Some(vec!["home_dir"]),
         ))
     }
 }

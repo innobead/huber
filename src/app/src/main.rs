@@ -1,18 +1,21 @@
-#![allow(dead_code)]
-
 #[macro_use]
 extern crate anyhow;
 #[macro_use]
 extern crate huber_common;
+#[macro_use]
+extern crate lazy_static;
 #[macro_use]
 extern crate maplit;
 
 use std::process::exit;
 use std::sync::Arc;
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::Config;
 
+use crate::cmd::config::show::ConfigShowCmd;
+use crate::cmd::config::update::ConfigUpdateCmd;
+use crate::cmd::config::ConfigCmd;
 use crate::cmd::current::CurrentCmd;
 use crate::cmd::flush::FlushCmd;
 use crate::cmd::info::InfoCmd;
@@ -24,11 +27,13 @@ use crate::cmd::repo::RepoCmd;
 use crate::cmd::reset::ResetCmd;
 use crate::cmd::root::RootCmd;
 use crate::cmd::search::SearchCmd;
+use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::update::UpdateCmd;
 use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
+use crate::service::config::ConfigService;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::repo::RepoService;
@@ -49,6 +54,7 @@ async fn main() {
         create_dep!(InstallCmd, container, .app()),
         create_dep!(UninstallCmd, container, .app()),
         create_dep!(UpdateCmd, container, .app()),
+        create_dep!(SelfUpdateCmd, container, .app()),
         create_dep!(SearchCmd, container, .app()),
         create_dep!(InfoCmd, container, .app()),
         create_dep!(ShowCmd, container, .app()),
@@ -60,6 +66,10 @@ async fn main() {
             create_dep!(RepoAddCmd, container, .app()),
             create_dep!(RepoRemoveCmd, container, .app()),
             create_dep!(RepoListCmd, container, .app()),
+        ]),
+        create_dep!(ConfigCmd, container, .app()).subcommands(vec![
+            create_dep!(ConfigShowCmd, container, .app()),
+            create_dep!(ConfigUpdateCmd, container, .app()),
         ]),
     ];
 
@@ -76,6 +86,7 @@ async fn main() {
     create_dep!(CacheService, container);
     create_dep!(UpdateService, container);
     create_dep!(RepoService, container);
+    create_dep!(ConfigService, container);
 
     // inject dependencies to the container objects
     let config_arc = Arc::new(config);
@@ -86,6 +97,7 @@ async fn main() {
     inject_dep!(CacheService, config_arc.clone(), container_arc.clone());
     inject_dep!(UpdateService, config_arc.clone(), container_arc.clone());
     inject_dep!(RepoService, config_arc.clone(), container_arc.clone());
+    inject_dep!(ConfigService, config_arc.clone(), container_arc.clone());
 
     // process command
     if let Err(e) = cmd::process_cmds(&config_arc.clone(), &container_arc.clone(), &matches).await {

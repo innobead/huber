@@ -167,7 +167,7 @@ velero updated
  gh    v1.2.0   false 
  gh    v1.1.0   true 
 
-❯ huber current gh -v v1.2.0
+❯ huber current gh v1.2.0
 Setting gh (version: v1.2.0, source: github) as the current package
 Updated executables:
  - /home/davidko/.huber/bin/gh

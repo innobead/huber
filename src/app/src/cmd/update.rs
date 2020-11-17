@@ -1,11 +1,13 @@
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::Config;
 use huber_common::result::Result;
+use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
+use huber_common::model::config::ConfigPath;
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
@@ -16,6 +18,7 @@ pub(crate) const CMD_NAME: &str = "update";
 pub(crate) struct UpdateCmd;
 
 unsafe impl Send for UpdateCmd {}
+
 unsafe impl Sync for UpdateCmd {}
 
 impl UpdateCmd {
@@ -36,7 +39,6 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UpdateCmd {
                 .takes_value(true)])
     }
 }
-use huber_procmacro::process_lock;
 
 #[async_trait]
 impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {

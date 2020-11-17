@@ -82,6 +82,7 @@ fn releases() -> Vec<Package> {
         syncthing::release(),
         powershell::release(),
         mkcert::release(),
+        huber::release(),
         // infra
         pulumi::release(),
         // app development

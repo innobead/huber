@@ -1,20 +1,18 @@
 use async_trait::async_trait;
-use clap::{crate_name, crate_version, App, Arg, ArgMatches};
+use clap::{crate_name, App, Arg, ArgMatches};
 
-use huber_common::config::Config;
+use huber_common::di::DIContainer;
+use huber_common::model::config::Config;
 use huber_common::result::Result;
 
+use crate::cmd::config::{ARG_GITHUB_KEY, ARG_GITHUB_TOKEN, ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
-use huber_common::di::DIContainer;
-
-pub(crate) const ARG_LOG_LEVEL: &str = "log-level";
-pub(crate) const ARG_OUTPUT_TYPE: &str = "output";
-pub(crate) const ARG_GITHUB_TOKEN: &str = "github-token";
-// pub(crate) const ARG_GIT_SSH_KEY: &str = "git-key";
 
 #[derive(Debug)]
 pub(crate) struct RootCmd;
+
 unsafe impl Send for RootCmd {}
+
 unsafe impl Sync for RootCmd {}
 
 impl RootCmd {
@@ -26,8 +24,8 @@ impl RootCmd {
 impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(crate_name!())
-            .version(crate_version!())
-            .long_version(crate_version!())
+            .version(env!("HUBER_SHORT_VERSION"))
+            .long_version(env!("HUBER_VERSION"))
             .about("Huber, simplify github package management")
             .args(&[
                 Arg::with_name(ARG_LOG_LEVEL)
@@ -37,7 +35,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
                     .help("Log level")
                     .takes_value(true)
                     .global(true)
-                    .default_value("off")
+                    .default_value("error")
                     .possible_values(&["off", "error", "warn", "info", "debug", "trace"]),
                 Arg::with_name(ARG_OUTPUT_TYPE)
                     .value_name("string")
@@ -50,17 +48,19 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
                     .possible_values(&["console", "json", "yaml"]),
                 Arg::with_name(ARG_GITHUB_TOKEN)
                     .value_name("string")
+                    .short("t")
                     .long(ARG_GITHUB_TOKEN)
                     .env("GITHUB_TOKEN")
-                    .help("Github token, used for authored access instead of limited public access")
+                    .help("Github token, used for authorized access instead of limited public access")
                     .takes_value(true)
                     .global(true),
-                // Arg::with_name(ARG_GIT_SSH_KEY)
-                //     .value_name("string")
-                //     .long(ARG_GIT_SSH_KEY)
-                //     .help("SSH key to access git repository, used for authored access of self managed package source repository")
-                //     .takes_value(true)
-                //     .global(true),
+                Arg::with_name(ARG_GITHUB_KEY)
+                    .value_name("string")
+                    .short("k")
+                    .long(ARG_GITHUB_KEY)
+                    .help("Github SSH private key path for authenticating public/private github repository access. This is required if you connect github w/ SSH instead of https")
+                    .takes_value(true)
+                    .global(true),
             ])
     }
 }

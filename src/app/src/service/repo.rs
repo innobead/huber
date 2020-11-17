@@ -4,11 +4,11 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use async_trait::async_trait;
-use hubcaps::Credentials;
+
 use log::info;
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::{Config, ConfigPath};
 use huber_common::model::package::Package;
 use huber_common::model::repo::Repository;
 use huber_common::str::OsStrExt;
@@ -29,7 +29,9 @@ pub(crate) struct RepoService {
     pub(crate) config: Option<Arc<Config>>,
     pub(crate) container: Option<Arc<DIContainer>>,
 }
+
 unsafe impl Send for RepoService {}
+
 unsafe impl Sync for RepoService {}
 
 impl ServiceTrait for RepoService {
@@ -170,7 +172,7 @@ impl RepoAsyncTrait for RepoService {
         let mut url = url.to_string();
         url = url.replace("github.com", "raw.githubusercontent.com") + "/master/huber.yaml";
 
-        url = if let Some(Credentials::Token(token)) = config.github_credentials.clone() {
+        url = if let Some(token) = config.github_token.clone() {
             let re = regex::Regex::new(r"(http|https)://")?;
             re.replace(&url, format!("$1://{}@", token).as_str())
                 .to_string()

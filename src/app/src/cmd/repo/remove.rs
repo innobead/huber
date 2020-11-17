@@ -1,11 +1,13 @@
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
+use huber_common::model::config::Config;
 use huber_common::result::Result;
+use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
+use huber_common::model::config::ConfigPath;
 use crate::service::repo::RepoService;
 use crate::service::ItemOperationTrait;
 
@@ -15,8 +17,8 @@ pub(crate) const CMD_NAME: &str = "remove";
 pub(crate) struct RepoRemoveCmd;
 
 unsafe impl Send for RepoRemoveCmd {}
+
 unsafe impl Sync for RepoRemoveCmd {}
-use huber_procmacro::process_lock;
 
 impl RepoRemoveCmd {
     pub(crate) fn new() -> Self {

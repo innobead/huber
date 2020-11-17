@@ -18,9 +18,9 @@ use tokio::task;
 use url::Url;
 use urlencoding::decode;
 
-use huber_common::config::Config;
 use huber_common::di::DIContainer;
 use huber_common::file::trim_os_arch;
+use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
@@ -35,8 +35,8 @@ const SUPPORTED_EXTRA_EXECUTABLE_TYPES: [&str; 3] = ["exe", "AppImage", "dmg"];
 
 pub(crate) trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> Result<Release>;
-    fn set_current(&self, release: &mut Release) -> Result<Vec<String>>;
-    fn clean_current(&self, pkg: &Package) -> Result<()>;
+    fn clean_current(&self, release: &Release) -> Result<()>;
+    fn reset_current(&self, pkg: &Package) -> Result<()>;
 
     fn link_executables_for_current(
         &self,
@@ -56,6 +56,8 @@ pub(crate) trait ReleaseAsyncTrait {
         package: &Package,
         package_github: &GithubPackage,
     ) -> Result<()>;
+
+    async fn set_current(&self, release: &mut Release) -> Result<Vec<String>>;
 }
 
 #[derive(Debug)]
@@ -87,10 +89,7 @@ impl ReleaseService {
         debug!("Getting the latest release: {}", pkg);
 
         let config = self.config.as_ref().unwrap();
-        let client = GithubClient::new(
-            config.github_credentials.clone(),
-            config.git_ssh_key.clone(),
-        );
+        let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
         task::spawn(async move {
             match &pkg.source {
@@ -124,103 +123,22 @@ impl ReleaseTrait for ReleaseService {
         Ok(release)
     }
 
-    fn set_current(&self, release: &mut Release) -> Result<Vec<String>> {
-        info!("Setting the current release: {}", &release);
+    fn clean_current(&self, release: &Release) -> Result<()> {
+        debug!("Making {} not the current release", release);
 
         let config = self.config.as_ref().unwrap();
-        release.current = true;
-        release.name = release.package.name.clone();
 
-        let current_pkg_dir = config.current_pkg_dir(&release.package)?;
-        let current_bin_dir = config.current_pkg_bin_dir(&release.package)?;
+        let p = config.installed_pkg_manifest_file(&release.package, &release.version)?;
+        let f = File::open(&p)?;
+        let mut r: Release = serde_yaml::from_reader(&f)?;
 
-        // remove old symlink bin, current
-        info!(
-            "Removing the current release symbolic links: {}",
-            &release.package
-        );
-        self.clean_current(&release.package)?;
-
-        // update current symlink
-        info!("Updating the current release symbolic links: {}", &release);
-        let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
-        symlink_dir(&source, &current_pkg_dir)?;
-
-        info!(
-            "Updating the current release bin symbolic links: {}",
-            &release
-        );
-        let mut linked_exe_files: Vec<String> = vec![];
-        let scan_dirs = vec![&current_pkg_dir, &current_bin_dir];
-        for dir in scan_dirs {
-            info!("Scanning executables in {:?}", dir);
-
-            if !dir.exists() {
-                info!("Ignored scanning {:?}, because it does not exist", dir);
-                continue;
-            }
-
-            for entry in read_dir(&dir)?.into_iter() {
-                let entry = entry?;
-                let path = entry.path();
-                if path.is_file() {
-                    if let Some(p) = self.link_executables_for_current(&release, &path)? {
-                        linked_exe_files.push(p);
-                    }
-                }
-            }
-        }
-
-        let index_f = config.current_index_file()?;
-        let mut indexes: Vec<ReleaseIndex> = vec![];
-
-        // update old current release manifest
-        info!("Updating the current index manifest: {:?}", &index_f);
-
-        if index_f.exists() {
-            let f = File::open(&index_f)?;
-            indexes = serde_yaml::from_reader(&f)?;
-
-            if let Some(found) = indexes.iter().find(|it| it.name == release.package.name) {
-                let old_pkg_manifest_path =
-                    config.installed_pkg_manifest_file(&release.package, &found.version)?;
-                let f = File::open(&old_pkg_manifest_path)?;
-
-                let mut r: Release = serde_yaml::from_reader(f)?;
-                r.current = false;
-
-                let _ = remove_file(&old_pkg_manifest_path);
-                let f = File::create(&old_pkg_manifest_path)?;
-                serde_yaml::to_writer(f, &r)?;
-            }
-
-            indexes = indexes
-                .into_iter()
-                .filter(|it| it.name != release.package.name)
-                .collect();
-        }
-
-        indexes.push(ReleaseIndex {
-            name: release.package.name.clone(),
-            version: release.version.clone(),
-            owner: release.package.source.owner().to_string(),
-            source: release.package.source.to_string(),
-        });
-
-        // update current release index file
-        let _ = remove_file(&index_f);
-        let index_f = File::create(&index_f)?;
-        serde_yaml::to_writer(index_f, &indexes)?;
-
-        let release_f = config.installed_pkg_manifest_file(&release.package, &release.version)?;
-        let _ = remove_file(&release_f);
-        let release_f = File::create(release_f)?;
-        serde_yaml::to_writer(release_f, &release)?;
-
-        Ok(linked_exe_files)
+        r.current = false;
+        let _ = remove_file(&p)?;
+        let f = File::create(&p)?;
+        Ok(serde_yaml::to_writer(f, &r)?)
     }
 
-    fn clean_current(&self, pkg: &Package) -> Result<()> {
+    fn reset_current(&self, pkg: &Package) -> Result<()> {
         info!("Cleaning {} from the current manifests", &pkg);
 
         let config = self.config.as_ref().unwrap();
@@ -639,6 +557,113 @@ impl ReleaseAsyncTrait for ReleaseService {
         futures::future::join_all(tasks).await;
         Ok(())
     }
+
+    async fn set_current(&self, release: &mut Release) -> Result<Vec<String>> {
+        info!("Setting the current release: {}", &release);
+
+        let config = self.config.as_ref().unwrap();
+        release.current = true;
+        release.name = release.package.name.clone();
+
+        let current_pkg_dir = config.current_pkg_dir(&release.package)?;
+        let current_bin_dir = config.current_pkg_bin_dir(&release.package)?;
+
+        // remove old symlink bin, current
+        info!(
+            "Removing the current release symbolic links: {}",
+            &release.package
+        );
+        self.reset_current(&release.package)?;
+
+        // update current symlink
+        info!("Updating the current release symbolic links: {}", &release);
+        let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
+        symlink_dir(&source, &current_pkg_dir)?;
+
+        info!(
+            "Updating the current release bin symbolic links: {}",
+            &release
+        );
+        let mut linked_exe_files: Vec<String> = vec![];
+        let scan_dirs = vec![&current_pkg_dir, &current_bin_dir];
+        for dir in scan_dirs {
+            info!("Scanning executables in {:?}", dir);
+
+            if !dir.exists() {
+                info!("Ignored scanning {:?}, because it does not exist", dir);
+                continue;
+            }
+
+            for entry in read_dir(&dir)?.into_iter() {
+                let entry = entry?;
+                let path = entry.path();
+                if path.is_file() {
+                    if let Some(p) = self.link_executables_for_current(&release, &path)? {
+                        linked_exe_files.push(p);
+                    }
+                }
+            }
+        }
+
+        let index_f = config.current_index_file()?;
+        let mut indexes: Vec<ReleaseIndex> = vec![];
+
+        // update old current release manifest
+        info!("Updating the current index manifest: {:?}", &index_f);
+
+        if index_f.exists() {
+            let f = File::open(&index_f)?;
+            indexes = serde_yaml::from_reader(&f)?;
+
+            if let Some(found) = indexes.iter().find(|it| it.name == release.package.name) {
+                let old_pkg_manifest_path =
+                    config.installed_pkg_manifest_file(&release.package, &found.version)?;
+                let f = File::open(&old_pkg_manifest_path)?;
+
+                let mut r: Release = serde_yaml::from_reader(f)?;
+                r.current = false;
+
+                let _ = remove_file(&old_pkg_manifest_path);
+                let f = File::create(&old_pkg_manifest_path)?;
+                serde_yaml::to_writer(f, &r)?;
+            }
+
+            indexes = indexes
+                .into_iter()
+                .filter(|it| it.name != release.package.name)
+                .collect();
+        }
+
+        indexes.push(ReleaseIndex {
+            name: release.package.name.clone(),
+            version: release.version.clone(),
+            owner: release.package.source.owner().to_string(),
+            source: release.package.source.to_string(),
+        });
+
+        // update current release index file
+        let _ = remove_file(&index_f);
+        let index_f = File::create(&index_f)?;
+        serde_yaml::to_writer(index_f, &indexes)?;
+
+        let release_f = config.installed_pkg_manifest_file(&release.package, &release.version)?;
+        let _ = remove_file(&release_f);
+        let release_f = File::create(release_f)?;
+        serde_yaml::to_writer(release_f, &release)?;
+
+        // clean other installed releases as non-current
+        let releases = self.find(&release.package).await?;
+        let inactive_releases: Vec<&Release> = releases
+            .iter()
+            .filter(|it| it.version != release.version)
+            .collect();
+
+        for r in inactive_releases {
+            self.clean_current(&r)?;
+        }
+
+        Ok(linked_exe_files)
+    }
 }
 
 impl ItemOperationTrait for ReleaseService {
@@ -654,7 +679,7 @@ impl ItemOperationTrait for ReleaseService {
         let pkg_service = container.get::<PackageService>().unwrap();
 
         let pkg = pkg_service.get(name)?;
-        self.clean_current(&pkg)?;
+        self.reset_current(&pkg)?;
 
         let dir = config.installed_pkg_base_dir(&pkg)?;
         Ok(remove_dir_all(dir)?)
@@ -712,10 +737,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
         info!("Updating release from package: {}", &obj);
 
         let config = self.config.as_ref().unwrap();
-        let client = GithubClient::new(
-            config.github_credentials.clone(),
-            config.git_ssh_key.clone(),
-        );
+        let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
         // get the release from github
         let mut release = match &obj.source {
@@ -738,7 +760,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
                 self.download_install_github_package(&obj, &p).await?;
 
                 println!("Setting {} as the current package", release);
-                let executables = self.set_current(&mut release)?;
+                let executables = self.set_current(&mut release).await?;
 
                 println!(
                     "{}",
@@ -758,7 +780,6 @@ impl ItemOperationAsyncTrait for ReleaseService {
         let config = self.config.as_ref().unwrap();
 
         let mut releases: Vec<Release> = vec![];
-        let current_pkg = self.current(&pkg)?;
 
         let pkg_base_dir = config.installed_pkg_base_dir(&pkg)?;
         for entry in read_dir(&pkg_base_dir)?.into_iter() {
@@ -768,14 +789,11 @@ impl ItemOperationAsyncTrait for ReleaseService {
 
             if entry.path().is_dir() {
                 if let Ok(_) = Version::parse(filename.trim_start_matches("v")) {
-                    releases.push(Release {
-                        name: pkg.name.clone(),
-                        version: filename.to_string(),
-                        current: current_pkg.version == filename.to_string(),
-                        package: pkg.clone(),
-                        executables: None,
-                        kind: None,
-                    });
+                    let p = config.installed_pkg_manifest_file(&pkg, &filename)?;
+                    let f = File::open(p)?;
+                    let r: Release = serde_yaml::from_reader(f)?;
+
+                    releases.push(r);
                 }
             }
         }

@@ -2,7 +2,6 @@
 extern crate anyhow;
 extern crate proc_macro;
 
-pub mod config;
 pub mod di;
 pub mod file;
 pub mod log;
