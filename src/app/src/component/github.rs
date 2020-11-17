@@ -77,6 +77,7 @@ impl GithubClient {
 
         let mut fetch_options = if let Some(key) = self.github_key.as_ref() {
             if key.exists() {
+                info!("Fetching huber repo via SSH");
                 Some(self.create_git_fetch_options(key.clone())?)
             } else {
                 None
