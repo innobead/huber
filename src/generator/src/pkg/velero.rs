@@ -27,7 +27,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["velero-v{version}-darwin-arm64.tar.gz".to_string()],
+                artifact_templates: vec!["velero-v{version}-darwin-amd64.tar.gz".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,

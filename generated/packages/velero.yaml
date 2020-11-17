@@ -15,5 +15,5 @@ targets:
         - "velero-v{version}-linux-arm64.tar.gz"
   - MacOS:
       artifact_templates:
-        - "velero-v{version}-darwin-arm64.tar.gz"
+        - "velero-v{version}-darwin-amd64.tar.gz"
 detail: ~

@@ -24,7 +24,6 @@ impl RootCmd {
 impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(crate_name!())
-            .version(env!("HUBER_VERSION"))
             .long_version(env!("HUBER_LONG_VERSION"))
             .about("Huber, simplify github package management")
             .args(&[

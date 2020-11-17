@@ -144,7 +144,7 @@ impl Package {
 
         if os == "linux" {
             return match arch {
-                "x86_64" => Ok(self
+                "x86_64" => self
                     .targets
                     .iter()
                     .find_map(|it| {
@@ -154,8 +154,9 @@ impl Package {
                             None
                         }
                     })
-                    .unwrap()),
-                "aarch64" => Ok(self
+                    .ok_or(e),
+
+                "aarch64" => self
                     .targets
                     .iter()
                     .find_map(|it| {
@@ -165,14 +166,14 @@ impl Package {
                             None
                         }
                     })
-                    .unwrap()
-                    .clone()),
+                    .ok_or(e),
+
                 _ => Err(e),
             };
         }
 
         if os == "macos" {
-            return Ok(self
+            return self
                 .targets
                 .iter()
                 .find_map(|it| {
@@ -182,12 +183,11 @@ impl Package {
                         None
                     }
                 })
-                .unwrap()
-                .clone());
+                .ok_or(e);
         }
 
         if os == "windows" {
-            return Ok(self
+            return self
                 .targets
                 .iter()
                 .find_map(|it| {
@@ -197,8 +197,7 @@ impl Package {
                         None
                     }
                 })
-                .unwrap()
-                .clone());
+                .ok_or(e);
         }
 
         Err(e)

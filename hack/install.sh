@@ -30,7 +30,6 @@ case $os in
   ;;
 esac
 
-echo $filename
 # shellcheck disable=SC2046
 curl -sfSLO "https://github.com/innobead/huber/releases/download/$(get_latest_release)/$filename" && \
  chmod +x $filename && \
