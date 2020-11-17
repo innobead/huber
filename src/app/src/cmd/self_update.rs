@@ -7,6 +7,7 @@ use huber_common::result::Result;
 use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
+use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::update::{UpdateAsyncTrait, UpdateService};
 use huber_common::model::config::ConfigPath;
 
@@ -42,6 +43,9 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for SelfUpdateCmd {
         _matches: &ArgMatches<'a>,
     ) -> Result<()> {
         process_lock!();
+
+        let cache_service = container.get::<CacheService>().unwrap();
+        let _ = cache_service.update_repositories().await?;
 
         let update_service = container.get::<UpdateService>().unwrap();
 

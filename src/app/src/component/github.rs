@@ -4,7 +4,7 @@ use std::path::{Path, PathBuf};
 use async_trait::async_trait;
 use git2::{Cred, FetchOptions, RemoteCallbacks, Repository};
 use hubcaps::{Credentials, Github};
-use log::{debug, error, info};
+use log::{debug, info};
 
 use huber_common::file::is_empty_dir;
 use huber_common::model::package::Package;
@@ -207,7 +207,7 @@ impl GithubClientTrait for GithubClient {
         }
 
         if let Err(e) = self.fetch_merge_repo(&dir) {
-            error!("Failed to fetch huber github repo, {:?}", e);
+            debug!("Failed to fetch huber github repo, {:?}", e);
 
             let _ = remove_dir_all(&dir);
             self.clone_fresh(&url, &dir)?;
