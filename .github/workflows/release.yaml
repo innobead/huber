@@ -53,6 +53,7 @@ jobs:
 
 
   release-macos:
+    needs: release-linux
     runs-on: macos-latest
     steps:
       - name: Checkout code
@@ -81,6 +82,7 @@ jobs:
           done < <(find ./.target -print0)
 
           tag_name="${GITHUB_REF##*/}"
+          tag_name="$(hub release -d)"
           hub release edit -d "${assets[@]}" -m "" "$tag_name"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
