@@ -20,11 +20,20 @@ For MacOS users, please remember to install necessary dependent libraries to mak
 ```
 
 ## Installing Huber
-For official releases, please install the latest release as below command.
+
+### Installing the official version
+
+For official releases, please install the latest release as below command. After the installation, `huber` path will be automatically added to the environment path by updating the`$HOME/.bashrc`. 
+But, if it does not work as expected, please remember to add `$HOME/.huber/bin` in the environment path, so `huber` will be looked up correctly. 
 
 ```console
 ❯ curl -sfSL https://raw.githubusercontent.com/innobead/huber/master/hack/install.sh | bash
+
+# Update the environment path if required
+❯ echo "export PATH=\$HOME/.huber/bin:\$PATH" > ~/.bashrc
 ```
+
+### Installing the development version
 
 For development purpose, please make sure go 1.14 installed, then build and install `kubefire` in the `GOBIN` path.
 
