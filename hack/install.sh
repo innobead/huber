@@ -33,8 +33,8 @@ esac
 # shellcheck disable=SC2046
 curl -sfSLO "https://github.com/innobead/huber/releases/download/$(get_latest_release)/$filename" && \
  chmod +x $filename && \
- make -p ~/.huber/bin && \
- mv $filename ~/.huber/bin
+ mkdir -p ~/.huber/bin && \
+ mv $filename ~/.huber/bin/huber
 
 export_statement="export PATH=\$HOME/.huber/bin:\$PATH"
 if ! grep -Fxq "$export_statement"  ~/.bashrc; then
