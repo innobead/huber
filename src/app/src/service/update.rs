@@ -2,7 +2,6 @@ use std::fs::{read_dir, remove_dir_all, remove_file};
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use clap::crate_version;
 use semver::Version;
 
 use huber_common::di::DIContainer;
@@ -10,9 +9,9 @@ use huber_common::model::config::{Config, ConfigPath};
 
 use huber_common::result::Result;
 
-use crate::service::{ServiceTrait, ItemOperationTrait, ItemOperationAsyncTrait};
-use crate::service::release::ReleaseService;
 use crate::service::package::PackageService;
+use crate::service::release::ReleaseService;
+use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ServiceTrait};
 
 pub(crate) trait UpdateTrait {
     fn reset(&self) -> Result<()>;
@@ -85,7 +84,7 @@ impl UpdateAsyncTrait for UpdateService {
         let pkg_service = container.get::<PackageService>().unwrap();
         let release_service = container.get::<ReleaseService>().unwrap();
 
-        let current_version = crate_version!();
+        let current_version = env!("HUBER_VERSION").trim_start_matches("v");
         let pkg = pkg_service.get("huber")?;
 
         match release_service.get_latest(pkg).await {
@@ -102,7 +101,6 @@ impl UpdateAsyncTrait for UpdateService {
         let pkg_service = container.get::<PackageService>().unwrap();
         let release_service = container.get::<ReleaseService>().unwrap();
 
-        let _current_version = crate_version!();
         let mut pkg = pkg_service.get("huber")?;
         let release = release_service.get_latest(pkg.clone()).await?;
         pkg.version = Some(release.version);
@@ -111,4 +109,3 @@ impl UpdateAsyncTrait for UpdateService {
         Ok(())
     }
 }
-

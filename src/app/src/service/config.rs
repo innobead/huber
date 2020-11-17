@@ -1,4 +1,4 @@
-use std::fs::{File, remove_file};
+use std::fs::{remove_file, File};
 use std::sync::Arc;
 
 use log::{debug, info};

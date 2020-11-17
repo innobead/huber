@@ -9,10 +9,10 @@ use huber_common::output::factory::FactoryConsole;
 use huber_common::result::Result;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
-use huber_common::output::OutputTrait;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::ItemOperationTrait;
+use huber_common::output::OutputTrait;
 
 pub(crate) const CMD_NAME: &str = "info";
 

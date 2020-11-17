@@ -7,8 +7,8 @@ use huber_common::result::Result;
 use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
-use huber_common::model::config::ConfigPath;
 use crate::service::update::{UpdateAsyncTrait, UpdateService};
+use huber_common::model::config::ConfigPath;
 
 pub(crate) const CMD_NAME: &str = "self-update";
 
@@ -49,7 +49,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for SelfUpdateCmd {
         if r.0 {
             println!("Updating huber to {}", r.1);
             if let Err(e) = update_service.update().await {
-                return Err(anyhow!("Failed to update, {:?}", e))
+                return Err(anyhow!("Failed to update, {:?}", e));
             }
 
             println!("huber {} Updated", r.1);

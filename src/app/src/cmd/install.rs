@@ -7,11 +7,11 @@ use huber_common::result::Result;
 use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
-use huber_common::model::config::ConfigPath;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
+use huber_common::model::config::ConfigPath;
 
 pub(crate) const CMD_NAME: &str = "install";
 

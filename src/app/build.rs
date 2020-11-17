@@ -3,10 +3,10 @@ use std::process::Command;
 use chrono::prelude::*;
 
 fn main() {
-    let short_version = format!("v{}", env!("CARGO_PKG_VERSION"));
-
     let mut version = command("git", vec!["describe", "--tags", "--dirty"])
         .unwrap_or_else(|| format!("v{}", env!("CARGO_PKG_VERSION").to_string()));
+
+    let short_version = version.clone();
 
     let commit =
         command("git", vec!["rev-parse", "--short", "HEAD"]).unwrap_or_else(|| "".to_string());
@@ -15,8 +15,8 @@ fn main() {
 
     version = format!("{} Commit: {}-{}", version, commit, timestamp);
 
-    println!("cargo:rustc-env=HUBER_SHORT_VERSION={}", short_version);
-    println!("cargo:rustc-env=HUBER_VERSION={}", version);
+    println!("cargo:rustc-env=HUBER_VERSION={}", short_version);
+    println!("cargo:rustc-env=HUBER_LONG_VERSION={}", version);
 }
 
 fn command(cmd: &str, args: impl IntoIterator<Item = &'static str>) -> Option<String> {

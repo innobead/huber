@@ -2,9 +2,9 @@ use std::fs::remove_dir_all;
 use std::path::{Path, PathBuf};
 
 use async_trait::async_trait;
-use git2::{Cred, RemoteCallbacks, Repository, FetchOptions};
+use git2::{Cred, FetchOptions, RemoteCallbacks, Repository};
 use hubcaps::{Credentials, Github};
-use log::{debug, info, error};
+use log::{debug, error, info};
 
 use huber_common::file::is_empty_dir;
 use huber_common::model::package::Package;
@@ -27,7 +27,12 @@ pub(crate) trait GithubClientTrait {
         release: &Release,
         dir: P,
     ) -> Result<()>;
-    async fn clone<P: AsRef<Path> + Send + Sync>(&self, owner: &str, repo: &str, dir: P) -> Result<()>;
+    async fn clone<P: AsRef<Path> + Send + Sync>(
+        &self,
+        owner: &str,
+        repo: &str,
+        dir: P,
+    ) -> Result<()>;
 }
 
 #[derive(Debug)]
@@ -104,10 +109,7 @@ impl GithubClient {
         Ok(repo.checkout_head(Some(git2::build::CheckoutBuilder::default().force()))?)
     }
 
-    fn create_git_fetch_options<T: AsRef<Path> + 'static>(
-        &self,
-        key: T,
-    ) -> Result<FetchOptions> {
+    fn create_git_fetch_options<T: AsRef<Path> + 'static>(&self, key: T) -> Result<FetchOptions> {
         let mut callbacks = RemoteCallbacks::new();
         callbacks.credentials(move |_url, username_from_url, _allowed_types| {
             Cred::ssh_key(username_from_url.unwrap(), None, key.as_ref(), None)
@@ -189,14 +191,19 @@ impl GithubClientTrait for GithubClient {
         unimplemented!()
     }
 
-    async fn clone<P: AsRef<Path> + Send + Sync>(&self, owner: &str, repo: &str, dir: P) -> Result<()> {
+    async fn clone<P: AsRef<Path> + Send + Sync>(
+        &self,
+        owner: &str,
+        repo: &str,
+        dir: P,
+    ) -> Result<()> {
         info!("Cloning huber github repo");
 
         let url = format!("https://github.com/{}/{}", owner, repo);
 
         if is_empty_dir(&dir) {
             self.clone_fresh(&url, &dir)?;
-            return Ok(())
+            return Ok(());
         }
 
         if let Err(e) = self.fetch_merge_repo(&dir) {

@@ -9,8 +9,8 @@ use huber_common::output::factory::FactoryConsole;
 use huber_common::result::Result;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
-use huber_common::output::OutputTrait;
 use crate::service::config::{ConfigService, ConfigTrait};
+use huber_common::output::OutputTrait;
 
 pub(crate) const CMD_NAME: &str = "show";
 

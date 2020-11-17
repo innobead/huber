@@ -22,7 +22,7 @@ case $os in
   fi
   ;;
 "Darwin")
-    filename="huber-darwin-adm64"
+    filename="huber-darwin-amd64"
   ;;
 *)
   echo "The platform is not supported" > /dev/stderr

@@ -6,13 +6,13 @@ use clap::{App, ArgMatches};
 use huber_common::di::DIContainer;
 use huber_common::model::config::Config;
 use huber_common::output::factory::FactoryConsole;
+use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
-use huber_common::output::OutputTrait;
 
-use crate::cmd::{CommandAsyncTrait, CommandTrait, process_arg_matches};
-use huber_common::model::config::ConfigPath;
+use crate::cmd::{process_arg_matches, CommandAsyncTrait, CommandTrait};
 use crate::service::config::{ConfigService, ConfigTrait};
+use huber_common::model::config::ConfigPath;
 
 pub(crate) const CMD_NAME: &str = "update";
 

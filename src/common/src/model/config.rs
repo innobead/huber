@@ -1,6 +1,6 @@
-use std::{env, fs};
 use std::fs::File;
 use std::path::PathBuf;
+use std::{env, fs};
 
 use hubcaps::Credentials;
 use log::LevelFilter;

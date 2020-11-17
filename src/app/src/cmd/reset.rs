@@ -7,8 +7,8 @@ use huber_common::result::Result;
 use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
-use huber_common::model::config::ConfigPath;
 use crate::service::update::{UpdateService, UpdateTrait};
+use huber_common::model::config::ConfigPath;
 
 pub(crate) const CMD_NAME: &str = "reset";
 

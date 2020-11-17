@@ -3,6 +3,7 @@ COMMIT:=$(shell git rev-parse --short HEAD 2>/dev/null)-$(shell date "+%Y%m%d%H%
 TAG:=$(shell git describe --tags --dirty 2>/dev/null)
 BUILD_CACHE_DIR:=$(CURDIR)/.cache
 BUILD_DIR := $(CURDIR)/.target
+HUBER_ARTIFACT := $(shell $(CURDIR)/hack/huber-artifact-name.sh)
 
 .PHONY: help
 help:
@@ -12,7 +13,7 @@ help:
 setup-dev: ## Prepare environment
 	$(CURDIR)/hack/setup-dev.sh
 
-.PHONY: build
+.PHONY: buildk
 build: fmt ## Build binaries
 	cargo build $(CARGO_OPTS) --workspace --exclude=huber-generator
 
@@ -28,7 +29,8 @@ fmt: ## Format & Lint codes
 .PHONY: release
 release: ## Release binaries
 	CARGO_OPTS="--release" $(MAKE) build
-	mkdir -p $(BUILD_DIR) && cp $(CURDIR)/target/release/huber $(BUILD_DIR)
+	mkdir -p $(BUILD_DIR) && cp $(CURDIR)/target/release/huber $(BUILD_DIR)/$(HUBER_ARTIFACT)
+	$(MAKE) checksum
 
 .PHONY: install
 install: ## Install binaries
