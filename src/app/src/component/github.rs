@@ -2,10 +2,9 @@ use std::fs::remove_dir_all;
 use std::path::{Path, PathBuf};
 
 use async_trait::async_trait;
-use git2::{Cred, RemoteCallbacks, Repository};
-use git2::build::RepoBuilder;
+use git2::{Cred, RemoteCallbacks, Repository, FetchOptions};
 use hubcaps::{Credentials, Github};
-use log::{debug, info};
+use log::{debug, info, error};
 
 use huber_common::file::is_empty_dir;
 use huber_common::model::package::Package;
@@ -28,7 +27,7 @@ pub(crate) trait GithubClientTrait {
         release: &Release,
         dir: P,
     ) -> Result<()>;
-    async fn clone<P: AsRef<Path> + Send>(&self, owner: &str, repo: &str, dir: P) -> Result<()>;
+    async fn clone<P: AsRef<Path> + Send + Sync>(&self, owner: &str, repo: &str, dir: P) -> Result<()>;
 }
 
 #[derive(Debug)]
@@ -52,14 +51,45 @@ impl GithubClient {
         }
     }
 
+    fn clone_fresh<P: AsRef<Path> + Send>(&self, url: &str, dir: P) -> Result<Repository> {
+        if let Some(key) = self.github_key.as_ref() {
+            if key.exists() {
+                info!("Cloning huber repo via SSH");
+
+                // Prepare builder.
+                let fetch_options = self.create_git_fetch_options(key.clone())?;
+                let mut builder = git2::build::RepoBuilder::new();
+                builder.fetch_options(fetch_options);
+
+                return Ok(builder.clone(&url, dir.as_ref())?);
+            } else {
+                info!("The configured github key not found, {:?}", key);
+            }
+        }
+
+        info!("Cloning huber repo via https");
+        //Note: if encountering authentication required, probably hit this issue https://github.com/rust-lang/git2-rs/issues/463
+        Ok(Repository::clone(&url, &dir)?)
+    }
+
     fn fetch_merge_repo<P: AsRef<Path>>(&self, dir: P) -> Result<()> {
         debug!("Merging huber repo update");
 
-        let repo = Repository::open(dir)?;
+        let mut fetch_options = if let Some(key) = self.github_key.as_ref() {
+            if key.exists() {
+                Some(self.create_git_fetch_options(key.clone())?)
+            } else {
+                None
+            }
+        } else {
+            None
+        };
+
+        let repo = Repository::open(&dir)?;
 
         // fetch the origin
         let mut remote = repo.find_remote("origin")?;
-        remote.fetch(&["master"], None, None)?;
+        remote.fetch(&["master"], fetch_options.as_mut(), None)?;
         let fetch_head = repo.find_reference("FETCH_HEAD")?;
         let commit = repo.reference_to_annotated_commit(&fetch_head)?;
 
@@ -73,10 +103,10 @@ impl GithubClient {
         Ok(repo.checkout_head(Some(git2::build::CheckoutBuilder::default().force()))?)
     }
 
-    fn create_builder_with_credentials<T: AsRef<Path> + 'static>(
+    fn create_git_fetch_options<T: AsRef<Path> + 'static>(
         &self,
         key: T,
-    ) -> Result<RepoBuilder<'static>> {
+    ) -> Result<FetchOptions> {
         let mut callbacks = RemoteCallbacks::new();
         callbacks.credentials(move |_url, username_from_url, _allowed_types| {
             Cred::ssh_key(username_from_url.unwrap(), None, key.as_ref(), None)
@@ -86,11 +116,7 @@ impl GithubClient {
         let mut fo = git2::FetchOptions::new();
         fo.remote_callbacks(callbacks);
 
-        // Prepare builder.
-        let mut builder = git2::build::RepoBuilder::new();
-        builder.fetch_options(fo);
-
-        Ok(builder)
+        Ok(fo)
     }
 }
 
@@ -162,39 +188,21 @@ impl GithubClientTrait for GithubClient {
         unimplemented!()
     }
 
-    async fn clone<P: AsRef<Path> + Send>(&self, owner: &str, repo: &str, dir: P) -> Result<()> {
+    async fn clone<P: AsRef<Path> + Send + Sync>(&self, owner: &str, repo: &str, dir: P) -> Result<()> {
         info!("Cloning huber github repo");
 
         let url = format!("https://github.com/{}/{}", owner, repo);
 
         if is_empty_dir(&dir) {
-            let mut cloned = false;
-
-            if let Some(key) = self.github_key.as_ref() {
-                if key.exists() {
-                    info!("Cloning huber repo via SSH");
-
-                    let mut builder = self.create_builder_with_credentials(key.clone())?;
-                    builder.clone(&url, dir.as_ref())?;
-                    cloned = true;
-                } else {
-                    info!("The configured github key not found");
-                }
-            }
-
-            if !cloned {
-                info!("Cloning huber repo via https");
-                //Note: if encountering authentication required, probably hit this issue https://github.com/rust-lang/git2-rs/issues/463
-                Repository::clone(&url, &dir)?;
-            }
-
-            return Ok(());
+            self.clone_fresh(&url, &dir)?;
+            return Ok(())
         }
 
-        if let Err(_) = self.fetch_merge_repo(&dir) {
+        if let Err(e) = self.fetch_merge_repo(&dir) {
+            error!("Failed to fetch huber github repo, {:?}", e);
+
             let _ = remove_dir_all(&dir);
-            Repository::clone(&url, dir)?;
-            return Ok(());
+            self.clone_fresh(&url, &dir)?;
         }
 
         Ok(())
