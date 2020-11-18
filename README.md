@@ -8,6 +8,8 @@
 - Supports secure protocols (`SSH`/`HTTPS`) for github communication
 - Supports cross platforms (Linux, MacOS x86_64/amd64)
 
+![huber in action](./doc/demo.svg)
+
 # Getting Started
 
 ## Prerequisites
