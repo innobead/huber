@@ -6,7 +6,7 @@
 - Manages the default package repository with an awesome package list including popular star github projects (ex: K8s, K3s, cloud-native, etc)
 - Supports `huber.yaml` in any public/private github repo aware to Huber to manage the described packages
 - Supports secure protocols (`SSH`/`HTTPS`) for github communication
-- Supports cross platforms
+- Supports cross platforms (Linux, MacOS x86_64/amd64)
 
 # Getting Started
 
@@ -85,11 +85,11 @@ For development purpose, please make sure go 1.14 installed, then build and inst
 
 
 > Note: 
-> - If encountering github access rate limitation, suggest to set **GITHUB_TOKEN** environment when running huber command, 
+> - If encountering github access rate limitation, suggest to set **GITHUB_TOKEN** environment variable when running the huber command, 
 > or use the global option `--github-token` or configure the huber configuration via `huber config update`. 
 > Ref: [how to create a personal access token](https://github.com/settings/tokens)
 > 
-> - If you use **SSH** instead of **HTTPS** to connect github, use **GITHUB_KEY** environment when running huber command, 
+> - If using **SSH** to connect github, must set **GITHUB_KEY** environment variable when running the huber command, 
 > or use the global option `--github-key` or configure the huber configuration via `huber config update`.
 
 
