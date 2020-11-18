@@ -527,7 +527,7 @@ The repository can be private or publice. If it's private, make sure you have th
 Repository { name: "3rdparty-repo", url: "https://github.com/innobead/huber_unmanaged_demo" } added
 ```
 
-**Add huber.yaml in the first folder layer of the repository** (ref: [huber.yaml example](https://github.com/innobead/huber_unmanaged_demo/blob/master/huber.yaml))
+**Add huber.yaml in the topl-level directory of the repository** (ref: [huber.yaml example](https://github.com/innobead/huber_unmanaged_demo/blob/master/huber.yaml))
 ```yaml
 ---
 - name: conftest2
