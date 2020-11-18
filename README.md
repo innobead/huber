@@ -11,9 +11,9 @@
 # Getting Started
 
 ## Prerequisites
-For Linux/MacOS users, please install necessary dependent libraries to make sure huber work as expected. Please run `make set-dev` or `hack/setup-dev.sh` to setup the environment or use any appropriate OS package manager to install the dependencies.
+For Linux/MacOS users, please install necessary dependent libraries to make sure huber work as expected. Just run `make set-dev` or `hack/setup-dev.sh` to setup the environment or use any appropriate OS package manager to install the dependencies.
 
-### Linux
+### Linux (usually installed already)
 ```console
 # Ubuntu
 ❯ apt install libssl-dev libarchive-dev
@@ -36,7 +36,7 @@ For Linux/MacOS users, please install necessary dependent libraries to make sure
 
 ### Installing the official version
 
-For official releases, please install the latest release as below command. After the installation, `huber` path will be automatically added to the environment path by updating the`$HOME/.bashrc`. 
+For official releases, please install the latest release as below command. After the installation, `huber` will be automatically added to the environment path by updating the`$HOME/.bashrc`. 
 But, if it does not work as expected, please remember to add `$HOME/.huber/bin` in the environment path, so `huber` will be looked up correctly. 
 
 ```console
