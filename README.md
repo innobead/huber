@@ -11,9 +11,22 @@
 # Getting Started
 
 ## Prerequisites
-For MacOS users, please remember to install necessary dependent libraries to make sure huber work as expected. Please refer to `make set-dev` or use `brew` to install the dependencies.
+For Linux/MacOS users, please install necessary dependent libraries to make sure huber work as expected. Please run `make set-dev` or `hack/setup-dev.sh` to setup the environment or use any appropriate OS package manager to install the dependencies.
 
+### Linux
+```console
+# Ubuntu
+❯ apt install libssl-dev libarchive-dev
+
+# openSUSE
+❯ zypper install libopenssl-devel libarchive-devel
+
+# CentOS
+❯ dnf install openssl-devel libarchive-devel
 ```
+
+### MacOS
+```console
 ❯ brew install libarchive
 ❯ export PKG_CONFIG_PATH=/usr/local/opt/libarchive/lib/pkgconfig
 ❯ brew install openssl
