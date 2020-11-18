@@ -133,6 +133,8 @@ SUBCOMMANDS:
 
 ### Searching packages
 
+For the complete package list, please refer to [huber managed package list](doc/packages.md)
+
 ```console
 ❯ huber search
  Name         Description                                                                                              Source 
@@ -160,39 +162,8 @@ SUBCOMMANDS:
  k3sup        bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
  k9s          🐶 Kubernetes CLI To Manage Your Clusters In Style!                                                      https://github.com/derailed/k9s 
  kind         Kubernetes IN Docker - local clusters for testing Kubernetes                                             https://github.com/kubernetes-sigs/kind 
- kpt                                                                                                                   https://github.com/GoogleContainerTools/kpt 
- krew         📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
- kube-bench   Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
- kubectl      Production-Grade Container Scheduling and Management                                                     https://github.com/kubernetes/kubernetes 
- kubefire     KubeFire, creates and manages Kubernetes Clusters using Firecracker microVMs                             https://github.com/innobead/kubefire 
- kudo         Kubernetes Universal Declarative Operator (KUDO)                                                         https://github.com/kudobuilder/kudo 
- kuttl        KUbernetes Test TooL (kuttl)                                                                             https://github.com/kudobuilder/kuttl 
- lens         Lens - The Kubernetes IDE                                                                                https://github.com/lensapp/lens 
- minikube     Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
- mkcert       A simple zero-config tool to make locally trusted development certificates with any names you'd like...  https://github.com/FiloSottile/mkcert 
- nomad        Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
- octant       Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
- okteto       Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
- opa          An open source, general-purpose policy engine.                                                           https://github.com/open-policy-agent/opa 
- oras         OCI Registry As Storage                                                                                  https://github.com/deislabs/oras 
- pack         CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
- packer       Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 
- powershell   PowerShell for every system!                                                                             https://github.com/PowerShell/PowerShell 
- pulumi       Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                       https://github.com/pulumi/pulumi 
- rio          Application Deployment Engine for Kubernetes                                                             https://github.com/rancher/rio 
- rke          Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that ru...  https://github.com/rancher/rke 
- rke2                                                                                                                  https://github.com/rancher/rke2 
- skaffold     Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
- sonobuoy     Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
- submariner   Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
- syncthing    Open Source Continuous File Synchronization                                                              https://github.com/syncthing/syncthing 
- terraform    Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
- tilt         A multi-service dev environment for teams on Kubernetes                                                  https://github.com/tilt-dev/tilt 
- trivy        A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI                         https://github.com/aquasecurity/trivy 
- typescript   TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
- velero       Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
- waypoint     A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
-...
+ ...
+
 ```
 
 ### Searching package versions
