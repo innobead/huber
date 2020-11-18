@@ -11,7 +11,9 @@
  ctlptl       Making local Kubernetes clusters fun and easy to set up                                                  https://github.com/tilt-dev/ctlptl 
  dasel        Query and update data structures from the command line. Comparable to jq/yq but supports JSON, TOML,...  https://github.com/TomWright/dasel 
  deno         A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
+ exa          A modern replacement for ‘ls’.                                                                           https://github.com/ogham/exa 
  faas-cli     Official CLI for OpenFaaS                                                                                https://github.com/openfaas/faas-cli 
+ fd           A simple, fast and user-friendly alternative to 'find'                                                   https://github.com/sharkdp/fd 
  firecracker  Secure and fast microVMs for serverless computing.                                                       https://github.com/firecracker-microvm/firecracker 
  fission      Fast and Simple Serverless Functions for Kubernetes                                                      https://github.com/fission/fission 
  fleet        Manage large fleets of Kubernetes clusters                                                               https://github.com/rancher/fleet 
@@ -48,16 +50,20 @@
  pack         CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
  packer       Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 
  powershell   PowerShell for every system!                                                                             https://github.com/PowerShell/PowerShell 
+ procs        A modern replacement for ps written in Rust                                                              https://github.com/dalance/procs 
  pulumi       Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                       https://github.com/pulumi/pulumi 
  rio          Application Deployment Engine for Kubernetes                                                             https://github.com/rancher/rio 
+ ripgrep      ripgrep recursively searches directories for a regex pattern while respecting your gitignore             https://github.com/BurntSushi/ripgrep 
  rke          Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that ru...  https://github.com/rancher/rke 
  rke2                                                                                                                  https://github.com/rancher/rke2 
  skaffold     Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  sonobuoy     Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
+ starship     ☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!                        https://github.com/starship/starship 
  submariner   Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
  syncthing    Open Source Continuous File Synchronization                                                              https://github.com/syncthing/syncthing 
  terraform    Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
  tilt         A multi-service dev environment for teams on Kubernetes                                                  https://github.com/tilt-dev/tilt 
+ tokei        Count your code, quickly.                                                                                https://github.com/XAMPPRocky/tokei 
  trivy        A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI                         https://github.com/aquasecurity/trivy 
  typescript   TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
  velero       Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
