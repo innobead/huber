@@ -1,0 +1,16 @@
+# This is generated. Don't modify.
+---
+name: exa
+description: A modern replacement for ‘ls’.
+source:
+  Github:
+    owner: ogham
+    repo: exa
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "exa-linux-x86_64-{version}.zip"
+  - MacOS:
+      artifact_templates:
+        - "exa-macos-x86_64-{version}.zip"
+detail: ~

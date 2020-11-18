@@ -86,6 +86,12 @@ fn releases() -> Vec<Package> {
         ali::release(),
         gping::release(),
         gitui::release(),
+        ripgrep::release(),
+        starship::release(),
+        tokei::release(),
+        exa::release(),
+        fd::release(),
+        procs::release(),
         // infra
         pulumi::release(),
         // app development

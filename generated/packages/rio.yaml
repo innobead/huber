@@ -15,5 +15,5 @@ targets:
         - "{version}/rio-linux-arm64"
   - MacOS:
       artifact_templates:
-        - "{version}/rio-darwin-arm64"
+        - "{version}/rio-darwin-amd64"
 detail: ~

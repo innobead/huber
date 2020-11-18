@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: starship
+description: "☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!"
+source:
+  Github:
+    owner: starship
+    repo: starship
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/starship-x86_64-unknown-linux-musl.tar.gzz"
+  - MacOS:
+      artifact_templates:
+        - "{version}/starship-x86_64-apple-darwin.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "{version}/starship-x86_64-pc-windows-msvc.zip"
+detail: ~

@@ -27,7 +27,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["{version}/rio-darwin-arm64".to_string()],
+                artifact_templates: vec!["{version}/rio-darwin-amd64".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,

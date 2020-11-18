@@ -15,5 +15,5 @@ targets:
         - "{version}/rke_linux-arm64"
   - MacOS:
       artifact_templates:
-        - "{version}/rke_darwin-arm64"
+        - "{version}/rke_darwin-amd64"
 detail: ~

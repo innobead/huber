@@ -27,8 +27,14 @@
 - name: deno
   owner: denoland
   source: github
+- name: exa
+  owner: ogham
+  source: github
 - name: faas-cli
   owner: openfaas
+  source: github
+- name: fd
+  owner: sharkdp
   source: github
 - name: firecracker
   owner: firecracker-microvm
@@ -138,11 +144,17 @@
 - name: powershell
   owner: PowerShell
   source: github
+- name: procs
+  owner: dalance
+  source: github
 - name: pulumi
   owner: pulumi
   source: github
 - name: rio
   owner: rancher
+  source: github
+- name: ripgrep
+  owner: BurntSushi
   source: github
 - name: rke
   owner: rancher
@@ -156,6 +168,9 @@
 - name: sonobuoy
   owner: vmware-tanzu
   source: github
+- name: starship
+  owner: starship
+  source: github
 - name: submariner
   owner: submariner-io
   source: github
@@ -167,6 +182,9 @@
   source: github
 - name: tilt
   owner: tilt-dev
+  source: github
+- name: tokei
+  owner: XAMPPRocky
   source: github
 - name: trivy
   owner: aquasecurity
