@@ -82,7 +82,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for InstallCmd {
                     if release.version == matches.value_of("version").unwrap() {
                         Err(anyhow!("{} already installed", release))
                     } else {
-                        println!("Updating {} to {}", pkg, release);
+                        println!("Updating {} to {}", release, pkg.version.as_ref().unwrap());
 
                         let release = release_service.update(&pkg).await?;
                         println!("{} updated", release);
