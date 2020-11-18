@@ -520,13 +520,40 @@ Removing k3s (version: v1.18.10+k3s2, source: github)
 ## Manages repositories
 
 ### Adding a repository
-```
+The repository can be private or publice. If it's private, make sure you have the permission to access via the authroized SSH private key.
+
+```console
 ❯ huber repo add 3rdparty-repo https://github.com/innobead/huber_unmanaged_demo
 Repository { name: "3rdparty-repo", url: "https://github.com/innobead/huber_unmanaged_demo" } added
 ```
 
-### Listing repositories
+**Add huber.yaml in the first folder layer of the repository** (ref: [huber.yaml example](https://github.com/innobead/huber_unmanaged_demo/blob/master/huber.yaml))
+```yaml
+---
+- name: conftest2
+  description: Write tests against structured configuration data using the Open Policy Agent Rego query language
+  source:
+    Github:
+      owner: open-policy-agent
+      repo: conftest
+  targets:
+    - LinuxAmd64:
+        artifact_templates:
+          - "conftest_{version}_Linux_x86_64.tar.gz"
+    - LinuxAmd64:
+        artifact_templates:
+          - "conftest_{version}_Linux_arm64.tar.gz"
+    - MacOS:
+        artifact_templates:
+          - "conftest_{version}_Darwin_x86_64.tar.gz"
+    - Windows:
+        artifact_templates:
+          - "conftest_{version}_Windows_x86_64.zip"
+  detail: ~
 ```
+
+### Listing repositories
+```console
 ❯ huber repo list
  Name           Url 
  3rdparty-repo  https://github.com/innobead/huber_unmanaged_demo
