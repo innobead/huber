@@ -11,7 +11,8 @@
 # Getting Started
 
 ## Prerequisites
-For Linux/MacOS users, please install necessary dependent libraries to make sure huber work as expected. Just run `make set-dev` or `hack/setup-dev.sh` to setup the environment or use any appropriate OS package manager to install the dependencies.
+For Linux/MacOS users, please install necessary dependent libraries to make sure huber work as expected. Just use any appropriate OS package manager to install the dependencies, 
+or run `make set-dev` or `hack/setup-dev.sh` to set up the development environment.
 
 ### Linux (usually installed already)
 ```console
