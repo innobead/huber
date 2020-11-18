@@ -83,6 +83,9 @@ fn releases() -> Vec<Package> {
         powershell::release(),
         mkcert::release(),
         huber::release(),
+        ali::release(),
+        gping::release(),
+        gitui::release(),
         // infra
         pulumi::release(),
         // app development
@@ -92,6 +95,7 @@ fn releases() -> Vec<Package> {
         oras::release(),
         waypoint::release(),
         tilt::release(),
+        ko::release(),
         // cloud native, kubernetes
         velero::release(),
         helm::release(),

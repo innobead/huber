@@ -1,5 +1,8 @@
 # This is generated. Don't modify.
 ---
+- name: ali
+  owner: nakabonne
+  source: github
 - name: arkade
   owner: alexellis
   source: github
@@ -39,6 +42,12 @@
 - name: gh
   owner: cli
   source: github
+- name: gitui
+  owner: extrawurst
+  source: github
+- name: gping
+  owner: orf
+  source: github
 - name: helm
   owner: helm
   source: github
@@ -71,6 +80,9 @@
   source: github
 - name: kind
   owner: kubernetes-sigs
+  source: github
+- name: ko
+  owner: google
   source: github
 - name: kpt
   owner: GoogleContainerTools

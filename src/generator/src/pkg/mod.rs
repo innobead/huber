@@ -55,3 +55,7 @@ pub mod trivy;
 pub mod typescript;
 pub mod velero;
 pub mod waypoint;
+pub mod ko;
+pub mod ali;
+pub mod gping;
+pub mod gitui;
