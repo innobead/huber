@@ -17,6 +17,7 @@ pub mod fleet;
 pub mod gh;
 pub mod gitui;
 pub mod go;
+pub mod go_http_tunnel;
 pub mod gping;
 pub mod helm;
 pub mod hub;

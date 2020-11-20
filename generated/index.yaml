@@ -54,6 +54,9 @@
 - name: gitui
   owner: extrawurst
   source: github
+- name: go-http-tunnel
+  owner: mmatczuk
+  source: github
 - name: gping
   owner: orf
   source: github

@@ -95,6 +95,7 @@ fn releases() -> Vec<Package> {
         // infra
         pulumi::release(),
         chisel::release(),
+        go_http_tunnel::release(),
         // app development
         okteto::release(),
         skaffold::release(),
