@@ -7,7 +7,9 @@ use rayon::prelude::*;
 use regex::Regex;
 
 use huber_common::di::DIContainer;
-use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
+use huber_common::model::config::{
+    Config, ConfigFieldConvertTrait, ConfigPath, MANAGED_PKG_ROOT_DIR,
+};
 use huber_common::model::package::{Package, PackageIndex};
 use huber_common::model::repo::Repository;
 use huber_common::result::Result;
@@ -15,6 +17,7 @@ use huber_common::result::Result;
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::repo::{RepoAsyncTrait, RepoService, RepoTrait};
 use crate::service::{ItemOperationTrait, ServiceTrait};
+use std::env;
 
 pub(crate) trait CacheTrait {
     fn get_package(&self, name: &str) -> Result<Package>;
@@ -188,6 +191,14 @@ impl CacheTrait for CacheService {
 impl CacheAsyncTrait for CacheService {
     // FIXME enhance performance
     async fn update_repositories(&self) -> Result<()> {
+        if let Ok(path) = env::var(MANAGED_PKG_ROOT_DIR) {
+            info!(
+                "Bypassed updating repositories, because MANAGED_PKG_ROOT_DIR set: {}",
+                path
+            );
+            return Ok(());
+        }
+
         info!("Updating repos");
 
         let container = self.container.as_ref().unwrap();

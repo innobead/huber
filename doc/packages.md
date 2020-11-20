@@ -5,6 +5,7 @@
  ali          Generate HTTP load and plot the results in real-time                                                     https://github.com/nakabonne/ali 
  arkade       Your one-stop CLI for Kubernetes                                                                         https://github.com/alexellis/arkade 
  bat          A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
+ chisel       A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  conftest     Write tests against structured configuration data using the Open Policy Agent Rego query language        https://github.com/open-policy-agent/conftest 
  consul       Consul is a distributed, highly available, and data center aware solution to connect and configure a...  https://github.com/hashicorp/consul 
  containerd   An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
@@ -52,6 +53,7 @@
  powershell   PowerShell for every system!                                                                             https://github.com/PowerShell/PowerShell 
  procs        A modern replacement for ps written in Rust                                                              https://github.com/dalance/procs 
  pulumi       Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                       https://github.com/pulumi/pulumi 
+ rancher      Rancher CLI                                                                                              https://github.com/rancher/cli 
  rio          Application Deployment Engine for Kubernetes                                                             https://github.com/rancher/rio 
  ripgrep      ripgrep recursively searches directories for a regex pattern while respecting your gitignore             https://github.com/BurntSushi/ripgrep 
  rke          Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that ru...  https://github.com/rancher/rke 

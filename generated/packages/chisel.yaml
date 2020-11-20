@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: chisel
+description: A fast TCP/UDP tunnel over HTTP
+source:
+  Github:
+    owner: jpillora
+    repo: chisel
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "chisel_{version}_linux_amd64.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "chisel_{version}_linux_arm64.gz"
+  - MacOS:
+      artifact_templates:
+        - "chisel_{version}_darwin_amd64.gz"
+  - Windows:
+      artifact_templates:
+        - "chisel_{version}_windows_amd64.gz"
+detail: ~

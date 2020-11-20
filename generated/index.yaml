@@ -9,6 +9,9 @@
 - name: bat
   owner: sharkdp
   source: github
+- name: chisel
+  owner: jpillora
+  source: github
 - name: conftest
   owner: open-policy-agent
   source: github
@@ -149,6 +152,9 @@
   source: github
 - name: pulumi
   owner: pulumi
+  source: github
+- name: rancher
+  owner: rancher
   source: github
 - name: rio
   owner: rancher

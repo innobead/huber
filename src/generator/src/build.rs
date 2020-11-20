@@ -94,6 +94,7 @@ fn releases() -> Vec<Package> {
         procs::release(),
         // infra
         pulumi::release(),
+        chisel::release(),
         // app development
         okteto::release(),
         skaffold::release(),
@@ -103,6 +104,7 @@ fn releases() -> Vec<Package> {
         tilt::release(),
         ko::release(),
         // cloud native, kubernetes
+        rancher::release(),
         velero::release(),
         helm::release(),
         kubefire::release(),

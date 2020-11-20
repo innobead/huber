@@ -11,7 +11,7 @@ use crate::model::package::Package;
 use crate::output::OutputFormat;
 use crate::result::Result;
 
-pub const HUBER_REPO: &str = "https://github.com/innobead/huber";
+pub const MANAGED_PKG_ROOT_DIR: &str = "MANAGED_PKG_ROOT_DIR"; // generated directory
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Config {
@@ -142,7 +142,11 @@ impl ConfigPath for Config {
     }
 
     fn managed_pkg_root_dir(&self) -> Result<PathBuf> {
-        dir(self.huber_repo_dir()?.join("generated"))
+        if let Ok(path) = env::var(MANAGED_PKG_ROOT_DIR) {
+            dir(PathBuf::from(path))
+        } else {
+            dir(self.huber_repo_dir()?.join("generated"))
+        }
     }
 
     fn managed_pkg_manifest_file(&self, name: &str) -> Result<PathBuf> {

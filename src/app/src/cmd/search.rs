@@ -72,6 +72,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for SearchCmd {
 
         let _ = cache_service.update_repositories().await?;
 
+        // search a package with all release info
         if matches.is_present("name") && matches.is_present("all") {
             let mut pkgs: Vec<PackageSummary> = pkg_service
                 .find(&matches.value_of("name").unwrap().to_string())
@@ -89,6 +90,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for SearchCmd {
             ));
         }
 
+        // search all packages or a package
         let pkgs: Vec<PackageSummary> = pkg_service
             .search(
                 matches.value_of("name"),

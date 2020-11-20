@@ -1,6 +1,7 @@
 pub mod ali;
 pub mod arkade;
 pub mod bat;
+pub mod chisel;
 pub mod conftest;
 pub mod consul;
 pub mod containerd;
@@ -49,6 +50,7 @@ pub mod packer;
 pub mod powershell;
 pub mod procs;
 pub mod pulumi;
+pub mod rancher;
 pub mod rio;
 pub mod ripgrep;
 pub mod rke;
