@@ -92,6 +92,8 @@ fn releases() -> Vec<Package> {
         exa::release(),
         fd::release(),
         procs::release(),
+        k6::release(),
+        fortio::release(),
         // infra
         pulumi::release(),
         chisel::release(),

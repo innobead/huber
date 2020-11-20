@@ -48,6 +48,9 @@
 - name: fleet
   owner: rancher
   source: github
+- name: fortio
+  owner: fortio
+  source: github
 - name: gh
   owner: cli
   source: github
@@ -86,6 +89,9 @@
   source: github
 - name: k3sup
   owner: alexellis
+  source: github
+- name: k6
+  owner: loadimpact
   source: github
 - name: k9s
   owner: derailed
