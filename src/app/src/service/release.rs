@@ -756,7 +756,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
 
         match release_detail.unwrap() {
             PackageDetailType::Github { package: p } => {
-                println!("Downloading package artifacts from github");
+                println!("Downloading package artifacts from github {:?}", obj.source.url());
                 self.download_install_github_package(&obj, &p).await?;
 
                 println!("Setting {} as the current package", release);
