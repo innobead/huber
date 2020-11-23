@@ -142,6 +142,8 @@ fn releases() -> Vec<Package> {
         k0s::release(),
         kudo::release(),
         kuttl::release(),
+        flux2::release(),
+        argocd::release(),
         // runtime
         containerd::release(),
         firecracker::release(),

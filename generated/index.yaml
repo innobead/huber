@@ -3,6 +3,9 @@
 - name: ali
   owner: nakabonne
   source: github
+- name: argocd
+  owner: argoproj
+  source: github
 - name: arkade
   owner: alexellis
   source: github
@@ -47,6 +50,9 @@
   source: github
 - name: fleet
   owner: rancher
+  source: github
+- name: flux2
+  owner: fluxcd
   source: github
 - name: fortio
   owner: fortio

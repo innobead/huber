@@ -1,4 +1,5 @@
 pub mod ali;
+pub mod argocd;
 pub mod arkade;
 pub mod bat;
 pub mod chisel;
@@ -14,6 +15,7 @@ pub mod fd;
 pub mod firecracker;
 pub mod fission;
 pub mod fleet;
+pub mod flux2;
 pub mod fortio;
 pub mod gh;
 pub mod gitui;

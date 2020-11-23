@@ -3,6 +3,7 @@
 ```console
  Name            Description                                                                                              Source 
  ali             Generate HTTP load and plot the results in real-time                                                     https://github.com/nakabonne/ali 
+ argocd          Declarative continuous deployment for Kubernetes.                                                        https://github.com/argoproj/argo-cd 
  arkade          Your one-stop CLI for Kubernetes                                                                         https://github.com/alexellis/arkade 
  bat             A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  chisel          A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
@@ -18,6 +19,7 @@
  firecracker     Secure and fast microVMs for serverless computing.                                                       https://github.com/firecracker-microvm/firecracker 
  fission         Fast and Simple Serverless Functions for Kubernetes                                                      https://github.com/fission/fission 
  fleet           Manage large fleets of Kubernetes clusters                                                               https://github.com/rancher/fleet 
+ flux2           Open and extensible continuous delivery solution for Kubernetes. Powered by GitOps Toolkit.              https://github.com/fluxcd/flux2 
  fortio          Fortio load testing library, command line tool, advanced echo server and web UI in go (golang). Allo...  https://github.com/fortio/fortio 
  gh              GitHub’s official command line tool                                                                      https://github.com/cli/cli 
  gitui           Blazing 💥 fast terminal-ui for git written in rust 🦀                                                   https://github.com/extrawurst/gitui 
@@ -40,7 +42,7 @@
  krew            📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
  kube-bench      Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
  kubectl         Production-Grade Container Scheduling and Management                                                     https://github.com/kubernetes/kubernetes 
- kubefire        KubeFire, creates and manages Kubernetes Clusters using Firecracker microVMs                             https://github.com/innobead/kubefire 
+ kubefire        KubeFire 🔥, creates and manages Kubernetes Clusters using Firecracker microVMs                          https://github.com/innobead/kubefire 
  kudo            Kubernetes Universal Declarative Operator (KUDO)                                                         https://github.com/kudobuilder/kudo 
  kuttl           KUbernetes Test TooL (kuttl)                                                                             https://github.com/kudobuilder/kuttl 
  lens            Lens - The Kubernetes IDE                                                                                https://github.com/lensapp/lens 
