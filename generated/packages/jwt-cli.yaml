@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: jwt-cli
+description: A super fast CLI tool to decode and encode JWTs built in Rust
+source:
+  Github:
+    owner: mike-engel
+    repo: jwt-cli
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/jwt-linux.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "{version}/jwt-macOS.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "{version}/jwt-windows.tar.gz"
+detail: ~

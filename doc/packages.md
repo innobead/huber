@@ -13,6 +13,7 @@
  ctlptl          Making local Kubernetes clusters fun and easy to set up                                                  https://github.com/tilt-dev/ctlptl 
  dasel           Query and update data structures from the command line. Comparable to jq/yq but supports JSON, TOML,...  https://github.com/TomWright/dasel 
  deno            A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
+ direnv          unclutter your .profile                                                                                  https://github.com/direnv/direnv 
  exa             A modern replacement for ‘ls’.                                                                           https://github.com/ogham/exa 
  faas-cli        Official CLI for OpenFaaS                                                                                https://github.com/openfaas/faas-cli 
  fd              A simple, fast and user-friendly alternative to 'find'                                                   https://github.com/sharkdp/fd 
@@ -27,8 +28,10 @@
  gping           Ping, but with a graph                                                                                   https://github.com/orf/gping 
  helm            The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
  hub             A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
- huber           Huber,  simplify `GitHub release` package management 📦 with a live awesome list of GitHub project...    https://github.com/innobead/huber 
+ huber           Huber 📦,  simplify `GitHub release` package management with a live awesome list of GitHub project...    https://github.com/innobead/huber 
+ ignite          Ignite a Firecracker microVM                                                                             https://github.com/weaveworks/ignite 
  istio           Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
+ jwt-cli         A super fast CLI tool to decode and encode JWTs built in Rust                                            https://github.com/mike-engel/jwt-cli 
  k0s             k0s - Zero Friction Kubernetes                                                                           https://github.com/k0sproject/k0s 
  k3ai            K3ai is a lightweight, fully automated, AI infrastructure-in-a-box solution that allows anyone to ex...  https://github.com/kf5i/k3ai 
  k3d             Little helper to run Rancher Lab's k3s in Docker                                                         https://github.com/rancher/k3d 
@@ -55,8 +58,10 @@
  oras            OCI Registry As Storage                                                                                  https://github.com/deislabs/oras 
  pack            CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
  packer          Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 
+ podman          Podman: A tool for managing OCI containers and pods                                                      https://github.com/containers/podman 
  powershell      PowerShell for every system!                                                                             https://github.com/PowerShell/PowerShell 
  procs           A modern replacement for ps written in Rust                                                              https://github.com/dalance/procs 
+ protoc          Protocol Buffers - Google's data interchange format                                                      https://github.com/protocolbuffers/protobuf 
  pulumi          Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                       https://github.com/pulumi/pulumi 
  rancher         Rancher CLI                                                                                              https://github.com/rancher/cli 
  rio             Application Deployment Engine for Kubernetes                                                             https://github.com/rancher/rio 

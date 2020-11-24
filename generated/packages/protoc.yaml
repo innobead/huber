@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: protoc
+description: "Protocol Buffers - Google's data interchange format"
+source:
+  Github:
+    owner: protocolbuffers
+    repo: protobuf
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "protoc-{version}-linux-x86_64.zip"
+  - LinuxArm64:
+      artifact_templates:
+        - "protoc-{version}-linux-aarch_64.zip"
+  - MacOS:
+      artifact_templates:
+        - "protoc-{version}-osx-x86_64.zip"
+  - Windows:
+      artifact_templates:
+        - "protoc-{version}-win64.zip"
+detail: ~

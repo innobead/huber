@@ -94,6 +94,8 @@ fn releases() -> Vec<Package> {
         procs::release(),
         k6::release(),
         fortio::release(),
+        jwt_cli::release(),
+        direnv::release(),
         // infra
         pulumi::release(),
         chisel::release(),
@@ -106,6 +108,7 @@ fn releases() -> Vec<Package> {
         waypoint::release(),
         tilt::release(),
         ko::release(),
+        protoc::release(),
         // cloud native, kubernetes
         rancher::release(),
         velero::release(),
@@ -148,6 +151,8 @@ fn releases() -> Vec<Package> {
         containerd::release(),
         firecracker::release(),
         nomad::release(),
+        podman::release(),
+        ignite::release(),
         // programing
         deno::release(),
         typescript::release(),

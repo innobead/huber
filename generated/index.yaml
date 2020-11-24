@@ -33,6 +33,9 @@
 - name: deno
   owner: denoland
   source: github
+- name: direnv
+  owner: direnv
+  source: github
 - name: exa
   owner: ogham
   source: github
@@ -78,8 +81,14 @@
 - name: huber
   owner: innobead
   source: github
+- name: ignite
+  owner: weaveworks
+  source: github
 - name: istio
   owner: istio
+  source: github
+- name: jwt-cli
+  owner: mike-engel
   source: github
 - name: k0s
   owner: k0sproject
@@ -159,11 +168,17 @@
 - name: packer
   owner: hashicorp
   source: github
+- name: podman
+  owner: containers
+  source: github
 - name: powershell
   owner: PowerShell
   source: github
 - name: procs
   owner: dalance
+  source: github
+- name: protoc
+  owner: protocolbuffers
   source: github
 - name: pulumi
   owner: pulumi

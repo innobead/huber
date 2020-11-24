@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: direnv
+description: unclutter your .profile
+source:
+  Github:
+    owner: direnv
+    repo: direnv
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/direnv.linux-amd64"
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/direnv.linux-arm"
+  - MacOS:
+      artifact_templates:
+        - "{version}/direnv.darwin-amd64"
+  - Windows:
+      artifact_templates:
+        - "{version}/direnv.windows-amd64.exe"
+detail: ~
