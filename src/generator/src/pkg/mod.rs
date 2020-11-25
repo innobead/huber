@@ -6,6 +6,7 @@ pub mod chisel;
 pub mod conftest;
 pub mod consul;
 pub mod containerd;
+pub mod copilot_cli;
 pub mod ctlptl;
 pub mod dasel;
 pub mod deno;

@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: copilot-cli
+description: "The AWS Copilot CLI is a tool for developers to build, release and operate production ready containerized applications on Amazon ECS and AWS Fargate. "
+source:
+  Github:
+    owner: aws
+    repo: copilot-cli
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "copilot-linux-amd64-v{version}"
+  - LinuxArm64:
+      artifact_templates:
+        - "copilot-linux-arm64-v{version}"
+  - MacOS:
+      artifact_templates:
+        - "copilot-darwin-v{version}"
+  - MacOS:
+      artifact_templates:
+        - "copilot-windows-v{version}.exe"
+detail: ~

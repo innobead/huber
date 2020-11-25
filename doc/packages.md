@@ -10,6 +10,7 @@
  conftest        Write tests against structured configuration data using the Open Policy Agent Rego query language        https://github.com/open-policy-agent/conftest 
  consul          Consul is a distributed, highly available, and data center aware solution to connect and configure a...  https://github.com/hashicorp/consul 
  containerd      An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
+ copilot-cli     The AWS Copilot CLI is a tool for developers to build, release and operate production ready containe...  https://github.com/aws/copilot-cli 
  ctlptl          Making local Kubernetes clusters fun and easy to set up                                                  https://github.com/tilt-dev/ctlptl 
  dasel           Query and update data structures from the command line. Comparable to jq/yq but supports JSON, TOML,...  https://github.com/TomWright/dasel 
  deno            A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 

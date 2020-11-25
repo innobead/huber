@@ -110,6 +110,7 @@ fn releases() -> Vec<Package> {
         tilt::release(),
         ko::release(),
         protoc::release(),
+        copilot_cli::release(),
         // cloud native, kubernetes
         rancher::release(),
         velero::release(),
