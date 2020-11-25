@@ -222,6 +222,9 @@
 - name: tokei
   owner: XAMPPRocky
   source: github
+- name: tracee
+  owner: aquasecurity
+  source: github
 - name: trivy
   owner: aquasecurity
   source: github

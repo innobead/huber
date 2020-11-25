@@ -73,6 +73,7 @@ pub mod syncthing;
 pub mod terraform;
 pub mod tilt;
 pub mod tokei;
+pub mod tracee;
 pub mod trivy;
 pub mod typescript;
 pub mod velero;

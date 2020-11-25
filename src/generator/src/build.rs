@@ -96,6 +96,7 @@ fn releases() -> Vec<Package> {
         fortio::release(),
         jwt_cli::release(),
         direnv::release(),
+        tracee::release(),
         // infra
         pulumi::release(),
         chisel::release(),

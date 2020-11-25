@@ -1,0 +1,13 @@
+# This is generated. Don't modify.
+---
+name: tracee
+description: "Container and system event tracing using eBPF "
+source:
+  Github:
+    owner: aquasecurity
+    repo: tracee
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/tracee.tar.gz"
+detail: ~
