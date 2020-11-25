@@ -1,0 +1,16 @@
+# This is generated. Don't modify.
+---
+name: vegeta
+description: "HTTP load testing tool and library. It's over 9000!"
+source:
+  Github:
+    owner: tsenart
+    repo: vegeta
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "vegeta_{version}_linux_amd64.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "vegeta_{version}_darwin_amd64.tar.gz"
+detail: ~

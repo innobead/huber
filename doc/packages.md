@@ -80,6 +80,7 @@
  tracee          Container and system event tracing using eBPF                                                            https://github.com/aquasecurity/tracee 
  trivy           A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI                         https://github.com/aquasecurity/trivy 
  typescript      TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
+ vegeta          HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
  velero          Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
  waypoint        A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
 

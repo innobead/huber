@@ -234,6 +234,9 @@
 - name: typescript
   owner: microsoft
   source: github
+- name: vegeta
+  owner: tsenart
+  source: github
 - name: velero
   owner: vmware-tanzu
   source: github

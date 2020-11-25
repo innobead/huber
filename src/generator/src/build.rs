@@ -97,6 +97,7 @@ fn releases() -> Vec<Package> {
         jwt_cli::release(),
         direnv::release(),
         tracee::release(),
+        vegeta::release(),
         // infra
         pulumi::release(),
         chisel::release(),
