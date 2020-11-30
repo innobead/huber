@@ -3,15 +3,15 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "conftest".to_string(),
+        name: "yq".to_string(),
         source: PackageSource::Github {
-            owner: "open-policy-agent".to_string(),
-            repo: "conftest".to_string(),
+            owner: "mikefarah".to_string(),
+            repo: "yq".to_string(),
         },
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["conftest_{version}_Linux_x86_64.tar.gz".to_string()],
+                artifact_templates: vec!["{version}/yq_linux_amd64".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -19,7 +19,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["conftest_{version}_Linux_arm64.tar.gz".to_string()],
+                artifact_templates: vec!["{version}/yq_linux_arm64".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -27,7 +27,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["conftest_{version}_Darwin_x86_64.tar.gz".to_string()],
+                artifact_templates: vec!["{version}/yq_darwin_amd64".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -35,7 +35,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::Windows(PackageManagement {
-                artifact_templates: vec!["conftest_{version}_Windows_x86_64.zip".to_string()],
+                artifact_templates: vec!["{version}/yq_windows_amd64.exe".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,

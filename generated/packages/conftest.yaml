@@ -10,7 +10,7 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "conftest_{version}_Linux_x86_64.tar.gz"
-  - LinuxAmd64:
+  - LinuxArm64:
       artifact_templates:
         - "conftest_{version}_Linux_arm64.tar.gz"
   - MacOS:

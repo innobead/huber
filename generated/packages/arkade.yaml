@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: arkade
-description: Your one-stop CLI for Kubernetes
+description: Portable DevOps Marketplace
 source:
   Github:
     owner: alexellis

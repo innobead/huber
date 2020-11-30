@@ -98,6 +98,8 @@ fn releases() -> Vec<Package> {
         direnv::release(),
         tracee::release(),
         vegeta::release(),
+        yq::release(),
+        stern::release(),
         // infra
         pulumi::release(),
         chisel::release(),

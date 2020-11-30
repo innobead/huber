@@ -210,6 +210,9 @@
 - name: starship
   owner: starship
   source: github
+- name: stern
+  owner: wercker
+  source: github
 - name: submariner
   owner: submariner-io
   source: github
@@ -242,4 +245,7 @@
   source: github
 - name: waypoint
   owner: hashicorp
+  source: github
+- name: yq
+  owner: mikefarah
   source: github

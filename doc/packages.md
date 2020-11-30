@@ -4,7 +4,7 @@
  Name            Description                                                                                              Source 
  ali             Generate HTTP load and plot the results in real-time                                                     https://github.com/nakabonne/ali 
  argocd          Declarative continuous deployment for Kubernetes.                                                        https://github.com/argoproj/argo-cd 
- arkade          Your one-stop CLI for Kubernetes                                                                         https://github.com/alexellis/arkade 
+ arkade          Portable DevOps Marketplace                                                                              https://github.com/alexellis/arkade 
  bat             A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  chisel          A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  conftest        Write tests against structured configuration data using the Open Policy Agent Rego query language        https://github.com/open-policy-agent/conftest 
@@ -72,6 +72,7 @@
  skaffold        Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  sonobuoy        Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
  starship        ☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!                        https://github.com/starship/starship 
+ stern           ⎈ Multi pod and container log tailing for Kubernetes                                                     https://github.com/wercker/stern 
  submariner      Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
  syncthing       Open Source Continuous File Synchronization                                                              https://github.com/syncthing/syncthing 
  terraform       Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
@@ -83,5 +84,6 @@
  vegeta          HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
  velero          Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
  waypoint        A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
+ yq              yq is a portable command-line YAML processor                                                             https://github.com/mikefarah/yq 
 
 ```
