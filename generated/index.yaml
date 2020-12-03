@@ -207,6 +207,9 @@
 - name: sonobuoy
   owner: vmware-tanzu
   source: github
+- name: ssvm
+  owner: second-state
+  source: github
 - name: starship
   owner: starship
   source: github
@@ -242,6 +245,12 @@
   source: github
 - name: velero
   owner: vmware-tanzu
+  source: github
+- name: wasmer
+  owner: wasmerio
+  source: github
+- name: wasmtime
+  owner: bytecodealliance
   source: github
 - name: waypoint
   owner: hashicorp

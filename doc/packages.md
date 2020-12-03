@@ -12,7 +12,7 @@
  containerd      An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
  copilot-cli     The AWS Copilot CLI is a tool for developers to build, release and operate production ready containe...  https://github.com/aws/copilot-cli 
  ctlptl          Making local Kubernetes clusters fun and easy to set up                                                  https://github.com/tilt-dev/ctlptl 
- dasel           Query and update data structures from the command line. Comparable to jq/yq but supports JSON, TOML,...  https://github.com/TomWright/dasel 
+ dasel           Query, update and convert data structures from the command line. Comparable to jq/yq but supports JS...  https://github.com/TomWright/dasel 
  deno            A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
  direnv          unclutter your .profile                                                                                  https://github.com/direnv/direnv 
  exa             A modern replacement for ‘ls’.                                                                           https://github.com/ogham/exa 
@@ -71,6 +71,7 @@
  rke2                                                                                                                     https://github.com/rancher/rke2 
  skaffold        Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  sonobuoy        Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
+ ssvm            SSVM is a high performance, extensible, and hardware optimized WebAssembly Virtual Machine for cloud...  https://github.com/second-state/SSVM 
  starship        ☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!                        https://github.com/starship/starship 
  stern           ⎈ Multi pod and container log tailing for Kubernetes                                                     https://github.com/wercker/stern 
  submariner      Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
@@ -83,6 +84,8 @@
  typescript      TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
  vegeta          HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
  velero          Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
+ wasmer          🚀 The leading WebAssembly Runtime supporting WASI and Emscripten                                        https://github.com/wasmerio/wasmer 
+ wasmtime        Standalone JIT-style runtime for WebAssembly, using Cranelift                                            https://github.com/bytecodealliance/wasmtime 
  waypoint        A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
  yq              yq is a portable command-line YAML processor                                                             https://github.com/mikefarah/yq 
 

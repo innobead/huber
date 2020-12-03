@@ -3,15 +3,15 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "submariner".to_string(),
+        name: "wasmtime".to_string(),
         source: PackageSource::Github {
-            owner: "submariner-io".to_string(),
-            repo: "submariner-operator".to_string(),
+            owner: "bytecodealliance".to_string(),
+            repo: "wasmtime".to_string(),
         },
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["subctl-v{version}-linux-amd64.tar.xz".to_string()],
+                artifact_templates: vec!["wasmtime-v{version}-x86_64-linux.tar.xz".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -19,7 +19,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["subctl-v{version}-linux-arm64.tar.xz".to_string()],
+                artifact_templates: vec!["wasmtime-v{version}-aarch64-linux.tar.xz".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -27,7 +27,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["subctl-v{version}-darwin-amd64.tar.xz".to_string()],
+                artifact_templates: vec!["wasmtime-v{version}-x86_64-macos.tar.xz".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -35,7 +35,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::Windows(PackageManagement {
-                artifact_templates: vec!["subctl-v{version}-windows-amd64.exe.tar.xz".to_string()],
+                artifact_templates: vec!["wasmtime-v{version}-x86_64-windows.zip".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,

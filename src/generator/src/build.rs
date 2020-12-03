@@ -158,6 +158,9 @@ fn releases() -> Vec<Package> {
         nomad::release(),
         podman::release(),
         ignite::release(),
+        wasmtime::release(),
+        wasmer::release(),
+        ssvm::release(),
         // programing
         deno::release(),
         typescript::release(),

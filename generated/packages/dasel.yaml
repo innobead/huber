@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: dasel
-description: "Query and update data structures from the command line. Comparable to jq/yq but supports JSON, TOML, YAML, XML and CSV with zero runtime dependencies."
+description: "Query, update and convert data structures from the command line. Comparable to jq/yq but supports JSON, TOML, YAML, XML and CSV with zero runtime dependencies."
 source:
   Github:
     owner: TomWright

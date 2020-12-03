@@ -10,7 +10,7 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "subctl-v{version}-linux-amd64.tar.xz"
-  - LinuxAmd64:
+  - LinuxArm64:
       artifact_templates:
         - "subctl-v{version}-linux-arm64.tar.xz"
   - MacOS:
