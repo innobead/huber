@@ -100,6 +100,8 @@ fn releases() -> Vec<Package> {
         vegeta::release(),
         yq::release(),
         stern::release(),
+        drone_cli::release(),
+        img::release(),
         // infra
         pulumi::release(),
         chisel::release(),

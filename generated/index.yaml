@@ -39,6 +39,9 @@
 - name: direnv
   owner: direnv
   source: github
+- name: drone-cli
+  owner: drone
+  source: github
 - name: exa
   owner: ogham
   source: github
@@ -86,6 +89,9 @@
   source: github
 - name: ignite
   owner: weaveworks
+  source: github
+- name: img
+  owner: genuinetools
   source: github
 - name: istio
   owner: istio

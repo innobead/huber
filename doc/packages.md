@@ -15,6 +15,7 @@
  dasel           Query, update and convert data structures from the command line. Comparable to jq/yq but supports JS...  https://github.com/TomWright/dasel 
  deno            A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
  direnv          unclutter your .profile                                                                                  https://github.com/direnv/direnv 
+ drone-cli       Command Line Tools for Drone CI                                                                          https://github.com/drone/drone-cli 
  exa             A modern replacement for ‘ls’.                                                                           https://github.com/ogham/exa 
  faas-cli        Official CLI for OpenFaaS                                                                                https://github.com/openfaas/faas-cli 
  fd              A simple, fast and user-friendly alternative to 'find'                                                   https://github.com/sharkdp/fd 
@@ -31,6 +32,7 @@
  hub             A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
  huber           Huber 📦,  simplify `GitHub release` package management with a live awesome list of GitHub project...    https://github.com/innobead/huber 
  ignite          Ignite a Firecracker microVM                                                                             https://github.com/weaveworks/ignite 
+ img             Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
  istio           Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
  jwt-cli         A super fast CLI tool to decode and encode JWTs built in Rust                                            https://github.com/mike-engel/jwt-cli 
  k0s             k0s - Zero Friction Kubernetes                                                                           https://github.com/k0sproject/k0s 

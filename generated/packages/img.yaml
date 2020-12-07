@@ -1,0 +1,13 @@
+# This is generated. Don't modify.
+---
+name: img
+description: "Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder."
+source:
+  Github:
+    owner: genuinetools
+    repo: img
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/img-linux-amd64"
+detail: ~
