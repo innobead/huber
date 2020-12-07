@@ -102,6 +102,7 @@ fn releases() -> Vec<Package> {
         stern::release(),
         drone_cli::release(),
         img::release(),
+        dive::release(),
         // infra
         pulumi::release(),
         chisel::release(),

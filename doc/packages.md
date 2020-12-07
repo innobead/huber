@@ -15,6 +15,7 @@
  dasel           Query, update and convert data structures from the command line. Comparable to jq/yq but supports JS...  https://github.com/TomWright/dasel 
  deno            A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
  direnv          unclutter your .profile                                                                                  https://github.com/direnv/direnv 
+ dive            A tool for exploring each layer in a docker image                                                        https://github.com/wagoodman/dive 
  drone-cli       Command Line Tools for Drone CI                                                                          https://github.com/drone/drone-cli 
  exa             A modern replacement for ‘ls’.                                                                           https://github.com/ogham/exa 
  faas-cli        Official CLI for OpenFaaS                                                                                https://github.com/openfaas/faas-cli 

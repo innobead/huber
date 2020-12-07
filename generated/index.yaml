@@ -39,6 +39,9 @@
 - name: direnv
   owner: direnv
   source: github
+- name: dive
+  owner: wagoodman
+  source: github
 - name: drone-cli
   owner: drone
   source: github

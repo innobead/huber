@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: dive
+description: A tool for exploring each layer in a docker image
+source:
+  Github:
+    owner: wagoodman
+    repo: dive
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "dive_{version}_linux_amd64.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "dive_{version}_darwin_amd64.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "dive_{version}_windows_amd64.zip"
+detail: ~

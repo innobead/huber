@@ -11,6 +11,7 @@ pub mod ctlptl;
 pub mod dasel;
 pub mod deno;
 pub mod direnv;
+pub mod dive;
 pub mod drone_cli;
 pub mod exa;
 pub mod faas_cli;
