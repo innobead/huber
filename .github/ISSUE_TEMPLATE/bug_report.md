@@ -21,12 +21,10 @@ A clear and concise description of what you expected to happen.
 
 **Environment**
 
- - OS version
-    - run `cat /etc/os-release`
- - Kubefire version
-    - run `kubefire version`
- - Kubefire runtime info
-    - run `kubefire info` 
+- OS version
+   - run `uname -a`
+- Huber version
+   - run `huber -V`
 
 **Additional context**
 Add any other context about the problem here.

@@ -84,6 +84,7 @@ pub mod trivy;
 pub mod typescript;
 pub mod vegeta;
 pub mod velero;
+pub mod wasme;
 pub mod wasmer;
 pub mod wasmtime;
 pub mod waypoint;

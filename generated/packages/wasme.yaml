@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: wasme
+description: Web Assembly tools and SDKs for extending cloud-native infrastructure
+source:
+  Github:
+    owner: solo-io
+    repo: wasm
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/wasme-linux-amd64"
+  - MacOS:
+      artifact_templates:
+        - "{version}/wasme-darwin-amd64"
+  - Windows:
+      artifact_templates:
+        - "{version}/wasme-windows-adm64.exe"
+detail: ~

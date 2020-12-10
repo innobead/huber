@@ -255,6 +255,9 @@
 - name: velero
   owner: vmware-tanzu
   source: github
+- name: wasme
+  owner: solo-io
+  source: github
 - name: wasmer
   owner: wasmerio
   source: github

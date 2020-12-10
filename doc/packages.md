@@ -87,6 +87,7 @@
  typescript      TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
  vegeta          HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
  velero          Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
+ wasme           Web Assembly tools and SDKs for extending cloud-native infrastructure                                    https://github.com/solo-io/wasm 
  wasmer          🚀 The leading WebAssembly Runtime supporting WASI and Emscripten                                        https://github.com/wasmerio/wasmer 
  wasmtime        Standalone JIT-style runtime for WebAssembly, using Cranelift                                            https://github.com/bytecodealliance/wasmtime 
  waypoint        A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
