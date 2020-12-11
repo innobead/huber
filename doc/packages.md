@@ -32,6 +32,7 @@
  helm            The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
  hub             A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
  huber           Huber 📦,  simplify `GitHub release` package management with a live awesome list of GitHub project...    https://github.com/innobead/huber 
+ hyperfine       A command-line benchmarking tool                                                                         https://github.com/sharkdp/hyperfine 
  ignite          Ignite a Firecracker microVM                                                                             https://github.com/weaveworks/ignite 
  img             Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
  istio           Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 

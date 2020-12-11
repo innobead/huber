@@ -29,6 +29,7 @@ pub mod gping;
 pub mod helm;
 pub mod hub;
 pub mod huber;
+pub mod hyperfine;
 pub mod ignite;
 pub mod img;
 pub mod istio;

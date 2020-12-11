@@ -90,6 +90,9 @@
 - name: huber
   owner: innobead
   source: github
+- name: hyperfine
+  owner: sharkdp
+  source: github
 - name: ignite
   owner: weaveworks
   source: github

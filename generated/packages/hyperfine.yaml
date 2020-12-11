@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: hyperfine
+description: A command-line benchmarking tool
+source:
+  Github:
+    owner: sharkdp
+    repo: hyperfine
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "hyperfine-v{version}-x86_64-unknown-linux-musl.tar.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "hyperfine-v{version}-arm-unknown-linux-musleabihf.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "hyperfine-v{version}-x86_64-apple-darwin.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "hyperfine-v{version}-x86_64-pc-windows-msvc.zip"
+detail: ~

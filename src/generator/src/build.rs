@@ -104,6 +104,7 @@ fn releases() -> Vec<Package> {
         img::release(),
         dive::release(),
         wasme::release(),
+        hyperfine::release(),
         // infra
         pulumi::release(),
         chisel::release(),
