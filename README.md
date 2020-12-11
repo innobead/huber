@@ -46,7 +46,7 @@ But, if it does not work as expected, please remember to add `$HOME/.huber/bin` 
 ❯ curl -sfSL https://raw.githubusercontent.com/innobead/huber/master/hack/install.sh | bash
 
 # Update the environment path if required
-❯ echo "export PATH=\$HOME/.huber/bin:\$PATH" > ~/.bashrc
+❯ echo "export PATH=\$HOME/.huber/bin:\$PATH" >> ~/.bashrc
 ```
 
 ### Installing the development version
