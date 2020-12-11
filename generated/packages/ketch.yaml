@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: ketch
-description: ~
+description: Ketch is an application delivery framework that facilitates the deployment and management of applications on Kubernetes using a simple command line interface
 source:
   Github:
     owner: shipa-corp
