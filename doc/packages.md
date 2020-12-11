@@ -44,6 +44,7 @@
  k3sup           bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
  k6              A modern load testing tool, using Go and JavaScript - https://k6.io                                      https://github.com/loadimpact/k6 
  k9s             🐶 Kubernetes CLI To Manage Your Clusters In Style!                                                      https://github.com/derailed/k9s 
+ ketch                                                                                                                    https://github.com/shipa-corp/ketch 
  kind            Kubernetes IN Docker - local clusters for testing Kubernetes                                             https://github.com/kubernetes-sigs/kind 
  ko              Build and deploy Go applications on Kubernetes                                                           https://github.com/google/ko 
  kpt                                                                                                                      https://github.com/GoogleContainerTools/kpt 

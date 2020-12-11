@@ -126,6 +126,9 @@
 - name: k9s
   owner: derailed
   source: github
+- name: ketch
+  owner: shipa-corp
+  source: github
 - name: kind
   owner: kubernetes-sigs
   source: github

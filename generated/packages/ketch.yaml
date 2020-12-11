@@ -1,0 +1,16 @@
+# This is generated. Don't modify.
+---
+name: ketch
+description: ~
+source:
+  Github:
+    owner: shipa-corp
+    repo: ketch
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/ketch-linux-amd64"
+  - MacOS:
+      artifact_templates:
+        - "{version}/ketch-darwin-amd64"
+detail: ~
