@@ -10,7 +10,7 @@ on:
 
 jobs:
   build-linux:
-    name: Build for Linux
+    name: Build for Linux x86_64
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -24,6 +24,25 @@ jobs:
 
       - name: Build all artifacts
         run: make build
+
+  build-linux-aarch64:
+    name: Build for Linux aarch64
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: uraimo/run-on-arch-action@v2.0.5
+          name: Setup,Test,Build
+          with:
+            arch: aarch64
+            distro: ubuntu20.04
+            githubToken: ${{ github.token }}
+            run: |
+              uname -a
+              make setup-dev
+              make test
+              make build
 
   build-macos:
     name: Build for MacOS
