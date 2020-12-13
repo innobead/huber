@@ -9,7 +9,7 @@ on:
 
 jobs:
   release-linux:
-    name: Release for linux
+    name: Release for linux x86_64
     runs-on: ubuntu-latest
     needs: []
     steps:

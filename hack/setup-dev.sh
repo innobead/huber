@@ -53,6 +53,8 @@ function install_rust_dependencies() {
   if [[ -z $(command -v cargo 2>/dev/null) ]]; then
     curl https://sh.rustup.rs -sSf | sh -s -- -y
   fi
+
+  source "$HOME"/.cargo/env
   cargo version
 
   export_statement="export PATH=\$HOME/.cargo/bin:\$PATH"
