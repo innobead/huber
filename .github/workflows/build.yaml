@@ -38,9 +38,12 @@ jobs:
           arch: aarch64
           distro: ubuntu20.04
           githubToken: ${{ github.token }}
+          install: |
+            apt update
+            apt install -y build-essential sudo
           run: |
             uname -a
-            ./hack/setup-dev.sh # make setup-dev
+            make setup-dev
             make test
             make build
 
