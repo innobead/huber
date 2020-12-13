@@ -43,7 +43,7 @@ jobs:
             apt install -y build-essential sudo
           run: |
             uname -a
-            export DEBIAN_FRONTEND=noninteractive make setup-dev
+            DEBIAN_FRONTEND=noninteractive make setup-dev
             make test
             make build
 
