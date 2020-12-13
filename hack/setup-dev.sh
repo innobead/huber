@@ -7,9 +7,8 @@ set -o xtrace
 
 function install_linux_dependencies() {
   if [[ $(command -v apt) ]]; then
-    export DEBIAN_FRONTEND=noninteractive
     sudo apt update
-    sudo apt install -y build-essential libssl-dev libarchive-dev git pkg-config curl sudo
+    sudo DEBIAN_FRONTEND=noninteractive apt install -y build-essential libssl-dev libarchive-dev git pkg-config curl sudo
   elif [[ $(command -v zypper) ]]; then
     sudo zypper install -y -t pattern devel_basis
     sudo zypper install -y libopenssl-devel libarchive-devel git pkg-config curl sudo
