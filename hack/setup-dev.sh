@@ -60,7 +60,9 @@ function install_rust_dependencies() {
     echo "$export_statement" >> "$HOME"/.bashrc
   fi
 
-  source "$HOME"/.cargo/env
+  if [[ -f "$HOME"/.cargo/env ]]; then
+    source "$HOME"/.cargo/env
+  fi
 }
 
 os=$(uname)

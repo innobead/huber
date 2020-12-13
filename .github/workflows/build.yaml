@@ -44,6 +44,7 @@ jobs:
           run: |
             uname -a
             make setup-dev
+            # Using carog env instead of `source ~/.bashrc` avoids PS1 env var unbound then bashrc directly returned when using root container build
             source ~/.cargo/env && make test
             source ~/.cargo/env && make build
 
