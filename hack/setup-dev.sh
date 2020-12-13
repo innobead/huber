@@ -45,9 +45,7 @@ function install_macos_dependencies() {
     echo "export PKG_CONFIG_PATH=/usr/local/opt/libarchive/lib/pkgconfig"
   } >> "$HOME"/.bashrc
 
-  set +o nounset
   . "$HOME"/.bashrc
-  set -o nounset
 }
 
 function install_rust_dependencies() {
@@ -62,9 +60,7 @@ function install_rust_dependencies() {
     echo "$export_statement" >> "$HOME"/.bashrc
   fi
 
-  set +o nounset
-  . "$HOME"/.bashrc
-  set -o nounset
+  source "$HOME"/.cargo/env
 }
 
 os=$(uname)

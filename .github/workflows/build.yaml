@@ -44,8 +44,8 @@ jobs:
           run: |
             uname -a
             make setup-dev
-            source ~/.bashrc && make test
-            source ~/.bashrc && make build
+            source ~/.cargo/env && make test
+            source ~/.cargo/env && make build
 
   build-macos:
     name: Build for MacOS
