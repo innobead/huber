@@ -51,7 +51,7 @@ function install_macos_dependencies() {
 
 function install_rust_dependencies() {
   if [[ -z $(command -v cargo 2>/dev/null) ]]; then
-    curl https://sh.rustup.rs -sSf | sh
+    curl https://sh.rustup.rs -sSf | sh -s -- -y
   fi
   cargo version
 
