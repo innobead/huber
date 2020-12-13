@@ -32,17 +32,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - uses: uraimo/run-on-arch-action@v2.0.5
-          name: Setup,Test,Build
-          with:
-            arch: aarch64
-            distro: ubuntu20.04
-            githubToken: ${{ github.token }}
-            run: |
-              uname -a
-              make setup-dev
-              make test
-              make build
+      - name: Setup,Test,Build
+        uses: uraimo/run-on-arch-action@v2.0.5
+        with:
+          arch: aarch64
+          distro: ubuntu20.04
+          githubToken: ${{ github.token }}
+          run: |
+            uname -a
+            make setup-dev
+            make test
+            make build
 
   build-macos:
     name: Build for MacOS
