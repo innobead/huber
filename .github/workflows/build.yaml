@@ -40,7 +40,7 @@ jobs:
           githubToken: ${{ github.token }}
           run: |
             uname -a
-            make setup-dev
+            ./hack/setup-dev.sh # make setup-dev
             make test
             make build
 
