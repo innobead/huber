@@ -39,6 +39,7 @@ jobs:
           distro: ubuntu20.04
           githubToken: ${{ github.token }}
           install: |
+            export DEBIAN_FRONTEND=noninteractive
             apt update
             apt install -y build-essential sudo
           run: |
