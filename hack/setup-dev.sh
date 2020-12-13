@@ -45,25 +45,26 @@ function install_macos_dependencies() {
     echo "export PKG_CONFIG_PATH=/usr/local/opt/libarchive/lib/pkgconfig"
   } >> "$HOME"/.bashrc
 
-  # shellcheck disable=SC1090
+  set +o nounset
   . "$HOME"/.bashrc
+  set -o nounset
 }
 
 function install_rust_dependencies() {
   if [[ -z $(command -v cargo 2>/dev/null) ]]; then
     curl https://sh.rustup.rs -sSf | sh -s -- -y
+    source "$HOME"/.cargo/env
+    cargo version
   fi
-
-  source "$HOME"/.cargo/env
-  cargo version
 
   export_statement="export PATH=\$HOME/.cargo/bin:\$PATH"
   if ! grep -Fxq "$export_statement"  ~/.bashrc; then
-    echo "$export_statement" >> ~/.bashrc
+    echo "$export_statement" >> "$HOME"/.bashrc
   fi
 
-  # shellcheck disable=SC1090
+  set +o nounset
   . "$HOME"/.bashrc
+  set -o nounset
 }
 
 os=$(uname)
