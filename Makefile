@@ -61,3 +61,11 @@ checksum: ## Generate checksum files for built executables
 udep: ## Check undepedencies
 	cargo install cargo-udeps --locked
 	cargo +nightly udeps  --workspace --exclude=huber-generator
+
+.PHONY: build-multiarch
+build-multiarch: ## Build binaries for linux multiple architectures
+	PLATFORMS=linux/arm64 MAKE_TARGET="test build" $(CURDIR)/hack/build-multiarch.sh
+
+.PHONY: release-multiarch
+release-multiarch: ## Release binaries for linux multiple archite
+	PLATFORMS=linux/arm64 MAKE_TARGET=release $(CURDIR)/hack/build-multiarch.sh

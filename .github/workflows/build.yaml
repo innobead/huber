@@ -32,21 +32,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup, Test, Build
-        uses: uraimo/run-on-arch-action@v2.0.5
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
         with:
-          arch: aarch64
-          distro: ubuntu20.04
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          install: |
-            apt update
-            apt install -y build-essential sudo
-          run: |
-            uname -a
-            make setup-dev
-            # Using carog env instead of `source ~/.bashrc` avoids PS1 env var unbound then bashrc directly returned when using root container build
-            source ~/.cargo/env && make test
-            source ~/.cargo/env && make build
+          version: latest
+
+      - name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+
+      - name: Setup, Build
+        run: make build-multiarch
 
   build-macos:
     name: Build for MacOS
