@@ -9,7 +9,7 @@ on:
       - master
 
 jobs:
-  build-linux:
+  build-linux-x86_64:
     name: Build for Linux x86_64
     runs-on: ubuntu-latest
     steps:
@@ -32,12 +32,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup,Test,Build
+      - name: Setup, Test, Build
         uses: uraimo/run-on-arch-action@v2.0.5
         with:
           arch: aarch64
           distro: ubuntu20.04
-          githubToken: ${{ github.token }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
           install: |
             apt update
             apt install -y build-essential sudo
