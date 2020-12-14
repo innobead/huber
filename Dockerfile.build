@@ -2,7 +2,7 @@ FROM rust:1.48 as build
 WORKDIR /workspace
 ARG MAKE_TARGET=build
 COPY . /workspace
-RUN apt update && \
-    apt install -y sudo && \
-    make setup-dev && \
-    make ${MAKE_TARGET}
+#RUN apt update && \
+#    apt install -y sudo && \
+#    make setup-dev && \
+#    make ${MAKE_TARGET}
