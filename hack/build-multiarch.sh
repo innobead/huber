@@ -7,6 +7,7 @@ set -o xtrace
 
 PRJDIR=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 PLATFORMS=${PLATFORMS:-linux/arm64}
+BUILD_TARGET=${BUILD_TARGET:-debug}
 MAKE_TARGET=${MAKE_TARGET:-build}
 OUTPUT_DIR=${OUTPUT_DIR:-$PRJDIR/output}
 
@@ -22,7 +23,13 @@ function cleanup() {
 }
 
 function build() {
-  docker buildx build --platform "$PLATFORMS" --build-arg="MAKE_TARGET=$MAKE_TARGET" --output="type=local,dest=$OUTPUT_DIR" -t huber_build:latest -f "$PRJDIR"/Dockerfile.build .
+  docker buildx build \
+    --platform "$PLATFORMS" \
+    --build-arg="MAKE_TARGET=$MAKE_TARGET" \
+    --build-arg="BUILD_TARGET=$BUILD_TARGET" \
+    --output="type=local,dest=$OUTPUT_DIR" \
+    -t huber_build:latest \
+    -f "$PRJDIR"/Dockerfile.build .
 }
 
 trap cleanup EXIT ERR INT TERM

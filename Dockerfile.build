@@ -10,4 +10,5 @@ RUN apt update && \
     rustup self uninstall -y
 
 FROM scratch
-COPY --from=build /workspace/target /target
+ARG BUILD_TARGET=debug
+COPY --from=build /workspace/target/${BUILD_TARGET}/huber /target/${BUILD_TARGET}/huber
