@@ -3,6 +3,7 @@ COMMIT:=$(shell git rev-parse --short HEAD 2>/dev/null)-$(shell date "+%Y%m%d%H%
 TAG:=$(shell git describe --tags --dirty 2>/dev/null)
 BUILD_CACHE_DIR:=$(CURDIR)/.cache
 BUILD_DIR := $(CURDIR)/.target
+OUTPUT_DIR := $(CURDIR)/.output
 HUBER_ARTIFACT := $(shell $(CURDIR)/hack/huber-artifact-name.sh)
 
 .PHONY: help
@@ -40,7 +41,7 @@ install: ## Install binaries
 .PHONY: clean
 clean: ## Clean build caches
 	cargo clean
-	rm -rf $(BUILD_CACHE_DIR) $(BUILD_DIR)
+	rm -rf $(BUILD_CACHE_DIR) $(BUILD_DIR) $(OUTPUT_DIR)
 
 .PHONY: fix
 fix:  ## Fix code
@@ -69,3 +70,5 @@ build-multiarch: ## Build binaries for linux multiple architectures
 .PHONY: release-multiarch
 release-multiarch: ## Release binaries for linux multiple archite
 	PLATFORMS=linux/arm64 BUILD_TARGET=release MAKE_TARGET=release $(CURDIR)/hack/build-multiarch.sh
+	mkdir -p $(BUILD_DIR) && cp $(OUTPUT_DIR)/target/huber-* $(BUILD_DIR)/
+	$(MAKE) checksum

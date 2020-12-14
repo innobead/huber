@@ -9,7 +9,7 @@ PRJDIR=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 PLATFORMS=${PLATFORMS:-linux/arm64}
 BUILD_TARGET=${BUILD_TARGET:-debug}
 MAKE_TARGET=${MAKE_TARGET:-build}
-OUTPUT_DIR=${OUTPUT_DIR:-$PRJDIR/output}
+OUTPUT_DIR=${OUTPUT_DIR:-$PRJDIR/.output}
 
 function setup() {
   docker run --rm --privileged multiarch/qemu-user-static --reset -p yes

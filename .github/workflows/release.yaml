@@ -47,47 +47,47 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGELOG: ${{ steps.changelog.outputs.changelog }}
-#
-#  release-linux-aarch64:
-#    name: Rlease for Linux aarch64
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#
-#      - name: Setup, Build
-#        uses: uraimo/run-on-arch-action@v2.0.5
-#        with:
-#          arch: aarch64
-#          distro: ubuntu20.04
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#          install: |
-#            apt update
-#            apt install -y build-essential sudo
-#          run: |
-#            uname -a
-#            make setup-dev
-#            # Using carog env instead of `source ~/.bashrc` avoids PS1 env var unbound then bashrc directly returned when using root container build
-#            source ~/.cargo/env && make release
-#
-#      - name: Create release and upload artifacts
-#        id: upload-release-asset
-#        run: |
-#          set -x
-#
-#          assets=()
-#
-#          while IFS= read -r -d '' f; do
-#            if [[ -f "$f" ]]; then
-#              assets+=("-a" "./$f")
-#            fi
-#          done < <(find ./.target -print0)
-#
-#          tag_name="${GITHUB_REF##*/}"
-#          tag_name="$(hub release -d)"
-#          hub release edit -d "${assets[@]}" -m "" "$tag_name"
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-linux-aarch64:
+    name: Rlease for Linux aarch64
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+
+      - name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+
+      - name: Setup, Test, Build
+        run: make release-multiarch
+
+      - name: Create release and upload artifacts
+        id: upload-release-asset
+        run: |
+          set -x
+
+          assets=()
+
+          while IFS= read -r -d '' f; do
+            if [[ -f "$f" ]]; then
+              assets+=("-a" "./$f")
+            fi
+          done < <(find ./.target -print0)
+
+          tag_name="${GITHUB_REF##*/}"
+          tag_name="$(hub release -d)"
+          hub release edit -d "${assets[@]}" -m "" "$tag_name"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   release-macos:
     name: Release for MacOS
