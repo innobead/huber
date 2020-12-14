@@ -8,10 +8,11 @@ set -o xtrace
 function install_linux_dependencies() {
   if [[ $(command -v apt) ]]; then
     sudo apt update
-    sudo DEBIAN_FRONTEND=noninteractive apt install -y build-essential libssl-dev libarchive-dev git pkg-config curl sudo
+    # sudo apt install -y build-essential
+    sudo DEBIAN_FRONTEND=noninteractive apt install -y make libssl-dev libarchive-dev git pkg-config curl sudo
   elif [[ $(command -v zypper) ]]; then
-    sudo zypper install -y -t pattern devel_basis
-    sudo zypper install -y libopenssl-devel libarchive-devel git pkg-config curl sudo
+    # sudo zypper install -y -t pattern devel_basis
+    sudo zypper install -y make libopenssl-devel libarchive-devel git pkg-config curl sudo
   else
     echo "Only openSUSE, Ubuntu supported" >/dev/stderr
     exit 1

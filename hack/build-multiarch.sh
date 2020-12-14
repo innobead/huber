@@ -23,7 +23,6 @@ function cleanup() {
 
 function build() {
   docker buildx build --platform "$PLATFORMS" --build-arg="MAKE_TARGET=$MAKE_TARGET" --output="type=local,dest=$OUTPUT_DIR" -t huber_build:latest -f "$PRJDIR"/Dockerfile.build .
-  echo "done"
 }
 
 trap cleanup EXIT ERR INT TERM

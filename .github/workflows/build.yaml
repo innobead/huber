@@ -44,7 +44,7 @@ jobs:
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
 
-      - name: Setup, Build
+      - name: Setup, Test, Build
         run: make build-multiarch
 
   build-macos:
