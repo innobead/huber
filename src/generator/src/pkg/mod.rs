@@ -74,6 +74,7 @@ pub mod rke2;
 pub mod skaffold;
 pub mod sonobuoy;
 pub mod ssvm;
+pub mod ssvmup;
 pub mod starship;
 pub mod stern;
 pub mod submariner;

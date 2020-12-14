@@ -77,6 +77,7 @@
  skaffold        Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  sonobuoy        Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
  ssvm            SSVM is a high performance, extensible, and hardware optimized WebAssembly Virtual Machine for cloud...  https://github.com/second-state/SSVM 
+ ssvmup          Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/ssvmup 
  starship        ☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!                        https://github.com/starship/starship 
  stern           ⎈ Multi pod and container log tailing for Kubernetes                                                     https://github.com/wercker/stern 
  submariner      Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 

@@ -225,6 +225,9 @@
 - name: ssvm
   owner: second-state
   source: github
+- name: ssvmup
+  owner: second-state
+  source: github
 - name: starship
   owner: starship
   source: github
