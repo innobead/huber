@@ -9,6 +9,5 @@ RUN apt update && \
     apt-get clean && \
     rustup self uninstall -y
 
-FROM alpine
-WORKDIR /workspace
-COPY --from=build /workspace/target /workspace/target
+FROM scratch
+COPY --from=build /workspace/target /target

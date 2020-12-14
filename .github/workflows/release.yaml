@@ -50,7 +50,6 @@ jobs:
 #
 #  release-linux-aarch64:
 #    name: Rlease for Linux aarch64
-#    needs: release-linux-x86_64
 #    runs-on: ubuntu-latest
 #    steps:
 #      - name: Checkout code
