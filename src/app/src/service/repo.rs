@@ -7,11 +7,11 @@ use async_trait::async_trait;
 
 use log::info;
 
-use huber_common::di::DIContainer;
 use huber_common::model::config::{Config, ConfigPath};
 use huber_common::model::package::Package;
 use huber_common::model::repo::Repository;
 use huber_common::str::OsStrExt;
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 
@@ -26,7 +26,6 @@ pub(crate) trait RepoAsyncTrait {
 
 #[derive(Debug)]
 pub(crate) struct RepoService {
-    pub(crate) config: Option<Arc<Config>>,
     pub(crate) container: Option<Arc<DIContainer>>,
 }
 
@@ -34,19 +33,17 @@ unsafe impl Send for RepoService {}
 
 unsafe impl Sync for RepoService {}
 
-impl ServiceTrait for RepoService {
-    fn set_shared_properties(&mut self, config: Arc<Config>, container: Arc<DIContainer>) {
-        self.config = Some(config);
+impl ServiceTrait for RepoService {}
+
+impl DependencyInjectTrait for RepoService {
+    fn inject(&mut self, container: Arc<DIContainer>) {
         self.container = Some(container);
     }
 }
 
 impl RepoService {
     pub(crate) fn new() -> Self {
-        Self {
-            config: None,
-            container: None,
-        }
+        Self { container: None }
     }
 }
 
@@ -74,7 +71,7 @@ impl ItemOperationTrait for RepoService {
     type Condition = String;
 
     fn delete(&self, name: &str) -> Result<()> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let path = config.unmanaged_repo_dir(&name)?;
         if path.exists() {
@@ -87,7 +84,7 @@ impl ItemOperationTrait for RepoService {
 
     // FIXME enhance performance
     fn list(&self) -> Result<Vec<Self::ItemInstance>> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let mut repos: Vec<Repository> = vec![];
         let path = config.repo_root_dir()?;
@@ -127,7 +124,7 @@ impl ItemOperationAsyncTrait for RepoService {
     type Condition_ = String;
 
     async fn create(&self, obj: Self::Item_) -> Result<Self::ItemInstance_> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let path = config.unmanaged_repo_file(&obj.name)?;
         let file = File::create(&path)?;
@@ -149,7 +146,7 @@ impl ItemOperationAsyncTrait for RepoService {
 
 impl RepoTrait for RepoService {
     fn get_packages_by_repo(&self, name: &str) -> Result<Vec<Package>> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let f = config.unmanaged_repo_pkgs_file(name)?;
         let f = File::open(&f)?;
 
@@ -160,7 +157,7 @@ impl RepoTrait for RepoService {
 #[async_trait]
 impl RepoAsyncTrait for RepoService {
     async fn download_save_pkgs_file(&self, name: &str, url: &str) -> Result<()> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let path = config.unmanaged_repo_pkgs_file(&name)?;
         if path.exists() {

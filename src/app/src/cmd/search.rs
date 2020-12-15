@@ -3,13 +3,13 @@ use std::io::stdout;
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
-use huber_common::di::DIContainer;
 use huber_common::model::config::Config;
 use huber_common::model::package::PackageSummary;
 use huber_common::model::release::VecExtensionTrait;
 use huber_common::output::factory::FactoryConsole;
 use huber_common::output::OutputTrait;
 use huber_common::result::Result;
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::cache::{CacheAsyncTrait, CacheService};

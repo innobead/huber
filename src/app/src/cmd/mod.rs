@@ -8,7 +8,6 @@ use log::Level;
 use config::{ARG_GITHUB_KEY, ARG_GITHUB_TOKEN, ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
 use current::CurrentCmd;
 use flush::FlushCmd;
-use huber_common::di::DIContainer;
 use huber_common::model::config::Config;
 use huber_common::output::OutputFormat;
 use huber_common::result::Result;
@@ -19,6 +18,8 @@ use reset::ResetCmd;
 use search::SearchCmd;
 use self_update::SelfUpdateCmd;
 use show::ShowCmd;
+use simpledi_rs::di::DIContainer;
+use simpledi_rs::di::DIContainerTrait;
 use uninstall::UninstallCmd;
 use update::UpdateCmd;
 

@@ -1,9 +1,9 @@
 use async_trait::async_trait;
 use clap::{App, ArgMatches};
 
-use huber_common::di::DIContainer;
 use huber_common::model::config::Config;
 use huber_common::result::Result;
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd;
 use crate::cmd::repo::add::RepoAddCmd;

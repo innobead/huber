@@ -4,16 +4,16 @@ use std::sync::Arc;
 use log::{debug, info};
 
 use crate::service::ServiceTrait;
-use huber_common::di::DIContainer;
 use huber_common::model::config::{Config, ConfigPath};
 use huber_common::result::Result;
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 lazy_static! {
     static ref DEFAULT_CONFIG: Config = Config::new();
 }
 
+#[derive(Debug)]
 pub(crate) struct ConfigService {
-    pub(crate) config: Option<Arc<Config>>,
     pub(crate) container: Option<Arc<DIContainer>>,
 }
 
@@ -28,16 +28,14 @@ pub(crate) trait ConfigTrait {
 
 impl ConfigService {
     pub(crate) fn new() -> Self {
-        Self {
-            config: None,
-            container: None,
-        }
+        Self { container: None }
     }
 }
 
-impl ServiceTrait for ConfigService {
-    fn set_shared_properties(&mut self, config: Arc<Config>, container: Arc<DIContainer>) {
-        self.config = Some(config);
+impl ServiceTrait for ConfigService {}
+
+impl DependencyInjectTrait for ConfigService {
+    fn inject(&mut self, container: Arc<DIContainer>) {
         self.container = Some(container);
     }
 }
@@ -45,7 +43,7 @@ impl ServiceTrait for ConfigService {
 impl ConfigTrait for ConfigService {
     fn get(&self) -> Result<Config> {
         let path = DEFAULT_CONFIG.config_file()?;
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         if path.exists() {
             debug!("Getting the config from {:?}", path);

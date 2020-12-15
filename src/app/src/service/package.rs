@@ -3,10 +3,10 @@ use std::sync::Arc;
 use async_trait::async_trait;
 use log::debug;
 
-use huber_common::di::DIContainer;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait};
 use huber_common::model::package::{Package, PackageSource};
 use huber_common::result::Result;
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::cache::{CacheService, CacheTrait};
@@ -14,7 +14,6 @@ use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrai
 
 #[derive(Debug)]
 pub(crate) struct PackageService {
-    pub(crate) config: Option<Arc<Config>>,
     pub(crate) container: Option<Arc<DIContainer>>,
 }
 unsafe impl Send for PackageService {}
@@ -22,17 +21,15 @@ unsafe impl Sync for PackageService {}
 
 impl PackageService {
     pub(crate) fn new() -> Self {
-        Self {
-            config: None,
-            container: None,
-        }
+        Self { container: None }
     }
 }
 
-impl ServiceTrait for PackageService {
-    fn set_shared_properties(&mut self, config: Arc<Config>, container: Arc<DIContainer>) {
-        self.config = Some(config);
-        self.container = Some(container);
+impl ServiceTrait for PackageService {}
+
+impl DependencyInjectTrait for PackageService {
+    fn inject(&mut self, container: Arc<DIContainer>) {
+        self.container = Some(container)
     }
 }
 
@@ -74,8 +71,7 @@ impl ItemOperationAsyncTrait for PackageService {
     async fn find(&self, pkg_name: &Self::Condition_) -> Result<Vec<Self::ItemInstance_>> {
         debug!("Finding packages: {}", pkg_name);
 
-        let config = self.config.as_ref().unwrap();
-
+        let config = self.container.get::<Config>().unwrap();
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
         let pkg = self.get(pkg_name)?;
 
@@ -107,8 +103,7 @@ impl ItemSearchTrait for PackageService {
         pattern: Option<&str>,
         owner: Option<&str>,
     ) -> Result<Vec<Self::SearchItem>> {
-        let container = self.container.as_ref().unwrap();
-        let cache_service = container.get::<CacheService>().unwrap();
+        let cache_service = self.container.get::<CacheService>().unwrap();
 
         let owner = owner.unwrap_or("");
         let mut found_items: Vec<Self::SearchItem> = vec![];

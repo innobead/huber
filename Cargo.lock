@@ -701,6 +701,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_yaml",
+ "simpledi-rs",
  "symlink",
  "tokio",
  "url",
@@ -718,6 +719,7 @@ dependencies = [
  "hubcaps",
  "lazy_static",
  "log",
+ "maplit",
  "pretty_env_logger",
  "prettytable-rs",
  "regex 1.4.2",
@@ -1695,6 +1697,17 @@ dependencies = [
  "chrono",
  "num-bigint",
  "num-traits",
+]
+
+[[package]]
+name = "simpledi-rs"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1ce2e4376b9be79a4a4a3fe94a866ef0de3b488ab3e372704417de632e0c769d"
+dependencies = [
+ "anyhow",
+ "log",
+ "pretty_env_logger",
 ]
 
 [[package]]

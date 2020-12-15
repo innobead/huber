@@ -3,12 +3,13 @@ use std::io::stdout;
 use async_trait::async_trait;
 use clap::{App, ArgMatches};
 
-use huber_common::di::DIContainer;
 use huber_common::model::config::Config;
 use huber_common::output::factory::FactoryConsole;
 use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
+use simpledi_rs::di::DIContainer;
+use simpledi_rs::di::DIContainerTrait;
 
 use crate::cmd::{process_arg_matches, CommandAsyncTrait, CommandTrait};
 use crate::service::config::{ConfigService, ConfigTrait};

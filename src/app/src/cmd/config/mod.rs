@@ -1,14 +1,16 @@
 use async_trait::async_trait;
 use clap::{App, ArgMatches};
 
-use huber_common::di::DIContainer;
 use huber_common::model::config::Config;
 use huber_common::result::Result;
+use simpledi_rs::di::DIContainer;
 
 use crate::cmd;
 use crate::cmd::config::show::ConfigShowCmd;
 use crate::cmd::config::update::ConfigUpdateCmd;
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
+
+use simpledi_rs::di::DIContainerTrait;
 
 pub(crate) mod show;
 pub(crate) mod update;

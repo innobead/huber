@@ -6,13 +6,13 @@ use log::info;
 use rayon::prelude::*;
 use regex::Regex;
 
-use huber_common::di::DIContainer;
 use huber_common::model::config::{
     Config, ConfigFieldConvertTrait, ConfigPath, MANAGED_PKG_ROOT_DIR,
 };
 use huber_common::model::package::{Package, PackageIndex};
 use huber_common::model::repo::Repository;
 use huber_common::result::Result;
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::repo::{RepoAsyncTrait, RepoService, RepoTrait};
@@ -41,7 +41,6 @@ pub(crate) struct CacheInfo {
 
 #[derive(Debug)]
 pub(crate) struct CacheService {
-    pub(crate) config: Option<Arc<Config>>,
     pub(crate) container: Option<Arc<DIContainer>>,
 }
 
@@ -49,19 +48,17 @@ unsafe impl Send for CacheService {}
 
 unsafe impl Sync for CacheService {}
 
-impl ServiceTrait for CacheService {
-    fn set_shared_properties(&mut self, config: Arc<Config>, container: Arc<DIContainer>) {
-        self.config = Some(config);
+impl ServiceTrait for CacheService {}
+
+impl DependencyInjectTrait for CacheService {
+    fn inject(&mut self, container: Arc<DIContainer>) {
         self.container = Some(container);
     }
 }
 
 impl CacheService {
     pub(crate) fn new() -> Self {
-        Self {
-            config: None,
-            container: None,
-        }
+        Self { container: None }
     }
 }
 
@@ -71,7 +68,7 @@ impl CacheTrait for CacheService {
             return Err(anyhow!("{} not found", name));
         }
 
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let pkg_file = config.managed_pkg_manifest_file(name)?;
 
         if pkg_file.exists() {
@@ -141,8 +138,7 @@ impl CacheTrait for CacheService {
     }
 
     fn list_unmanaged_packages(&self) -> Result<Vec<Package>> {
-        let container = self.container.as_ref().unwrap();
-        let repo_service = container.get::<RepoService>().unwrap();
+        let repo_service = self.container.get::<RepoService>().unwrap();
 
         let repos = repo_service.list()?;
         let pkgs: Vec<Package> = repos
@@ -178,7 +174,7 @@ impl CacheTrait for CacheService {
     }
 
     fn get_package_indexes(&self) -> Result<Vec<PackageIndex>> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let index_file = config.managed_pkg_index_file()?;
         let pkg_indexes =
             serde_yaml::from_reader::<File, Vec<PackageIndex>>(File::open(index_file)?)?;
@@ -200,9 +196,7 @@ impl CacheAsyncTrait for CacheService {
         }
 
         info!("Updating repos");
-
-        let container = self.container.as_ref().unwrap();
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let dir = config.huber_repo_dir()?;
         info!("Updating {:?}", dir);
@@ -213,7 +207,7 @@ impl CacheAsyncTrait for CacheService {
         client.clone("innobead", "huber", dir.clone()).await?;
 
         info!("Updating unmanaged repos");
-        let repo_service = container.get::<RepoService>().unwrap();
+        let repo_service = self.container.get::<RepoService>().unwrap();
         for repo in repo_service.list()? {
             info!(
                 "Updating {:?}",

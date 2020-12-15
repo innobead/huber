@@ -1,10 +1,7 @@
-use std::sync::Arc;
-
 use async_trait::async_trait;
 
-use huber_common::di::DIContainer;
-use huber_common::model::config::Config;
 use huber_common::result::Result;
+use simpledi_rs::di::DependencyInjectTrait;
 
 pub(crate) mod cache;
 pub(crate) mod config;
@@ -13,9 +10,7 @@ pub(crate) mod release;
 pub(crate) mod repo;
 pub(crate) mod update;
 
-pub(crate) trait ServiceTrait {
-    fn set_shared_properties(&mut self, config: Arc<Config>, container: Arc<DIContainer>);
-}
+pub(crate) trait ServiceTrait: DependencyInjectTrait {}
 
 pub(crate) trait ItemOperationTrait: ItemSearchTrait + ItemOperationAsyncTrait {
     type Item;

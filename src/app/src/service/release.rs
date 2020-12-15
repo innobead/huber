@@ -18,13 +18,13 @@ use tokio::task;
 use url::Url;
 use urlencoding::decode;
 
-use huber_common::di::DIContainer;
 use huber_common::file::trim_os_arch;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 use huber_common::str::OsStrExt;
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
@@ -62,7 +62,6 @@ pub(crate) trait ReleaseAsyncTrait {
 
 #[derive(Debug)]
 pub(crate) struct ReleaseService {
-    pub(crate) config: Option<Arc<Config>>,
     pub(crate) container: Option<Arc<DIContainer>>,
 }
 
@@ -70,25 +69,23 @@ unsafe impl Send for ReleaseService {}
 
 unsafe impl Sync for ReleaseService {}
 
-impl ServiceTrait for ReleaseService {
-    fn set_shared_properties(&mut self, config: Arc<Config>, container: Arc<DIContainer>) {
-        self.config = Some(config);
-        self.container = Some(container);
+impl ServiceTrait for ReleaseService {}
+
+impl DependencyInjectTrait for ReleaseService {
+    fn inject(&mut self, container: Arc<DIContainer>) {
+        self.container = Some(container)
     }
 }
 
 impl ReleaseService {
     pub(crate) fn new() -> Self {
-        Self {
-            config: None,
-            container: None,
-        }
+        Self { container: None }
     }
 
     pub(crate) async fn get_latest(&self, pkg: Package) -> Result<Release> {
         debug!("Getting the latest release: {}", pkg);
 
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
         task::spawn(async move {
@@ -108,11 +105,8 @@ impl ReleaseTrait for ReleaseService {
     fn current(&self, pkg: &Package) -> Result<Release> {
         debug!("Getting the current release: {}", &pkg);
 
-        let f = self
-            .config
-            .as_ref()
-            .unwrap()
-            .current_pkg_manifest_file(pkg)?;
+        let config = self.container.get::<Config>().unwrap();
+        let f = config.current_pkg_manifest_file(pkg)?;
         let f = File::open(f)?;
 
         // add linked executables in the release
@@ -126,7 +120,7 @@ impl ReleaseTrait for ReleaseService {
     fn clean_current(&self, release: &Release) -> Result<()> {
         debug!("Making {} not the current release", release);
 
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let p = config.installed_pkg_manifest_file(&release.package, &release.version)?;
         let f = File::open(&p)?;
@@ -141,7 +135,7 @@ impl ReleaseTrait for ReleaseService {
     fn reset_current(&self, pkg: &Package) -> Result<()> {
         info!("Cleaning {} from the current manifests", &pkg);
 
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let current_dir = config.current_pkg_dir(&pkg)?;
         let current_bin_dir = config.current_pkg_bin_dir(&pkg)?;
@@ -202,7 +196,7 @@ impl ReleaseTrait for ReleaseService {
         release: &Release,
         file: &PathBuf,
     ) -> Result<Option<String>> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let mut exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
 
         // if exec_templates specified, ignore not matched files
@@ -293,7 +287,7 @@ impl ReleaseTrait for ReleaseService {
     }
 
     fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let mut exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
 
         // update linked exec name according to executable_mappings if it exists
@@ -317,7 +311,7 @@ impl ReleaseTrait for ReleaseService {
     }
 
     fn get_executables_for_current(&self, pkg: &Package) -> Result<Vec<String>> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let mut results: Vec<String> = vec![];
 
         let pkg_dir = config.current_pkg_dir(&pkg)?;
@@ -370,8 +364,9 @@ impl ReleaseTrait for ReleaseService {
             ));
         }
 
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let p = config.installed_pkg_dir(&release.package, &release.version)?;
+
         Ok(remove_dir_all(p)?)
     }
 }
@@ -385,7 +380,7 @@ impl ReleaseAsyncTrait for ReleaseService {
     ) -> Result<()> {
         info!("Downloading github package artifacts {}", &package);
 
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let version = &package_github.tag_name;
         let pkg_mgmt = package.target()?;
@@ -561,7 +556,7 @@ impl ReleaseAsyncTrait for ReleaseService {
     async fn set_current(&self, release: &mut Release) -> Result<Vec<String>> {
         info!("Setting the current release: {}", &release);
 
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         release.current = true;
         release.name = release.package.name.clone();
 
@@ -674,9 +669,8 @@ impl ItemOperationTrait for ReleaseService {
     fn delete(&self, name: &str) -> Result<()> {
         info!("Deleting releases of package {}", name);
 
-        let config = self.config.as_ref().unwrap();
-        let container = self.container.as_ref().unwrap();
-        let pkg_service = container.get::<PackageService>().unwrap();
+        let config = self.container.get::<Config>().unwrap();
+        let pkg_service = self.container.get::<PackageService>().unwrap();
 
         let pkg = pkg_service.get(name)?;
         self.reset_current(&pkg)?;
@@ -688,8 +682,7 @@ impl ItemOperationTrait for ReleaseService {
     fn list(&self) -> Result<Vec<Self::ItemInstance>> {
         debug!("Getting all current releases");
 
-        let config = self.config.as_ref().unwrap();
-        let container = self.container.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let mut releases: Vec<Release> = vec![];
 
         let index_f = config.current_index_file()?;
@@ -698,7 +691,7 @@ impl ItemOperationTrait for ReleaseService {
         }
         let index_f = File::open(index_f)?;
 
-        let pkg_service = container.get::<PackageService>().unwrap();
+        let pkg_service = self.container.get::<PackageService>().unwrap();
         let indexes: Vec<ReleaseIndex> = serde_yaml::from_reader(index_f)?;
 
         for ri in indexes {
@@ -736,7 +729,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
     async fn update(&self, obj: &Self::Item_) -> Result<Self::ItemInstance_> {
         info!("Updating release from package: {}", &obj);
 
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
         // get the release from github
@@ -780,7 +773,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
     async fn find(&self, pkg: &Self::Condition_) -> Result<Vec<Self::ItemInstance_>> {
         debug!("Finding releases by condition: {}", &pkg);
 
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let mut releases: Vec<Release> = vec![];
 

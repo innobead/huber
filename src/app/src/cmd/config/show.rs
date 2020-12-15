@@ -2,15 +2,16 @@ use std::io::stdout;
 
 use async_trait::async_trait;
 use clap::{App, ArgMatches};
+use simpledi_rs::di::DIContainer;
+use simpledi_rs::di::DIContainerTrait;
 
-use huber_common::di::DIContainer;
 use huber_common::model::config::Config;
 use huber_common::output::factory::FactoryConsole;
+use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::config::{ConfigService, ConfigTrait};
-use huber_common::output::OutputTrait;
 
 pub(crate) const CMD_NAME: &str = "show";
 

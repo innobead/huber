@@ -4,8 +4,8 @@ use std::sync::Arc;
 use async_trait::async_trait;
 use semver::Version;
 
-use huber_common::di::DIContainer;
 use huber_common::model::config::{Config, ConfigPath};
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use huber_common::result::Result;
 
@@ -25,7 +25,6 @@ pub(crate) trait UpdateAsyncTrait {
 
 #[derive(Debug)]
 pub(crate) struct UpdateService {
-    pub(crate) config: Option<Arc<Config>>,
     pub(crate) container: Option<Arc<DIContainer>>,
 }
 
@@ -33,25 +32,23 @@ unsafe impl Send for UpdateService {}
 
 unsafe impl Sync for UpdateService {}
 
-impl ServiceTrait for UpdateService {
-    fn set_shared_properties(&mut self, config: Arc<Config>, container: Arc<DIContainer>) {
-        self.config = Some(config);
+impl ServiceTrait for UpdateService {}
+
+impl DependencyInjectTrait for UpdateService {
+    fn inject(&mut self, container: Arc<DIContainer>) {
         self.container = Some(container);
     }
 }
 
 impl UpdateService {
     pub(crate) fn new() -> Self {
-        Self {
-            config: None,
-            container: None,
-        }
+        Self { container: None }
     }
 }
 
 impl UpdateTrait for UpdateService {
     fn reset(&self) -> Result<()> {
-        let config = self.config.as_ref().unwrap();
+        let config = self.container.get::<Config>().unwrap();
 
         let bin_dir_path = config.bin_dir()?;
         if bin_dir_path.exists() {
@@ -80,9 +77,8 @@ impl UpdateTrait for UpdateService {
 #[async_trait]
 impl UpdateAsyncTrait for UpdateService {
     async fn has_update(&self) -> Result<(bool, String)> {
-        let container = self.container.as_ref().unwrap();
-        let pkg_service = container.get::<PackageService>().unwrap();
-        let release_service = container.get::<ReleaseService>().unwrap();
+        let pkg_service = self.container.get::<PackageService>().unwrap();
+        let release_service = self.container.get::<ReleaseService>().unwrap();
 
         let current_version = env!("HUBER_VERSION").trim_start_matches("v");
         let pkg = pkg_service.get("huber")?;
@@ -97,9 +93,8 @@ impl UpdateAsyncTrait for UpdateService {
     }
 
     async fn update(&self) -> Result<()> {
-        let container = self.container.as_ref().unwrap();
-        let pkg_service = container.get::<PackageService>().unwrap();
-        let release_service = container.get::<ReleaseService>().unwrap();
+        let pkg_service = self.container.get::<PackageService>().unwrap();
+        let release_service = self.container.get::<ReleaseService>().unwrap();
 
         let mut pkg = pkg_service.get("huber")?;
         let release = release_service.get_latest(pkg.clone()).await?;
