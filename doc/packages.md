@@ -47,6 +47,7 @@
  ketch           Ketch is an application delivery framework that facilitates the deployment and management of applica...  https://github.com/shipa-corp/ketch 
  kind            Kubernetes IN Docker - local clusters for testing Kubernetes                                             https://github.com/kubernetes-sigs/kind 
  ko              Build and deploy Go applications on Kubernetes                                                           https://github.com/google/ko 
+ kompose         Go from Docker Compose to Kubernetes                                                                     https://github.com/kubernetes/kompose 
  kpt                                                                                                                      https://github.com/GoogleContainerTools/kpt 
  krew            📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
  kube-bench      Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 

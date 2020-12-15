@@ -135,6 +135,9 @@
 - name: ko
   owner: google
   source: github
+- name: kompose
+  owner: kubernetes
+  source: github
 - name: kpt
   owner: GoogleContainerTools
   source: github

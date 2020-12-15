@@ -44,6 +44,7 @@ pub mod k9s;
 pub mod ketch;
 pub mod kind;
 pub mod ko;
+pub mod kompose;
 pub mod kpt;
 pub mod krew;
 pub mod kube_bench;

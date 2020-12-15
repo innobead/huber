@@ -159,6 +159,7 @@ fn releases() -> Vec<Package> {
         flux2::release(),
         argocd::release(),
         ketch::release(),
+        kompose::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
