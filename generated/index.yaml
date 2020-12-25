@@ -84,6 +84,9 @@
 - name: helm
   owner: helm
   source: github
+- name: hetty
+  owner: dstotijn
+  source: github
 - name: hub
   owner: github
   source: github
@@ -218,6 +221,9 @@
   source: github
 - name: rke2
   owner: rancher
+  source: github
+- name: shadowsocks
+  owner: shadowsocks
   source: github
 - name: skaffold
   owner: GoogleContainerTools

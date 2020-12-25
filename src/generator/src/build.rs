@@ -105,10 +105,12 @@ fn releases() -> Vec<Package> {
         dive::release(),
         wasme::release(),
         hyperfine::release(),
+        hetty::release(),
         // infra
         pulumi::release(),
         chisel::release(),
         go_http_tunnel::release(),
+        shadowsocks::release(),
         // app development
         okteto::release(),
         skaffold::release(),

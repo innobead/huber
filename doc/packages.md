@@ -30,6 +30,7 @@
  go-http-tunnel  Fast and secure tunnels over HTTP/2                                                                      https://github.com/mmatczuk/go-http-tunnel 
  gping           Ping, but with a graph                                                                                   https://github.com/orf/gping 
  helm            The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
+ hetty           Hetty is an HTTP toolkit for security research.                                                          https://github.com/dstotijn/hetty 
  hub             A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
  huber           Huber 📦,  simplify `GitHub release` package management with a live awesome list of GitHub project...    https://github.com/innobead/huber 
  hyperfine       A command-line benchmarking tool                                                                         https://github.com/sharkdp/hyperfine 
@@ -75,6 +76,7 @@
  ripgrep         ripgrep recursively searches directories for a regex pattern while respecting your gitignore             https://github.com/BurntSushi/ripgrep 
  rke             Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that ru...  https://github.com/rancher/rke 
  rke2                                                                                                                     https://github.com/rancher/rke2 
+ shadowsocks     A Rust port of shadowsocks                                                                               https://github.com/shadowsocks/shadowsocks-rust 
  skaffold        Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  sonobuoy        Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
  ssvm            SSVM is a high performance, extensible, and hardware optimized WebAssembly Virtual Machine for cloud...  https://github.com/second-state/SSVM 
