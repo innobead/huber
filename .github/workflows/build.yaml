@@ -3,10 +3,6 @@ name: Build
 on:
   workflow_dispatch:
     inputs:
-  pull_request:
-  push:
-    branches:
-      - master
 
 jobs:
   build-linux-x86_64:

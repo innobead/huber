@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-linux-x86_64:
+    name: Build for Linux x86_64
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup build environment
+        run: make setup-dev
+
+      - name: Run tests
+        run: make test
+
+      - name: Build all artifacts
+        run: make build
