@@ -106,6 +106,7 @@ fn releases() -> Vec<Package> {
         wasme::release(),
         hyperfine::release(),
         hetty::release(),
+        czkawka::release(),
         // infra
         pulumi::release(),
         chisel::release(),

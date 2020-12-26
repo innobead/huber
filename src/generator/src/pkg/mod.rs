@@ -8,6 +8,7 @@ pub mod consul;
 pub mod containerd;
 pub mod copilot_cli;
 pub mod ctlptl;
+pub mod czkawka;
 pub mod dasel;
 pub mod deno;
 pub mod direnv;

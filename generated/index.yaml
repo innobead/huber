@@ -30,6 +30,9 @@
 - name: ctlptl
   owner: tilt-dev
   source: github
+- name: czkawka
+  owner: qarmin
+  source: github
 - name: dasel
   owner: TomWright
   source: github

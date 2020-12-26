@@ -3,23 +3,19 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "ali".to_string(),
+        name: "czkawka".to_string(),
         source: PackageSource::Github {
-            owner: "nakabonne".to_string(),
-            repo: "ali".to_string(),
+            owner: "qarmin".to_string(),
+            repo: "czkawka".to_string(),
         },
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["ali_{version}_linux_amd64.tar.gz".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
-            }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["ali_{version}_linux_arm64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "{version}/linux_czkawka_cli".to_string(),
+                    "{version}/linux_czkawka_gui".to_string(),
+                    "{version}/linux_czkawka_gui.AppImage".to_string(),
+                ],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -27,7 +23,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["ali_{version}_darwin_amd64.tar.gz".to_string()],
+                artifact_templates: vec!["{version}/mac_czkawka_cli".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -35,7 +31,7 @@ pub fn release() -> Package {
                 upgrade_commands: None,
             }),
             PackageTargetType::Windows(PackageManagement {
-                artifact_templates: vec!["ali_{version}_windows_amd64.tar.gz".to_string()],
+                artifact_templates: vec!["{version}/windows_czkawka_cli.exe".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,

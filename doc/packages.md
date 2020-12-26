@@ -12,6 +12,7 @@
  containerd      An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
  copilot-cli     The AWS Copilot CLI is a tool for developers to build, release and operate production ready containe...  https://github.com/aws/copilot-cli 
  ctlptl          Making local Kubernetes clusters fun and easy to set up                                                  https://github.com/tilt-dev/ctlptl 
+ czkawka         Multi functional app to find duplicates, empty folders, similar images etc.                              https://github.com/qarmin/czkawka 
  dasel           Query, update and convert data structures from the command line. Comparable to jq/yq but supports JS...  https://github.com/TomWright/dasel 
  deno            A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
  direnv          unclutter your .profile                                                                                  https://github.com/direnv/direnv 
