@@ -48,6 +48,9 @@
 - name: drone-cli
   owner: drone
   source: github
+- name: eksctl
+  owner: weaveworks
+  source: github
 - name: exa
   owner: ogham
   source: github

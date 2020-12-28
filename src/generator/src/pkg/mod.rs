@@ -14,6 +14,7 @@ pub mod deno;
 pub mod direnv;
 pub mod dive;
 pub mod drone_cli;
+pub mod eksctl;
 pub mod exa;
 pub mod faas_cli;
 pub mod fd;
