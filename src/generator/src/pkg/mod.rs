@@ -86,6 +86,7 @@ pub mod starship;
 pub mod stern;
 pub mod submariner;
 pub mod syncthing;
+pub mod termshark;
 pub mod terraform;
 pub mod tilt;
 pub mod tokei;

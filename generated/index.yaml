@@ -261,6 +261,9 @@
 - name: syncthing
   owner: syncthing
   source: github
+- name: termshark
+  owner: gcla
+  source: github
 - name: terraform
   owner: hashicorp
   source: github

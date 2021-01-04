@@ -89,6 +89,7 @@
  stern           ⎈ Multi pod and container log tailing for Kubernetes                                                     https://github.com/wercker/stern 
  submariner      Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
  syncthing       Open Source Continuous File Synchronization                                                              https://github.com/syncthing/syncthing 
+ termshark       A terminal UI for tshark, inspired by Wireshark                                                          https://github.com/gcla/termshark 
  terraform       Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
  tilt            A multi-service dev environment for teams on Kubernetes                                                  https://github.com/tilt-dev/tilt 
  tokei           Count your code, quickly.                                                                                https://github.com/XAMPPRocky/tokei 
