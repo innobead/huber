@@ -33,7 +33,7 @@ impl ConfigUpdateCmd {
 impl<'a, 'b> CommandTrait<'a, 'b> for ConfigUpdateCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME)
-            .visible_alias("a")
+            .visible_alias("u")
             .about("Updates the configuration")
     }
 }

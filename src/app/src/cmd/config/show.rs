@@ -31,7 +31,7 @@ impl ConfigShowCmd {
 impl<'a, 'b> CommandTrait<'a, 'b> for ConfigShowCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME)
-            .visible_alias("rm")
+            .visible_alias("s")
             .about("Shows the configuration")
     }
 }

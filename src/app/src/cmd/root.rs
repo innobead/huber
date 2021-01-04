@@ -1,9 +1,9 @@
 use async_trait::async_trait;
 use clap::{crate_name, App, Arg, ArgMatches};
+use simpledi_rs::di::DIContainer;
 
 use huber_common::model::config::Config;
 use huber_common::result::Result;
-use simpledi_rs::di::DIContainer;
 
 use crate::cmd::config::{ARG_GITHUB_KEY, ARG_GITHUB_TOKEN, ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
 use crate::cmd::{CommandAsyncTrait, CommandTrait};

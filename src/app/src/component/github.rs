@@ -2,7 +2,8 @@ use std::fs::remove_dir_all;
 use std::path::{Path, PathBuf};
 
 use async_trait::async_trait;
-use git2::{Cred, FetchOptions, RemoteCallbacks, Repository};
+
+use git2::{Cred, ErrorCode, FetchOptions, RemoteCallbacks, Repository};
 use hubcaps::{Credentials, Github};
 use log::{debug, info};
 
@@ -57,7 +58,7 @@ impl GithubClient {
     }
 
     fn clone_fresh<P: AsRef<Path> + Send>(&self, url: &str, dir: P) -> Result<Repository> {
-        if let Some(key) = self.github_key.as_ref() {
+        let clone_repo_by_key = |key: &PathBuf| -> Result<Repository> {
             if key.exists() {
                 info!("Cloning huber repo via SSH");
 
@@ -67,14 +68,36 @@ impl GithubClient {
                 builder.fetch_options(fetch_options);
 
                 return Ok(builder.clone(&url, dir.as_ref())?);
-            } else {
-                info!("The configured github key not found, {:?}", key);
             }
+
+            Err(anyhow!("The configured github key not found, {:?}", key))
+        };
+
+        if let Some(key) = self.github_key.as_ref() {
+            return clone_repo_by_key(key);
         }
 
         info!("Cloning huber repo via https");
         //Note: if encountering authentication required, probably hit this issue https://github.com/rust-lang/git2-rs/issues/463
-        Ok(Repository::clone(&url, &dir)?)
+        match Repository::clone(&url, &dir) {
+            Err(err) => {
+                if err.code() == ErrorCode::GenericError
+                    && err
+                        .message()
+                        .contains("authentication required but no callback set")
+                {
+                    debug!("Failed to clone huber repo due to the SSH key required as per the user git config");
+                    info!("Using the default user key path to try cloning huber repo again");
+
+                    let p = dirs::home_dir().unwrap().join(".ssh").join("id_rsa");
+                    clone_repo_by_key(&p)
+                } else {
+                    Err(anyhow!(err))
+                }
+            }
+
+            Ok(repo) => Ok(repo),
+        }
     }
 
     fn fetch_merge_repo<P: AsRef<Path>>(&self, dir: P) -> Result<()> {
