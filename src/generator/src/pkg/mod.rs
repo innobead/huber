@@ -3,6 +3,7 @@ pub mod argocd;
 pub mod arkade;
 pub mod bat;
 pub mod chisel;
+pub mod cloak;
 pub mod conftest;
 pub mod consul;
 pub mod containerd;

@@ -15,6 +15,9 @@
 - name: chisel
   owner: jpillora
   source: github
+- name: cloak
+  owner: evansmurithi
+  source: github
 - name: conftest
   owner: open-policy-agent
   source: github

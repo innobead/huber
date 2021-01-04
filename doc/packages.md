@@ -7,6 +7,7 @@
  arkade          Portable DevOps Marketplace                                                                              https://github.com/alexellis/arkade 
  bat             A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  chisel          A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
+ cloak           A Command Line OTP Authenticator application.                                                            https://github.com/evansmurithi/cloak 
  conftest        Write tests against structured configuration data using the Open Policy Agent Rego query language        https://github.com/open-policy-agent/conftest 
  consul          Consul is a distributed, highly available, and data center aware solution to connect and configure a...  https://github.com/hashicorp/consul 
  containerd      An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
