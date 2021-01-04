@@ -37,6 +37,7 @@ pub mod hyperfine;
 pub mod ignite;
 pub mod img;
 pub mod istio;
+pub mod jq;
 pub mod jwt_cli;
 pub mod k0s;
 pub mod k3ai;

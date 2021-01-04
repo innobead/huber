@@ -108,6 +108,7 @@ fn releases() -> Vec<Package> {
         hetty::release(),
         czkawka::release(),
         cloak::release(),
+        jq::release(),
         // infra
         pulumi::release(),
         chisel::release(),

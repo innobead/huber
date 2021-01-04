@@ -114,6 +114,9 @@
 - name: istio
   owner: istio
   source: github
+- name: jq
+  owner: stedolan
+  source: github
 - name: jwt-cli
   owner: mike-engel
   source: github
