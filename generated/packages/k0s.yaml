@@ -9,8 +9,11 @@ source:
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "k0s-{version}-amd64"
+        - "k0s-v{version}-amd64"
   - LinuxArm64:
       artifact_templates:
-        - "k0s-{version}-arm64"
+        - "k0s-v{version}-arm64"
+  - Windows:
+      artifact_templates:
+        - "k0s-v{version}-amd64.exe"
 detail: ~
