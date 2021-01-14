@@ -288,6 +288,9 @@
 - name: velero
   owner: vmware-tanzu
   source: github
+- name: volta
+  owner: volta-cli
+  source: github
 - name: wasme
   owner: solo-io
   source: github
