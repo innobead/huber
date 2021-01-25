@@ -56,6 +56,7 @@ pub mod kube_bench;
 pub mod kubectl;
 pub mod kubefire;
 pub mod kudo;
+pub mod kustomize;
 pub mod kuttl;
 pub mod lens;
 pub mod minikube;

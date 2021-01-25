@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: kustomize
+description: Customization of kubernetes YAML configurations
+source:
+  Github:
+    owner: kubernetes-sigs
+    repo: kustomize
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "kustomize_v{version}_linux_amd64.tar.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "kustomize_v{version}_linux_arm64.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "kustomize_v{version}_darwin_amd64.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "kustomize_v{version}_windows_amd64.tar.gz"
+detail: ~

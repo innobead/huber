@@ -4,7 +4,7 @@
  Name            Description                                                                                              Source 
  ali             Generate HTTP load and plot the results in real-time                                                     https://github.com/nakabonne/ali 
  argocd          Declarative continuous deployment for Kubernetes.                                                        https://github.com/argoproj/argo-cd 
- arkade          Portable DevOps Marketplace                                                                              https://github.com/alexellis/arkade 
+ arkade          Open Source Kubernetes Marketplace                                                                       https://github.com/alexellis/arkade 
  bat             A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  chisel          A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  cloak           A Command Line OTP Authenticator application.                                                            https://github.com/evansmurithi/cloak 
@@ -59,6 +59,7 @@
  kubectl         Production-Grade Container Scheduling and Management                                                     https://github.com/kubernetes/kubernetes 
  kubefire        KubeFire 🔥, creates and manages Kubernetes Clusters using Firecracker microVMs                          https://github.com/innobead/kubefire 
  kudo            Kubernetes Universal Declarative Operator (KUDO)                                                         https://github.com/kudobuilder/kudo 
+ kustomize       Customization of kubernetes YAML configurations                                                          https://github.com/kubernetes-sigs/kustomize 
  kuttl           KUbernetes Test TooL (kuttl)                                                                             https://github.com/kudobuilder/kuttl 
  lens            Lens - The Kubernetes IDE                                                                                https://github.com/lensapp/lens 
  minikube        Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 

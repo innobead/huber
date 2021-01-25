@@ -133,6 +133,7 @@ fn releases() -> Vec<Package> {
         helm::release(),
         kubefire::release(),
         kubectl::release(),
+        kustomize::release(),
         k3s::release(),
         k3sup::release(),
         k3ai::release(),

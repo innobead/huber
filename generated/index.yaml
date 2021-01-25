@@ -171,6 +171,9 @@
 - name: kudo
   owner: kudobuilder
   source: github
+- name: kustomize
+  owner: kubernetes-sigs
+  source: github
 - name: kuttl
   owner: kudobuilder
   source: github
