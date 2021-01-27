@@ -2,6 +2,8 @@ use std::collections::HashMap;
 use std::{env, fmt};
 
 use hubcaps::releases::Release as HubcapsRelease;
+use log::{error, warn};
+use regex::Regex;
 use serde::export::fmt::Display;
 use serde::export::Formatter;
 use serde::{Deserialize, Serialize};
@@ -69,6 +71,8 @@ pub struct PackageManagement {
     pub uninstall_commands: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub upgrade_commands: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tag_version_regex_template: Option<String>, // only keep the {version} part
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -139,11 +143,10 @@ impl Package {
         // https://doc.rust-lang.org/std/env/consts/index.html
         let os = env::consts::OS;
         let arch = env::consts::ARCH;
-
         let e = anyhow!("Unsupported OS {} or ARCH {}", os, arch);
 
-        if os == "linux" {
-            return match arch {
+        match os {
+            "linux" => match arch {
                 "x86_64" => self
                     .targets
                     .iter()
@@ -169,11 +172,9 @@ impl Package {
                     .ok_or(e),
 
                 _ => Err(e),
-            };
-        }
+            },
 
-        if os == "macos" {
-            return self
+            "macos" => self
                 .targets
                 .iter()
                 .find_map(|it| {
@@ -183,11 +184,9 @@ impl Package {
                         None
                     }
                 })
-                .ok_or(e);
-        }
+                .ok_or(e),
 
-        if os == "windows" {
-            return self
+            "windows" => self
                 .targets
                 .iter()
                 .find_map(|it| {
@@ -197,10 +196,43 @@ impl Package {
                         None
                     }
                 })
-                .ok_or(e);
-        }
+                .ok_or(e),
 
-        Err(e)
+            _ => Err(e),
+        }
+    }
+
+    pub fn parse_version_from_tag_name(&self, tag_name: &String) -> Result<String> {
+        let version = if let Some(ref str) = self.target()?.tag_version_regex_template {
+            let mut version = String::new();
+            let regex = Regex::new(&format!(r"{}", str)).unwrap();
+
+            if let Some(c) = regex.captures(tag_name) {
+                if let Some(m) = c.get(1) {
+                    version = m.as_str().to_string();
+                } else {
+                    error!(
+                        "Failed to capture the version from {} due to the missing captured group 1",
+                        tag_name.clone()
+                    );
+                }
+            } else {
+                warn!(
+                    "Failed to capture the version from {}, because it's possibly qualified",
+                    tag_name
+                );
+            }
+
+            if version.is_empty() {
+                tag_name.clone()
+            } else {
+                version
+            }
+        } else {
+            tag_name.clone()
+        };
+
+        Ok(version)
     }
 }
 

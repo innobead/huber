@@ -19,6 +19,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec![
@@ -29,6 +30,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["ssvmup-v{version}-x86_64-apple-darwin.tar.gz".to_string()],
@@ -37,6 +39,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec![
@@ -47,6 +50,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
         ],
         version: None,

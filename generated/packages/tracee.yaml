@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: tracee
-description: "Container and system event tracing using eBPF "
+description: Linux Runtime Security and Forensics using eBPF
 source:
   Github:
     owner: aquasecurity

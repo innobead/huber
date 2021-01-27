@@ -17,6 +17,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["vegeta_{version}_darwin_amd64.tar.gz".to_string()],
@@ -25,6 +26,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
         ],
         version: None,

@@ -17,6 +17,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["{version}/ketch-darwin-amd64".to_string()],
@@ -25,6 +26,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 executable_mappings: None,
+                tag_version_regex_template: None,
             }),
         ],
         version: None,

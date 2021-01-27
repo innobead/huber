@@ -19,6 +19,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["{version}/jq-osx-amd64".to_string()],
@@ -29,6 +30,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["{version}/jq-win64.exe".to_string()],
@@ -39,6 +41,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
         ],
         version: None,

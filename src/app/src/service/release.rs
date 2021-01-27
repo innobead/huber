@@ -13,6 +13,7 @@ use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
 use log::{debug, info};
 use semver::Version;
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
 use tokio::task;
 use url::Url;
@@ -24,7 +25,6 @@ use huber_common::model::package::{GithubPackage, Package, PackageDetailType, Pa
 use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 use huber_common::str::OsStrExt;
-use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
@@ -381,10 +381,10 @@ impl ReleaseAsyncTrait for ReleaseService {
         info!("Downloading github package artifacts {}", &package);
 
         let config = self.container.get::<Config>().unwrap();
+        let version = package.parse_version_from_tag_name(&package_github.tag_name)?;
 
-        let version = &package_github.tag_name;
-        let pkg_mgmt = package.target()?;
-        let mut asset_names: Vec<String> = pkg_mgmt
+        let mut asset_names: Vec<String> = package
+            .target()?
             .artifact_templates
             .iter()
             .map(|it| it.replace("{version}", &version.trim_start_matches("v")))
@@ -473,37 +473,35 @@ impl ReleaseAsyncTrait for ReleaseService {
                         &download_file_path
                     ),
 
-                    Some(ext) => {
-                        if ext.to_str().unwrap() == "exe" {
-                            info!(
-                                "Ignored {:?}, because it is not archived and w/ suffix 'exe'",
-                                &download_file_path
-                            );
-                            return Ok(());
-                        }
+                    Some(ext) if ext.to_str().unwrap() == "exe" => {
+                        info!(
+                            "Ignored {:?}, because it is not archived and w/ suffix 'exe'",
+                            &download_file_path
+                        );
+                    }
 
+                    Some(ext) => {
                         // uncompress
                         info!("Decompressing {} which has extension {:?}", filename, ext);
 
                         let extract_dir = download_file_path.join("extract");
-                        let download_f = File::open(&download_file_path)?;
+                        let download_file = File::open(&download_file_path)?;
 
-                        info!("Decompressing {:?} to {:?}", &download_f, &extract_dir);
-                        uncompress_archive(&download_f, &extract_dir, Ownership::Ignore)?;
+                        info!("Decompressing {:?} to {:?}", &download_file, &extract_dir);
+                        uncompress_archive(&download_file, &extract_dir, Ownership::Ignore)?;
 
                         let dir = read_dir(&extract_dir)?;
-                        let mut extra_content_dir = extract_dir.clone();
+                        let mut extract_content_dir = PathBuf::new();
                         if dir.count() == 1 {
                             let dir = read_dir(&extract_dir)?;
                             let entry = dir.into_iter().next().unwrap()?;
-                            extra_content_dir = entry.path();
+                            extract_content_dir = entry.path();
                         }
 
-                        let mut extra_links: HashMap<PathBuf, PathBuf> = hashmap! {};
-                        let items_to_copy: Vec<PathBuf> = if extra_content_dir.is_dir() {
-                            info!("Moving {:?}/* to {:?}", &extra_content_dir, &pkg_dir);
-
-                            extra_content_dir
+                        let mut symbolic_links: HashMap<PathBuf, PathBuf> = hashmap! {};
+                        let items_to_copy: Vec<PathBuf> = if extract_content_dir.is_dir() {
+                            info!("Moving {:?}/* to {:?}", &extract_content_dir, &pkg_dir);
+                            extract_content_dir
                                 .read_dir()?
                                 .filter_map(|it| {
                                     let p = it.unwrap().path();
@@ -512,23 +510,25 @@ impl ReleaseAsyncTrait for ReleaseService {
                                         Ok(src_link) => {
                                             let dest_link = pkg_dir
                                                 .join(p.file_name().unwrap().to_str_direct());
-                                            extra_links.insert(dest_link, src_link.clone());
+                                            symbolic_links.insert(dest_link, src_link.clone());
+
                                             None
                                         }
+
                                         Err(_) => Some(p),
                                     }
                                 })
                                 .collect()
                         } else {
-                            info!("Moving {:?} to {:?}", &extra_content_dir, &pkg_dir);
-                            vec![extra_content_dir]
+                            info!("Moving {:?} to {:?}", &extract_content_dir, &pkg_dir);
+                            vec![extract_content_dir]
                         };
 
                         let mut option = fs_extra::dir::CopyOptions::new();
                         option.overwrite = true;
                         move_items(&items_to_copy, &pkg_dir, &option)?;
 
-                        for (dest_link, src_link) in extra_links {
+                        for (dest_link, src_link) in symbolic_links {
                             info!("Add extra linked files {:?} to {:?}", src_link, dest_link);
                             symlink_file(src_link, dest_link)?
                         }
@@ -546,6 +546,7 @@ impl ReleaseAsyncTrait for ReleaseService {
 
                 Ok(())
             };
+
             tasks.push(task);
         }
 
@@ -568,10 +569,12 @@ impl ReleaseAsyncTrait for ReleaseService {
             "Removing the current release symbolic links: {}",
             &release.package
         );
+
         self.reset_current(&release.package)?;
 
         // update current symlink
         info!("Updating the current release symbolic links: {}", &release);
+
         let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
         symlink_dir(&source, &current_pkg_dir)?;
 
@@ -579,6 +582,7 @@ impl ReleaseAsyncTrait for ReleaseService {
             "Updating the current release bin symbolic links: {}",
             &release
         );
+
         let mut linked_exe_files: Vec<String> = vec![];
         let scan_dirs = vec![&current_pkg_dir, &current_bin_dir];
         for dir in scan_dirs {

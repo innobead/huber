@@ -17,6 +17,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["subctl-v{version}-linux-arm64.tar.xz".to_string()],
@@ -25,6 +26,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["subctl-v{version}-darwin-amd64.tar.xz".to_string()],
@@ -33,6 +35,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["subctl-v{version}-windows-amd64.exe.tar.xz".to_string()],
@@ -41,6 +44,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
         ],
         version: None,

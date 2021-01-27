@@ -17,6 +17,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 executable_mappings: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["trivy_{version}_Linux-ARM64.tar.gz".to_string()],
@@ -25,6 +26,7 @@ pub fn release() -> Package {
                 install_commands: None,
                 uninstall_commands: None,
                 upgrade_commands: None,
+                tag_version_regex_template: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["trivy_{version}_macOS-64bit.tar.gz".to_string()],
@@ -33,6 +35,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 executable_mappings: None,
+                tag_version_regex_template: None,
             }),
         ],
         version: None,

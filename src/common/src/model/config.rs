@@ -176,16 +176,22 @@ impl ConfigPath for Config {
     }
 
     fn installed_pkg_dir(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
+        let version = pkg.parse_version_from_tag_name(&version.to_string())?;
+
         dir(self.installed_pkg_base_dir(&pkg)?.join(version))
     }
 
     fn installed_pkg_bin_dir(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
-        dir(self.installed_pkg_dir(pkg, version)?.join("bin"))
+        let version = pkg.parse_version_from_tag_name(&version.to_string())?;
+
+        dir(self.installed_pkg_dir(pkg, &version)?.join("bin"))
     }
 
     fn installed_pkg_manifest_file(&self, pkg: &Package, version: &str) -> Result<PathBuf> {
+        let version = pkg.parse_version_from_tag_name(&version.to_string())?;
+
         Ok(self
-            .installed_pkg_dir(pkg, version)?
+            .installed_pkg_dir(pkg, &version)?
             .join(&pkg.name)
             .with_extension("yaml"))
     }

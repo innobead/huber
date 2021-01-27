@@ -94,7 +94,7 @@
  terraform       Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
  tilt            A multi-service dev environment for teams on Kubernetes                                                  https://github.com/tilt-dev/tilt 
  tokei           Count your code, quickly.                                                                                https://github.com/XAMPPRocky/tokei 
- tracee          Container and system event tracing using eBPF                                                            https://github.com/aquasecurity/tracee 
+ tracee          Linux Runtime Security and Forensics using eBPF                                                          https://github.com/aquasecurity/tracee 
  trivy           A Simple and Comprehensive Vulnerability Scanner for Containers, Suitable for CI                         https://github.com/aquasecurity/trivy 
  typescript      TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
  vegeta          HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
