@@ -84,7 +84,7 @@ jobs:
           done < <(find ./.target -print0)
 
           tag_name="${GITHUB_REF##*/}"
-          tag_name="$(hub release -d)"
+          tag_name="$(hub release -d | head -n 1 | tr -d '\n')"
           hub release edit -d "${assets[@]}" -m "" "$tag_name"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -117,7 +117,7 @@ jobs:
           done < <(find ./.target -print0)
 
           tag_name="${GITHUB_REF##*/}"
-          tag_name="$(hub release -d)"
+          tag_name="$(hub release -d | head -n 1 | tr -d '\n')"
           hub release edit -d "${assets[@]}" -m "" "$tag_name"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
