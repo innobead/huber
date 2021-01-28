@@ -1,7 +1,6 @@
-use serde::export::Formatter;
 use serde::{Deserialize, Serialize};
 use std::fmt;
-use std::fmt::Display;
+use std::fmt::{Display, Formatter};
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Repository {

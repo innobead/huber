@@ -5,12 +5,11 @@ use hubcaps::releases::Release as HubcapsRelease;
 use log::{error, warn};
 use regex::Regex;
 use semver::Version;
-use serde::export::fmt::Display;
-use serde::export::Formatter;
 use serde::{Deserialize, Serialize};
 
 use crate::model::release::{ReleaseKind, VecExtensionTrait};
 use crate::result::Result;
+use std::fmt::{Display, Formatter};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Package {

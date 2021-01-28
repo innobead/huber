@@ -1,7 +1,6 @@
-use std::fmt::Formatter;
+use std::fmt;
+use std::fmt::{Display, Formatter};
 
-use serde::export::fmt;
-use serde::export::fmt::Display;
 use serde::{Deserialize, Serialize};
 
 use crate::model::package::{
@@ -29,7 +28,9 @@ pub struct Release {
     pub executables: Option<Vec<String>>,
     pub kind: Option<ReleaseKind>,
 }
+
 unsafe impl Send for Release {}
+
 unsafe impl Sync for Release {}
 
 #[derive(Debug, Copy, Clone, Serialize, Deserialize)]
