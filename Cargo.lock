@@ -723,6 +723,7 @@ dependencies = [
  "pretty_env_logger",
  "prettytable-rs",
  "regex 1.4.2",
+ "semver",
  "serde",
  "serde_json",
  "serde_yaml",

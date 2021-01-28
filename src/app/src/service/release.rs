@@ -221,7 +221,10 @@ impl ReleaseTrait for ReleaseService {
             .executable_mappings
             .unwrap_or(hashmap![]);
         if exec_mappings.len() > 0 {
-            if let Some(mapped_exec_name) = exec_mappings.get(&exec_filename) {
+            let regex = regex::Regex::new(r"(\d+.\d+.\d+)").unwrap();
+            let expected_exec_filename = regex.replace(&exec_filename, "{version}").to_string();
+
+            if let Some(mapped_exec_name) = exec_mappings.get(&expected_exec_filename) {
                 exec_filename = mapped_exec_name.clone();
             }
         }
@@ -491,7 +494,7 @@ impl ReleaseAsyncTrait for ReleaseService {
                         uncompress_archive(&download_file, &extract_dir, Ownership::Ignore)?;
 
                         let dir = read_dir(&extract_dir)?;
-                        let mut extract_content_dir = PathBuf::new();
+                        let mut extract_content_dir = extract_dir.clone();
                         if dir.count() == 1 {
                             let dir = read_dir(&extract_dir)?;
                             let entry = dir.into_iter().next().unwrap()?;

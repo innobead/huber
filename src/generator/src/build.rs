@@ -169,6 +169,8 @@ fn releases() -> Vec<Package> {
         ketch::release(),
         kompose::release(),
         eksctl::release(),
+        linkerd2_edge::release(),
+        linkerd2_stable::release(),
         // runtime
         containerd::release(),
         firecracker::release(),

@@ -180,6 +180,12 @@
 - name: lens
   owner: lensapp
   source: github
+- name: linkerd2-edge
+  owner: linkerd
+  source: github
+- name: linkerd2-stable
+  owner: linkerd
+  source: github
 - name: minikube
   owner: kubernetes
   source: github

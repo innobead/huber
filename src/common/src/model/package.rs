@@ -4,6 +4,7 @@ use std::{env, fmt};
 use hubcaps::releases::Release as HubcapsRelease;
 use log::{error, warn};
 use regex::Regex;
+use semver::Version;
 use serde::export::fmt::Display;
 use serde::export::Formatter;
 use serde::{Deserialize, Serialize};
@@ -216,17 +217,24 @@ impl Package {
                         tag_name.clone()
                     );
                 }
-            } else {
-                warn!(
-                    "Failed to capture the version from {}, because it's possibly qualified",
-                    tag_name
-                );
             }
 
-            if version.is_empty() {
-                tag_name.clone()
-            } else {
+            if !version.is_empty() {
                 version
+            } else {
+                if Version::parse(tag_name.trim_start_matches("v")).is_ok() {
+                    warn!(
+                        "Failed to capture the version from {}, because the tag name is a qualified version",
+                        tag_name
+                    );
+
+                    tag_name.clone()
+                } else {
+                    return Err(anyhow!(
+                        "No qualified version captured from tag name. {}",
+                        tag_name
+                    ));
+                }
             }
         } else {
             tag_name.clone()

@@ -2,7 +2,6 @@ use std::fs::remove_dir_all;
 use std::path::{Path, PathBuf};
 
 use async_trait::async_trait;
-
 use git2::{Cred, ErrorCode, FetchOptions, RemoteCallbacks, Repository};
 use hubcaps::{Credentials, Github};
 use log::{debug, info};
@@ -151,7 +150,14 @@ impl GithubClientTrait for GithubClient {
     async fn get_latest_release(&self, owner: &str, repo: &str, pkg: &Package) -> Result<Release> {
         debug!("Getting the latest release of package {}", &pkg);
 
-        let release = self.github.repo(owner, repo).releases().latest().await?;
+        let release = if pkg.target()?.tag_version_regex_template.is_none() {
+            self.github.repo(owner, repo).releases().latest().await?
+        } else {
+            self.github.repo(owner, repo).releases().list().await?.into_iter().find(|it| {
+                pkg.parse_version_from_tag_name(&it.tag_name).is_ok()
+            }).ok_or(anyhow!("Failed to find the matched latest version based on tag_version_regex_template {:?}", pkg))?
+        };
+
         let mut release = Release::from(release);
 
         release.name = pkg.name.clone();
