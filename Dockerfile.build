@@ -1,11 +1,11 @@
-FROM rust:1.48 as build
+FROM rust:1.49 as build
 WORKDIR /workspace
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 ARG BUILD_TARGET=debug
 ARG MAKE_TARGET=build
 COPY . /workspace
-RUN suffix=$(echo ${BUILDPLATFORM} | sed "s/\//-/g") && \
+RUN suffix=$(echo ${TARGETPLATFORM} | sed "s/\//-/g") && \
     apt update && \
     apt install -y sudo && \
     make setup-dev && \
