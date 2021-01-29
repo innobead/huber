@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: krustlet
+description: Kubernetes Rust Kubelet
+source:
+  Github:
+    owner: deislabs
+    repo: krustlet
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "https://krustlet.blob.core.windows.net/releases/krustlet-v{version}-linux-amd64.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "https://krustlet.blob.core.windows.net/releases/krustlet-v{version}-macos-amd64.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "https://krustlet.blob.core.windows.net/releases/krustlet-v{version}-windows-amd64.tar.gz"
+detail: ~

@@ -12,6 +12,9 @@
 - name: bat
   owner: sharkdp
   source: github
+- name: camel-k
+  owner: apache
+  source: github
 - name: chisel
   owner: jpillora
   source: github
@@ -158,6 +161,9 @@
   source: github
 - name: krew
   owner: kubernetes-sigs
+  source: github
+- name: krustlet
+  owner: deislabs
   source: github
 - name: kube-bench
   owner: aquasecurity

@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: camel-k
+description: "Apache Camel K is a lightweight integration platform, born on Kubernetes, with serverless superpowers"
+source:
+  Github:
+    owner: apache
+    repo: camel-k
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "camel-k-client-{version}-linux-64bit.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "camel-k-client-{version}-mac-64bit.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "camel-k-client-{version}-windows-64bit.tar.gz"
+detail: ~

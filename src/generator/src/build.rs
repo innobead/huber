@@ -171,6 +171,8 @@ fn releases() -> Vec<Package> {
         eksctl::release(),
         linkerd2_edge::release(),
         linkerd2_stable::release(),
+        krustlet::release(),
+        camel_k::release(),
         // runtime
         containerd::release(),
         firecracker::release(),

@@ -6,6 +6,7 @@
  argocd           Declarative continuous deployment for Kubernetes.                                                        https://github.com/argoproj/argo-cd 
  arkade           Open Source Kubernetes Marketplace                                                                       https://github.com/alexellis/arkade 
  bat              A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
+ camel-k          Apache Camel K is a lightweight integration platform, born on Kubernetes, with serverless superpower...  https://github.com/apache/camel-k 
  chisel           A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  cloak            A Command Line OTP Authenticator application.                                                            https://github.com/evansmurithi/cloak 
  conftest         Write tests against structured configuration data using the Open Policy Agent Rego query language        https://github.com/open-policy-agent/conftest 
@@ -55,6 +56,7 @@
  kompose          Go from Docker Compose to Kubernetes                                                                     https://github.com/kubernetes/kompose 
  kpt                                                                                                                       https://github.com/GoogleContainerTools/kpt 
  krew             📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
+ krustlet         Kubernetes Rust Kubelet                                                                                  https://github.com/deislabs/krustlet 
  kube-bench       Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
  kubectl          Production-Grade Container Scheduling and Management                                                     https://github.com/kubernetes/kubernetes 
  kubefire         KubeFire 🔥, creates and manages Kubernetes Clusters using Firecracker microVMs                          https://github.com/innobead/kubefire 
