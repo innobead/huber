@@ -2,6 +2,7 @@ use std::io::stdout;
 
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 use huber_common::model::package::PackageSummary;
@@ -9,7 +10,6 @@ use huber_common::model::release::VecExtensionTrait;
 use huber_common::output::factory::FactoryConsole;
 use huber_common::output::OutputTrait;
 use huber_common::result::Result;
-use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::cache::{CacheAsyncTrait, CacheService};
@@ -20,7 +20,9 @@ pub(crate) const CMD_NAME: &str = "search";
 
 #[derive(Debug)]
 pub(crate) struct SearchCmd;
+
 unsafe impl Send for SearchCmd {}
+
 unsafe impl Sync for SearchCmd {}
 
 impl SearchCmd {
@@ -37,7 +39,7 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
             .args(&[
                 Arg::with_name("name")
                     .value_name("package name")
-                    .help("Package name")
+                    .help("Package name or search by regex pattern (-p)")
                     .takes_value(true),
                 Arg::with_name("owner")
                     .value_name("string")
@@ -46,11 +48,9 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
                     .help("Package owner")
                     .takes_value(true),
                 Arg::with_name("pattern")
-                    .value_name("string")
                     .short("p")
                     .long("pattern")
-                    .help("Regex pattern")
-                    .takes_value(true),
+                    .help("Regex search pattern"),
                 Arg::with_name("all")
                     .short("a")
                     .long("all")
@@ -91,10 +91,19 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for SearchCmd {
         }
 
         // search all packages or a package
+        let name = matches.value_of("name");
         let pkgs: Vec<PackageSummary> = pkg_service
             .search(
-                matches.value_of("name"),
-                matches.value_of("pattern"),
+                if matches.is_present("pattern") {
+                    None
+                } else {
+                    name
+                },
+                if matches.is_present("pattern") {
+                    name
+                } else {
+                    None
+                },
                 matches.value_of("owner"),
             )?
             .into_iter()
