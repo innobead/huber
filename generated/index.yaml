@@ -96,6 +96,9 @@
 - name: helm
   owner: helm
   source: github
+- name: helmfile
+  owner: roboll
+  source: github
 - name: hetty
   owner: dstotijn
   source: github

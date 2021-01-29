@@ -34,6 +34,7 @@
  go-http-tunnel   Fast and secure tunnels over HTTP/2                                                                      https://github.com/mmatczuk/go-http-tunnel 
  gping            Ping, but with a graph                                                                                   https://github.com/orf/gping 
  helm             The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
+ helmfile         Deploy Kubernetes Helm Charts                                                                            https://github.com/roboll/helmfile 
  hetty            Hetty is an HTTP toolkit for security research.                                                          https://github.com/dstotijn/hetty 
  hub              A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
  huber            Huber 📦,  simplify `GitHub release` package management with a live awesome list of GitHub project...    https://github.com/innobead/huber 

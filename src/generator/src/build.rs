@@ -131,6 +131,7 @@ fn releases() -> Vec<Package> {
         rancher::release(),
         velero::release(),
         helm::release(),
+        helmfile::release(),
         kubefire::release(),
         kubectl::release(),
         kustomize::release(),
