@@ -1,17 +1,17 @@
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
+use huber_common::model::config::ConfigPath;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
-use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
-use huber_common::model::config::ConfigPath;
 
 pub(crate) const CMD_NAME: &str = "install";
 
@@ -36,7 +36,8 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
             .args(&vec![
                 Arg::with_name("name")
                     .value_name("package name")
-                    .help("Package name")
+                    .multiple(true)
+                    .help("Package name(s)")
                     .required(true)
                     .takes_value(true),
                 Arg::with_name("version")
@@ -59,46 +60,48 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for InstallCmd {
     ) -> Result<()> {
         process_lock!();
 
-        let name = matches.value_of("name").unwrap();
+        let names: Vec<&str> = matches.values_of("name").unwrap().collect();
 
-        let release_service = container.get::<ReleaseService>().unwrap();
-        let pkg_service = container.get::<PackageService>().unwrap();
+        for name in names {
+            let release_service = container.get::<ReleaseService>().unwrap();
+            let pkg_service = container.get::<PackageService>().unwrap();
 
-        let cache_service = container.get::<CacheService>().unwrap();
-        let _ = cache_service.update_repositories().await?;
+            let cache_service = container.get::<CacheService>().unwrap();
+            let _ = cache_service.update_repositories().await?;
 
-        if !pkg_service.has(name)? {
-            return Err(anyhow!("{} not found", name));
-        }
+            if !pkg_service.has(name)? {
+                return Err(anyhow!("{} not found", name));
+            }
 
-        let mut pkg = pkg_service.get(name)?;
-        pkg.version = matches.value_of("version").map(|it| it.to_string());
+            let mut pkg = pkg_service.get(name)?;
+            pkg.version = matches.value_of("version").map(|it| it.to_string());
 
-        if release_service.has(name)? {
-            let release = release_service.current(&pkg)?;
+            if release_service.has(name)? {
+                let release = release_service.current(&pkg)?;
 
-            return match &matches {
-                _ if matches.is_present("version") => {
-                    if release.version == matches.value_of("version").unwrap() {
-                        Err(anyhow!("{} already installed", release))
-                    } else {
-                        println!("Updating {} to {}", release, pkg.version.as_ref().unwrap());
+                return match &matches {
+                    _ if matches.is_present("version") => {
+                        if release.version == matches.value_of("version").unwrap() {
+                            Err(anyhow!("{} already installed", release))
+                        } else {
+                            println!("Updating {} to {}", release, pkg.version.as_ref().unwrap());
 
-                        let release = release_service.update(&pkg).await?;
-                        println!("{} updated", release);
-                        Ok(())
+                            let release = release_service.update(&pkg).await?;
+                            println!("{} updated", release);
+                            Ok(())
+                        }
                     }
-                }
 
-                _ => {
-                    Err(anyhow!("{} already installed. Use '--version' to install a specific version or 'update' command to update to the latest version", release))
-                }
-            };
+                    _ => {
+                        Err(anyhow!("{} already installed. Use '--version' to install a specific version or 'update' command to update to the latest version", release))
+                    }
+                };
+            }
+
+            println!("Installing {}", &pkg);
+            let release = release_service.create(pkg).await?;
+            println!("{} installed", release);
         }
-
-        println!("Installing {}", &pkg);
-        let release = release_service.create(pkg).await?;
-        println!("{} installed", release);
 
         Ok(())
     }

@@ -1,16 +1,16 @@
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
+use huber_common::model::config::ConfigPath;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
-use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
-use huber_common::model::config::ConfigPath;
 
 pub(crate) const CMD_NAME: &str = "update";
 
@@ -33,8 +33,9 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UpdateCmd {
             .visible_alias("u")
             .about("Updates the installed package")
             .args(&vec![Arg::with_name("name")
+                .multiple(true)
                 .value_name("package name")
-                .help("Package name")
+                .help("Package name(s)")
                 .required(true)
                 .takes_value(true)])
     }
@@ -50,20 +51,23 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {
     ) -> Result<()> {
         process_lock!();
 
-        let name = matches.value_of("name").unwrap();
-        let release_service = container.get::<ReleaseService>().unwrap();
-        let pkg_service = container.get::<PackageService>().unwrap();
+        let names: Vec<&str> = matches.values_of("name").unwrap().collect();
 
-        if !release_service.has(name)? {
-            return Err(anyhow!("{} not found", name));
+        for name in names {
+            let release_service = container.get::<ReleaseService>().unwrap();
+            let pkg_service = container.get::<PackageService>().unwrap();
+
+            if !release_service.has(name)? {
+                return Err(anyhow!("{} not found", name));
+            }
+
+            let pkg = pkg_service.get(name)?;
+            let release = release_service.current(&pkg)?;
+
+            println!("Updating {} to the latest version", release);
+            release_service.update(&pkg).await?;
+            println!("{} updated", pkg);
         }
-
-        let pkg = pkg_service.get(name)?;
-        let release = release_service.current(&pkg)?;
-
-        println!("Updating {} to the latest version", release);
-        release_service.update(&pkg).await?;
-        println!("{} updated", pkg);
 
         Ok(())
     }
