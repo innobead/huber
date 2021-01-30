@@ -83,7 +83,7 @@ impl UpdateAsyncTrait for UpdateService {
         let current_version = env!("HUBER_VERSION").trim_start_matches("v");
         let pkg = pkg_service.get("huber")?;
 
-        match release_service.get_latest(pkg).await {
+        match release_service.get_latest(&pkg).await {
             Err(e) => Err(anyhow!("No update available: {:?}", e)),
             Ok(r) => Ok((
                 Version::parse(&r.version) > Version::parse(current_version),
@@ -97,7 +97,7 @@ impl UpdateAsyncTrait for UpdateService {
         let release_service = self.container.get::<ReleaseService>().unwrap();
 
         let mut pkg = pkg_service.get("huber")?;
-        let release = release_service.get_latest(pkg.clone()).await?;
+        let release = release_service.get_latest(&pkg).await?;
         pkg.version = Some(release.version);
 
         release_service.update(&pkg).await?;

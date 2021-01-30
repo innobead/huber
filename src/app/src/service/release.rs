@@ -15,7 +15,6 @@ use log::{debug, info};
 use semver::Version;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
-use tokio::task;
 use url::Url;
 use urlencoding::decode;
 
@@ -82,22 +81,19 @@ impl ReleaseService {
         Self { container: None }
     }
 
-    pub(crate) async fn get_latest(&self, pkg: Package) -> Result<Release> {
+    pub(crate) async fn get_latest(&self, pkg: &Package) -> Result<Release> {
         debug!("Getting the latest release: {}", pkg);
 
         let config = self.container.get::<Config>().unwrap();
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
-        task::spawn(async move {
-            match &pkg.source {
-                PackageSource::Github { owner, repo } => {
-                    client.get_latest_release(&owner, &repo, &pkg).await
-                }
-
-                _ => unimplemented!(),
+        match &pkg.source {
+            PackageSource::Github { owner, repo } => {
+                client.get_latest_release(&owner, &repo, pkg).await
             }
-        })
-        .await?
+
+            _ => unimplemented!(),
+        }
     }
 }
 

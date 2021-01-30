@@ -55,7 +55,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for InfoCmd {
         let release_service = container.get::<ReleaseService>().unwrap();
 
         let pkg = pkg_service.get(matches.value_of("name").unwrap())?;
-        let release = release_service.get_latest(pkg).await?;
+        let release = release_service.get_latest(&pkg).await?;
 
         output!(config.output_format, .display(
             stdout(),
