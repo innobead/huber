@@ -2,6 +2,7 @@ use std::collections::HashMap;
 
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
+use log::warn;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
@@ -35,12 +36,19 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UpdateCmd {
         App::new(CMD_NAME)
             .visible_alias("u")
             .about("Updates the installed package(s)")
-            .args(&vec![Arg::with_name("name")
-                .multiple(true)
-                .value_name("package name")
-                .help("Package name(s)")
-                .required(false)
-                .takes_value(true)])
+            .args(&vec![
+                Arg::with_name("name")
+                    .multiple(true)
+                    .value_name("package name")
+                    .help("Package name(s)")
+                    .required(false)
+                    .takes_value(true),
+                Arg::with_name("dryrun")
+                    .short("d")
+                    .long("dryrun")
+                    .help("Dry run to show available updates")
+                    .required(false),
+            ])
     }
 }
 
@@ -85,19 +93,30 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {
             };
 
             let release = release_caches.get(name).unwrap();
-            let release_latest = release_service.get_latest(&pkg).await?;
+            let release_latest = release_service.get_latest(&pkg).await;
 
-            if release.version == release_latest.version {
-                println!("{}, the latest version already installed", release);
-                continue;
+            match release_latest {
+                Ok(r) => {
+                    if release.version == r.version {
+                        continue;
+                    }
+
+                    if matches.is_present("dryrun") {
+                        println!("{} -> {}", release, r);
+                    } else {
+                        println!("Updating {} to {}", release, r);
+                        release_service.update(&pkg).await?;
+                        println!("{} updated", pkg);
+                    }
+                }
+
+                Err(e) => {
+                    warn!(
+                        "{}, the latest release not found (possibly prerelease available only): {}",
+                        release, e,
+                    )
+                }
             }
-
-            println!(
-                "Updating {} to the latest version {}",
-                release, release_latest
-            );
-            release_service.update(&pkg).await?;
-            println!("{} updated", pkg);
         }
 
         Ok(())
