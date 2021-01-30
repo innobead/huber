@@ -147,6 +147,9 @@
 - name: k9s
   owner: derailed
   source: github
+- name: keptn
+  owner: keptn
+  source: github
 - name: ketch
   owner: shipa-corp
   source: github

@@ -48,6 +48,7 @@ pub mod k3s;
 pub mod k3sup;
 pub mod k6;
 pub mod k9s;
+pub mod keptn;
 pub mod ketch;
 pub mod kind;
 pub mod ko;

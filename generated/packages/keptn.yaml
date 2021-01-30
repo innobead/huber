@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: keptn
+description: Keptn is a message-driven control-plane for application delivery and automated operations
+source:
+  Github:
+    owner: keptn
+    repo: keptn
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}_keptn-linux.tar"
+  - MacOS:
+      artifact_templates:
+        - "{version}_keptn-macOS.tar"
+  - Windows:
+      artifact_templates:
+        - "{version}_keptn-windows.tar"
+detail: ~

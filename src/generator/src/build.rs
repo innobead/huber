@@ -174,6 +174,7 @@ fn releases() -> Vec<Package> {
         linkerd2_stable::release(),
         krustlet::release(),
         camel_k::release(),
+        keptn::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
