@@ -184,6 +184,7 @@ fn releases() -> Vec<Package> {
         wasmtime::release(),
         wasmer::release(),
         ssvm::release(),
+        wasm_to_oci::release(),
         // programing
         deno::release(),
         typescript::release(),

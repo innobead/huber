@@ -312,6 +312,9 @@
 - name: volta
   owner: volta-cli
   source: github
+- name: wasm-to-oci
+  owner: engineerd
+  source: github
 - name: wasme
   owner: solo-io
   source: github
