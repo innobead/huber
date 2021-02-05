@@ -6,13 +6,13 @@ set -o pipefail
 set -o xtrace
 
 function install_linux_dependencies() {
-  if [[ $(command -v apt) ]]; then
+  if [[ $(command -v zypper) ]]; then
+    # sudo zypper install -y -t pattern devel_basis
+    sudo zypper install -y make libopenssl-devel libarchive-devel git pkg-config curl sudo
+  elif [[ $(command -v apt) ]]; then
     sudo apt update
     # sudo apt install -y build-essential
     sudo DEBIAN_FRONTEND=noninteractive apt install -y make libssl-dev libarchive-dev git pkg-config curl sudo
-  elif [[ $(command -v zypper) ]]; then
-    # sudo zypper install -y -t pattern devel_basis
-    sudo zypper install -y make libopenssl-devel libarchive-devel git pkg-config curl sudo
   else
     echo "Only openSUSE, Ubuntu supported" >/dev/stderr
     exit 1
@@ -44,7 +44,7 @@ function install_macos_dependencies() {
     echo "export LDFLAGS=-L/usr/local/opt/libarchive/lib"
     echo "export CPPFLAGS=-I/usr/local/opt/libarchive/include"
     echo "export PKG_CONFIG_PATH=/usr/local/opt/libarchive/lib/pkgconfig"
-  } >> "$HOME"/.bashrc
+  } >>"$HOME"/.bashrc
 
   . "$HOME"/.bashrc
 }
@@ -57,8 +57,8 @@ function install_rust_dependencies() {
   fi
 
   export_statement="export PATH=\$HOME/.cargo/bin:\$PATH"
-  if ! grep -Fxq "$export_statement"  ~/.bashrc; then
-    echo "$export_statement" >> "$HOME"/.bashrc
+  if ! grep -Fxq "$export_statement" ~/.bashrc; then
+    echo "$export_statement" >>"$HOME"/.bashrc
   fi
 
   if [[ -f "$HOME"/.cargo/env ]]; then

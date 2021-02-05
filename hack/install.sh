@@ -40,3 +40,8 @@ export_statement="export PATH=\$HOME/.huber/bin:\$PATH"
 if ! grep -Fxq "$export_statement"  ~/.bashrc; then
   echo "$export_statement" >> ~/.bashrc
 fi
+
+cat <<EOF
+The installation script has updated the \$PATH environment variable in $HOME/.bashrc.
+Please restart the shell or source again to make it take effect.
+EOF

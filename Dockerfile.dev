@@ -1,0 +1,7 @@
+FROM rust:1.49 as build
+WORKDIR /workspace
+COPY /hack .
+
+RUN apt update;\
+    apt install sudo;\
+    ./setup-dev.sh
