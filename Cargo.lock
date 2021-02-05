@@ -685,7 +685,7 @@ dependencies = [
 
 [[package]]
 name = "huber"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -722,7 +722,7 @@ dependencies = [
 
 [[package]]
 name = "huber-common"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -744,7 +744,7 @@ dependencies = [
 
 [[package]]
 name = "huber-generator"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "hubcaps",
  "huber-common",
@@ -756,7 +756,7 @@ dependencies = [
 
 [[package]]
 name = "huber-procmacro"
-version = "0.2.1"
+version = "0.2.2"
 dependencies = [
  "anyhow",
  "dirs 3.0.1",
