@@ -1,3 +1,5 @@
+![huber in action](./doc/huber.png)
+
 # What is Huber 📦
 
 **Huber** is a single development entry to simplify `GitHub release` package management with a live awesome list of GitHub projects.
