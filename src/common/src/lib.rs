@@ -7,5 +7,6 @@ pub mod log;
 pub mod macrorule;
 pub mod model;
 pub mod output;
+pub mod progress;
 pub mod result;
 pub mod str;

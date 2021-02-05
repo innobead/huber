@@ -22,6 +22,7 @@ use huber_common::file::trim_os_arch;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
+use huber_common::progress::{ProgressBar, ProgressTrait};
 use huber_common::result::Result;
 use huber_common::str::OsStrExt;
 
@@ -752,14 +753,18 @@ impl ItemOperationAsyncTrait for ReleaseService {
 
         match release_detail.unwrap() {
             PackageDetailType::Github { package: p } => {
-                println!(
-                    "Downloading package artifacts from github {:?}",
-                    obj.source.url()
+                progress!(
+                    format!(
+                        "Downloading package artifacts from github {:?}",
+                        obj.source.url()
+                    ),
+                    self.download_install_github_package(&obj, &p).await?;
                 );
-                self.download_install_github_package(&obj, &p).await?;
 
-                println!("Setting {} as the current package", release);
-                let executables = self.set_current(&mut release).await?;
+                let executables = progress!(
+                    format!("Setting {} as the current package", release),
+                    self.set_current(&mut release).await?;
+                );
 
                 println!(
                     "{}",
