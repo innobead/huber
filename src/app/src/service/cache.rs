@@ -1,3 +1,4 @@
+use std::env;
 use std::fs::File;
 use std::sync::Arc;
 
@@ -5,19 +6,20 @@ use async_trait::async_trait;
 use log::info;
 use rayon::prelude::*;
 use regex::Regex;
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use huber_common::model::config::{
     Config, ConfigFieldConvertTrait, ConfigPath, MANAGED_PKG_ROOT_DIR,
 };
 use huber_common::model::package::{Package, PackageIndex};
 use huber_common::model::repo::Repository;
+use huber_common::progress::ProgressBar;
+use huber_common::progress::ProgressTrait;
 use huber_common::result::Result;
-use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::repo::{RepoAsyncTrait, RepoService, RepoTrait};
 use crate::service::{ItemOperationTrait, ServiceTrait};
-use std::env;
 
 pub(crate) trait CacheTrait {
     fn get_package(&self, name: &str) -> Result<Package>;
@@ -203,19 +205,19 @@ impl CacheAsyncTrait for CacheService {
 
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
-        info!("Updating managed repos");
-        client.clone("innobead", "huber", dir.clone()).await?;
+        progress!(
+            "Updating managed repos",
+            client.clone("innobead", "huber", dir.clone()).await?;
+        );
 
-        info!("Updating unmanaged repos");
+        println!("Updating unmanaged repos");
+
         let repo_service = self.container.get::<RepoService>().unwrap();
         for repo in repo_service.list()? {
-            info!(
-                "Updating {:?}",
-                config.unmanaged_repo_dir(&repo.name).unwrap()
+            progress!(
+                format!("Updating {:?}", config.unmanaged_repo_dir(&repo.name).unwrap()),
+                repo_service.download_save_pkgs_file(&repo.name, &repo.url).await?;
             );
-            repo_service
-                .download_save_pkgs_file(&repo.name, &repo.url)
-                .await?;
         }
 
         Ok(())

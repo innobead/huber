@@ -134,12 +134,16 @@ impl ReleaseTrait for ReleaseService {
 
         let config = self.container.get::<Config>().unwrap();
 
-        let current_dir = config.current_pkg_dir(&pkg)?;
-        let current_bin_dir = config.current_pkg_bin_dir(&pkg)?;
-
         // remove old symlink bin, current
         info!("Removing the current package symbolic links: {}", &pkg);
-        let scan_dirs = vec![&current_dir, &current_bin_dir];
+
+        let current_pkg_dir = config.current_pkg_dir(&pkg)?;
+        let current_bin_dir = config.current_pkg_bin_dir(&pkg)?;
+
+        let mut scan_dirs: Vec<PathBuf> = pkg.get_scan_dirs(&current_pkg_dir)?;
+        scan_dirs.push(current_pkg_dir.clone());
+        scan_dirs.push(current_bin_dir.clone());
+
         for dir in scan_dirs {
             info!("Scanning executables in {:?}", dir);
 
@@ -157,9 +161,9 @@ impl ReleaseTrait for ReleaseService {
             }
         }
 
-        if current_dir.exists() {
-            info!("Removing link {:?}", &current_dir);
-            remove_symlink_dir(&current_dir)?;
+        if current_pkg_dir.exists() {
+            info!("Removing link {:?}", &current_pkg_dir);
+            remove_symlink_dir(&current_pkg_dir)?;
         }
 
         // remove it from index
@@ -228,6 +232,10 @@ impl ReleaseTrait for ReleaseService {
 
         let exec_filename = trim_os_arch(&exec_filename);
         let exec_file_path = config.bin_dir()?.join(&exec_filename);
+
+        if exec_file_path.exists() {
+            let _ = remove_file(&exec_file_path);
+        }
 
         if exec_filename.starts_with(".") {
             info!(
@@ -561,21 +569,12 @@ impl ReleaseAsyncTrait for ReleaseService {
         release.current = true;
         release.name = release.package.name.clone();
 
-        let mut scan_dirs = vec![];
-
         let current_pkg_dir = config.current_pkg_dir(&release.package)?;
         let current_bin_dir = config.current_pkg_bin_dir(&release.package)?;
 
+        let mut scan_dirs: Vec<PathBuf> = release.package.get_scan_dirs(&current_pkg_dir)?;
         scan_dirs.push(current_pkg_dir.clone());
         scan_dirs.push(current_bin_dir.clone());
-
-        if let Some(extra_scan_dirs) = release.package.target()?.scan_dirs {
-            let mut extra_scan_dirs: Vec<PathBuf> = extra_scan_dirs
-                .into_iter()
-                .map(|x| current_pkg_dir.join(x))
-                .collect();
-            scan_dirs.append(&mut extra_scan_dirs);
-        }
 
         // remove old symlink bin, current
         info!(

@@ -1,4 +1,6 @@
 use std::collections::HashMap;
+use std::fmt::{Display, Formatter};
+use std::path::PathBuf;
 use std::{env, fmt};
 
 use hubcaps::releases::Release as HubcapsRelease;
@@ -9,7 +11,6 @@ use serde::{Deserialize, Serialize};
 
 use crate::model::release::{ReleaseKind, VecExtensionTrait};
 use crate::result::Result;
-use std::fmt::{Display, Formatter};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Package {
@@ -72,7 +73,8 @@ pub struct PackageManagement {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub upgrade_commands: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub tag_version_regex_template: Option<String>, // only keep the {version} part
+    pub tag_version_regex_template: Option<String>,
+    // only keep the {version} part
     #[serde(skip_serializing_if = "Option::is_none")]
     pub scan_dirs: Option<Vec<String>>,
 }
@@ -242,6 +244,20 @@ impl Package {
         };
 
         Ok(version)
+    }
+
+    pub fn get_scan_dirs(&self, pkg_dir: &PathBuf) -> Result<Vec<PathBuf>> {
+        let mut scan_dirs = vec![];
+
+        if let Some(extra_scan_dirs) = self.target()?.scan_dirs {
+            let mut extra_scan_dirs: Vec<PathBuf> = extra_scan_dirs
+                .into_iter()
+                .map(|x| pkg_dir.join(x))
+                .collect();
+            scan_dirs.append(&mut extra_scan_dirs);
+        }
+
+        Ok(scan_dirs)
     }
 }
 
