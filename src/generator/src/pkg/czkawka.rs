@@ -22,6 +22,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["{version}/mac_czkawka_cli".to_string()],
@@ -31,6 +32,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["{version}/windows_czkawka_cli.exe".to_string()],
@@ -40,6 +42,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
         ],
         version: None,

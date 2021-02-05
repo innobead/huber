@@ -20,6 +20,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["{version}/faas-cli-arm64".to_string()],
@@ -31,6 +32,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["{version}/faas-cli-darwin".to_string()],
@@ -42,6 +44,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["{version}/faas-cli.exe".to_string()],
@@ -53,6 +56,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
         ],
         version: None,

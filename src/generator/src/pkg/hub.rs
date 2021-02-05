@@ -20,6 +20,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["hub-linux-arm64-{version}.tgz".to_string()],
@@ -29,6 +30,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["hub-darwin-amd64-{version}.tgz".to_string()],
@@ -38,6 +40,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["hub-windows-amd64-{version}.zip".to_string()],
@@ -47,6 +50,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
         ],
         version: None,

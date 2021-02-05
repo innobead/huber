@@ -18,6 +18,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["{version}/k3d-linux-arm64".to_string()],
@@ -27,6 +28,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["{version}/k3d-darwin-amd64".to_string()],
@@ -36,6 +38,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["{version}/k3d-windows-amd64.exe".to_string()],
@@ -45,6 +48,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
         ],
         version: None,

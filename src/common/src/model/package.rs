@@ -73,6 +73,8 @@ pub struct PackageManagement {
     pub upgrade_commands: Option<Vec<String>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tag_version_regex_template: Option<String>, // only keep the {version} part
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub scan_dirs: Option<Vec<String>>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

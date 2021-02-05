@@ -10,4 +10,6 @@ targets:
   - LinuxAmd64:
       artifact_templates:
         - "{version}/tracee.tar.gz"
+      scan_dirs:
+        - dist
 detail: ~

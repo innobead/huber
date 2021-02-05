@@ -20,6 +20,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["fd-v{version}-x86_64-apple-darwin.tar.gz".to_string()],
@@ -29,6 +30,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["fd-v{version}-x86_64-pc-windows-msvc.zip".to_string()],
@@ -38,6 +40,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: None,
+                scan_dirs: None,
             }),
         ],
         version: None,

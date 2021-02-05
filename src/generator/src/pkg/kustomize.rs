@@ -18,6 +18,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: Some(r"^kustomize/(v\d+.\d+.\d+)$".to_string()),
+                scan_dirs: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["kustomize_v{version}_linux_arm64.tar.gz".to_string()],
@@ -27,6 +28,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: Some(r"^kustomize/(v\d+.\d+.\d+)$".to_string()),
+                scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["kustomize_v{version}_darwin_amd64.tar.gz".to_string()],
@@ -36,6 +38,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: Some(r"^kustomize/(v\d+.\d+.\d+)$".to_string()),
+                scan_dirs: None,
             }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["kustomize_v{version}_windows_amd64.tar.gz".to_string()],
@@ -45,6 +48,7 @@ pub fn release() -> Package {
                 uninstall_commands: None,
                 upgrade_commands: None,
                 tag_version_regex_template: Some(r"^kustomize/(v\d+.\d+.\d+)$".to_string()),
+                scan_dirs: None,
             }),
         ],
         version: None,

@@ -17,6 +17,7 @@ pub fn release() -> Package {
             uninstall_commands: None,
             upgrade_commands: None,
             tag_version_regex_template: None,
+            scan_dirs: Some(vec!["dist".to_string()]),
         })],
         version: None,
         description: None,

@@ -561,8 +561,21 @@ impl ReleaseAsyncTrait for ReleaseService {
         release.current = true;
         release.name = release.package.name.clone();
 
+        let mut scan_dirs = vec![];
+
         let current_pkg_dir = config.current_pkg_dir(&release.package)?;
         let current_bin_dir = config.current_pkg_bin_dir(&release.package)?;
+
+        scan_dirs.push(current_pkg_dir.clone());
+        scan_dirs.push(current_bin_dir.clone());
+
+        if let Some(extra_scan_dirs) = release.package.target()?.scan_dirs {
+            let mut extra_scan_dirs: Vec<PathBuf> = extra_scan_dirs
+                .into_iter()
+                .map(|x| current_pkg_dir.join(x))
+                .collect();
+            scan_dirs.append(&mut extra_scan_dirs);
+        }
 
         // remove old symlink bin, current
         info!(
@@ -578,13 +591,8 @@ impl ReleaseAsyncTrait for ReleaseService {
         let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
         symlink_dir(&source, &current_pkg_dir)?;
 
-        info!(
-            "Updating the current release bin symbolic links: {}",
-            &release
-        );
-
+        // scan executables in scan_dirs
         let mut linked_exe_files: Vec<String> = vec![];
-        let scan_dirs = vec![&current_pkg_dir, &current_bin_dir];
         for dir in scan_dirs {
             info!("Scanning executables in {:?}", dir);
 
