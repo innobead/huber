@@ -1,6 +1,8 @@
 ![huber in action](./doc/huber.png)
 
-**Huber** is a single development entry to simplify `GitHub release` package management with a live awesome list of GitHub projects.
+**Huber** is to simplify the package management from GitHub projects with a builtin awesome list (live updating) of popular projects. It also supports *repository* feature for managing the package installation from your perosonal Github project. Please check the complete introduction as below.
+
+> `Huber is a (new) tool for easy installation of dev/ops CLI tools directly from GitHub. No more trawling the releases pages!` introduced by [Coffee and Cloud Native - 88](https://www.youtube.com/watch?v=LgA6hpKdncw)
 
 - Manages released artifacts from github, and decide which version as the current to use
 - Manages the default package repository with an awesome package list including popular star github projects (ex: K8s, K3s, cloud-native, etc)
@@ -600,6 +602,3 @@ If you would like to add some useful tools in the builtin manged packages list, 
 3. `make generate` w/ your `GITHUB_TOKEN` to check if the new package manifest generated in `generated/packages` and `generated/index.yaml` updated accordingly
 4. Fire a PR to make it accept
 
-# Notes
-
-- Huber is not product ready project, but active under development. Any feedback is welcome!
