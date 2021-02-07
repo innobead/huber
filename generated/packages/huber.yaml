@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: huber
-description: "Huber 📦,  simplify `GitHub release` package management with a live awesome list of GitHub projects"
+description: "Huber 📦, simplify the package management from GitHub projects with a built-in awesome list of popular projects"
 source:
   Github:
     owner: innobead

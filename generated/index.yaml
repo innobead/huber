@@ -123,6 +123,9 @@
 - name: jq
   owner: stedolan
   source: github
+- name: just
+  owner: casey
+  source: github
 - name: jwt-cli
   owner: mike-engel
   source: github
@@ -206,6 +209,9 @@
   source: github
 - name: nomad
   owner: hashicorp
+  source: github
+- name: norouter
+  owner: norouter
   source: github
 - name: octant
   owner: vmware-tanzu
@@ -326,6 +332,9 @@
   source: github
 - name: waypoint
   owner: hashicorp
+  source: github
+- name: wstunnel
+  owner: erebe
   source: github
 - name: yq
   owner: mikefarah

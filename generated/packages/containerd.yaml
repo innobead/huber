@@ -9,5 +9,10 @@ source:
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "containerd-{version}.linux-amd64.tar.gz"
+        - "containerd-{version}-linux-amd64.tar.gz"
+        - "cri-containerd-cni-{version}-linux-amd64.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "containerd-{version}-windows-amd64.tar.gz"
+        - "cri-containerd-cni-{version}-windows-amd64.tar.gz"
 detail: ~

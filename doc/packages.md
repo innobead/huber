@@ -37,12 +37,13 @@
  helmfile         Deploy Kubernetes Helm Charts                                                                            https://github.com/roboll/helmfile 
  hetty            Hetty is an HTTP toolkit for security research.                                                          https://github.com/dstotijn/hetty 
  hub              A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
- huber            Huber 📦,  simplify `GitHub release` package management with a live awesome list of GitHub project...    https://github.com/innobead/huber 
+ huber            Huber 📦, simplify the package management from GitHub projects with a built-in awesome list of pop...    https://github.com/innobead/huber 
  hyperfine        A command-line benchmarking tool                                                                         https://github.com/sharkdp/hyperfine 
  ignite           Ignite a Firecracker microVM                                                                             https://github.com/weaveworks/ignite 
  img              Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
  istio            Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
  jq               Command-line JSON processor                                                                              https://github.com/stedolan/jq 
+ just             🤖 Just a command runner                                                                                 https://github.com/casey/just 
  jwt-cli          A super fast CLI tool to decode and encode JWTs built in Rust                                            https://github.com/mike-engel/jwt-cli 
  k0s              k0s - Zero Friction Kubernetes                                                                           https://github.com/k0sproject/k0s 
  k3ai             K3ai is a lightweight, fully automated, AI infrastructure-in-a-box solution that allows anyone to ex...  https://github.com/kf5i/k3ai 
@@ -71,6 +72,7 @@
  minikube         Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
  mkcert           A simple zero-config tool to make locally trusted development certificates with any names you'd like...  https://github.com/FiloSottile/mkcert 
  nomad            Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
+ norouter         NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
  octant           Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
  okteto           Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
  opa              An open source, general-purpose policy engine.                                                           https://github.com/open-policy-agent/opa 
@@ -111,6 +113,7 @@
  wasmer           🚀 The leading WebAssembly Runtime supporting WASI and Emscripten                                        https://github.com/wasmerio/wasmer 
  wasmtime         Standalone JIT-style runtime for WebAssembly, using Cranelift                                            https://github.com/bytecodealliance/wasmtime 
  waypoint         A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
+ wstunnel         Tunneling over websocket protocol - Static binary available                                              https://github.com/erebe/wstunnel 
  yq               yq is a portable command-line YAML processor                                                             https://github.com/mikefarah/yq 
 
 ```

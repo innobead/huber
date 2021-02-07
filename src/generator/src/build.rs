@@ -111,11 +111,14 @@ fn releases() -> Vec<Package> {
         jq::release(),
         termshark::release(),
         volta::release(),
+        just::release(),
         // infra
         pulumi::release(),
         chisel::release(),
         go_http_tunnel::release(),
         shadowsocks::release(),
+        norouter::release(),
+        wstunnel::release(),
         // app development
         okteto::release(),
         skaffold::release(),
