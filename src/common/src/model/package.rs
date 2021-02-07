@@ -254,7 +254,12 @@ impl Package {
         if let Some(extra_scan_dirs) = self.target()?.scan_dirs {
             let mut extra_scan_dirs: Vec<PathBuf> = extra_scan_dirs
                 .into_iter()
-                .map(|x| pkg_dir.join(x))
+                .map(|x| {
+                    pkg_dir.join(x.replace(
+                        "{version}",
+                        self.version.as_ref().unwrap().trim_start_matches("v"),
+                    ))
+                })
                 .collect();
             scan_dirs.append(&mut extra_scan_dirs);
         }
