@@ -1,3 +1,4 @@
+use std::cmp::Ordering;
 use std::collections::HashMap;
 
 use async_trait::async_trait;
@@ -7,6 +8,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 use huber_common::model::config::ConfigPath;
+
 use huber_common::model::release::Release;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
@@ -93,22 +95,33 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {
             };
 
             let release = release_caches.get(name).unwrap();
-            let release_latest = release_service.get_latest(&pkg).await;
 
-            match release_latest {
-                Ok(r) => {
-                    if release.version == r.version {
+            match release_service.get_latest(&pkg).await {
+                Ok(mut release_latest) => match release_latest.compare(&release)? {
+                    Ordering::Equal => {
+                        println!("The installed {} is the latest version already", release);
                         continue;
                     }
 
-                    if matches.is_present("dryrun") {
-                        println!("{} -> {}", release, r);
-                    } else {
-                        println!("Updating {} to {}", release, r);
-                        release_service.update(&pkg).await?;
-                        println!("{} updated", pkg);
+                    Ordering::Less => {
+                        let sorted_pkgs_sum = pkg_service.find_summary(name).await?;
+                        let latest_pkg_sum = sorted_pkgs_sum.first().unwrap();
+
+                        if latest_pkg_sum.version.as_ref().unwrap() != &release.version {
+                            release_latest.version = latest_pkg_sum.version.clone().unwrap();
+                            release_latest.package.version = Some(release_latest.version.clone());
+
+                            update(&release_service, &matches, &release_latest, &release).await?;
+                        } else {
+                            println!("The installed {} is the latest version already", release);
+                            continue;
+                        }
                     }
-                }
+
+                    Ordering::Greater => {
+                        update(&release_service, &matches, &release_latest, &release).await?;
+                    }
+                },
 
                 Err(e) => {
                     warn!(
@@ -121,4 +134,21 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {
 
         Ok(())
     }
+}
+
+async fn update<'a>(
+    release_service: &ReleaseService,
+    matches: &ArgMatches<'a>,
+    new_release: &Release,
+    installed_release: &Release,
+) -> Result<()> {
+    if matches.is_present("dryrun") {
+        println!("{} -> {}", installed_release, new_release);
+    } else {
+        println!("Updating {} to {}", installed_release, new_release);
+        release_service.update(&new_release.package).await?;
+        println!("{} updated", new_release.package);
+    }
+
+    Ok(())
 }

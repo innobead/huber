@@ -1,6 +1,8 @@
+use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 use std::path::PathBuf;
+use std::str::FromStr;
 use std::{env, fmt};
 
 use hubcaps::releases::Release as HubcapsRelease;
@@ -318,6 +320,15 @@ impl Display for PackageSource {
             PackageSource::Github { .. } => write!(f, "{}", "github"),
             PackageSource::Helm { .. } => write!(f, "{}", "helm"),
         }
+    }
+}
+
+impl PackageSummary {
+    pub fn compare(&self, pkg: &PackageSummary) -> Result<Ordering> {
+        let v1 = Version::from_str(&self.version.clone().unwrap().trim_start_matches("v"))?;
+        let v2 = Version::from_str(&pkg.version.clone().unwrap().trim_start_matches("v"))?;
+
+        Ok(v1.cmp(&v2))
     }
 }
 

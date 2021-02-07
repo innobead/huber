@@ -2,11 +2,12 @@ use std::sync::Arc;
 
 use async_trait::async_trait;
 use log::debug;
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use huber_common::model::config::{Config, ConfigFieldConvertTrait};
-use huber_common::model::package::{Package, PackageSource};
+use huber_common::model::package::{Package, PackageSource, PackageSummary};
+use huber_common::model::release::VecExtensionTrait;
 use huber_common::result::Result;
-use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::cache::{CacheService, CacheTrait};
@@ -16,12 +17,26 @@ use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrai
 pub(crate) struct PackageService {
     pub(crate) container: Option<Arc<DIContainer>>,
 }
+
 unsafe impl Send for PackageService {}
+
 unsafe impl Sync for PackageService {}
 
 impl PackageService {
     pub(crate) fn new() -> Self {
         Self { container: None }
+    }
+
+    pub(crate) async fn find_summary(&self, pkg_name: &str) -> Result<Vec<PackageSummary>> {
+        let mut pkgs: Vec<PackageSummary> = self
+            .find(&pkg_name.to_string())
+            .await?
+            .into_iter()
+            .map(|it| PackageSummary::from(it))
+            .collect();
+
+        pkgs.sort_by_version();
+        Ok(pkgs)
     }
 }
 

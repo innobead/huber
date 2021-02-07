@@ -1,11 +1,15 @@
+use std::cmp::Ordering;
 use std::fmt;
 use std::fmt::{Display, Formatter};
+use std::str::FromStr;
 
+use semver::Version;
 use serde::{Deserialize, Serialize};
 
 use crate::model::package::{
     GithubAsset, GithubPackage, Package, PackageDetailType, PackageSource,
 };
+use crate::result::Result;
 
 pub trait VecExtensionTrait {
     fn sort_by_version(&mut self);
@@ -38,6 +42,15 @@ pub enum ReleaseKind {
     Draft,
     PreRelease,
     Release,
+}
+
+impl Release {
+    pub fn compare(&self, pkg: &Release) -> Result<Ordering> {
+        let v1 = Version::from_str(self.version.trim_start_matches("v"))?;
+        let v2 = Version::from_str(pkg.version.trim_start_matches("v"))?;
+
+        Ok(v1.cmp(&v2))
+    }
 }
 
 impl Display for Release {

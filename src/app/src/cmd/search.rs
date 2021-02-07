@@ -6,7 +6,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 use huber_common::model::package::PackageSummary;
-use huber_common::model::release::VecExtensionTrait;
+
 use huber_common::output::factory::FactoryConsole;
 use huber_common::output::OutputTrait;
 use huber_common::result::Result;
@@ -14,7 +14,7 @@ use huber_common::result::Result;
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
-use crate::service::{ItemOperationAsyncTrait, ItemSearchTrait};
+use crate::service::ItemSearchTrait;
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -74,13 +74,9 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for SearchCmd {
 
         // search a package with all release info
         if matches.is_present("name") && matches.is_present("all") {
-            let mut pkgs: Vec<PackageSummary> = pkg_service
-                .find(&matches.value_of("name").unwrap().to_string())
-                .await?
-                .into_iter()
-                .map(|it| PackageSummary::from(it))
-                .collect();
-            pkgs.sort_by_version();
+            let pkgs = pkg_service
+                .find_summary(&matches.value_of("name").unwrap().to_string())
+                .await?;
 
             return output!(config.output_format, .display(
                 stdout(),
