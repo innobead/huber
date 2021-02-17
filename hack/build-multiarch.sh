@@ -35,13 +35,19 @@ function build() {
     -f "$PRJDIR"/Dockerfile.build .
 }
 
+if [[ $# -eq 0 ]]; then
+  trap cleanup EXIT ERR INT TERM
+  setup
+  build
+  exit 0
+fi
+
 case $1 in
 setup | cleanup | build)
   $1
   ;;
 *)
-  trap cleanup EXIT ERR INT TERM
-  setup
-  build
+  echo "Unsupported command: $1" > /dev/stderr
+  exit 1
   ;;
 esac
