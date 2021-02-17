@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: wabt
+description: The WebAssembly Binary Toolkit
+source:
+  Github:
+    owner: WebAssembly
+    repo: wabt
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "wabt-{version}-ubuntu.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "wabt-{version}-macos.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "wabt-{version}-windows.tar.gz"
+detail: ~

@@ -1,10 +1,11 @@
-PROJECT:=$(shell basename $(CURDIR))
-COMMIT:=$(shell git rev-parse --short HEAD 2>/dev/null)-$(shell date "+%Y%m%d%H%M%S")
-TAG:=$(shell git describe --tags --dirty 2>/dev/null)
-BUILD_CACHE_DIR:=$(CURDIR)/.cache
+PROJECT := $(shell basename $(CURDIR))
+COMMIT := $(shell git rev-parse --short HEAD 2>/dev/null)-$(shell date "+%Y%m%d%H%M%S")
+TAG := $(shell git describe --tags --dirty 2>/dev/null)
+BUILD_CACHE_DIR := $(CURDIR)/.cache
 BUILD_DIR := $(CURDIR)/.target
 OUTPUT_DIR := $(CURDIR)/.output
 HUBER_ARTIFACT := $(shell $(CURDIR)/hack/huber-artifact-name.sh)
+MANAGED_PKG_ROOT_DIR := $(CURDIR)/generated
 
 .PHONY: help
 help:
@@ -72,3 +73,7 @@ release-multiarch: ## Release binaries for linux multiple archite
 	PLATFORMS=linux/arm64 BUILD_TARGET=release OUTPUT_DIR=$(OUTPUT_DIR) MAKE_TARGET=release $(CURDIR)/hack/build-multiarch.sh
 	mkdir -p $(BUILD_DIR) && cp $(OUTPUT_DIR)/target/huber-* $(BUILD_DIR)/
 	$(MAKE) checksum
+
+.PHONY: verify
+verify: ## Verify Huber commands via the local package generated folder
+	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) huber $(CMD)

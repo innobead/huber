@@ -324,6 +324,9 @@
 - name: volta
   owner: volta-cli
   source: github
+- name: wabt
+  owner: WebAssembly
+  source: github
 - name: wasm-to-oci
   owner: engineerd
   source: github

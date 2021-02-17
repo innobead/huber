@@ -110,6 +110,7 @@
  vegeta           HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
  velero           Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
  volta            Volta: JS Toolchains as Code. ⚡                                                                         https://github.com/volta-cli/volta 
+ wabt             The WebAssembly Binary Toolkit                                                                           https://github.com/WebAssembly/wabt 
  wasm-to-oci      Use OCI registries to distribute WASM modules                                                            https://github.com/engineerd/wasm-to-oci 
  wasme            Web Assembly tools and SDKs for extending cloud-native infrastructure                                    https://github.com/solo-io/wasm 
  wasmer           🚀 The leading WebAssembly Runtime supporting WASI and Emscripten                                        https://github.com/wasmerio/wasmer 

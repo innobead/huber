@@ -107,6 +107,7 @@ pub mod typescript;
 pub mod vegeta;
 pub mod velero;
 pub mod volta;
+pub mod wabt;
 pub mod wasm_to_oci;
 pub mod wasme;
 pub mod wasmer;
