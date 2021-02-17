@@ -33,6 +33,9 @@
 - name: copilot-cli
   owner: aws
   source: github
+- name: croc
+  owner: schollz
+  source: github
 - name: ctlptl
   owner: tilt-dev
   source: github
@@ -293,6 +296,9 @@
   source: github
 - name: terraform
   owner: hashicorp
+  source: github
+- name: terrascan
+  owner: accurics
   source: github
 - name: tilt
   owner: tilt-dev

@@ -112,6 +112,8 @@ fn releases() -> Vec<Package> {
         termshark::release(),
         volta::release(),
         just::release(),
+        croc::release(),
+        terrascan::release(),
         // infra
         pulumi::release(),
         chisel::release(),

@@ -13,6 +13,7 @@
  consul           Consul is a distributed, highly available, and data center aware solution to connect and configure a...  https://github.com/hashicorp/consul 
  containerd       An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
  copilot-cli      The AWS Copilot CLI is a tool for developers to build, release and operate production ready containe...  https://github.com/aws/copilot-cli 
+ croc             Easily and securely send things from one computer to another :crocodile: :package:                       https://github.com/schollz/croc 
  ctlptl           Making local Kubernetes clusters fun and easy to set up                                                  https://github.com/tilt-dev/ctlptl 
  czkawka          Multi functional app to find duplicates, empty folders, similar images etc.                              https://github.com/qarmin/czkawka 
  dasel            Query, update and convert data structures from the command line. Comparable to jq/yq but supports JS...  https://github.com/TomWright/dasel 
@@ -100,6 +101,7 @@
  syncthing        Open Source Continuous File Synchronization                                                              https://github.com/syncthing/syncthing 
  termshark        A terminal UI for tshark, inspired by Wireshark                                                          https://github.com/gcla/termshark 
  terraform        Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
+ terrascan        Detect compliance and security violations across Infrastructure as Code to mitigate risk before prov...  https://github.com/accurics/terrascan 
  tilt             A multi-service dev environment for teams on Kubernetes                                                  https://github.com/tilt-dev/tilt 
  tokei            Count your code, quickly.                                                                                https://github.com/XAMPPRocky/tokei 
  tracee           Linux Runtime Security and Forensics using eBPF                                                          https://github.com/aquasecurity/tracee 
