@@ -6,7 +6,10 @@ set -o pipefail
 set -o xtrace
 
 PRJDIR=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
+
+# linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/mips64le, linux/mips64, linux/arm/v7, linux/arm/v6, linux/arm64 supported in `docker buildx`
 PLATFORMS=${PLATFORMS:-linux/arm64}
+
 BUILD_TARGET=${BUILD_TARGET:-debug}
 MAKE_TARGET=${MAKE_TARGET:-build}
 OUTPUT_DIR=${OUTPUT_DIR:-$PRJDIR/.output}
@@ -32,7 +35,13 @@ function build() {
     -f "$PRJDIR"/Dockerfile.build .
 }
 
-trap cleanup EXIT ERR INT TERM
-
-setup
-build
+case $1 in
+setup | cleanup | build)
+  $1
+  ;;
+*)
+  trap cleanup EXIT ERR INT TERM
+  setup
+  build
+  ;;
+esac

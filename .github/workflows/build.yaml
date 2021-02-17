@@ -43,6 +43,28 @@ jobs:
       - name: Setup, Test, Build
         run: make build-multiarch
 
+  build-linux-armv7:
+    name: Build for Linux ARMv7
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          version: latest
+
+      - name: Available platforms
+        run: echo ${{ steps.buildx.outputs.platforms }}
+
+      - name: Setup, Test, Build
+        run: PLATFORMS=linux/arm/v7 make build-multiarch
+
   build-macos:
     name: Build for MacOS
     runs-on: macos-latest
