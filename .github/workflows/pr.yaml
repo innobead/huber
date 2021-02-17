@@ -1,6 +1,8 @@
-name: Build
+name: Build for PR/Push
 
 on:
+  workflow_dispatch:
+    inputs:
   pull_request:
   push:
     branches:
