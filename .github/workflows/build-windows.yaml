@@ -19,4 +19,4 @@ jobs:
         run: cargo test --workspace --exclude=huber-generator
 
       - name: Build all artifacts
-        run: cargo build --workspace --exclude=huber-generator
+        run: cargo build --workspace --exclude=huber-generator && ls ./target/debug/

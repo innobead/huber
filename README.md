@@ -37,6 +37,10 @@ or run `make setup-dev` or `hack/setup-dev.sh` to set up the development environ
 ❯ brew install openssl
 ```
 
+### Windows
+
+Please make sure install [libarchive](https://www.libarchive.org/) on your system, which is supported in Cygwin, MinGW (`pacman -S mingw-w64-x86_64-libarchive`) and Visual Studio (via `vcpkg install libarchive`).
+
 ## Installing Huber
 
 ### Installing the official version

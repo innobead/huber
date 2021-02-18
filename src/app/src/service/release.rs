@@ -2,7 +2,6 @@ use std::collections::HashMap;
 use std::fs;
 use std::fs::{read_dir, read_link, remove_dir_all, remove_file, File};
 use std::io::Write;
-use std::os::unix::fs::PermissionsExt;
 use std::path::PathBuf;
 use std::sync::Arc;
 
@@ -275,8 +274,14 @@ impl ReleaseTrait for ReleaseService {
         }
 
         if file.extension().is_none() && !file.is_executable() {
-            info!("Making {:?} as executable", &file);
-            fs::set_permissions(&file, fs::Permissions::from_mode(0o755))?;
+            if cfg!(target_os = "windows") {
+                info!("Ignored to make {:?} as executable", &file);
+            } else {
+                info!("Making {:?} as executable", &file);
+
+                use std::os::unix::fs::PermissionsExt;
+                fs::set_permissions(&file, fs::Permissions::from_mode(0o755))?;
+            }
         }
 
         if !file.is_executable() {
@@ -467,8 +472,16 @@ impl ReleaseAsyncTrait for ReleaseService {
                         &download_file_path, &dest_f
                     );
 
-                    fs::set_permissions(&download_file_path, fs::Permissions::from_mode(0o755))
-                        .unwrap();
+                    if cfg!(target_os = "windows") {
+                        info!("Ignored to make {:?} as executable", &download_file_path);
+                    } else {
+                        info!("Making {:?} as executable", &download_file_path);
+
+                        use std::os::unix::fs::PermissionsExt;
+                        fs::set_permissions(&download_file_path, fs::Permissions::from_mode(0o755))
+                            .unwrap();
+                    }
+
                     let option = fs_extra::file::CopyOptions::new();
                     fs_extra::file::move_file(&download_file_path, &dest_f, &option)?;
 
