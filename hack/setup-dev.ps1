@@ -1,5 +1,6 @@
 function install_rust_dependencies {
   vcpkg install libarchive
+  vcpkg integrate install
 
   if (!(Get-Command "cargo.exe" -ErrorAction SilentlyContinue))
   {
