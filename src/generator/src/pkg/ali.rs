@@ -30,6 +30,16 @@ pub fn release() -> Package {
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
+            PackageTargetType::LinuxArm32(PackageManagement {
+                artifact_templates: vec!["ali_{version}_linux_armv7.tar.gz".to_string()],
+                executable_templates: None,
+                executable_mappings: None,
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+                tag_version_regex_template: None,
+                scan_dirs: None,
+            }),
             PackageTargetType::MacOS(PackageManagement {
                 artifact_templates: vec!["ali_{version}_darwin_amd64.tar.gz".to_string()],
                 executable_templates: None,

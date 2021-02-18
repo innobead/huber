@@ -116,8 +116,8 @@ impl CacheTrait for CacheService {
                 let regex = Regex::new(pattern)?;
 
                 self.get_package_indexes()?
-                    .iter()
-                    .filter_map(|it| {
+                    .par_iter()
+                    .filter_map(|it: &PackageIndex| {
                         if regex.is_match(&it.name) {
                             if let Ok(p) = self.get_package(&it.name) {
                                 Some(p)
