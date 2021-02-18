@@ -13,6 +13,9 @@ case $os in
   "armv7l")
     filename="huber-linux-armv7"
     ;;
+  "x86_64")
+    filename="huber-linux-amd64"
+    ;;
   *)
     echo "The architecture ($arch) is not supported" >/dev/stderr
     exit 1
