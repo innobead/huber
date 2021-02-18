@@ -106,7 +106,7 @@ impl ReleaseService {
     }
 
     #[cfg(target_os = "windows")]
-    pub(crate) fn set_executable_permission(path: &PathBuf) -> Result<()> {
+    pub(crate) fn set_executable_permission(&self, path: &PathBuf) -> Result<()> {
         info!("Ignored to make {:?} as executable", path);
         Ok(())
     }
