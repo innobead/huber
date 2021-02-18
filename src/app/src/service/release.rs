@@ -95,6 +95,21 @@ impl ReleaseService {
             _ => unimplemented!(),
         }
     }
+
+    #[cfg(not(target_os = "windows"))]
+    pub(crate) fn set_executable_permission(&self, path: &PathBuf) -> Result<()> {
+        info!("Making {:?} as executable", path);
+
+        use std::os::unix::fs::PermissionsExt;
+        fs::set_permissions(path, fs::Permissions::from_mode(0o755))?;
+        Ok(())
+    }
+
+    #[cfg(target_os = "windows")]
+    pub(crate) fn set_executable_permission(path: &PathBuf) -> Result<()> {
+        info!("Ignored to make {:?} as executable", path);
+        Ok(())
+    }
 }
 
 impl ReleaseTrait for ReleaseService {
@@ -274,14 +289,7 @@ impl ReleaseTrait for ReleaseService {
         }
 
         if file.extension().is_none() && !file.is_executable() {
-            if cfg!(target_os = "windows") {
-                info!("Ignored to make {:?} as executable", &file);
-            } else {
-                info!("Making {:?} as executable", &file);
-
-                use std::os::unix::fs::PermissionsExt;
-                fs::set_permissions(&file, fs::Permissions::from_mode(0o755))?;
-            }
+            self.set_executable_permission(file)?;
         }
 
         if !file.is_executable() {
@@ -471,16 +479,7 @@ impl ReleaseAsyncTrait for ReleaseService {
                         "Moving {:?} to {:?}, because it's not an archive, regarded as an executable",
                         &download_file_path, &dest_f
                     );
-
-                    if cfg!(target_os = "windows") {
-                        info!("Ignored to make {:?} as executable", &download_file_path);
-                    } else {
-                        info!("Making {:?} as executable", &download_file_path);
-
-                        use std::os::unix::fs::PermissionsExt;
-                        fs::set_permissions(&download_file_path, fs::Permissions::from_mode(0o755))
-                            .unwrap();
-                    }
+                    self.set_executable_permission(&download_file_path)?;
 
                     let option = fs_extra::file::CopyOptions::new();
                     fs_extra::file::move_file(&download_file_path, &dest_f, &option)?;
