@@ -57,6 +57,7 @@ pub enum PackageDetailType {
 pub enum PackageTargetType {
     LinuxAmd64(PackageManagement),
     LinuxArm64(PackageManagement),
+    LinuxArm32(PackageManagement),
     MacOS(PackageManagement),
     Windows(PackageManagement),
 }

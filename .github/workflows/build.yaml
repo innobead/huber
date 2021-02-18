@@ -22,7 +22,7 @@ jobs:
         run: make build
 
   build-linux-aarch64:
-    name: Build for Linux aarch64
+    name: Build for Linux AArch64
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

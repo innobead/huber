@@ -1,0 +1,22 @@
+name: Build
+
+on:
+  workflow_dispatch:
+    inputs:
+
+jobs:
+  build-windows:
+    name: Build for Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup build environment
+        run: .\hack\setup-dev.ps1
+
+      - name: Run tests
+        run: cargo test --workspace --exclude=huber-generator
+
+      - name: Build all artifacts
+        run: cargo build --workspace --exclude=huber-generator

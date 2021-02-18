@@ -6,15 +6,24 @@ filename="huber-linux-amd64"
 
 case $os in
 "Linux")
-  if [[ "$arch" == "aarch64" ]]; then
+  case $arch in
+  "aarch64")
     filename="huber-linux-arm64"
-  fi
+    ;;
+  "armv7l")
+    filename="huber-linux-armv7"
+    ;;
+  *)
+    echo "The architecture ($arch) is not supported" >/dev/stderr
+    exit 1
+    ;;
+  esac
   ;;
 "Darwin")
-    filename="huber-darwin-amd64"
+  filename="huber-darwin-amd64"
   ;;
 *)
-  echo "The platform is not supported" > /dev/stderr
+  echo "The platform ($os) is not supported" >/dev/stderr
   exit 1
   ;;
 esac
