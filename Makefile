@@ -6,7 +6,7 @@ BUILD_DIR := $(CURDIR)/.target
 OUTPUT_DIR := $(CURDIR)/.output
 HUBER_ARTIFACT := $(shell $(CURDIR)/hack/huber-artifact-name.sh)
 MANAGED_PKG_ROOT_DIR := $(CURDIR)/generated
-PLATFORMS := linux/arm64 # for multi arch
+PLATFORMS ?= linux/arm64 # for multi arch
 
 .PHONY: help
 help:
