@@ -8,7 +8,7 @@
 - Manages the default package repository with an awesome package list including popular star github projects (ex: K8s, K3s, cloud-native, etc)
 - Supports `huber.yaml` in any public/private github repo aware to Huber to manage the described packages
 - Supports secure protocols (`SSH`/`HTTPS`) for github communication
-- Supports cross platforms (Linux x86_64/amd64, Linux arm64/aarch64, MacOS x86_64/amd64)
+- Supports cross platforms (Linux x86_64/amd64, Linux arm64/aarch64, Linux armv7, MacOS x86_64/amd64, Windows x86_64/amd64)
 
 ![huber in action](./doc/demo.svg)
 
