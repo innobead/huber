@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::fs;
 use std::fs::{read_dir, read_link, remove_dir_all, remove_file, File};
 use std::io::Write;
 use std::path::PathBuf;
@@ -100,6 +99,7 @@ impl ReleaseService {
     pub(crate) fn set_executable_permission(&self, path: &PathBuf) -> Result<()> {
         info!("Making {:?} as executable", path);
 
+        use std::fs;
         use std::os::unix::fs::PermissionsExt;
         fs::set_permissions(path, fs::Permissions::from_mode(0o755))?;
         Ok(())
