@@ -1,6 +1,6 @@
 function install_rust_dependencies {
   vcpkg integrate install
-  vcpkg install libarchive:x64-windows-static
+  vcpkg install libarchive:x64-windows-static-md
 
   if (!(Get-Command "cargo.exe" -ErrorAction SilentlyContinue))
   {

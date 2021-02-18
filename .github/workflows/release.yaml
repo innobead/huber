@@ -162,3 +162,22 @@ jobs:
           hub release edit -d "${assets[@]}" -m "" "$tag_name"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release-windows:
+    name: Release for Windows
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup build environment
+        run: ./hack/windows/setup-dev.ps1
+
+      - name: Build all artifacts
+        run: ./hack/windows/release.ps1
+
+      - name: Create release and upload artifacts
+        id: upload-release-asset
+        run: ./hack/windows/upload-release-asset.ps1 ./target/release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
