@@ -6,6 +6,7 @@ BUILD_DIR := $(CURDIR)/.target
 OUTPUT_DIR := $(CURDIR)/.output
 HUBER_ARTIFACT := $(shell $(CURDIR)/hack/huber-artifact-name.sh)
 MANAGED_PKG_ROOT_DIR := $(CURDIR)/generated
+PLATFORMS := linux/arm64 # for multi arch
 
 .PHONY: help
 help:
@@ -66,11 +67,11 @@ udep: ## Check undepedencies
 
 .PHONY: build-multiarch
 build-multiarch: ## Build binaries for linux multiple architectures
-	PLATFORMS=linux/arm64 BUILD_TARGET=debug MAKE_TARGET="test build" $(CURDIR)/hack/build-multiarch.sh
+	PLATFORMS=$(PLATFORMS) BUILD_TARGET=debug MAKE_TARGET="test build" $(CURDIR)/hack/build-multiarch.sh
 
 .PHONY: release-multiarch
 release-multiarch: ## Release binaries for linux multiple archite
-	PLATFORMS=linux/arm64 BUILD_TARGET=release OUTPUT_DIR=$(OUTPUT_DIR) MAKE_TARGET=release $(CURDIR)/hack/build-multiarch.sh
+	PLATFORMS=$(PLATFORMS) BUILD_TARGET=release OUTPUT_DIR=$(OUTPUT_DIR) MAKE_TARGET=release $(CURDIR)/hack/build-multiarch.sh
 	mkdir -p $(BUILD_DIR) && cp $(OUTPUT_DIR)/target/huber-* $(BUILD_DIR)/
 	$(MAKE) checksum
 
