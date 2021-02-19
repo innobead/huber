@@ -570,7 +570,11 @@ impl ReleaseAsyncTrait for ReleaseService {
             tasks.push(task);
         }
 
-        futures::future::join_all(tasks).await;
+        let results = futures::future::join_all(tasks).await;
+        for r in results {
+            r?;
+        }
+
         Ok(())
     }
 
