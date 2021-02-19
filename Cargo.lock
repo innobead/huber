@@ -196,9 +196,9 @@ dependencies = [
 
 [[package]]
 name = "compress-tools"
-version = "0.8.0"
+version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "58a31a285adc62f898839b6f7f995ebea136c05d796390c29cbe332d830cb425"
+checksum = "3e2c30a088ee242a79748ed067d1e8937211f6e0b483b09df00902dd72edf8b0"
 dependencies = [
  "derive_more",
  "pkg-config",
@@ -427,9 +427,9 @@ checksum = "00b0228411908ca8685dba7fc2cdd70ec9990a6e753e89b6ac91a84c40fbaf4b"
 
 [[package]]
 name = "form_urlencoded"
-version = "1.0.0"
+version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ece68d15c92e84fa4f19d3780f1294e5ca82a78a6d515f1efaabcc144688be00"
+checksum = "5fc25a87fa4fd2094bffb06925852034d90a17f0d1e05197d4956d3555752191"
 dependencies = [
  "matches",
  "percent-encoding",
