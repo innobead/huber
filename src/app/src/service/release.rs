@@ -268,8 +268,8 @@ impl ReleaseTrait for ReleaseService {
         if let Some(ext) = exec_file_path_without_version.extension() {
             if !SUPPORTED_EXTRA_EXECUTABLE_TYPES.contains(&ext.to_str_direct()) {
                 info!(
-                    "Ignored to link {:?} to {:?} because of suffix {:?}",
-                    &file, &exec_file_path, ext
+                    "Ignored to link {:?} to {:?} because of ext suffix {:?} not supported. {:?}",
+                    &file, &exec_file_path, ext, SUPPORTED_EXTRA_EXECUTABLE_TYPES
                 );
 
                 return Ok(None);
@@ -590,10 +590,9 @@ impl ReleaseAsyncTrait for ReleaseService {
 
         // remove old symlink bin, current
         info!(
-            "Removing the current release symbolic links: {}",
+            "Removing the old current release symbolic links: {}",
             &release.package
         );
-
         self.reset_current(&release.package)?;
 
         // update current symlink
@@ -616,9 +615,12 @@ impl ReleaseAsyncTrait for ReleaseService {
                 let entry = entry?;
                 let path = entry.path();
                 if path.is_file() {
+                    debug!("Scanning file: {:?}", path);
                     if let Some(p) = self.link_executables_for_current(&release, &path)? {
                         linked_exe_files.push(p);
                     }
+                } else {
+                    debug!("Ignored to scan non-file: {:?}", path);
                 }
             }
         }
