@@ -39,11 +39,19 @@ pub fn trim_os_arch(str: &str) -> String {
     ];
 
     let re = res.iter().find(|it| it.is_match(str));
-    if let Some(re) = re {
+    let mut str = if let Some(re) = re {
         re.replace_all(str, "").to_string()
     } else {
         str.to_string()
+    };
+
+    if cfg!(target_os = "windows") {
+        if !str.ends_with(".exe") {
+            str += ".exe";
+        }
     }
+
+    str
 }
 
 #[cfg(test)]
