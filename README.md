@@ -69,6 +69,8 @@ But, if it does not work as expected, please remember to add `$HOME/.huber/bin` 
 
 For development purpose, please make sure go 1.14 installed, then build and install `kubefire` in the `GOBIN` path.
 
+For Linux or Mac users, follow below steps to prepare the environment.
+
 ```console
 # Setup development environment
 ❯ make set-dev
@@ -76,6 +78,12 @@ For development purpose, please make sure go 1.14 installed, then build and inst
 # Install huber in $HOME/.cargo/bin, $HOME/.huber/bin and update ~/.bashrc
 ❯ make install
 ```
+
+For Windows users, follow below steps to prepare the environment.
+
+1. Download VS 2019 build tool installer, and install C++ development toolchain
+2. Pull vcpkg git repo (https://github.com/microsoft/vcpkg), then do bootstrapping via `./bootstrap-vcpkg.bat`
+3. Run `./hack/windows/setup-dev.ps1`
 
 # Tutorials
 
