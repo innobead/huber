@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: nerdctl
+description: Docker-compatible CLI for containerd
+source:
+  Github:
+    owner: AkihiroSuda
+    repo: nerdctl
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "nerdctl-{version}-linux-amd64.tar.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "nerdctl-{version}-linux-arm64.tar.gz"
+  - LinuxArm32:
+      artifact_templates:
+        - "nerdctl-{version}-linux-arm-v7.tar.gz"
+detail: ~

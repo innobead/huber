@@ -210,6 +210,9 @@
 - name: mkcert
   owner: FiloSottile
   source: github
+- name: nerdctl
+  owner: AkihiroSuda
+  source: github
 - name: nomad
   owner: hashicorp
   source: github
@@ -291,6 +294,9 @@
 - name: syncthing
   owner: syncthing
   source: github
+- name: tecli
+  owner: awslabs
+  source: github
 - name: termshark
   owner: gcla
   source: github
@@ -348,3 +354,4 @@
 - name: yq
   owner: mikefarah
   source: github
+

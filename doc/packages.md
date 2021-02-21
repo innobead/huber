@@ -72,6 +72,7 @@
  linkerd2-stable  Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
  minikube         Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
  mkcert           A simple zero-config tool to make locally trusted development certificates with any names you'd like...  https://github.com/FiloSottile/mkcert 
+ nerdctl          Docker-compatible CLI for containerd                                                                     https://github.com/AkihiroSuda/nerdctl 
  nomad            Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
  norouter         NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
  octant           Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
@@ -99,6 +100,7 @@
  stern            ⎈ Multi pod and container log tailing for Kubernetes                                                     https://github.com/wercker/stern 
  submariner       Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
  syncthing        Open Source Continuous File Synchronization                                                              https://github.com/syncthing/syncthing 
+ tecli            In a world where everything is Terraform, teams use Terraform Cloud API to manage their workloads. T...  https://github.com/awslabs/tecli 
  termshark        A terminal UI for tshark, inspired by Wireshark                                                          https://github.com/gcla/termshark 
  terraform        Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
  terrascan        Detect compliance and security violations across Infrastructure as Code to mitigate risk before prov...  https://github.com/accurics/terrascan 
