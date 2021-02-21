@@ -27,7 +27,7 @@ use huber_common::str::OsStrExt;
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
-use std::env;
+use std::fs;
 
 const SUPPORTED_ARCHIVE_TYPES: [&str; 7] = ["tar.gz", "tar.xz", "zip", "gz", "xz", "tar", "tgz"];
 const SUPPORTED_EXTRA_EXECUTABLE_TYPES: [&str; 3] = ["exe", "AppImage", "dmg"];
@@ -100,7 +100,6 @@ impl ReleaseService {
     pub(crate) fn set_executable_permission(&self, path: &PathBuf) -> Result<()> {
         info!("Making {:?} as executable", path);
 
-        use std::fs;
         use std::os::unix::fs::PermissionsExt;
         fs::set_permissions(path, fs::Permissions::from_mode(0o755))?;
         Ok(())
@@ -509,6 +508,7 @@ impl ReleaseAsyncTrait for ReleaseService {
                         let download_file = File::open(&download_file_path)?;
 
                         info!("Decompressing {:?} to {:?}", &download_file, &extract_dir);
+                        fs::create_dir_all(&extract_dir)?;
                         uncompress_archive(&download_file, &extract_dir, Ownership::Ignore)?;
 
                         let dir = read_dir(&extract_dir)?;
