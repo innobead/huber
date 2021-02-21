@@ -504,7 +504,7 @@ impl ReleaseAsyncTrait for ReleaseService {
                         // uncompress
                         info!("Decompressing {} which has extension {:?}", filename, ext);
 
-                        let extract_dir = download_file_path.join("extract");
+                        let extract_dir = download_file_path.parent().unwrap().join("extract");
                         let download_file = File::open(&download_file_path)?;
 
                         info!("Decompressing {:?} to {:?}", &download_file, &extract_dir);
