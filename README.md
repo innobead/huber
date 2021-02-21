@@ -60,14 +60,9 @@ But, if it does not work as expected, please remember to add `$HOME/.huber/bin` 
 
 # Windows
 ❯ . { iwr -useb https://raw.githubusercontent.com/innobead/huber/master/hack/windows/install.ps1 } | iex; install
-
-# Update the environment path if required
-❯ echo "export PATH=\$HOME/.huber/bin:\$PATH" >> ~/.bashrc
 ```
 
 ### Installing the development version
-
-For development purpose, please make sure go 1.14 installed, then build and install `kubefire` in the `GOBIN` path.
 
 For Linux or Mac users, follow below steps to prepare the environment.
 
