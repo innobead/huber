@@ -20,10 +20,11 @@
 # Getting Started
 
 ## Prerequisites
-For Linux/MacOS users, please install necessary dependent libraries to make sure huber work as expected. Just use any appropriate OS package manager to install the dependencies, 
-or run `make setup-dev` or `hack/setup-dev.sh` to set up the development environment.
+
+Please install necessary dependent libraries on the supported platforms to make sure huber work as expected. Use appropriate OS package manager to install the dependencies. 
 
 ### Linux (usually installed already)
+
 ```console
 # Ubuntu
 ❯ apt install libssl-dev libarchive-dev
@@ -36,6 +37,7 @@ or run `make setup-dev` or `hack/setup-dev.sh` to set up the development environ
 ```
 
 ### MacOS
+
 ```console
 ❯ brew install libarchive
 ❯ export PKG_CONFIG_PATH=/usr/local/opt/libarchive/lib/pkgconfig
@@ -44,8 +46,9 @@ or run `make setup-dev` or `hack/setup-dev.sh` to set up the development environ
 
 ### Windows
 
-Please make sure install [libarchive](https://www.libarchive.org/) on your system, which is supported in Cygwin, MinGW (`pacman -S mingw-w64-x86_64-libarchive`) and Visual Studio (via `vcpkg install libarchive`).
-For vcpkg, you can refer to [vcpkg#quick-start-windows](https://github.com/microsoft/vcpkg#quick-start-windows)
+Please install [libarchive](https://www.libarchive.org/), which can be installed with Cygwin, MinGW (`pacman -S mingw-w64-x86_64-libarchive`) or Vcpkg (`vcpkg install libarchive`).
+
+For vcpkg, you can refer to [vcpkg#quick-start-windows](https://github.com/microsoft/vcpkg#quick-start-windows).
 
 ## Installing Huber
 
