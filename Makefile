@@ -75,6 +75,7 @@ release-multiarch: ## Release binaries for linux multiple archite
 	mkdir -p $(BUILD_DIR) && cp $(OUTPUT_DIR)/target/huber-* $(BUILD_DIR)/
 	$(MAKE) checksum
 
+HUBER ?= huber
 .PHONY: verify
 verify: ## Verify Huber commands via the local package generated folder
-	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) huber $(CMD)
+	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) $(HUBER) $(CMD)

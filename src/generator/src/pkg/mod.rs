@@ -61,6 +61,7 @@ pub mod krustlet;
 pub mod kube_bench;
 pub mod kubectl;
 pub mod kubefire;
+pub mod kubevirt;
 pub mod kudo;
 pub mod kustomize;
 pub mod kuttl;

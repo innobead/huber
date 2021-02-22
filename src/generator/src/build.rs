@@ -182,6 +182,7 @@ fn releases() -> Vec<Package> {
         krustlet::release(),
         camel_k::release(),
         keptn::release(),
+        kubevirt::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
