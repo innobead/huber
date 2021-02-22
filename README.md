@@ -95,12 +95,12 @@ For Windows users, follow below steps to prepare the environment.
     - [Showing the package info](#showing-the-package-info)
     - [Showing the installed package version info](#showing-the-installed-package-version-info)
     - [Flushing non-current packages](#flushing-non-current-packages)
-- [Manages repositories](#manages-repositories)
+- [Managing repositories](#managing-repositories)
     - [Adding a repository](#adding-a-repository)
     - [Listing repositories](#listing-repositories)
     - [Installing the package from the repository](#installing-the-package-from-the-repository)
     - [Deleting a repository](#deleting-a-repository)
-- [Manage the configuration](#manage-the-configuration)
+- [Managing configuration](#managing-the-configuration)
     - [Updating the configuration](#updating-the-configuration)
     - [Showing the configuration](#showing-the-configuration)
 - [Others](#others)
@@ -513,7 +513,7 @@ Removing k3s (version: v1.18.10+k3s2, source: github)
  k3s   v1.19.3+k3s3  true     - /home/davidko/.huber/bin/k3s  Release 
 ```
 
-## Manages repositories
+## Managing repositories
 
 ### Adding a repository
 The repository can be private or publice. If it's private, make sure you have the permission to access via the authroized SSH private key.
@@ -572,7 +572,7 @@ conftest2 (version: v0.22.0, source: github) installed
 3rdparty-repo removed
 ```
 
-## Manage the configuration
+## Managing configuration
 ### Updating the configuration
 ```console
 ❯ huber config update --github-token mytoken --github-key /home/davidko/.ssh/id_rsa
