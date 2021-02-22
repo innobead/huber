@@ -100,7 +100,7 @@ For Windows users, follow below steps to prepare the environment.
     - [Listing repositories](#listing-repositories)
     - [Installing the package from the repository](#installing-the-package-from-the-repository)
     - [Deleting a repository](#deleting-a-repository)
-- [Managing configuration](#managing-the-configuration)
+- [Managing configuration](#managing-configuration)
     - [Updating the configuration](#updating-the-configuration)
     - [Showing the configuration](#showing-the-configuration)
 - [Others](#others)
