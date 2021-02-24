@@ -6,7 +6,7 @@ use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use huber_common::model::config::{Config, ConfigFieldConvertTrait};
 use huber_common::model::package::{Package, PackageSource, PackageSummary};
-use huber_common::model::release::VecExtensionTrait;
+use huber_common::model::release::{ReleaseKind, VecExtensionTrait};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
@@ -27,11 +27,28 @@ impl PackageService {
         Self { container: None }
     }
 
-    pub(crate) async fn find_summary(&self, pkg_name: &str) -> Result<Vec<PackageSummary>> {
+    pub(crate) async fn find_summary(
+        &self,
+        pkg_name: &str,
+        release_build_only: bool,
+    ) -> Result<Vec<PackageSummary>> {
         let mut pkgs: Vec<PackageSummary> = self
             .find(&pkg_name.to_string())
             .await?
             .into_iter()
+            .filter(|it| {
+                if release_build_only {
+                    return if let ReleaseKind::Release =
+                        it.release_kind.unwrap_or(ReleaseKind::PreRelease)
+                    {
+                        true
+                    } else {
+                        false
+                    };
+                }
+
+                true
+            })
             .map(|it| PackageSummary::from(it))
             .collect();
 

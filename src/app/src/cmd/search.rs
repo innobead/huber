@@ -75,7 +75,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for SearchCmd {
         // search a package with all release info
         if matches.is_present("name") && matches.is_present("all") {
             let pkgs = pkg_service
-                .find_summary(&matches.value_of("name").unwrap().to_string())
+                .find_summary(&matches.value_of("name").unwrap().to_string(), false)
                 .await?;
 
             return output!(config.output_format, .display(

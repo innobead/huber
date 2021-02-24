@@ -36,7 +36,7 @@ impl UpdateCmd {
 impl<'a, 'b> CommandTrait<'a, 'b> for UpdateCmd {
     fn app(&self) -> App<'a, 'b> {
         App::new(CMD_NAME)
-            .visible_alias("u")
+            .visible_alias("up")
             .about("Updates the installed package(s)")
             .args(&vec![
                 Arg::with_name("name")
@@ -98,13 +98,12 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {
 
             match release_service.get_latest(&pkg).await {
                 Ok(mut release_latest) => match release_latest.compare(&release)? {
-                    Ordering::Equal => {
-                        println!("The installed {} is the latest version already", release);
-                        continue;
+                    Ordering::Greater => {
+                        update(&release_service, &matches, &release_latest, &release).await?;
                     }
 
-                    Ordering::Less => {
-                        let sorted_pkgs_sum = pkg_service.find_summary(name).await?;
+                    _ => {
+                        let sorted_pkgs_sum = pkg_service.find_summary(name, true).await?;
                         let latest_pkg_sum = sorted_pkgs_sum.first().unwrap();
 
                         if latest_pkg_sum.version.as_ref().unwrap() != &release.version {
@@ -116,10 +115,6 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {
                             println!("The installed {} is the latest version already", release);
                             continue;
                         }
-                    }
-
-                    Ordering::Greater => {
-                        update(&release_service, &matches, &release_latest, &release).await?;
                     }
                 },
 
