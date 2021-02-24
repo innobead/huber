@@ -53,7 +53,7 @@
  k3sup            bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
  k6               A modern load testing tool, using Go and JavaScript - https://k6.io                                      https://github.com/loadimpact/k6 
  k9s              🐶 Kubernetes CLI To Manage Your Clusters In Style!                                                      https://github.com/derailed/k9s 
- keptn            Keptn is a message-driven control-plane for application delivery and automated operations                https://github.com/keptn/keptn 
+ keptn            Cloud-native application life-cycle orchestration. Keptn automates your SLO-driven multi-stage deliv...  https://github.com/keptn/keptn 
  ketch            Ketch is an application delivery framework that facilitates the deployment and management of applica...  https://github.com/shipa-corp/ketch 
  kind             Kubernetes IN Docker - local clusters for testing Kubernetes                                             https://github.com/kubernetes-sigs/kind 
  ko               Build and deploy Go applications on Kubernetes                                                           https://github.com/google/ko 
