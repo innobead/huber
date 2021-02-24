@@ -701,9 +701,12 @@ impl ItemOperationTrait for ReleaseService {
 
         let config = self.container.get::<Config>().unwrap();
         let pkg_service = self.container.get::<PackageService>().unwrap();
+        let release_service = self.container.get::<ReleaseService>().unwrap();
 
         let pkg = pkg_service.get(name)?;
-        self.reset_current(&pkg)?;
+        let release = release_service.current(&pkg)?;
+
+        self.reset_current(&release.package)?;
 
         let dir = config.installed_pkg_base_dir(&pkg)?;
         Ok(remove_dir_all(dir)?)
