@@ -123,6 +123,7 @@ fn releases() -> Vec<Package> {
         shadowsocks::release(),
         norouter::release(),
         wstunnel::release(),
+        doctl::release(),
         // app development
         okteto::release(),
         skaffold::release(),

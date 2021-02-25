@@ -54,6 +54,9 @@
 - name: dive
   owner: wagoodman
   source: github
+- name: doctl
+  owner: digitalocean
+  source: github
 - name: drone-cli
   owner: drone
   source: github

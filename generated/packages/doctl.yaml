@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: doctl
+description: The official command line interface for the DigitalOcean API.
+source:
+  Github:
+    owner: digitalocean
+    repo: doctl
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "doctl-{version}-linux-amd64.tar.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "doctl-{version}-linux-arm64.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "doctl-{version}-darwin-amd64.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "doctl-{version}-windows-amd64.zip"
+detail: ~
