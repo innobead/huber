@@ -1,6 +1,6 @@
 [package]
 name = "huber-procmacro"
-version = "0.2.7"
+version = "0.2.8"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2018"
 
