@@ -10,6 +10,7 @@ use crate::model::package::{
     GithubAsset, GithubPackage, Package, PackageDetailType, PackageSource,
 };
 use crate::result::Result;
+use crate::str::VersionCompareTrait;
 
 pub trait VecExtensionTrait {
     fn sort_by_version(&mut self);
@@ -122,6 +123,6 @@ impl From<hubcaps::releases::Release> for Release {
 
 impl VecExtensionTrait for Vec<Release> {
     fn sort_by_version(&mut self) {
-        self.sort_by(|x, y| y.version.cmp(&x.version));
+        self.sort_by(|x, y| y.version.cmp_version(&x.version).unwrap());
     }
 }

@@ -13,6 +13,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::model::release::{ReleaseKind, VecExtensionTrait};
 use crate::result::Result;
+use crate::str::VersionCompareTrait;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Package {
@@ -352,6 +353,12 @@ impl From<Package> for PackageSummary {
 
 impl VecExtensionTrait for Vec<PackageSummary> {
     fn sort_by_version(&mut self) {
-        self.sort_by(|x, y| y.version.cmp(&x.version));
+        self.sort_by(|x, y| {
+            y.version
+                .as_ref()
+                .unwrap()
+                .cmp_version(x.version.as_ref().unwrap())
+                .unwrap()
+        });
     }
 }
