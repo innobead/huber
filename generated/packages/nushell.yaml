@@ -1,0 +1,25 @@
+# This is generated. Don't modify.
+---
+name: nushell
+description: A new type of shell
+source:
+  Github:
+    owner: nushell
+    repo: nushell
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "nu_{version:_}_linux.tar.gz"
+      scan_dirs:
+        - "nushell-{version}"
+  - MacOS:
+      artifact_templates:
+        - "nu_{version:_}_macOS.zip"
+      scan_dirs:
+        - "nushell-{version}"
+  - Windows:
+      artifact_templates:
+        - "nu_{version:_}_windows.zip"
+      scan_dirs:
+        - "nushell-{version}"
+detail: ~

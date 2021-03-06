@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: zola
+description: "A fast static site generator in a single binary with everything built-in. https://www.getzola.org"
+source:
+  Github:
+    owner: getzola
+    repo: zola
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "zola-v{version}-x86_64-unknown-linux-gnu.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "zola-v{version}-x86_64-apple-darwin.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "zola-v{version}-x86_64-pc-windows-msvc.zip"
+detail: ~

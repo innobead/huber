@@ -124,6 +124,8 @@ fn releases() -> Vec<Package> {
         norouter::release(),
         wstunnel::release(),
         doctl::release(),
+        zola::release(),
+        nushell::release(),
         // app development
         okteto::release(),
         skaffold::release(),

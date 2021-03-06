@@ -225,6 +225,9 @@
 - name: norouter
   owner: norouter
   source: github
+- name: nushell
+  owner: nushell
+  source: github
 - name: octant
   owner: vmware-tanzu
   source: github
@@ -359,5 +362,8 @@
   source: github
 - name: yq
   owner: mikefarah
+  source: github
+- name: zola
+  owner: getzola
   source: github
 
