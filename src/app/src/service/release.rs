@@ -1,4 +1,5 @@
 use std::collections::HashMap;
+use std::fs;
 use std::fs::{read_dir, read_link, remove_dir_all, remove_file, File};
 use std::io::Write;
 use std::path::PathBuf;
@@ -27,7 +28,7 @@ use huber_common::str::OsStrExt;
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
-use std::fs;
+use regex::Captures;
 
 const SUPPORTED_ARCHIVE_TYPES: [&str; 7] = ["tar.gz", "tar.xz", "zip", "gz", "xz", "tar", "tgz"];
 const SUPPORTED_EXTRA_EXECUTABLE_TYPES: [&str; 3] = ["exe", "AppImage", "dmg"];
@@ -408,7 +409,24 @@ impl ReleaseAsyncTrait for ReleaseService {
             .target()?
             .artifact_templates
             .iter()
-            .map(|it| it.replace("{version}", &version.trim_start_matches("v")))
+            .map(|it| {
+                let regex = regex::Regex::new(r"\{version:(\w)\}").unwrap();
+
+                // v1.1.1 => v1_1_1 if the version separator is _, otherwise v1.1.1 instead
+                if let Some(s) = regex.captures(it) {
+                    let version_separator = s.get(1).unwrap().as_str();
+                    regex
+                        .replace(it, |_: &Captures| {
+                            version
+                                .trim_start_matches("v")
+                                .replace(".", version_separator)
+                        })
+                        .to_string()
+                } else {
+                    it.replace("{version}", version.trim_start_matches("v"))
+                        .to_string()
+                }
+            })
             .collect();
 
         let mut download_urls: Vec<String> = vec![];
