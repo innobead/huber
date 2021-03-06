@@ -1,6 +1,6 @@
 [package]
 name = "huber-generator"
-version = "0.2.8"
+version = "0.3.0"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2018"
 build = "src/build.rs"
