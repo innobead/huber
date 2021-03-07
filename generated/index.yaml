@@ -57,6 +57,9 @@
 - name: doctl
   owner: digitalocean
   source: github
+- name: dolt
+  owner: dolthub
+  source: github
 - name: drone-cli
   owner: drone
   source: github

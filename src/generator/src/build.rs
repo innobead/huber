@@ -126,6 +126,7 @@ fn releases() -> Vec<Package> {
         doctl::release(),
         zola::release(),
         nushell::release(),
+        dolt::release(),
         // app development
         okteto::release(),
         skaffold::release(),

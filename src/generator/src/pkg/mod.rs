@@ -17,6 +17,7 @@ pub mod deno;
 pub mod direnv;
 pub mod dive;
 pub mod doctl;
+pub mod dolt;
 pub mod drone_cli;
 pub mod eksctl;
 pub mod exa;

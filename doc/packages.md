@@ -21,6 +21,7 @@
  direnv           unclutter your .profile                                                                                  https://github.com/direnv/direnv 
  dive             A tool for exploring each layer in a docker image                                                        https://github.com/wagoodman/dive 
  doctl            The official command line interface for the DigitalOcean API.                                            https://github.com/digitalocean/doctl 
+ dolt             Dolt – It's Git for Data                                                                                 https://github.com/dolthub/dolt 
  drone-cli        Command Line Tools for Drone CI                                                                          https://github.com/drone/drone-cli 
  eksctl           The official CLI for Amazon EKS                                                                          https://github.com/weaveworks/eksctl 
  exa              A modern replacement for ‘ls’.                                                                           https://github.com/ogham/exa 
