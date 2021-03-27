@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: dust
+description: A more intuitive version of du in rust
+source:
+  Github:
+    owner: bootandy
+    repo: dust
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "dust-v{version}-x86_64-unknown-linux-musl.tar.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "dust-v{version}-arm-unknown-linux-gnueabihf.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "dust-v{version}-x86_64-apple-darwin.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "dust-v{version}-x86_64-pc-windows-msvc.zip"
+detail: ~

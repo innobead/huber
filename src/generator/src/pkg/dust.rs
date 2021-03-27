@@ -3,15 +3,17 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "nerdctl".to_string(),
+        name: "dust".to_string(),
         source: PackageSource::Github {
-            owner: "containerd".to_string(),
-            repo: "nerdctl".to_string(),
+            owner: "bootandy".to_string(),
+            repo: "dust".to_string(),
         },
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["nerdctl-{version}-linux-amd64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "dust-v{version}-x86_64-unknown-linux-musl.tar.gz".to_string()
+                ],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -21,7 +23,9 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["nerdctl-{version}-linux-arm64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "dust-v{version}-arm-unknown-linux-gnueabihf.tar.gz".to_string()
+                ],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -30,8 +34,18 @@ pub fn release() -> Package {
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
-            PackageTargetType::LinuxArm32(PackageManagement {
-                artifact_templates: vec!["nerdctl-{version}-linux-arm-v7.tar.gz".to_string()],
+            PackageTargetType::MacOS(PackageManagement {
+                artifact_templates: vec!["dust-v{version}-x86_64-apple-darwin.tar.gz".to_string()],
+                executable_templates: None,
+                executable_mappings: None,
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+                tag_version_regex_template: None,
+                scan_dirs: None,
+            }),
+            PackageTargetType::Windows(PackageManagement {
+                artifact_templates: vec!["dust-v{version}-x86_64-pc-windows-msvc.zip".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,

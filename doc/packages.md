@@ -23,6 +23,7 @@
  doctl            The official command line interface for the DigitalOcean API.                                            https://github.com/digitalocean/doctl 
  dolt             Dolt – It's Git for Data                                                                                 https://github.com/dolthub/dolt 
  drone-cli        Command Line Tools for Drone CI                                                                          https://github.com/drone/drone-cli 
+ dust             A more intuitive version of du in rust                                                                   https://github.com/bootandy/dust 
  eksctl           The official CLI for Amazon EKS                                                                          https://github.com/weaveworks/eksctl 
  exa              A modern replacement for ‘ls’.                                                                           https://github.com/ogham/exa 
  faas-cli         Official CLI for OpenFaaS                                                                                https://github.com/openfaas/faas-cli 
@@ -75,7 +76,7 @@
  linkerd2-stable  Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
  minikube         Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
  mkcert           A simple zero-config tool to make locally trusted development certificates with any names you'd like...  https://github.com/FiloSottile/mkcert 
- nerdctl          Docker-compatible CLI for containerd                                                                     https://github.com/AkihiroSuda/nerdctl 
+ nerdctl          Docker-compatible CLI for containerd                                                                     https://github.com/containerd/nerdctl 
  nomad            Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
  norouter         NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
  nushell          A new type of shell                                                                                      https://github.com/nushell/nushell 
@@ -89,6 +90,7 @@
  powershell       PowerShell for every system!                                                                             https://github.com/PowerShell/PowerShell 
  procs            A modern replacement for ps written in Rust                                                              https://github.com/dalance/procs 
  protoc           Protocol Buffers - Google's data interchange format                                                      https://github.com/protocolbuffers/protobuf 
+ pueue            :stars: Manage your shell commands.                                                                      https://github.com/Nukesor/pueue 
  pulumi           Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                       https://github.com/pulumi/pulumi 
  rancher          Rancher CLI                                                                                              https://github.com/rancher/cli 
  rio              Application Deployment Engine for Kubernetes                                                             https://github.com/rancher/rio 
@@ -111,7 +113,7 @@
  tilt             A multi-service dev environment for teams on Kubernetes                                                  https://github.com/tilt-dev/tilt 
  tokei            Count your code, quickly.                                                                                https://github.com/XAMPPRocky/tokei 
  tracee           Linux Runtime Security and Forensics using eBPF                                                          https://github.com/aquasecurity/tracee 
- trivy            A Simple and Comprehensive Vulnerability Scanner for Container Images, Github Repositories and Files...  https://github.com/aquasecurity/trivy 
+ trivy            A Simple and Comprehensive Vulnerability Scanner for Container Images, Git Repositories and Filesyst...  https://github.com/aquasecurity/trivy 
  typescript       TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
  vegeta           HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
  velero           Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
@@ -125,5 +127,6 @@
  wstunnel         Tunneling over websocket protocol - Static binary available                                              https://github.com/erebe/wstunnel 
  yq               yq is a portable command-line YAML processor                                                             https://github.com/mikefarah/yq 
  zola             A fast static site generator in a single binary with everything built-in. https://www.getzola.org        https://github.com/getzola/zola 
+ zoxide           A faster way to navigate your filesystem                                                                 https://github.com/ajeetdsouza/zoxide 
 
 ```

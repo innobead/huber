@@ -63,6 +63,9 @@
 - name: drone-cli
   owner: drone
   source: github
+- name: dust
+  owner: bootandy
+  source: github
 - name: eksctl
   owner: weaveworks
   source: github
@@ -220,7 +223,7 @@
   owner: FiloSottile
   source: github
 - name: nerdctl
-  owner: AkihiroSuda
+  owner: containerd
   source: github
 - name: nomad
   owner: hashicorp
@@ -260,6 +263,9 @@
   source: github
 - name: protoc
   owner: protocolbuffers
+  source: github
+- name: pueue
+  owner: Nukesor
   source: github
 - name: pulumi
   owner: pulumi
@@ -368,5 +374,8 @@
   source: github
 - name: zola
   owner: getzola
+  source: github
+- name: zoxide
+  owner: ajeetdsouza
   source: github
 

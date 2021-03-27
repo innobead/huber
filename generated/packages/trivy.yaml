@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: trivy
-description: "A Simple and Comprehensive Vulnerability Scanner for Container Images, Github Repositories and Filesystems. Suitable for CI"
+description: "A Simple and Comprehensive Vulnerability Scanner for Container Images, Git Repositories and Filesystems. Suitable for CI"
 source:
   Github:
     owner: aquasecurity

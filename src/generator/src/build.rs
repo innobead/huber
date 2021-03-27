@@ -116,6 +116,9 @@ fn releases() -> Vec<Package> {
         terrascan::release(),
         tecli::release(),
         nerdctl::release(),
+        zoxide::release(),
+        dust::release(),
+        pueue::release(),
         // infra
         pulumi::release(),
         chisel::release(),

@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: zoxide
+description: A faster way to navigate your filesystem
+source:
+  Github:
+    owner: ajeetdsouza
+    repo: zoxide
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/zoxide-x86_64-unknown-linux-musl"
+  - LinuxArm32:
+      artifact_templates:
+        - "{version}/zoxide-armv7-unknown-linux-musleabihf"
+  - MacOS:
+      artifact_templates:
+        - "{version}/zoxide-x86_64-apple-darwin"
+  - Windows:
+      artifact_templates:
+        - "{version}/zoxide-x86_64-pc-windows-msvc.exe"
+detail: ~
