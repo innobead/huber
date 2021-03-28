@@ -85,29 +85,6 @@ For Windows users, follow below steps to prepare the environment.
 
 # Tutorials
 
-- [Managing packages](#managing-packages)
-    - [Searching packages](#searching-packages)
-    - [Searching package versions](#searching-package-versions)
-    - [Installing the package](#installing-the-package)
-    - [Updating the package](#updating-the-package)
-    - [Uninstalling the package](#uninstalling-the-package)
-    - [Setting the current installed package version](#setting-the-current-installed-package-version)
-    - [Showing the package info](#showing-the-package-info)
-    - [Showing the installed package version info](#showing-the-installed-package-version-info)
-    - [Flushing non-current packages](#flushing-non-current-packages)
-- [Managing repositories](#managing-repositories)
-    - [Adding a repository](#adding-a-repository)
-    - [Listing repositories](#listing-repositories)
-    - [Installing the package from the repository](#installing-the-package-from-the-repository)
-    - [Deleting a repository](#deleting-a-repository)
-- [Managing configuration](#managing-configuration)
-    - [Updating the configuration](#updating-the-configuration)
-    - [Showing the configuration](#showing-the-configuration)
-- [Others](#others)
-    - [Resetting Huber](#resetting-huber)
-    - [Self updating Huber](#self-updating-huber)
-
-
 > Note: 
 > - If encountering github access rate limitation, suggest to set **GITHUB_TOKEN** environment variable when running the huber command, 
 > or use the global option `--github-token` or configure the huber configuration via `huber config update`. 
