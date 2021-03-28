@@ -9,6 +9,7 @@ pub mod conftest;
 pub mod consul;
 pub mod containerd;
 pub mod copilot_cli;
+pub mod coreutils;
 pub mod croc;
 pub mod ctlptl;
 pub mod czkawka;

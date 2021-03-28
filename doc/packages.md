@@ -13,6 +13,7 @@
  consul           Consul is a distributed, highly available, and data center aware solution to connect and configure a...  https://github.com/hashicorp/consul 
  containerd       An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
  copilot-cli      The AWS Copilot CLI is a tool for developers to build, release and operate production ready containe...  https://github.com/aws/copilot-cli 
+ coreutils        Cross-platform Rust rewrite of the GNU coreutils                                                         https://github.com/uutils/coreutils 
  croc             Easily and securely send things from one computer to another :crocodile: :package:                       https://github.com/schollz/croc 
  ctlptl           Making local Kubernetes clusters fun and easy to set up                                                  https://github.com/tilt-dev/ctlptl 
  czkawka          Multi functional app to find duplicates, empty folders, similar images etc.                              https://github.com/qarmin/czkawka 
