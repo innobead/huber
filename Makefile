@@ -16,7 +16,7 @@ help:
 setup-dev: ## Setup development environment
 	$(CURDIR)/hack/setup-dev.sh
 
-.PHONY: buildk
+.PHONY: build
 build: fmt ## Build binaries
 	cargo build $(CARGO_OPTS) --workspace --exclude=huber-generator
 
