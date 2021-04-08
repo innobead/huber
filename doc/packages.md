@@ -68,6 +68,7 @@
  kube-bench       Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
  kubectl          Production-Grade Container Scheduling and Management                                                     https://github.com/kubernetes/kubernetes 
  kubefire         KubeFire 🔥, creates and manages Kubernetes Clusters using Firecracker microVMs                          https://github.com/innobead/kubefire 
+ kubestr                                                                                                                   https://github.com/kastenhq/kubestr 
  kubevirt         Kubernetes Virtualization API and runtime in order to define and manage virtual machines.                https://github.com/kubevirt/kubevirt 
  kudo             Kubernetes Universal Declarative Operator (KUDO)                                                         https://github.com/kudobuilder/kudo 
  kustomize        Customization of kubernetes YAML configurations                                                          https://github.com/kubernetes-sigs/kustomize 

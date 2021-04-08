@@ -198,6 +198,9 @@
 - name: kubefire
   owner: innobead
   source: github
+- name: kubestr
+  owner: kastenhq
+  source: github
 - name: kubevirt
   owner: kubevirt
   source: github

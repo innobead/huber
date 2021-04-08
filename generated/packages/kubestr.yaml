@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: kubestr
+description: ~
+source:
+  Github:
+    owner: kastenhq
+    repo: kubestr
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "kubestr-v{version}-linux-amd64.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "kubestr-v{version}-darwin-amd64.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "kubestr-v{version}-windows-amd64.zip"
+detail: ~
