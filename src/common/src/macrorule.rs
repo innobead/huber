@@ -12,8 +12,8 @@ macro_rules! progress {
             let pb = ProgressBar::new();
 
             pb.update(&$message)?;
-            let result = $($t)*
-            pb.done_without_indicator(&$message)?;
+            let result = $($t)*;
+            pb.done_without_indicator("")?;
             result
         }
     };

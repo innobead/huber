@@ -210,7 +210,7 @@ impl CacheAsyncTrait for CacheService {
             client.clone("innobead", "huber", dir.clone()).await?;
         );
 
-        println!("Updating unmanaged repos");
+        progress!("Updating unmanaged repos", ());
 
         let repo_service = self.container.get::<RepoService>().unwrap();
         for repo in repo_service.list()? {

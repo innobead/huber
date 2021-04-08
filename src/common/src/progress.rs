@@ -46,7 +46,9 @@ impl ProgressTrait for ProgressBar {
 
     fn done_without_indicator(&self, msg: &str) -> Result<Self::ProgressResultType> {
         self.bar.finish_and_clear();
-        println!("{}", msg);
+        if !msg.is_empty() {
+            println!("{}", msg);
+        }
 
         Ok(())
     }
