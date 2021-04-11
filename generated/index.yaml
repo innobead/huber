@@ -192,6 +192,9 @@
 - name: kube-bench
   owner: aquasecurity
   source: github
+- name: kube-linter
+  owner: stackrox
+  source: github
 - name: kubectl
   owner: kubernetes
   source: github

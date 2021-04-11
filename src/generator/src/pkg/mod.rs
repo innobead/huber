@@ -63,6 +63,7 @@ pub mod kpt;
 pub mod krew;
 pub mod krustlet;
 pub mod kube_bench;
+pub mod kube_linter;
 pub mod kubectl;
 pub mod kubefire;
 pub mod kubestr;

@@ -66,6 +66,7 @@
  krew             📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
  krustlet         Kubernetes Rust Kubelet                                                                                  https://github.com/deislabs/krustlet 
  kube-bench       Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
+ kube-linter      KubeLinter is a static analysis tool that checks Kubernetes YAML files and Helm charts to ensure the...  https://github.com/stackrox/kube-linter 
  kubectl          Production-Grade Container Scheduling and Management                                                     https://github.com/kubernetes/kubernetes 
  kubefire         KubeFire 🔥, creates and manages Kubernetes Clusters using Firecracker microVMs                          https://github.com/innobead/kubefire 
  kubestr                                                                                                                   https://github.com/kastenhq/kubestr 

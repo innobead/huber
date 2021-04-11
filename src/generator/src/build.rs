@@ -193,6 +193,7 @@ fn releases() -> Vec<Package> {
         keptn::release(),
         kubevirt::release(),
         kubestr::release(),
+        kube_linter::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
