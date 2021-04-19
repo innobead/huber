@@ -79,7 +79,7 @@
  linkerd2-stable  Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
  minikube         Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
  mkcert           A simple zero-config tool to make locally trusted development certificates with any names you'd like...  https://github.com/FiloSottile/mkcert 
- nerdctl          Docker-compatible CLI for containerd                                                                     https://github.com/containerd/nerdctl 
+ nerdctl          Docker-compatible CLI for containerd, with support for Compose                                           https://github.com/containerd/nerdctl 
  nomad            Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
  norouter         NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
  nushell          A new type of shell                                                                                      https://github.com/nushell/nushell 
@@ -96,6 +96,7 @@
  pueue            :stars: Manage your shell commands.                                                                      https://github.com/Nukesor/pueue 
  pulumi           Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                       https://github.com/pulumi/pulumi 
  rancher          Rancher CLI                                                                                              https://github.com/rancher/cli 
+ renote           Renote is to extend GitHub operation experience, which is a complementary tool to use with gh            https://github.com/ecatlabs/renote 
  rio              Application Deployment Engine for Kubernetes                                                             https://github.com/rancher/rio 
  ripgrep          ripgrep recursively searches directories for a regex pattern while respecting your gitignore             https://github.com/BurntSushi/ripgrep 
  rke              Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that ru...  https://github.com/rancher/rke 
@@ -130,6 +131,6 @@
  wstunnel         Tunneling over websocket protocol - Static binary available                                              https://github.com/erebe/wstunnel 
  yq               yq is a portable command-line YAML processor                                                             https://github.com/mikefarah/yq 
  zola             A fast static site generator in a single binary with everything built-in. https://www.getzola.org        https://github.com/getzola/zola 
- zoxide           A faster way to navigate your filesystem                                                                 https://github.com/ajeetdsouza/zoxide 
+ zoxide           A smarter cd command                                                                                     https://github.com/ajeetdsouza/zoxide 
 
 ```

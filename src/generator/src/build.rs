@@ -74,6 +74,7 @@ async fn main() -> Result<()> {
 fn releases() -> Vec<Package> {
     vec![
         // tools
+        renote::release(),
         gh::release(),
         dasel::release(),
         bat::release(),

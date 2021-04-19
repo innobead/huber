@@ -282,6 +282,9 @@
 - name: rancher
   owner: rancher
   source: github
+- name: renote
+  owner: ecatlabs
+  source: github
 - name: rio
   owner: rancher
   source: github

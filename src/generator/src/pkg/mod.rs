@@ -93,6 +93,7 @@ pub mod protoc;
 pub mod pueue;
 pub mod pulumi;
 pub mod rancher;
+pub mod renote;
 pub mod rio;
 pub mod ripgrep;
 pub mod rke;
