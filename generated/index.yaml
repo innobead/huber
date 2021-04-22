@@ -282,6 +282,9 @@
 - name: rancher
   owner: rancher
   source: github
+- name: rancher-cli
+  owner: rancher
+  source: github
 - name: renote
   owner: ecatlabs
   source: github

@@ -95,7 +95,8 @@
  protoc           Protocol Buffers - Google's data interchange format                                                      https://github.com/protocolbuffers/protobuf 
  pueue            :stars: Manage your shell commands.                                                                      https://github.com/Nukesor/pueue 
  pulumi           Pulumi - Modern Infrastructure as Code. Any cloud, any language 🚀                                       https://github.com/pulumi/pulumi 
- rancher          Rancher CLI                                                                                              https://github.com/rancher/cli 
+ rancher          Complete container management platform                                                                   https://github.com/rancher/rancher 
+ rancher-cli      Rancher CLI                                                                                              https://github.com/rancher/cli 
  renote           Renote is to extend GitHub operation experience, which is a complementary tool to use with gh            https://github.com/ecatlabs/renote 
  rio              Application Deployment Engine for Kubernetes                                                             https://github.com/rancher/rio 
  ripgrep          ripgrep recursively searches directories for a regex pattern while respecting your gitignore             https://github.com/BurntSushi/ripgrep 

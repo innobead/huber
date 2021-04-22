@@ -1,19 +1,13 @@
 # This is generated. Don't modify.
 ---
 name: rancher
-description: Rancher CLI
+description: Complete container management platform
 source:
   Github:
     owner: rancher
-    repo: cli
+    repo: rancher
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "rancher-linux-amd64-v{version}.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "rancher-darwin-amd64-v{version}.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "rancher-windows-amd64-v{version}.zip"
+        - "{version}/rancherd-amd64.tar.gz"
 detail: ~

@@ -146,6 +146,7 @@ fn releases() -> Vec<Package> {
         ssvmup::release(),
         // cloud native, kubernetes
         rancher::release(),
+        rancher_cli::release(),
         velero::release(),
         helm::release(),
         helmfile::release(),
