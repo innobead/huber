@@ -6,7 +6,7 @@ use std::io::Write;
 use std::path::Path;
 use std::{env, fs};
 
-use hubcaps::{Credentials, Github};
+use hubcaps_ex::{Credentials, Github};
 
 use huber_common::model::package::{Package, PackageIndex, PackageSource};
 use huber_common::result::Result;
@@ -122,6 +122,7 @@ fn releases() -> Vec<Package> {
         dust::release(),
         pueue::release(),
         coreutils::release(),
+        hugo::release(),
         // infra
         pulumi::release(),
         chisel::release(),

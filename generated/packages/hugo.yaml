@@ -1,0 +1,22 @@
+# This is generated. Don't modify.
+---
+name: hugo
+description: The world’s fastest framework for building websites.
+source:
+  Github:
+    owner: gohugoio
+    repo: hugo
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "hugo_{version}_Linux-64bit.tar.gz"
+        - "hugo_extended_{version}_Linux-64bit.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "hugo_{version}_macOS-64bit.tar.gz"
+        - "hugo_extended_{version}_macOS-64bit.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "hugo_{version}_Windows-64bit.zip"
+        - "hugo_extended_{version}_Windows-64bit.zip"
+detail: ~

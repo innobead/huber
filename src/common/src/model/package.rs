@@ -5,7 +5,7 @@ use std::path::PathBuf;
 use std::str::FromStr;
 use std::{env, fmt};
 
-use hubcaps::releases::Release as HubcapsRelease;
+use hubcaps_ex::releases::Release as HubcapsRelease;
 use log::{error, warn};
 use regex::Regex;
 use semver::Version;
@@ -297,8 +297,8 @@ impl From<HubcapsRelease> for GithubPackage {
     }
 }
 
-impl From<hubcaps::releases::Asset> for GithubAsset {
-    fn from(a: hubcaps::releases::Asset) -> Self {
+impl From<hubcaps_ex::releases::Asset> for GithubAsset {
+    fn from(a: hubcaps_ex::releases::Asset) -> Self {
         GithubAsset {
             url: a.url,
             browser_download_url: a.browser_download_url,

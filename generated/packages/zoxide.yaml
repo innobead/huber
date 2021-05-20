@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: zoxide
-description: A smarter cd command
+description: A smarter cd command. Supports all major shells.
 source:
   Github:
     owner: ajeetdsouza

@@ -40,6 +40,7 @@ pub mod helmfile;
 pub mod hetty;
 pub mod hub;
 pub mod huber;
+pub mod hugo;
 pub mod hyperfine;
 pub mod ignite;
 pub mod img;

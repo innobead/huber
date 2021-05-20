@@ -2,7 +2,7 @@ use std::fs::File;
 use std::path::PathBuf;
 use std::{env, fs};
 
-use hubcaps::Credentials;
+use hubcaps_ex::Credentials;
 use log::LevelFilter;
 use serde::{Deserialize, Serialize};
 

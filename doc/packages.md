@@ -43,6 +43,7 @@
  hetty            Hetty is an HTTP toolkit for security research.                                                          https://github.com/dstotijn/hetty 
  hub              A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
  huber            Huber 📦, simplify the package management from GitHub projects with a built-in awesome list of pop...    https://github.com/innobead/huber 
+ hugo             The world’s fastest framework for building websites.                                                     https://github.com/gohugoio/hugo 
  hyperfine        A command-line benchmarking tool                                                                         https://github.com/sharkdp/hyperfine 
  ignite           Ignite a Firecracker microVM                                                                             https://github.com/weaveworks/ignite 
  img              Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
@@ -62,7 +63,7 @@
  kind             Kubernetes IN Docker - local clusters for testing Kubernetes                                             https://github.com/kubernetes-sigs/kind 
  ko               Build and deploy Go applications on Kubernetes                                                           https://github.com/google/ko 
  kompose          Go from Docker Compose to Kubernetes                                                                     https://github.com/kubernetes/kompose 
- kpt                                                                                                                       https://github.com/GoogleContainerTools/kpt 
+ kpt              A toolkit to help you manage, manipulate, customize, and apply Kubernetes Resource configuration fil...  https://github.com/GoogleContainerTools/kpt 
  krew             📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
  krustlet         Kubernetes Rust Kubelet                                                                                  https://github.com/deislabs/krustlet 
  kube-bench       Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
@@ -105,7 +106,7 @@
  shadowsocks      A Rust port of shadowsocks                                                                               https://github.com/shadowsocks/shadowsocks-rust 
  skaffold         Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  sonobuoy         Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
- ssvm             SSVM is a high performance, extensible, and hardware optimized WebAssembly Virtual Machine for cloud...  https://github.com/second-state/SSVM 
+ ssvm             WasmEdge Runtime is a high-performance, extensible, and hardware optimized WebAssembly Virtual Machi...  https://github.com/second-state/SSVM 
  ssvmup           Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/ssvmup 
  starship         ☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!                        https://github.com/starship/starship 
  stern            ⎈ Multi pod and container log tailing for Kubernetes                                                     https://github.com/wercker/stern 
@@ -132,6 +133,6 @@
  wstunnel         Tunneling over websocket protocol - Static binary available                                              https://github.com/erebe/wstunnel 
  yq               yq is a portable command-line YAML processor                                                             https://github.com/mikefarah/yq 
  zola             A fast static site generator in a single binary with everything built-in. https://www.getzola.org        https://github.com/getzola/zola 
- zoxide           A smarter cd command                                                                                     https://github.com/ajeetdsouza/zoxide 
+ zoxide           A smarter cd command. Supports all major shells.                                                         https://github.com/ajeetdsouza/zoxide 
 
 ```

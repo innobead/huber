@@ -66,8 +66,8 @@ impl Display for Release {
     }
 }
 
-impl From<hubcaps::releases::Release> for Release {
-    fn from(r: hubcaps::releases::Release) -> Self {
+impl From<hubcaps_ex::releases::Release> for Release {
+    fn from(r: hubcaps_ex::releases::Release) -> Self {
         let release_kind = if r.draft {
             ReleaseKind::Draft
         } else if r.prerelease {
