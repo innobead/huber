@@ -4,7 +4,6 @@ use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
 
 use huber_common::model::config::Config;
-use huber_common::output::factory::FactoryConsole;
 use huber_common::result::Result;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
@@ -12,7 +11,7 @@ use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::ItemOperationTrait;
-use huber_common::output::OutputTrait;
+use libcli_rs::output::{OutputFactory, OutputTrait};
 
 pub(crate) const CMD_NAME: &str = "info";
 

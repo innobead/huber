@@ -17,6 +17,7 @@ chrono = "0.4"
 [dependencies]
 huber-common = { path = "../common" }
 huber-procmacro = { path = "../procmacro" }
+libcli-rs = "0.1"
 clap = "2"
 log = "0.4"
 pretty_env_logger = "0.3"

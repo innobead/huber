@@ -694,6 +694,7 @@ dependencies = [
  "huber-procmacro",
  "is_executable",
  "lazy_static",
+ "libcli-rs",
  "log",
  "maplit",
  "pretty_env_logger",
@@ -722,6 +723,7 @@ dependencies = [
  "hubcaps-ex",
  "indicatif",
  "lazy_static",
+ "libcli-rs",
  "log",
  "maplit",
  "pretty_env_logger",
@@ -944,6 +946,26 @@ name = "libc"
 version = "0.2.94"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "18794a8ad5b29321f790b55d93dfba91e125cb1a9edbd4f8e3150acc771c1a5e"
+
+[[package]]
+name = "libcli-rs"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c62927397e92325dedf8c0e14781365187251cf37182b118d2e1fd17aa2c1cc1"
+dependencies = [
+ "Inflector 0.11.4",
+ "anyhow",
+ "chrono",
+ "dirs 3.0.2",
+ "indicatif",
+ "lazy_static",
+ "maplit",
+ "prettytable-rs",
+ "regex 1.5.4",
+ "serde",
+ "serde_json",
+ "serde_yaml",
+]
 
 [[package]]
 name = "libgit2-sys"

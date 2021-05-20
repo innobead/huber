@@ -4,10 +4,9 @@ use async_trait::async_trait;
 use clap::{App, ArgMatches};
 
 use huber_common::model::config::Config;
-use huber_common::output::factory::FactoryConsole;
-use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
+use libcli_rs::output::{OutputFactory, OutputTrait};
 use simpledi_rs::di::DIContainer;
 use simpledi_rs::di::DIContainerTrait;
 

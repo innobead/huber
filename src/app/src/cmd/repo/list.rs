@@ -4,14 +4,13 @@ use async_trait::async_trait;
 use clap::{App, ArgMatches};
 
 use huber_common::model::config::Config;
-use huber_common::output::factory::FactoryConsole;
-use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::repo::RepoService;
 use crate::service::ItemOperationTrait;
+use libcli_rs::output::{OutputFactory, OutputTrait};
 
 pub(crate) const CMD_NAME: &str = "list";
 
@@ -19,6 +18,7 @@ pub(crate) const CMD_NAME: &str = "list";
 pub(crate) struct RepoListCmd;
 
 unsafe impl Send for RepoListCmd {}
+
 unsafe impl Sync for RepoListCmd {}
 
 impl RepoListCmd {

@@ -1,7 +1,9 @@
 #[macro_use]
 extern crate anyhow;
+// #[macro_use]
+// extern crate huber_common;
 #[macro_use]
-extern crate huber_common;
+extern crate libcli_rs;
 #[macro_use]
 extern crate lazy_static;
 #[macro_use]

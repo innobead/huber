@@ -21,9 +21,9 @@ use huber_common::file::trim_os_arch;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
-use huber_common::progress::{ProgressBar, ProgressTrait};
 use huber_common::result::Result;
 use huber_common::str::OsStrExt;
+use libcli_rs::progress::{ProgressBar, ProgressTrait};
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;

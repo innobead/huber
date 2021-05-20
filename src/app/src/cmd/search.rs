@@ -7,14 +7,13 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use huber_common::model::config::Config;
 use huber_common::model::package::PackageSummary;
 
-use huber_common::output::factory::FactoryConsole;
-use huber_common::output::OutputTrait;
 use huber_common::result::Result;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::ItemSearchTrait;
+use libcli_rs::output::{OutputFactory, OutputTrait};
 
 pub(crate) const CMD_NAME: &str = "search";
 

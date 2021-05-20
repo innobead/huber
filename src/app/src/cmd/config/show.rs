@@ -6,9 +6,8 @@ use simpledi_rs::di::DIContainer;
 use simpledi_rs::di::DIContainerTrait;
 
 use huber_common::model::config::Config;
-use huber_common::output::factory::FactoryConsole;
-use huber_common::output::OutputTrait;
 use huber_common::result::Result;
+use libcli_rs::output::{OutputFactory, OutputTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::config::{ConfigService, ConfigTrait};
