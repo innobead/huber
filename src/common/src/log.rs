@@ -15,3 +15,11 @@ impl Logger {
         Ok(())
     }
 }
+
+pub fn println_many<T: IntoIterator<Item = String>>(msg: &str, objs: T) {
+    println!(
+        "{}:\n {}",
+        msg,
+        objs.into_iter().collect::<Vec<_>>().join("\n "),
+    );
+}
