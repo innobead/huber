@@ -77,6 +77,7 @@ pub mod linkerd2_edge;
 pub mod linkerd2_stable;
 pub mod minikube;
 pub mod mkcert;
+pub mod natscli;
 pub mod nerdctl;
 pub mod nomad;
 pub mod norouter;

@@ -80,6 +80,7 @@
  linkerd2-stable  Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
  minikube         Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
  mkcert           A simple zero-config tool to make locally trusted development certificates with any names you'd like...  https://github.com/FiloSottile/mkcert 
+ natscli          The NATS Command Line Interface                                                                          https://github.com/nats-io/natscli 
  nerdctl          Docker-compatible CLI for containerd, with support for Compose                                           https://github.com/containerd/nerdctl 
  nomad            Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
  norouter         NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 

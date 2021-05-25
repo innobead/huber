@@ -234,6 +234,9 @@
 - name: mkcert
   owner: FiloSottile
   source: github
+- name: natscli
+  owner: nats-io
+  source: github
 - name: nerdctl
   owner: containerd
   source: github
