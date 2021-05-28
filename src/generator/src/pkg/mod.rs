@@ -43,6 +43,7 @@ pub mod hub;
 pub mod huber;
 pub mod hugo;
 pub mod hyperfine;
+pub mod hypper;
 pub mod ignite;
 pub mod img;
 pub mod istio;

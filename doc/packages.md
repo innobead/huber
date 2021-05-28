@@ -46,6 +46,7 @@
  huber            Huber 📦, simplify the package management from GitHub projects with a built-in awesome list of pop...    https://github.com/innobead/huber 
  hugo             The world’s fastest framework for building websites.                                                     https://github.com/gohugoio/hugo 
  hyperfine        A command-line benchmarking tool                                                                         https://github.com/sharkdp/hyperfine 
+ hypper                                                                                                                    https://github.com/rancher-sandbox/hypper 
  ignite           Ignite a Firecracker microVM                                                                             https://github.com/weaveworks/ignite 
  img              Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
  istio            Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 

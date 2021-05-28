@@ -132,6 +132,9 @@
 - name: hyperfine
   owner: sharkdp
   source: github
+- name: hypper
+  owner: rancher-sandbox
+  source: github
 - name: ignite
   owner: weaveworks
   source: github

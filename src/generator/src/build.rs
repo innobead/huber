@@ -201,6 +201,7 @@ fn releases() -> Vec<Package> {
         natscli::release(),
         kwctl::release(),
         epinio::release(),
+        hypper::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
