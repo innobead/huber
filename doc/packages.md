@@ -75,6 +75,7 @@
  kudo             Kubernetes Universal Declarative Operator (KUDO)                                                         https://github.com/kudobuilder/kudo 
  kustomize        Customization of kubernetes YAML configurations                                                          https://github.com/kubernetes-sigs/kustomize 
  kuttl            KUbernetes Test TooL (kuttl)                                                                             https://github.com/kudobuilder/kuttl 
+ kwctl            Go-to CLI tool for Kubewarden users.                                                                     https://github.com/kubewarden/kwctl 
  lens             Lens - The Kubernetes IDE                                                                                https://github.com/lensapp/lens 
  linkerd2-edge    Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
  linkerd2-stable  Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 

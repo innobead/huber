@@ -72,6 +72,7 @@ pub mod kubevirt;
 pub mod kudo;
 pub mod kustomize;
 pub mod kuttl;
+pub mod kwctl;
 pub mod lens;
 pub mod linkerd2_edge;
 pub mod linkerd2_stable;

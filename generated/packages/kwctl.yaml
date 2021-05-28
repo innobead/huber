@@ -1,0 +1,13 @@
+# This is generated. Don't modify.
+---
+name: kwctl
+description: Go-to CLI tool for Kubewarden users.
+source:
+  Github:
+    owner: kubewarden
+    repo: kwctl
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/kwctl.zip"
+detail: ~

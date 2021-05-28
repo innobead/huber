@@ -198,6 +198,7 @@ fn releases() -> Vec<Package> {
         kubestr::release(),
         kube_linter::release(),
         natscli::release(),
+        kwctl::release(),
         // runtime
         containerd::release(),
         firecracker::release(),

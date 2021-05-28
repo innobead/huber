@@ -219,6 +219,9 @@
 - name: kuttl
   owner: kudobuilder
   source: github
+- name: kwctl
+  owner: kubewarden
+  source: github
 - name: lens
   owner: lensapp
   source: github
