@@ -121,6 +121,7 @@ pub mod tokei;
 pub mod tracee;
 pub mod trivy;
 pub mod typescript;
+pub mod typos;
 pub mod vegeta;
 pub mod velero;
 pub mod volta;

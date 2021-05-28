@@ -123,6 +123,7 @@ fn releases() -> Vec<Package> {
         pueue::release(),
         coreutils::release(),
         hugo::release(),
+        typos::release(),
         // infra
         pulumi::release(),
         chisel::release(),

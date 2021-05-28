@@ -124,6 +124,7 @@
  tracee           Linux Runtime Security and Forensics using eBPF                                                          https://github.com/aquasecurity/tracee 
  trivy            A Simple and Comprehensive Vulnerability Scanner for Container Images, Git Repositories and Filesyst...  https://github.com/aquasecurity/trivy 
  typescript       TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
+ typos            Source code spell checker                                                                                https://github.com/crate-ci/typos 
  vegeta           HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
  velero           Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
  volta            Volta: JS Toolchains as Code. ⚡                                                                         https://github.com/volta-cli/volta 
