@@ -26,6 +26,7 @@
  drone-cli        Command Line Tools for Drone CI                                                                          https://github.com/drone/drone-cli 
  dust             A more intuitive version of du in rust                                                                   https://github.com/bootandy/dust 
  eksctl           The official CLI for Amazon EKS                                                                          https://github.com/weaveworks/eksctl 
+ epinio           Opinionated platform that runs on Kubernetes, that takes you from App to URL in one step.                https://github.com/epinio/epinio 
  exa              A modern replacement for ‘ls’.                                                                           https://github.com/ogham/exa 
  faas-cli         Official CLI for OpenFaaS                                                                                https://github.com/openfaas/faas-cli 
  fd               A simple, fast and user-friendly alternative to 'find'                                                   https://github.com/sharkdp/fd 

@@ -72,6 +72,9 @@
 - name: eksctl
   owner: weaveworks
   source: github
+- name: epinio
+  owner: epinio
+  source: github
 - name: exa
   owner: ogham
   source: github

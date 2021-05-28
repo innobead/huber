@@ -22,6 +22,7 @@ pub mod dolt;
 pub mod drone_cli;
 pub mod dust;
 pub mod eksctl;
+pub mod epinio;
 pub mod exa;
 pub mod faas_cli;
 pub mod fd;

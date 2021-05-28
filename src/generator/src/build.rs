@@ -199,6 +199,7 @@ fn releases() -> Vec<Package> {
         kube_linter::release(),
         natscli::release(),
         kwctl::release(),
+        epinio::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
