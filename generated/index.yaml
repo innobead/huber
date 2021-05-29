@@ -405,6 +405,9 @@
 - name: yq
   owner: mikefarah
   source: github
+- name: zellij
+  owner: zellij-org
+  source: github
 - name: zola
   owner: getzola
   source: github

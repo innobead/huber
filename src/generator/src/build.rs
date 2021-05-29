@@ -124,6 +124,7 @@ fn releases() -> Vec<Package> {
         coreutils::release(),
         hugo::release(),
         typos::release(),
+        zellij::release(),
         // infra
         pulumi::release(),
         chisel::release(),

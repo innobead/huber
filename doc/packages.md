@@ -137,6 +137,7 @@
  waypoint         A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
  wstunnel         Tunneling over websocket protocol - Static binary available                                              https://github.com/erebe/wstunnel 
  yq               yq is a portable command-line YAML processor                                                             https://github.com/mikefarah/yq 
+ zellij           A terminal workspace with batteries included                                                             https://github.com/zellij-org/zellij 
  zola             A fast static site generator in a single binary with everything built-in. https://www.getzola.org        https://github.com/getzola/zola 
  zoxide           A smarter cd command. Supports all major shells.                                                         https://github.com/ajeetdsouza/zoxide 
 
