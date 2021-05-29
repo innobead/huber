@@ -91,7 +91,7 @@ jobs:
       # Need to use this github action plugin to build vcpkg instead of using the one builtin in github action infra.
       # It will cause the following vcpkg packages build failed
       # Ref: https://github.com/OSSystems/compress-tools-rs/blob/master/.github/workflows/windows.yml#L28
-      - name: Install libarchive
+      - name: Install vcpkg
         uses: lukka/run-vcpkg@v7
         with:
           setupOnly: true
