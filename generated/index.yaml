@@ -267,6 +267,9 @@
 - name: opa
   owner: open-policy-agent
   source: github
+- name: opni
+  owner: rancher
+  source: github
 - name: oras
   owner: deislabs
   source: github

@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: opni
+description: ~
+source:
+  Github:
+    owner: rancher
+    repo: opni
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/opnictl"
+  - MacOS:
+      artifact_templates:
+        - "{version}/opnictl-darwin"
+  - Windows:
+      artifact_templates:
+        - "{version}/opnictl-windows"
+detail: ~

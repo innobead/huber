@@ -91,6 +91,7 @@
  octant           Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
  okteto           Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
  opa              An open source, general-purpose policy engine.                                                           https://github.com/open-policy-agent/opa 
+ opni                                                                                                                      https://github.com/rancher/opni 
  oras             OCI Registry As Storage                                                                                  https://github.com/deislabs/oras 
  pack             CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
  packer           Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 

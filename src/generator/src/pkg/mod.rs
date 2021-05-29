@@ -88,6 +88,7 @@ pub mod nushell;
 pub mod octant;
 pub mod okteto;
 pub mod opa;
+pub mod opni;
 pub mod oras;
 pub mod pack;
 pub mod packer;

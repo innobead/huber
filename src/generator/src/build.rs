@@ -203,6 +203,7 @@ fn releases() -> Vec<Package> {
         kwctl::release(),
         epinio::release(),
         hypper::release(),
+        opni::release(),
         // runtime
         containerd::release(),
         firecracker::release(),
