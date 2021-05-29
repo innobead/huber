@@ -177,6 +177,7 @@ jobs:
         uses: lukka/run-vcpkg@v7
         with:
           setupOnly: true
+          vcpkgGitCommitId: ec6fe06e8da05a8157dc8581fa96b36b571c1bd5 # 2020.11-1
 
       - name: Setup build environment
         run: ./hack/windows/setup-dev.ps1
