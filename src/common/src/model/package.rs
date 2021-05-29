@@ -11,7 +11,7 @@ use regex::Regex;
 use semver::Version;
 use serde::{Deserialize, Serialize};
 
-use crate::model::release::{ReleaseKind, VecExtensionTrait};
+use crate::model::release::{ReleaseKind, SortModelTrait};
 use crate::result::Result;
 use crate::str::VersionCompareTrait;
 
@@ -351,7 +351,7 @@ impl From<Package> for PackageSummary {
     }
 }
 
-impl VecExtensionTrait for Vec<PackageSummary> {
+impl SortModelTrait for Vec<PackageSummary> {
     fn sort_by_version(&mut self) {
         self.sort_by(|x, y| {
             y.version
@@ -360,5 +360,9 @@ impl VecExtensionTrait for Vec<PackageSummary> {
                 .cmp_version(x.version.as_ref().unwrap())
                 .unwrap()
         });
+    }
+
+    fn sort_by_name(&mut self) {
+        self.sort_by(|x, y| x.name.cmp(&y.name))
     }
 }

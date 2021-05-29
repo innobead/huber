@@ -1,18 +1,18 @@
 use std::io::stdout;
 
-use anyhow::Result;
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
+use libcli_rs::output::{OutputFactory, OutputTrait};
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
-use huber_common::model::release::VecExtensionTrait;
-use simpledi_rs::di::{DIContainer, DIContainerTrait};
+use huber_common::model::release::SortModelTrait;
+use huber_common::result::Result;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
-use libcli_rs::output::{OutputFactory, OutputTrait};
 
 pub(crate) const CMD_NAME: &str = "show";
 
@@ -20,6 +20,7 @@ pub(crate) const CMD_NAME: &str = "show";
 pub(crate) struct ShowCmd;
 
 unsafe impl Send for ShowCmd {}
+
 unsafe impl Sync for ShowCmd {}
 
 impl ShowCmd {
@@ -109,7 +110,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ShowCmd {
         }
 
         let mut current_releases = release_service.list()?;
-        current_releases.sort_by_version();
+        current_releases.sort_by_name();
         excluded_keys.push("executables");
 
         let releases = if matches.is_present("all") {
@@ -118,13 +119,11 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ShowCmd {
             for cr in current_releases.iter() {
                 let mut releases = release_service.find(&cr.package).await?;
                 releases.sort_by_version();
-
                 all_releases.append(&mut releases);
             }
 
             all_releases
         } else {
-            current_releases.sort_by_version();
             current_releases
         };
 

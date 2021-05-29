@@ -6,7 +6,7 @@ use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use huber_common::model::config::{Config, ConfigFieldConvertTrait};
 use huber_common::model::package::{Package, PackageSource, PackageSummary};
-use huber_common::model::release::{ReleaseKind, VecExtensionTrait};
+use huber_common::model::release::{ReleaseKind, SortModelTrait};
 use huber_common::result::Result;
 
 use crate::component::github::{GithubClient, GithubClientTrait};

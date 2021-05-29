@@ -10,8 +10,9 @@ use compress_tools::{uncompress_archive, Ownership};
 use fs_extra::move_items;
 use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
+use libcli_rs::progress::{ProgressBar, ProgressTrait};
 use log::{debug, info};
-use semver::Version;
+use regex::Captures;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
 use url::Url;
@@ -23,12 +24,10 @@ use huber_common::model::package::{GithubPackage, Package, PackageDetailType, Pa
 use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::result::Result;
 use huber_common::str::OsStrExt;
-use libcli_rs::progress::{ProgressBar, ProgressTrait};
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
-use regex::Captures;
 
 const SUPPORTED_ARCHIVE_TYPES: [&str; 7] = ["tar.gz", "tar.xz", "zip", "gz", "xz", "tar", "tgz"];
 const SUPPORTED_EXTRA_EXECUTABLE_TYPES: [&str; 3] = ["exe", "AppImage", "dmg"];
@@ -838,14 +837,16 @@ impl ItemOperationAsyncTrait for ReleaseService {
             let filename = entry.file_name();
             let filename = filename.to_str().unwrap();
 
-            if entry.path().is_dir() {
-                if let Ok(_) = Version::parse(filename.trim_start_matches("v")) {
-                    let p = config.installed_pkg_manifest_file(&pkg, &filename)?;
-                    let f = File::open(p)?;
-                    let r: Release = serde_yaml::from_reader(f)?;
+            if filename == "current" {
+                continue;
+            }
 
-                    releases.push(r);
-                }
+            if entry.path().is_dir() {
+                let p = config.installed_pkg_manifest_file(&pkg, &filename)?;
+                let f = File::open(p)?;
+                let r: Release = serde_yaml::from_reader(f)?;
+
+                releases.push(r);
             }
         }
 

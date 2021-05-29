@@ -5,7 +5,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use huber_common::log::println_many;
 use huber_common::model::config::Config;
 use huber_common::model::config::ConfigPath;
-use huber_common::model::release::{Release, VecExtensionTrait};
+use huber_common::model::release::{Release, SortModelTrait};
 use huber_common::progress::progress;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
