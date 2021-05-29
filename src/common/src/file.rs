@@ -30,12 +30,12 @@ pub fn trim_os_arch(str: &str) -> String {
             r"(?i)([-_]v\d+.\d+.\d+)?[-_.]({})[-_]({})[-_]*",
             os_pattern, arch_pattern
         ))
-        .unwrap(),
+            .unwrap(),
         Regex::new(&format!(
             r"(?i)([-_]v\d+.\d+.\d+)?[-_]({})[-_]*",
             arch_pattern
         ))
-        .unwrap(),
+            .unwrap(),
     ];
 
     let re = res.iter().find(|it| it.is_match(str));
@@ -75,7 +75,11 @@ mod test {
         ];
 
         for x in data {
-            assert_eq!(trim_os_arch(x.0), x.1);
+            if cfg!(target_os = "windows") {
+                assert_eq!(trim_os_arch(x.0), "name.exe");
+            } else {
+                assert_eq!(trim_os_arch(x.0), x.1);
+            }
         }
     }
 }
