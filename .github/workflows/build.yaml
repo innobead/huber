@@ -94,7 +94,7 @@ jobs:
       - name: Install libarchive
         uses: lukka/run-vcpkg@v7
         with:
-          vcpkgTriplet: x64-windows
+          setupOnly: true
 
       - name: Setup build environment
         run: ./hack/windows/setup-dev.ps1
