@@ -9,6 +9,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::update::{UpdateService, UpdateTrait};
 use huber_common::model::config::ConfigPath;
+use huber_common::progress::progress;
 
 pub(crate) const CMD_NAME: &str = "reset";
 
@@ -49,12 +50,12 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ResetCmd {
 
         let update_service = container.get::<UpdateService>().unwrap();
 
-        println!(
-            "Resetting huber by removing created caches, downloaded files and installed packages"
-        );
+        progress(
+            "Resetting huber by removing created caches, downloaded files and installed packages",
+        )?;
         update_service.reset()?;
-        println!("Done");
 
+        println!("Done");
         Ok(())
     }
 }

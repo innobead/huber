@@ -1,18 +1,19 @@
 use async_trait::async_trait;
 use clap::{App, Arg, ArgMatches};
+use simpledi_rs::di::DIContainer;
+use simpledi_rs::di::DIContainerTrait;
 
 use huber_common::model::config::Config;
+use huber_common::model::config::ConfigPath;
+use huber_common::progress::progress;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
-use simpledi_rs::di::DIContainer;
-
-use simpledi_rs::di::DIContainerTrait;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseAsyncTrait, ReleaseService};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
-use huber_common::model::config::ConfigPath;
+use huber_common::log::println_many;
 
 pub(crate) const CMD_NAME: &str = "current";
 
@@ -72,39 +73,14 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for CurrentCmd {
         let version = matches.value_of("version").unwrap();
 
         if let Some(mut r) = releases.into_iter().find(|it| it.version == version) {
-            println!("Setting {} as the current package", &r);
+            progress(&format!("Setting {} as the current package", &r))?;
             let executables = release_service.set_current(&mut r).await?;
-
-            println!(
-                "{}",
-                format!("Updated executables:\n - {}", executables.join("\n - "))
-                    .trim_end_matches("- ")
-            );
+            println_many("Updated executables", &executables);
             println!("{} as current updated", &r);
 
             Ok(())
         } else {
             Err(anyhow!("{} not found", version))
         }
-
-        /*for mut r in releases.into_iter() {
-            println!("Setting {} as the current package", &r);
-            if r.version == version {
-                let executables = release_service.set_current(&mut r)?;
-
-                println!(
-                    "{}",
-                    format!("Updated executables:\n - {}", executables.join("\n - "))
-                        .trim_end_matches("- ")
-                );
-                println!("{} as current updated", &r);
-
-                continue;
-            }
-
-            release_service.clean_current(&r)?;
-        }
-
-        Ok(())*/
     }
 }

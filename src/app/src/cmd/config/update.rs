@@ -2,17 +2,18 @@ use std::io::stdout;
 
 use async_trait::async_trait;
 use clap::{App, ArgMatches};
-
-use huber_common::model::config::Config;
-use huber_common::result::Result;
-use huber_procmacro::process_lock;
 use libcli_rs::output::{OutputFactory, OutputTrait};
 use simpledi_rs::di::DIContainer;
 use simpledi_rs::di::DIContainerTrait;
 
+use huber_common::model::config::Config;
+use huber_common::model::config::ConfigPath;
+use huber_common::progress::progress;
+use huber_common::result::Result;
+use huber_procmacro::process_lock;
+
 use crate::cmd::{process_arg_matches, CommandAsyncTrait, CommandTrait};
 use crate::service::config::{ConfigService, ConfigTrait};
-use huber_common::model::config::ConfigPath;
 
 pub(crate) const CMD_NAME: &str = "update";
 
@@ -49,7 +50,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ConfigUpdateCmd {
 
         let config_service = container.get::<ConfigService>().unwrap();
 
-        println!("Updating the configuration");
+        progress("Updating the configuration")?;
 
         let mut c = config_service.get()?;
         if process_arg_matches(&mut c, &matches) {

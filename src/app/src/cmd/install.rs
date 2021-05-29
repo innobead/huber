@@ -4,7 +4,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 use huber_common::model::config::ConfigPath;
-
+use huber_common::progress::progress;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
 
@@ -85,7 +85,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for InstallCmd {
                         if release.version == matches.value_of("version").unwrap() {
                             Err(anyhow!("{} already installed", release))
                         } else {
-                            println!("Updating {} to {}", release, pkg.version.as_ref().unwrap());
+                            progress(&format!("Updating {} to {}", release, pkg.version.as_ref().unwrap()))?;
 
                             let release = release_service.update(&pkg).await?;
                             println!("{} updated", release);
@@ -99,7 +99,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for InstallCmd {
                 };
             }
 
-            println!("Installing {}", &pkg);
+            progress(&format!("Installing {}", &pkg))?;
             let release = release_service.create(pkg).await?;
             println!("{} installed", release);
         }

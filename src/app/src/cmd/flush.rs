@@ -76,7 +76,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for FlushCmd {
         } else {
             println_many(
                 "Flushed releases",
-                flushed_releases
+                &flushed_releases
                     .iter()
                     .map(|it| it.to_string())
                     .collect::<Vec<_>>(),

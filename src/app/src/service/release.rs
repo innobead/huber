@@ -28,6 +28,7 @@ use huber_common::str::OsStrExt;
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
+use huber_common::log::println_many;
 
 const SUPPORTED_ARCHIVE_TYPES: [&str; 7] = ["tar.gz", "tar.xz", "zip", "gz", "xz", "tar", "tgz"];
 const SUPPORTED_EXTRA_EXECUTABLE_TYPES: [&str; 3] = ["exe", "AppImage", "dmg"];
@@ -812,11 +813,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
                     self.set_current(&mut release).await?;
                 );
 
-                println!(
-                    "{}",
-                    format!("Installed executables:\n - {}", executables.join("\n - "))
-                        .trim_end_matches("- ")
-                );
+                println_many("Installed executables", &executables);
                 release.executables = Some(executables);
 
                 Ok(release)

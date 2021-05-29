@@ -17,6 +17,7 @@ use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
+use huber_common::progress::progress;
 
 pub(crate) const CMD_NAME: &str = "update";
 
@@ -140,7 +141,10 @@ async fn update<'a>(
     if matches.is_present("dryrun") {
         println!("{} -> {}", installed_release, new_release);
     } else {
-        println!("Updating {} to {}", installed_release, new_release);
+        progress(&format!(
+            "Updating {} to {}",
+            installed_release, new_release
+        ))?;
         release_service.update(&new_release.package).await?;
         println!("{} updated", new_release.package);
     }

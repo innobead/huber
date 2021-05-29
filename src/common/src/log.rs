@@ -16,10 +16,7 @@ impl Logger {
     }
 }
 
-pub fn println_many<T: IntoIterator<Item = String>>(msg: &str, objs: T) {
-    println!(
-        "{}:\n {}",
-        msg,
-        objs.into_iter().collect::<Vec<_>>().join("\n "),
-    );
+pub fn println_many(msg: &str, objs: &[String]) {
+    let lines: String = objs.join("\n -");
+    println!("{}:\n - {}", msg, lines.trim_end_matches(" -"));
 }
