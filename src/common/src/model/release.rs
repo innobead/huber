@@ -48,10 +48,14 @@ pub enum ReleaseKind {
 
 impl Release {
     pub fn compare(&self, pkg: &Release) -> Result<Ordering> {
-        let v1 = Version::from_str(self.version.trim_start_matches("v"))?;
-        let v2 = Version::from_str(pkg.version.trim_start_matches("v"))?;
+        return if Version::parse(&self.version).is_ok() {
+            let v1 = Version::from_str(self.version.trim_start_matches("v"))?;
+            let v2 = Version::from_str(pkg.version.trim_start_matches("v"))?;
 
-        Ok(v1.cmp(&v2))
+            Ok(v1.cmp(&v2))
+        } else {
+            Ok(self.version.cmp(&pkg.version))
+        };
     }
 }
 

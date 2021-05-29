@@ -146,7 +146,7 @@ async fn update<'a>(
             installed_release, new_release
         ))?;
         release_service.update(&new_release.package).await?;
-        println!("{} updated", new_release.package);
+        println!("{} to {} updated", installed_release, new_release);
     }
 
     Ok(())

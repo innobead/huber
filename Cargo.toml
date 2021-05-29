@@ -1,2 +1,8 @@
 [workspace]
 members = ["src/app", "src/common", "src/procmacro", "src/generator"]
+
+[profile.release]
+opt-level = 'z'
+lto = true
+codegen-units = 1
+#panic = 'abort'

@@ -17,6 +17,6 @@ impl Logger {
 }
 
 pub fn println_many(msg: &str, objs: &[String]) {
-    let lines: String = objs.join("\n -");
-    println!("{}:\n - {}", msg, lines.trim_end_matches(" -"));
+    let lines: String = objs.join("\n - ");
+    println!("{}:\n - {}", msg, lines.trim_end_matches(" - "));
 }
