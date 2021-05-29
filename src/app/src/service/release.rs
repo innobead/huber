@@ -19,16 +19,17 @@ use url::Url;
 use urlencoding::decode;
 
 use huber_common::file::trim_os_arch;
+use huber_common::log::println_many;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
+use huber_common::progress::progress;
 use huber_common::result::Result;
 use huber_common::str::OsStrExt;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
-use huber_common::log::println_many;
 
 const SUPPORTED_ARCHIVE_TYPES: [&str; 7] = ["tar.gz", "tar.xz", "zip", "gz", "xz", "tar", "tgz"];
 const SUPPORTED_EXTRA_EXECUTABLE_TYPES: [&str; 3] = ["exe", "AppImage", "dmg"];
@@ -786,8 +787,28 @@ impl ItemOperationAsyncTrait for ReleaseService {
         // get the release from github
         let mut release = match &obj.source {
             PackageSource::Github { owner, repo } => match &obj.version {
-                Some(v) => client.get_release(&owner, &repo, &v, &obj).await?,
-                None => client.get_latest_release(&owner, &repo, &obj).await?,
+                Some(v) => {
+                    progress(&format!("Getting {} of package release {}", &v, &obj))?;
+                    client.get_release(&owner, &repo, &v, &obj).await?
+                }
+                None => {
+                    progress(&format!("Getting the latest release of package {}", &obj))?;
+
+                    if let Ok(r) = client.get_latest_release(&owner, &repo, &obj).await {
+                        r
+                    } else {
+                        progress(&format!(
+                            "Getting the latest pre-release of package {}",
+                            &obj
+                        ))?;
+                        client
+                            .get_releases(&owner, &repo, &obj)
+                            .await?
+                            .first()
+                            .expect("")
+                            .to_owned()
+                    }
+                }
             },
 
             _ => unimplemented!(),
