@@ -1,3 +1,5 @@
+[![crates.io](https://img.shields.io/crates/v/huber.svg)](https://crates.io/crates/huber)
+
 ![huber in action](./doc/huber.png)
 
 **Huber** is to simplify the package management from GitHub projects with a builtin awesome list (live updating) of popular projects. It also supports *repository* feature for managing the package installation from your perosonal Github project. Please check the complete introduction as below.
