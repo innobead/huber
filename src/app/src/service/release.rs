@@ -12,7 +12,7 @@ use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
 use libcli_rs::progress::{ProgressBar, ProgressTrait};
 use log::{debug, error, info};
-use regex::Captures;
+use regex::{Captures, Regex};
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
 use url::Url;
@@ -43,7 +43,7 @@ pub(crate) trait ReleaseTrait {
         &self,
         release: &Release,
         file: &PathBuf,
-    ) -> Result<Option<String>>;
+    ) -> Result<Option<Vec<String>>>;
     fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()>;
 
     fn get_executables_for_current(&self, pkg: &Package) -> Result<Vec<String>>;
@@ -212,9 +212,9 @@ impl ReleaseTrait for ReleaseService {
         &self,
         release: &Release,
         file: &PathBuf,
-    ) -> Result<Option<String>> {
+    ) -> Result<Option<Vec<String>>> {
         let config = self.container.get::<Config>().unwrap();
-        let mut exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
+        let exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
 
         // if exec_templates specified, ignore not matched files
         let exec_templates: Vec<String> = release
@@ -231,6 +231,8 @@ impl ReleaseTrait for ReleaseService {
             return Ok(None);
         }
 
+        let mut exec_filenames = vec![exec_filename.clone()];
+
         // update linked exec name according to executable_mappings if it exists
         let exec_mappings: HashMap<String, String> = release
             .package
@@ -238,72 +240,91 @@ impl ReleaseTrait for ReleaseService {
             .executable_mappings
             .unwrap_or(hashmap![]);
         if exec_mappings.len() > 0 {
-            let regex = regex::Regex::new(r"(\d+.\d+.\d+)").unwrap();
-            let expected_exec_filename = regex.replace(&exec_filename, "{version}").to_string();
+            let re = Regex::new(r"(\d+.\d+.\d+)").unwrap();
+            let expected_exec_filename = re.replace(&exec_filename, "{version}").to_string();
 
-            if let Some(mapped_exec_name) = exec_mappings.get(&expected_exec_filename) {
-                exec_filename = mapped_exec_name.clone();
+            if let Some(mapped_exec_names) = exec_mappings.get(&expected_exec_filename) {
+                let re = Regex::new(r"\s+").unwrap();
+                exec_filenames = re
+                    .split(&mapped_exec_names)
+                    .map(|x| x.to_string())
+                    .collect();
             }
         }
 
-        let exec_filename = trim_os_arch(&exec_filename);
-        let exec_file_path = config.bin_dir()?.join(&exec_filename);
-        let _ = remove_file(&exec_file_path);
+        let mut exec_file_paths = vec![];
+        let mut find_exec_file_paths = |exec_filename: &str| -> Result<_> {
+            let exec_filename = trim_os_arch(exec_filename);
+            let exec_file_path = config.bin_dir()?.join(&exec_filename);
+            let _ = remove_file(&exec_file_path);
 
-        if exec_filename.starts_with(".") {
-            info!(
-                "Ignored to link {:?} to {:?} because it's a hidden file",
-                &file, &exec_file_path
-            );
-
-            return Ok(None);
-        }
-
-        // check if filename has invalid extension
-        let exec_filename_without_version = exec_filename.as_str().replace(&release.version, "");
-        let exec_file_path_without_version =
-            file.parent().unwrap().join(&exec_filename_without_version);
-
-        if let Some(ext) = exec_file_path_without_version.extension() {
-            if !SUPPORTED_EXTRA_EXECUTABLE_TYPES.contains(&ext.to_str_direct()) {
+            if exec_filename.starts_with(".") {
                 info!(
-                    "Ignored to link {:?} to {:?} because of ext suffix {:?} not supported. {:?}",
-                    &file, &exec_file_path, ext, SUPPORTED_EXTRA_EXECUTABLE_TYPES
+                    "Ignored to link {:?} to {:?} because it's a hidden file",
+                    &file, &exec_file_path
                 );
 
-                return Ok(None);
+                return Ok(());
             }
+
+            // check if filename has invalid extension
+            let exec_filename_without_version =
+                exec_filename.as_str().replace(&release.version, "");
+            let exec_file_path_without_version =
+                file.parent().unwrap().join(&exec_filename_without_version);
+
+            if let Some(ext) = exec_file_path_without_version.extension() {
+                if !SUPPORTED_EXTRA_EXECUTABLE_TYPES.contains(&ext.to_str_direct()) {
+                    info!(
+                        "Ignored to link {:?} to {:?} because of ext suffix {:?} not supported. {:?}",
+                        &file, &exec_file_path, ext, SUPPORTED_EXTRA_EXECUTABLE_TYPES
+                    );
+
+                    return Ok(());
+                }
+            }
+
+            if is_upper_case(exec_filename_without_version.clone())
+                || exec_filename_without_version.starts_with("_")
+                || exec_filename_without_version.starts_with(".")
+            {
+                info!(
+                    "Ignored to link {:?} to {:?} because of file name patterns (uppercase, class cass or starts with _)",
+                    &file, &exec_file_path
+                );
+
+                return Ok(());
+            }
+
+            if file.extension().is_none() && !file.is_executable() {
+                self.set_executable_permission(file)?;
+            }
+
+            if !file.is_executable() {
+                info!(
+                    "Ignored to link {:?} to {:?} because it's not executable)",
+                    &file, &exec_file_path
+                );
+
+                return Ok(());
+            }
+
+            info!("Linking {:?} to {:?}", &file, &exec_file_path);
+            symlink_file(file, &exec_file_path)?;
+            exec_file_paths.push(exec_file_path.to_str().unwrap().to_string());
+
+            return Ok(());
+        };
+
+        for ref x in exec_filenames {
+            find_exec_file_paths(x)?;
         }
 
-        if is_upper_case(exec_filename_without_version.clone())
-            || exec_filename_without_version.starts_with("_")
-            || exec_filename_without_version.starts_with(".")
-        {
-            info!(
-                "Ignored to link {:?} to {:?} because of file name patterns (uppercase, class cass or starts with _)",
-                &file, &exec_file_path
-            );
-
-            return Ok(None);
+        if exec_file_paths.is_empty() {
+            Ok(None)
+        } else {
+            Ok(Some(exec_file_paths))
         }
-
-        if file.extension().is_none() && !file.is_executable() {
-            self.set_executable_permission(file)?;
-        }
-
-        if !file.is_executable() {
-            info!(
-                "Ignored to link {:?} to {:?} because it's not executable)",
-                &file, &exec_file_path
-            );
-
-            return Ok(None);
-        }
-
-        info!("Linking {:?} to {:?}", &file, &exec_file_path);
-        symlink_file(file, &exec_file_path)?;
-
-        Ok(Some(exec_file_path.to_str().unwrap().to_string()))
     }
 
     fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()> {
@@ -637,8 +658,8 @@ impl ReleaseAsyncTrait for ReleaseService {
                 let path = entry.path();
                 if path.is_file() {
                     debug!("Scanning file: {:?}", path);
-                    if let Some(p) = self.link_executables_for_current(&release, &path)? {
-                        linked_exe_files.push(p);
+                    if let Some(mut paths) = self.link_executables_for_current(&release, &path)? {
+                        linked_exe_files.append(&mut paths);
                     }
                 } else {
                     debug!("Ignored to scan non-file: {:?}", path);
