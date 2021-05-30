@@ -79,3 +79,9 @@ HUBER ?= huber
 .PHONY: verify
 verify: ## Verify Huber commands via the local package generated folder
 	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) $(HUBER) $(CMD)
+
+.PHONY: publish
+publish: ## Publish Huber to crates.io
+	cargo publish $(CARGO_OPTS) --manifest-path=./src/common/Cargo.toml || true
+	cargo publish $(CARGO_OPTS) --manifest-path=./src/procmacro/Cargo.toml || true
+	cargo publish $(CARGO_OPTS) --manifest-path=./src/app/Cargo.toml || true
