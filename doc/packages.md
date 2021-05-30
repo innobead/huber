@@ -137,6 +137,7 @@
  wasmtime         Standalone JIT-style runtime for WebAssembly, using Cranelift                                            https://github.com/bytecodealliance/wasmtime 
  waypoint         A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
  wstunnel         Tunneling over websocket protocol - Static binary available                                              https://github.com/erebe/wstunnel 
+ xh               Friendly and fast tool for sending HTTP requests                                                         https://github.com/ducaale/xh 
  yq               yq is a portable command-line YAML processor                                                             https://github.com/mikefarah/yq 
  zellij           A terminal workspace with batteries included                                                             https://github.com/zellij-org/zellij 
  zola             A fast static site generator in a single binary with everything built-in. https://www.getzola.org        https://github.com/getzola/zola 

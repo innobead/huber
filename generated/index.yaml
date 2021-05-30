@@ -405,6 +405,9 @@
 - name: wstunnel
   owner: erebe
   source: github
+- name: xh
+  owner: ducaale
+  source: github
 - name: yq
   owner: mikefarah
   source: github

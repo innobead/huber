@@ -134,6 +134,7 @@ pub mod wasmer;
 pub mod wasmtime;
 pub mod waypoint;
 pub mod wstunnel;
+pub mod xh;
 pub mod yq;
 pub mod zellij;
 pub mod zola;
