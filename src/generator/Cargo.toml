@@ -10,7 +10,7 @@ repository = "https://github.com/innobead/huber"
 license-file = "../../LICENSE"
 
 [build-dependencies]
-huber-common = { path = "../common" }
+huber-common = { path = "../common", version = "0.3.3" }
 serde = { version = "1.0", features = ["derive"] }
 serde_yaml = "0.8.13"
 tokio = { version = "1.0", features = ["full"] } #  reqwest 0.10, hubcaps 0.6 does not support tokio 0.3/1.0 yet, ref: https://github.com/seanmonstar/reqwest/issues/1060
@@ -18,5 +18,5 @@ hubcaps-ex = "0.6.2"
 maplit = "1.0"
 
 [dependencies]
-huber-common = { path = "../common" }
+huber-common = { path = "../common", version = "0.3.3" }
 maplit = "1.0"
