@@ -60,6 +60,9 @@ For official releases, please install the latest release as below command. After
 But, if it does not work as expected, please remember to add `$HOME/.huber/bin` in the environment path, so `huber` will be looked up correctly. 
 
 ```console
+# Cargo
+cargo install huber
+
 # Linux
 ❯ curl -sfSL https://raw.githubusercontent.com/innobead/huber/master/hack/install.sh | bash
 
