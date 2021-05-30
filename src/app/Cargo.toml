@@ -9,14 +9,14 @@ categories = ["command-line-interface", "command-line-utilities", "development-t
 homepage = "https://github.com/innobead/huber"
 repository = "https://github.com/innobead/huber"
 readme = "README.md"
-license-file = "LICENSE"
+license-file = "../../LICENSE"
 
 [build-dependencies]
 chrono = "0.4"
 
 [dependencies]
-huber-common = { path = "../common" }
-huber-procmacro = { path = "../procmacro" }
+huber-common = { path = "../common", version = "0.3.3" }
+huber-procmacro = { path = "../procmacro", version = "0.3.3" }
 libcli-rs = "0.1"
 clap = "2"
 log = "0.4"

@@ -3,6 +3,10 @@ name = "huber-common"
 version = "0.3.3"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2018"
+description = "Interal package used by Huber"
+homepage = "https://github.com/innobead/huber"
+repository = "https://github.com/innobead/huber"
+license-file = "../../LICENSE"
 
 [dependencies]
 log = "0.4"
