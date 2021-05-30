@@ -248,10 +248,7 @@ impl ReleaseTrait for ReleaseService {
 
         let exec_filename = trim_os_arch(&exec_filename);
         let exec_file_path = config.bin_dir()?.join(&exec_filename);
-
-        if exec_file_path.exists() {
-            let _ = remove_file(&exec_file_path);
-        }
+        let _ = remove_file(&exec_file_path);
 
         if exec_filename.starts_with(".") {
             info!(
