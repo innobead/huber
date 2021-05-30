@@ -11,7 +11,9 @@ pub fn release() -> Package {
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/zoxide-x86_64-unknown-linux-musl".to_string()],
+                artifact_templates: vec![
+                    "{version}/zoxide-x86_64-unknown-linux-musl.tar.gz".to_string()
+                ],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -22,7 +24,7 @@ pub fn release() -> Package {
             }),
             PackageTargetType::LinuxArm32(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/zoxide-armv7-unknown-linux-musleabihf".to_string()
+                    "{version}/zoxide-armv7-unknown-linux-musleabihf.tar.gz".to_string()
                 ],
                 executable_templates: None,
                 executable_mappings: None,
@@ -33,7 +35,7 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["{version}/zoxide-x86_64-apple-darwin".to_string()],
+                artifact_templates: vec!["{version}/zoxide-x86_64-apple-darwin.tar.gz".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -43,7 +45,7 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::Windows(PackageManagement {
-                artifact_templates: vec!["{version}/zoxide-x86_64-pc-windows-msvc.exe".to_string()],
+                artifact_templates: vec!["{version}/zoxide-x86_64-pc-windows-msvc.zip".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
