@@ -1,6 +1,6 @@
 [package]
 name = "huber"
-version = "0.3.3"
+version = "0.3.4"
 description = "Huber package, simplify `GitHub release` package management with a live awesome list of GitHub project"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2018"
@@ -15,8 +15,8 @@ license-file = "../../LICENSE"
 chrono = "0.4"
 
 [dependencies]
-huber-common = { path = "../common", version = "0.3.3" }
-huber-procmacro = { path = "../procmacro", version = "0.3.3" }
+huber-common = { path = "../common", version = "0.3.4" }
+huber-procmacro = { path = "../procmacro", version = "0.3.4" }
 libcli-rs = "0.1"
 clap = "2"
 log = "0.4"
