@@ -169,7 +169,7 @@
   owner: alexellis
   source: github
 - name: k6
-  owner: loadimpact
+  owner: k6io
   source: github
 - name: k9s
   owner: derailed
@@ -318,6 +318,9 @@
 - name: rke2
   owner: rancher
   source: github
+- name: rustwasmc
+  owner: second-state
+  source: github
 - name: shadowsocks
   owner: shadowsocks
   source: github
@@ -328,9 +331,6 @@
   owner: vmware-tanzu
   source: github
 - name: ssvm
-  owner: second-state
-  source: github
-- name: ssvmup
   owner: second-state
   source: github
 - name: starship

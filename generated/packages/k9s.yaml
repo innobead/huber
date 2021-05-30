@@ -9,14 +9,18 @@ source:
 targets:
   - LinuxAmd64:
       artifact_templates:
+        - "k9s_{version}_Linux_x86_64.tar.gz"
         - "{version}/k9s_Linux_x86_64.tar.gz"
   - LinuxArm64:
       artifact_templates:
+        - "k9s_{version}_Linux_arm64.tar.gz"
         - "{version}/k9s_Linux_arm64.tar.gz"
   - MacOS:
       artifact_templates:
+        - "k9s_{version}_Darwin_x86_64.tar.gz"
         - "{version}/k9s_Darwin_x86_64.tar.gz"
   - Windows:
       artifact_templates:
+        - "k9s_{version}_Windows_x86_64.tar.gz"
         - "{version}/k9s_Windows_x86_64.tar.gz"
 detail: ~

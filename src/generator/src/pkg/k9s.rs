@@ -11,7 +11,10 @@ pub fn release() -> Package {
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/k9s_Linux_x86_64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "k9s_{version}_Linux_x86_64.tar.gz".to_string(),
+                    "{version}/k9s_Linux_x86_64.tar.gz".to_string(),
+                ],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -21,7 +24,10 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["{version}/k9s_Linux_arm64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "k9s_{version}_Linux_arm64.tar.gz".to_string(),
+                    "{version}/k9s_Linux_arm64.tar.gz".to_string(),
+                ],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -31,7 +37,10 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["{version}/k9s_Darwin_x86_64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "k9s_{version}_Darwin_x86_64.tar.gz".to_string(),
+                    "{version}/k9s_Darwin_x86_64.tar.gz".to_string(),
+                ],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -41,7 +50,10 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::Windows(PackageManagement {
-                artifact_templates: vec!["{version}/k9s_Windows_x86_64.tar.gz".to_string()],
+                artifact_templates: vec![
+                    "k9s_{version}_Windows_x86_64.tar.gz".to_string(),
+                    "{version}/k9s_Windows_x86_64.tar.gz".to_string(),
+                ],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,

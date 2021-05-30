@@ -58,7 +58,7 @@
  k3d              Little helper to run Rancher Lab's k3s in Docker                                                         https://github.com/rancher/k3d 
  k3s              Lightweight Kubernetes                                                                                   https://github.com/rancher/k3s 
  k3sup            bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
- k6               A modern load testing tool, using Go and JavaScript - https://k6.io                                      https://github.com/loadimpact/k6 
+ k6               A modern load testing tool, using Go and JavaScript - https://k6.io                                      https://github.com/k6io/k6 
  k9s              🐶 Kubernetes CLI To Manage Your Clusters In Style!                                                      https://github.com/derailed/k9s 
  keptn            Cloud-native application life-cycle orchestration. Keptn automates your SLO-driven multi-stage deliv...  https://github.com/keptn/keptn 
  ketch            Ketch is an application delivery framework that facilitates the deployment and management of applica...  https://github.com/shipa-corp/ketch 
@@ -108,11 +108,11 @@
  ripgrep          ripgrep recursively searches directories for a regex pattern while respecting your gitignore             https://github.com/BurntSushi/ripgrep 
  rke              Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that ru...  https://github.com/rancher/rke 
  rke2                                                                                                                      https://github.com/rancher/rke2 
+ rustwasmc        Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/rustwasmc 
  shadowsocks      A Rust port of shadowsocks                                                                               https://github.com/shadowsocks/shadowsocks-rust 
  skaffold         Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  sonobuoy         Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
  ssvm             WasmEdge Runtime is a high-performance, extensible, and hardware optimized WebAssembly Virtual Machi...  https://github.com/second-state/SSVM 
- ssvmup           Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/ssvmup 
  starship         ☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!                        https://github.com/starship/starship 
  stern            ⎈ Multi pod and container log tailing for Kubernetes                                                     https://github.com/wercker/stern 
  submariner       Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 

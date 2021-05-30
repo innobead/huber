@@ -1,22 +1,26 @@
 # This is generated. Don't modify.
 ---
-name: ssvmup
+name: rustwasmc
 description: "Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portability of WebAssembly, and ease of use of JavaScript."
 source:
   Github:
     owner: second-state
-    repo: ssvmup
+    repo: rustwasmc
 targets:
   - LinuxAmd64:
       artifact_templates:
+        - "rustwasmc-v{version}-x86_64-unknown-linux-gnu.tar.gz"
         - "ssvmup-v{version}-x86_64-unknown-linux-gnu.tar.gz"
   - LinuxArm64:
       artifact_templates:
+        - "rustwasmc-v{version}-aarch64-unknown-linux-gnu.tar.gz"
         - "ssvmup-v{version}-aarch64-unknown-linux-gnu.tar.gz"
   - MacOS:
       artifact_templates:
+        - "rustwasmc-v{version}-x86_64-apple-darwin.tar.gz"
         - "ssvmup-v{version}-x86_64-apple-darwin.tar.gz"
   - Windows:
       artifact_templates:
+        - "rustwasmc-v{version}-x86_64-pc-windows-msvc.tar.gz"
         - "ssvmup-v{version}-x86_64-pc-windows-msvc.tar.gz"
 detail: ~
