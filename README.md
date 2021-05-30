@@ -61,7 +61,7 @@ But, if it does not work as expected, please remember to add `$HOME/.huber/bin` 
 
 ```console
 # Cargo
-cargo install huber
+❯ cargo install huber
 
 # Linux
 ❯ curl -sfSL https://raw.githubusercontent.com/innobead/huber/master/hack/install.sh | bash
