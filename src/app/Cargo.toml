@@ -8,7 +8,7 @@ keywords = ["github", "package management", "package"]
 categories = ["command-line-interface", "command-line-utilities", "development-tools"]
 homepage = "https://github.com/innobead/huber"
 repository = "https://github.com/innobead/huber"
-readme = "README.md"
+readme = "../../README.md"
 license-file = "../../LICENSE"
 
 [build-dependencies]
