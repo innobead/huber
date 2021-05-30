@@ -11,7 +11,7 @@ use fs_extra::move_items;
 use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
 use libcli_rs::progress::{ProgressBar, ProgressTrait};
-use log::{debug, info};
+use log::{debug, error, info};
 use regex::Captures;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
@@ -747,11 +747,27 @@ impl ItemOperationTrait for ReleaseService {
         let indexes: Vec<ReleaseIndex> = serde_yaml::from_reader(index_f)?;
 
         for ri in indexes {
-            let pkg = pkg_service.get(&ri.name)?;
-            let p = config.installed_pkg_manifest_file(&pkg, &ri.version)?;
+            match pkg_service.get(&ri.name) {
+                Ok(pkg) => {
+                    let p = config.installed_pkg_manifest_file(&pkg, &ri.version)?;
 
-            let f = File::open(p)?;
-            releases.push(serde_yaml::from_reader(f)?);
+                    debug!("Reading {:?}", p);
+                    match File::open(&p) {
+                        Ok(f) => {
+                            releases.push(serde_yaml::from_reader(f)?);
+                        }
+                        Err(e) => error!(
+                            "Failed to read {:?} and ignored from the installed release list: {}",
+                            p, e
+                        ),
+                    }
+                }
+
+                Err(e) => {
+                    error!("Failed to get {} package because the package probably removed from the repositories: {}", &ri.name, e);
+                    continue;
+                }
+            }
         }
 
         Ok(releases)

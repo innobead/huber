@@ -82,7 +82,13 @@ impl ItemOperationTrait for PackageService {
 
     fn get(&self, name: &str) -> Result<Self::ItemInstance> {
         debug!("Getting package: {}", name);
-        self.search(Some(name), None, None).map(|it| it[0].clone())
+
+        let results = self.search(Some(name), None, None)?;
+        if results.len() > 0 {
+            Ok(results.get(0).unwrap().to_owned())
+        } else {
+            Err(anyhow!("{} not found", name))
+        }
     }
 }
 
@@ -142,7 +148,9 @@ impl ItemSearchTrait for PackageService {
 
         if let Some(name) = name {
             debug!("Searching package by name: {}", name);
-            found_items.push(cache_service.get_package(name)?);
+            if let Ok(pkg) = cache_service.get_package(name) {
+                found_items.push(pkg);
+            }
 
             return Ok(found_items);
         }
