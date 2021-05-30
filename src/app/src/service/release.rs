@@ -329,23 +329,30 @@ impl ReleaseTrait for ReleaseService {
 
     fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> Result<()> {
         let config = self.container.get::<Config>().unwrap();
-        let mut exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
+        let exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
+        let mut exec_filenames = vec![exec_filename.clone()];
 
         // update linked exec name according to executable_mappings if it exists
         let exec_mappings: HashMap<String, String> =
             pkg.target()?.executable_mappings.unwrap_or(hashmap![]);
         if exec_mappings.len() > 0 {
-            if let Some(mapped_exec_name) = exec_mappings.get(&exec_filename) {
-                exec_filename = mapped_exec_name.clone();
+            if let Some(mapped_exec_names) = exec_mappings.get(&exec_filename) {
+                let re = Regex::new(r"\s+").unwrap();
+                exec_filenames = re
+                    .split(&mapped_exec_names)
+                    .map(|x| x.to_string())
+                    .collect();
             }
         }
 
-        let exec_filename = trim_os_arch(&exec_filename);
-        let exec_file_path = config.bin_dir()?.join(&exec_filename);
+        for ref exec_filename in exec_filenames {
+            let exec_filename = trim_os_arch(&exec_filename);
+            let exec_file_path = config.bin_dir()?.join(&exec_filename);
 
-        if exec_file_path.exists() {
-            info!("Removing link {:?}", &exec_file_path);
-            remove_symlink_file(exec_file_path)?;
+            if exec_file_path.exists() {
+                info!("Removing link {:?}", &exec_file_path);
+                remove_symlink_file(exec_file_path)?;
+            }
         }
 
         Ok(())
@@ -374,18 +381,25 @@ impl ReleaseTrait for ReleaseService {
                 let path = entry.path();
 
                 if path.is_file() {
-                    let mut exec_filename = path.file_name().unwrap().to_str().unwrap().to_string();
+                    let exec_filename = path.file_name().unwrap().to_str().unwrap().to_string();
+                    let mut exec_filenames = vec![exec_filename.clone()];
 
                     if exec_mappings.len() > 0 {
-                        if let Some(mapped_exec_name) = exec_mappings.get(&exec_filename) {
-                            exec_filename = mapped_exec_name.clone();
+                        if let Some(mapped_exec_names) = exec_mappings.get(&exec_filename) {
+                            let re = Regex::new(r"\s+").unwrap();
+                            exec_filenames = re
+                                .split(&mapped_exec_names)
+                                .map(|x| x.to_string())
+                                .collect();
                         }
                     }
 
-                    let exec_filename = trim_os_arch(&exec_filename);
-                    let p = config.bin_dir()?.join(exec_filename);
-                    if p.exists() {
-                        results.push(p.to_str().unwrap().to_string());
+                    for ref exec_filename in exec_filenames {
+                        let exec_filename = trim_os_arch(&exec_filename);
+                        let p = config.bin_dir()?.join(exec_filename);
+                        if p.exists() {
+                            results.push(p.to_str().unwrap().to_string());
+                        }
                     }
                 }
             }
