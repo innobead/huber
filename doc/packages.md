@@ -8,6 +8,7 @@
  bat              A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  camel-k          Apache Camel K is a lightweight integration platform, born on Kubernetes, with serverless superpower...  https://github.com/apache/camel-k 
  chisel           A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
+ choose           A human-friendly and fast alternative to cut and (sometimes) awk                                         https://github.com/theryangeary/choose 
  cloak            A Command Line OTP Authenticator application.                                                            https://github.com/evansmurithi/cloak 
  conftest         Write tests against structured configuration data using the Open Policy Agent Rego query language        https://github.com/open-policy-agent/conftest 
  consul           Consul is a distributed, highly available, and data center aware solution to connect and configure a...  https://github.com/hashicorp/consul 
@@ -18,12 +19,15 @@
  ctlptl           Making local Kubernetes clusters fun and easy to set up                                                  https://github.com/tilt-dev/ctlptl 
  czkawka          Multi functional app to find duplicates, empty folders, similar images etc.                              https://github.com/qarmin/czkawka 
  dasel            Query, update and convert data structures from the command line. Comparable to jq/yq but supports JS...  https://github.com/TomWright/dasel 
+ delta            A viewer for git and diff output                                                                         https://github.com/dandavison/delta 
  deno             A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
  direnv           unclutter your .profile                                                                                  https://github.com/direnv/direnv 
  dive             A tool for exploring each layer in a docker image                                                        https://github.com/wagoodman/dive 
  doctl            The official command line interface for the DigitalOcean API.                                            https://github.com/digitalocean/doctl 
+ dog              A command-line DNS client.                                                                               https://github.com/ogham/dog 
  dolt             Dolt – It's Git for Data                                                                                 https://github.com/dolthub/dolt 
  drone-cli        Command Line Tools for Drone CI                                                                          https://github.com/drone/drone-cli 
+ dua-cli          View disk space usage and delete unwanted data, fast.                                                    https://github.com/Byron/dua-cli 
  dust             A more intuitive version of du in rust                                                                   https://github.com/bootandy/dust 
  eksctl           The official CLI for Amazon EKS                                                                          https://github.com/weaveworks/eksctl 
  epinio           Opinionated platform that runs on Kubernetes, that takes you from App to URL in one step.                https://github.com/epinio/epinio 
@@ -34,7 +38,9 @@
  fission          Fast and Simple Serverless Functions for Kubernetes                                                      https://github.com/fission/fission 
  fleet            Manage large fleets of Kubernetes clusters                                                               https://github.com/rancher/fleet 
  flux2            Open and extensible continuous delivery solution for Kubernetes. Powered by GitOps Toolkit.              https://github.com/fluxcd/flux2 
+ fnm              🚀 Fast and simple Node.js version manager, built in Rust                                                https://github.com/Schniz/fnm 
  fortio           Fortio load testing library, command line tool, advanced echo server and web UI in go (golang). Allo...  https://github.com/fortio/fortio 
+ frum             A little bit fast and modern Ruby version manager written in Rust                                        https://github.com/TaKO8Ki/frum 
  gh               GitHub’s official command line tool                                                                      https://github.com/cli/cli 
  gitui            Blazing 💥 fast terminal-ui for git written in rust 🦀                                                   https://github.com/extrawurst/gitui 
  go-http-tunnel   Fast and secure tunnels over HTTP/2                                                                      https://github.com/mmatczuk/go-http-tunnel 
@@ -42,6 +48,7 @@
  helm             The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
  helmfile         Deploy Kubernetes Helm Charts                                                                            https://github.com/roboll/helmfile 
  hetty            Hetty is an HTTP toolkit for security research.                                                          https://github.com/dstotijn/hetty 
+ hexyl            A command-line hex viewer                                                                                https://github.com/sharkdp/hexyl 
  hub              A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
  huber            Huber 📦, simplify the package management from GitHub projects with a built-in awesome list of pop...    https://github.com/innobead/huber 
  hugo             The world’s fastest framework for building websites.                                                     https://github.com/gohugoio/hugo 
@@ -81,6 +88,8 @@
  lens             Lens - The Kubernetes IDE                                                                                https://github.com/lensapp/lens 
  linkerd2-edge    Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
  linkerd2-stable  Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
+ loc              Count lines of code quickly.                                                                             https://github.com/cgag/loc 
+ lsd              The next gen ls command                                                                                  https://github.com/Peltoche/lsd 
  minikube         Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
  mkcert           A simple zero-config tool to make locally trusted development certificates with any names you'd like...  https://github.com/FiloSottile/mkcert 
  natscli          The NATS Command Line Interface                                                                          https://github.com/nats-io/natscli 
@@ -111,6 +120,7 @@
  rustwasmc        Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/rustwasmc 
  shadowsocks      A Rust port of shadowsocks                                                                               https://github.com/shadowsocks/shadowsocks-rust 
  skaffold         Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
+ skim             Fuzzy Finder in rust!                                                                                    https://github.com/lotabout/skim 
  sonobuoy         Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
  ssvm             WasmEdge Runtime is a high-performance, extensible, and hardware optimized WebAssembly Virtual Machi...  https://github.com/second-state/SSVM 
  starship         ☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!                        https://github.com/starship/starship 

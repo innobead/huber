@@ -18,6 +18,9 @@
 - name: chisel
   owner: jpillora
   source: github
+- name: choose
+  owner: theryangeary
+  source: github
 - name: cloak
   owner: evansmurithi
   source: github
@@ -48,6 +51,9 @@
 - name: dasel
   owner: TomWright
   source: github
+- name: delta
+  owner: dandavison
+  source: github
 - name: deno
   owner: denoland
   source: github
@@ -60,11 +66,17 @@
 - name: doctl
   owner: digitalocean
   source: github
+- name: dog
+  owner: ogham
+  source: github
 - name: dolt
   owner: dolthub
   source: github
 - name: drone-cli
   owner: drone
+  source: github
+- name: dua-cli
+  owner: Byron
   source: github
 - name: dust
   owner: bootandy
@@ -96,8 +108,14 @@
 - name: flux2
   owner: fluxcd
   source: github
+- name: fnm
+  owner: Schniz
+  source: github
 - name: fortio
   owner: fortio
+  source: github
+- name: frum
+  owner: TaKO8Ki
   source: github
 - name: gh
   owner: cli
@@ -119,6 +137,9 @@
   source: github
 - name: hetty
   owner: dstotijn
+  source: github
+- name: hexyl
+  owner: sharkdp
   source: github
 - name: hub
   owner: github
@@ -237,6 +258,12 @@
 - name: linkerd2-stable
   owner: linkerd
   source: github
+- name: loc
+  owner: cgag
+  source: github
+- name: lsd
+  owner: Peltoche
+  source: github
 - name: minikube
   owner: kubernetes
   source: github
@@ -326,6 +353,9 @@
   source: github
 - name: skaffold
   owner: GoogleContainerTools
+  source: github
+- name: skim
+  owner: lotabout
   source: github
 - name: sonobuoy
   owner: vmware-tanzu

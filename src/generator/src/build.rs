@@ -126,6 +126,16 @@ fn releases() -> Vec<Package> {
         typos::release(),
         zellij::release(),
         xh::release(),
+        loc::release(),
+        choose::release(),
+        delta::release(),
+        dog::release(),
+        dua_cli::release(),
+        skim::release(),
+        hexyl::release(),
+        lsd::release(),
+        fnm::release(),
+        frum::release(),
         // infra
         pulumi::release(),
         chisel::release(),
@@ -223,6 +233,7 @@ fn releases() -> Vec<Package> {
 }
 
 async fn update_description(pkg: &mut Package) -> Result<()> {
+    println!("Updating the description of package: {}", pkg);
     let github = Github::new("huber", Credentials::Token(env::var("GITHUB_TOKEN")?))?;
 
     if let PackageSource::Github { owner, repo } = &pkg.source {

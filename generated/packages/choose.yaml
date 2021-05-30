@@ -1,0 +1,13 @@
+# This is generated. Don't modify.
+---
+name: choose
+description: A human-friendly and fast alternative to cut and (sometimes) awk
+source:
+  Github:
+    owner: theryangeary
+    repo: choose
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/choose"
+detail: ~

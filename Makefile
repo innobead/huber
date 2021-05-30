@@ -52,7 +52,7 @@ fix:  ## Fix code
 .PHONY: generate
 generate: ## Generate managed package list
 	@echo "! Must have GITHUB_TOKEN to automatically generate package description"
-	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build --manifest-path=./src/generator/Cargo.toml
+	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build -vv --manifest-path=./src/generator/Cargo.toml
 	GITHUB_KEY=$(GITHUB_KEY) $(MAKE) build && \
 	(MANAGED_PKG_ROOT_DIR=$(CURDIR)/generated $(CURDIR)/target/debug/huber search | xargs -0 $(CURDIR)/hack/generate-packages.md.sh)
 

@@ -1,0 +1,25 @@
+# This is generated. Don't modify.
+---
+name: delta
+description: A viewer for git and diff output
+source:
+  Github:
+    owner: dandavison
+    repo: delta
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "delta-{version}-x86_64-unknown-linux-gnu.tar.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "delta-{version}-aarch64-unknown-linux-gnu.tar.gz"
+  - LinuxArm32:
+      artifact_templates:
+        - "delta-{version}-arm-unknown-linux-gnueabihf.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "delta-{version}-x86_64-apple-darwin.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "delta-{version}-x86_64-pc-windows-msvc.zip"
+detail: ~

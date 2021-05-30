@@ -1,0 +1,25 @@
+# This is generated. Don't modify.
+---
+name: lsd
+description: The next gen ls command
+source:
+  Github:
+    owner: Peltoche
+    repo: lsd
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "lsd-{version}-x86_64-unknown-linux-musl.tar.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "lsd-{version}-aarch64-unknown-linux-musl.tar.gz"
+  - LinuxArm32:
+      artifact_templates:
+        - "lsd-{version}-arm-unknown-linux-gnueabihf.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "lsd-{version}-x86_64-apple-darwin.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "lsd-{version}-x86_64-pc-windows-msvc.zip"
+detail: ~
