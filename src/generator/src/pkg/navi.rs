@@ -3,16 +3,16 @@ use huber_common::model::package::{Package, PackageManagement, PackageSource, Pa
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
-        name: "zellij".to_string(),
+        name: "navi".to_string(),
         source: PackageSource::Github {
-            owner: "zellij-org".to_string(),
-            repo: "zellij".to_string(),
+            owner: "denisidoro".to_string(),
+            repo: "navi".to_string(),
         },
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/zellij-x86_64-unknown-linux-musl.tar.gz".to_string()
+                    "navi-v{version}-x86_64-unknown-linux-musl.tar.gz".to_string()
                 ],
                 executable_templates: None,
                 executable_mappings: None,
@@ -22,9 +22,19 @@ pub fn release() -> Package {
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
-            PackageTargetType::LinuxArm64(PackageManagement {
+            PackageTargetType::LinuxAmd64(PackageManagement {
+                artifact_templates: vec!["navi-v{version}-aarch64-linux-android.tar.gz".to_string()],
+                executable_templates: None,
+                executable_mappings: None,
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+                tag_version_regex_template: None,
+                scan_dirs: None,
+            }),
+            PackageTargetType::LinuxArm32(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/zellij-aarch64-unknown-linux-musl.tar.gz".to_string()
+                    "navi-v{version}-armv7-unknown-linux-musleabihf.tar.gz".to_string()
                 ],
                 executable_templates: None,
                 executable_mappings: None,
@@ -35,7 +45,7 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["{version}/zellij-aarch64-apple-darwin.tar.gz".to_string()],
+                artifact_templates: vec!["navi-v{version}-x86_64-apple-darwin.tar.gz".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -45,7 +55,17 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::MacOSArm64(PackageManagement {
-                artifact_templates: vec!["{version}/zellij-aarch64-apple-darwin.tar.gz".to_string()],
+                artifact_templates: vec!["navi-v{version}-aarch64-apple-ios.tar.gz".to_string()],
+                executable_templates: None,
+                executable_mappings: None,
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+                tag_version_regex_template: None,
+                scan_dirs: None,
+            }),
+            PackageTargetType::Windows(PackageManagement {
+                artifact_templates: vec!["navi-v{version}-x86_64-pc-windows-gnu.zip".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,

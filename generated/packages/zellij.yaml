@@ -16,4 +16,7 @@ targets:
   - MacOS:
       artifact_templates:
         - "{version}/zellij-aarch64-apple-darwin.tar.gz"
+  - MacOSArm64:
+      artifact_templates:
+        - "{version}/zellij-aarch64-apple-darwin.tar.gz"
 detail: ~

@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: tealdeer
+description: A very fast implementation of tldr in Rust.
+source:
+  Github:
+    owner: dbrgn
+    repo: tealdeer
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "{version}/tldr-linux-x86_64-musl"
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/tldr-linux-arm-musleabihf"
+  - LinuxArm32:
+      artifact_templates:
+        - "{version}/tldr-linux-armv7-musleabihf"
+detail: ~

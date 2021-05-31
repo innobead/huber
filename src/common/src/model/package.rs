@@ -60,6 +60,7 @@ pub enum PackageTargetType {
     LinuxArm64(PackageManagement),
     LinuxArm32(PackageManagement),
     MacOS(PackageManagement),
+    MacOSArm64(PackageManagement),
     Windows(PackageManagement),
 }
 

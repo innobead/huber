@@ -12,6 +12,9 @@
 - name: bat
   owner: sharkdp
   source: github
+- name: bottom
+  owner: ClementTsang
+  source: github
 - name: camel-k
   owner: apache
   source: github
@@ -270,8 +273,14 @@
 - name: mkcert
   owner: FiloSottile
   source: github
+- name: nat
+  owner: willdoescode
+  source: github
 - name: natscli
   owner: nats-io
+  source: github
+- name: navi
+  owner: denisidoro
   source: github
 - name: nerdctl
   owner: containerd
@@ -348,6 +357,12 @@
 - name: rustwasmc
   owner: second-state
   source: github
+- name: sad
+  owner: ms-jpq
+  source: github
+- name: sd
+  owner: chmln
+  source: github
 - name: shadowsocks
   owner: shadowsocks
   source: github
@@ -374,6 +389,9 @@
   source: github
 - name: syncthing
   owner: syncthing
+  source: github
+- name: tealdeer
+  owner: dbrgn
   source: github
 - name: tecli
   owner: awslabs

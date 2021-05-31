@@ -136,6 +136,12 @@ fn releases() -> Vec<Package> {
         lsd::release(),
         fnm::release(),
         frum::release(),
+        nat::release(),
+        sad::release(),
+        sd::release(),
+        navi::release(),
+        tealdeer::release(),
+        bottom::release(),
         // infra
         pulumi::release(),
         chisel::release(),

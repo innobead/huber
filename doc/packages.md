@@ -6,6 +6,7 @@
  argocd           Declarative continuous deployment for Kubernetes.                                                        https://github.com/argoproj/argo-cd 
  arkade           Open Source Kubernetes Marketplace                                                                       https://github.com/alexellis/arkade 
  bat              A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
+ bottom           Yet another cross-platform graphical process/system monitor.                                             https://github.com/ClementTsang/bottom 
  camel-k          Apache Camel K is a lightweight integration platform, born on Kubernetes, with serverless superpower...  https://github.com/apache/camel-k 
  chisel           A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  choose           A human-friendly and fast alternative to cut and (sometimes) awk                                         https://github.com/theryangeary/choose 
@@ -92,7 +93,9 @@
  lsd              The next gen ls command                                                                                  https://github.com/Peltoche/lsd 
  minikube         Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
  mkcert           A simple zero-config tool to make locally trusted development certificates with any names you'd like...  https://github.com/FiloSottile/mkcert 
+ nat              `ls` alternative with useful info and a splash of color 🎨                                               https://github.com/willdoescode/nat 
  natscli          The NATS Command Line Interface                                                                          https://github.com/nats-io/natscli 
+ navi             An interactive cheatsheet tool for the command-line                                                      https://github.com/denisidoro/navi 
  nerdctl          Docker-compatible CLI for containerd, with support for Compose                                           https://github.com/containerd/nerdctl 
  nomad            Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
  norouter         NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
@@ -118,6 +121,8 @@
  rke              Rancher Kubernetes Engine (RKE), an extremely simple, lightning fast Kubernetes distribution that ru...  https://github.com/rancher/rke 
  rke2                                                                                                                      https://github.com/rancher/rke2 
  rustwasmc        Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/rustwasmc 
+ sad              CLI search and replace | Space Age seD                                                                   https://github.com/ms-jpq/sad 
+ sd               Intuitive find & replace CLI (sed alternative)                                                           https://github.com/chmln/sd 
  shadowsocks      A Rust port of shadowsocks                                                                               https://github.com/shadowsocks/shadowsocks-rust 
  skaffold         Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  skim             Fuzzy Finder in rust!                                                                                    https://github.com/lotabout/skim 
@@ -127,6 +132,7 @@
  stern            ⎈ Multi pod and container log tailing for Kubernetes                                                     https://github.com/wercker/stern 
  submariner       Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
  syncthing        Open Source Continuous File Synchronization                                                              https://github.com/syncthing/syncthing 
+ tealdeer         A very fast implementation of tldr in Rust.                                                              https://github.com/dbrgn/tealdeer 
  tecli            In a world where everything is Terraform, teams use Terraform Cloud API to manage their workloads. T...  https://github.com/awslabs/tecli 
  termshark        A terminal UI for tshark, inspired by Wireshark                                                          https://github.com/gcla/termshark 
  terraform        Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
