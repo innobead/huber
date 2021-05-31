@@ -83,5 +83,5 @@ verify: ## Verify Huber commands via the local package generated folder
 .PHONY: publish
 publish: ## Publish Huber to crates.io
 	cargo publish $(CARGO_OPTS) --manifest-path=./src/common/Cargo.toml || true
-	cargo publish $(CARGO_OPTS) --manifest-path=./src/procmacro/Cargo.toml || true
-	cargo publish $(CARGO_OPTS) --manifest-path=./src/app/Cargo.toml || true
+	sleep 10 && cargo publish $(CARGO_OPTS) --manifest-path=./src/procmacro/Cargo.toml || true
+	sleep 10 && cargo publish $(CARGO_OPTS) --manifest-path=./src/app/Cargo.toml || true
