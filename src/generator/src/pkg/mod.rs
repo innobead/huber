@@ -43,6 +43,7 @@ pub mod gitui;
 pub mod go;
 pub mod go_http_tunnel;
 pub mod gping;
+pub mod grex;
 pub mod helm;
 pub mod helmfile;
 pub mod hetty;

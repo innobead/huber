@@ -142,6 +142,7 @@ fn releases() -> Vec<Package> {
         navi::release(),
         tealdeer::release(),
         bottom::release(),
+        grex::release(),
         // infra
         pulumi::release(),
         chisel::release(),

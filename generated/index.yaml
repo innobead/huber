@@ -132,6 +132,9 @@
 - name: gping
   owner: orf
   source: github
+- name: grex
+  owner: pemistahl
+  source: github
 - name: helm
   owner: helm
   source: github

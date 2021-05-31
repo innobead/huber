@@ -46,6 +46,7 @@
  gitui            Blazing 💥 fast terminal-ui for git written in rust 🦀                                                   https://github.com/extrawurst/gitui 
  go-http-tunnel   Fast and secure tunnels over HTTP/2                                                                      https://github.com/mmatczuk/go-http-tunnel 
  gping            Ping, but with a graph                                                                                   https://github.com/orf/gping 
+ grex             A command-line tool and library for generating regular expressions from user-provided test cases         https://github.com/pemistahl/grex 
  helm             The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
  helmfile         Deploy Kubernetes Helm Charts                                                                            https://github.com/roboll/helmfile 
  hetty            Hetty is an HTTP toolkit for security research.                                                          https://github.com/dstotijn/hetty 
