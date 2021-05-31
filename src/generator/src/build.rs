@@ -238,6 +238,7 @@ fn releases() -> Vec<Package> {
         typescript::release(),
         node::release(),
         kotlin::release(),
+        gradle::release(),
     ]
 }
 

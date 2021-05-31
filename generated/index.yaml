@@ -132,6 +132,9 @@
 - name: gping
   owner: orf
   source: github
+- name: gradle
+  owner: gradle
+  source: github
 - name: grex
   owner: pemistahl
   source: github
