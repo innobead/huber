@@ -216,6 +216,9 @@
 - name: kompose
   owner: kubernetes
   source: github
+- name: kotlin
+  owner: JetBrains
+  source: github
 - name: kpt
   owner: GoogleContainerTools
   source: github

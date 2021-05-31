@@ -237,6 +237,7 @@ fn releases() -> Vec<Package> {
         deno::release(),
         typescript::release(),
         node::release(),
+        kotlin::release(),
     ]
 }
 

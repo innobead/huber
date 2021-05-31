@@ -1,0 +1,19 @@
+# This is generated. Don't modify.
+---
+name: kotlin
+description: "The Kotlin Programming Language. "
+source:
+  Github:
+    owner: JetBrains
+    repo: kotlin
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "kotlin-compiler-{version}.zip"
+  - MacOS:
+      artifact_templates:
+        - "kotlin-compiler-{version}.zip"
+  - Windows:
+      artifact_templates:
+        - "kotlin-compiler-{version}.zip"
+detail: ~

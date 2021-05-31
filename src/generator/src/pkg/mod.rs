@@ -71,6 +71,7 @@ pub mod ketch;
 pub mod kind;
 pub mod ko;
 pub mod kompose;
+pub mod kotlin;
 pub mod kpt;
 pub mod krew;
 pub mod krustlet;
