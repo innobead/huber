@@ -2,6 +2,7 @@ use std::fs::{read_dir, remove_dir_all, remove_file};
 use std::sync::Arc;
 
 use async_trait::async_trait;
+use log::info;
 use semver::Version;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
@@ -52,10 +53,22 @@ impl UpdateTrait for UpdateService {
         let bin_dir_path = config.bin_dir()?;
         if bin_dir_path.exists() {
             for entry in read_dir(bin_dir_path)? {
-                let entry = entry?;
-                let path = entry.path();
+                let path = entry?.path();
 
                 if path.file_name().unwrap().to_str().unwrap() == "huber" {
+                    info!("Keeping huber executable");
+
+                    let option = fs_extra::file::CopyOptions::new();
+                    let temp_path = path.parent().unwrap().join("huber_temp");
+
+                    info!("Coping {:?} to {:?}", &path, &temp_path);
+                    let _ = remove_file(&temp_path);
+                    fs_extra::file::copy(&path, &temp_path, &option)?;
+
+                    info!("Moving {:?} to {:?}", &temp_path, &path);
+                    let _ = remove_file(&path);
+                    fs_extra::file::move_file(&temp_path, &path, &option)?;
+
                     continue;
                 }
 
