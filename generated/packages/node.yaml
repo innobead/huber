@@ -1,0 +1,28 @@
+# This is generated. Don't modify.
+---
+name: node
+description: "Node.js JavaScript runtime :sparkles::turtle::rocket::sparkles:"
+source:
+  Github:
+    owner: nodejs
+    repo: node
+targets:
+  - LinuxAmd64:
+      artifact_templates:
+        - "https://nodejs.org/dist/v{version}/node-v{version}-linux-x64.tar.xz"
+  - LinuxArm64:
+      artifact_templates:
+        - "https://nodejs.org/dist/v{version}/node-v{version}-linux-arm64.tar.xz"
+  - LinuxArm32:
+      artifact_templates:
+        - "https://nodejs.org/dist/v{version}/node-v{version}-linux-armv7l.tar.xz"
+  - MacOS:
+      artifact_templates:
+        - "https://nodejs.org/dist/v{version}/node-v{version}-darwin-x64.tar.gz"
+  - MacOSArm64:
+      artifact_templates:
+        - "https://nodejs.org/dist/v{version}/node-v{version}-darwin-arm64.tar.gz"
+  - Windows:
+      artifact_templates:
+        - "https://nodejs.org/dist/v{version}/node-v{version}-win-x64.zip"
+detail: ~

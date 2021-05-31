@@ -95,6 +95,7 @@ pub mod nat;
 pub mod natscli;
 pub mod navi;
 pub mod nerdctl;
+pub mod node;
 pub mod nomad;
 pub mod norouter;
 pub mod nushell;

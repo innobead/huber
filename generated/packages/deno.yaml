@@ -13,6 +13,9 @@ targets:
   - MacOS:
       artifact_templates:
         - "{version}/deno-x86_64-apple-darwin.zip"
+  - MacOSArm64:
+      artifact_templates:
+        - "{version}/deno-aarch64-apple-darwin.zip"
   - Windows:
       artifact_templates:
         - "{version}/deno-x86_64-pc-windows-msvc.zip"

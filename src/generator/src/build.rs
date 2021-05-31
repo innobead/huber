@@ -236,6 +236,7 @@ fn releases() -> Vec<Package> {
         // programing
         deno::release(),
         typescript::release(),
+        node::release(),
     ]
 }
 

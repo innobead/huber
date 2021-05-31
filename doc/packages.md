@@ -98,6 +98,7 @@
  natscli          The NATS Command Line Interface                                                                          https://github.com/nats-io/natscli 
  navi             An interactive cheatsheet tool for the command-line                                                      https://github.com/denisidoro/navi 
  nerdctl          Docker-compatible CLI for containerd, with support for Compose                                           https://github.com/containerd/nerdctl 
+ node             Node.js JavaScript runtime :sparkles::turtle::rocket::sparkles:                                          https://github.com/nodejs/node 
  nomad            Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
  norouter         NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
  nushell          A new type of shell                                                                                      https://github.com/nushell/nushell 
