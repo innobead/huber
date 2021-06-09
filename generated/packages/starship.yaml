@@ -9,7 +9,7 @@ source:
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "{version}/starship-x86_64-unknown-linux-musl.tar.gzz"
+        - "{version}/starship-x86_64-unknown-linux-musl.tar.gz"
   - MacOS:
       artifact_templates:
         - "{version}/starship-x86_64-apple-darwin.tar.gz"
