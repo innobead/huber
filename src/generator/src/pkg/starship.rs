@@ -12,7 +12,7 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/starship-x86_64-unknown-linux-musl.tar.gzz".to_string()
+                    "{version}/starship-x86_64-unknown-linux-musl.tar.gz".to_string()
                 ],
                 executable_templates: None,
                 executable_mappings: None,

@@ -9,5 +9,5 @@ source:
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "{version}/kwctl.zip"
+        - "{version}/kwctl-linux-amd64.zip"
 detail: ~

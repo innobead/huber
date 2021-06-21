@@ -10,7 +10,7 @@ pub fn release() -> Package {
         },
         detail: None,
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {
-            artifact_templates: vec!["{version}/kwctl.zip".to_string()],
+            artifact_templates: vec!["{version}/kwctl-linux-amd64.zip".to_string()],
             executable_templates: None,
             executable_mappings: None,
             install_commands: None,

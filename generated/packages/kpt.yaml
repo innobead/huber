@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: kpt
-description: "A toolkit to help you manage, manipulate, customize, and apply Kubernetes Resource configuration files"
+description: "A Git-native, schema-aware, extensible client-side tool for packaging, customizing, validating, and applying Kubernetes resources."
 source:
   Github:
     owner: GoogleContainerTools

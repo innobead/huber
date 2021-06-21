@@ -76,7 +76,7 @@
  ko               Build and deploy Go applications on Kubernetes                                                           https://github.com/google/ko 
  kompose          Go from Docker Compose to Kubernetes                                                                     https://github.com/kubernetes/kompose 
  kotlin           The Kotlin Programming Language.                                                                         https://github.com/JetBrains/kotlin 
- kpt              A toolkit to help you manage, manipulate, customize, and apply Kubernetes Resource configuration fil...  https://github.com/GoogleContainerTools/kpt 
+ kpt              A Git-native, schema-aware, extensible client-side tool for packaging, customizing, validating, and ...  https://github.com/GoogleContainerTools/kpt 
  krew             📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
  krustlet         Kubernetes Rust Kubelet                                                                                  https://github.com/deislabs/krustlet 
  kube-bench       Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
@@ -108,7 +108,7 @@
  okteto           Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
  opa              An open source, general-purpose policy engine.                                                           https://github.com/open-policy-agent/opa 
  opni                                                                                                                      https://github.com/rancher/opni 
- oras             OCI Registry As Storage                                                                                  https://github.com/deislabs/oras 
+ oras             ORAS CLI                                                                                                 https://github.com/deislabs/oras 
  pack             CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
  packer           Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 
  podman           Podman: A tool for managing OCI containers and pods                                                      https://github.com/containers/podman 
