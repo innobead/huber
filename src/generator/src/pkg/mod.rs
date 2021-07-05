@@ -103,6 +103,7 @@ pub mod norouter;
 pub mod nushell;
 pub mod octant;
 pub mod okteto;
+pub mod onefetch;
 pub mod opa;
 pub mod opni;
 pub mod oras;

@@ -106,12 +106,13 @@
  nushell          A new type of shell                                                                                      https://github.com/nushell/nushell 
  octant           Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
  okteto           Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
+ onefetch         Git repository summary on your terminal                                                                  https://github.com/o2sh/onefetch 
  opa              An open source, general-purpose policy engine.                                                           https://github.com/open-policy-agent/opa 
- opni                                                                                                                      https://github.com/rancher/opni 
+ opni             AIOps for Kubernetes                                                                                     https://github.com/rancher/opni 
  oras             ORAS CLI                                                                                                 https://github.com/deislabs/oras 
  pack             CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
  packer           Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 
- podman           Podman: A tool for managing OCI containers and pods                                                      https://github.com/containers/podman 
+ podman           Podman: A tool for managing OCI containers and pods.                                                     https://github.com/containers/podman 
  powershell       PowerShell for every system!                                                                             https://github.com/PowerShell/PowerShell 
  procs            A modern replacement for ps written in Rust                                                              https://github.com/dalance/procs 
  protoc           Protocol Buffers - Google's data interchange format                                                      https://github.com/protocolbuffers/protobuf 

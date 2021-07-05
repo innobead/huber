@@ -312,6 +312,9 @@
 - name: okteto
   owner: okteto
   source: github
+- name: onefetch
+  owner: o2sh
+  source: github
 - name: opa
   owner: open-policy-agent
   source: github
