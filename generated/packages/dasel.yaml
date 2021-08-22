@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: dasel
-description: "Query, update and convert data structures from the command line. Comparable to jq/yq but supports JSON, TOML, YAML, XML and CSV with zero runtime dependencies."
+description: "Select, put and delete data from JSON, TOML, YAML, XML and CSV files with a single tool. Supports conversion between formats and can be used as a Go package."
 source:
   Github:
     owner: TomWright

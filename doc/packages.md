@@ -11,6 +11,7 @@
  chisel           A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  choose           A human-friendly and fast alternative to cut and (sometimes) awk                                         https://github.com/theryangeary/choose 
  cloak            A Command Line OTP Authenticator application.                                                            https://github.com/evansmurithi/cloak 
+ codeql           Binaries for the CodeQL CLI                                                                              https://github.com/github/codeql-cli-binaries 
  conftest         Write tests against structured configuration data using the Open Policy Agent Rego query language        https://github.com/open-policy-agent/conftest 
  consul           Consul is a distributed, highly available, and data center aware solution to connect and configure a...  https://github.com/hashicorp/consul 
  containerd       An open and reliable container runtime                                                                   https://github.com/containerd/containerd 
@@ -19,7 +20,7 @@
  croc             Easily and securely send things from one computer to another :crocodile: :package:                       https://github.com/schollz/croc 
  ctlptl           Making local Kubernetes clusters fun and easy to set up                                                  https://github.com/tilt-dev/ctlptl 
  czkawka          Multi functional app to find duplicates, empty folders, similar images etc.                              https://github.com/qarmin/czkawka 
- dasel            Query, update and convert data structures from the command line. Comparable to jq/yq but supports JS...  https://github.com/TomWright/dasel 
+ dasel            Select, put and delete data from JSON, TOML, YAML, XML and CSV files with a single tool. Supports co...  https://github.com/TomWright/dasel 
  delta            A viewer for git and diff output                                                                         https://github.com/dandavison/delta 
  deno             A secure JavaScript and TypeScript runtime                                                               https://github.com/denoland/deno 
  direnv           unclutter your .profile                                                                                  https://github.com/direnv/direnv 
@@ -145,7 +146,7 @@
  tilt             A multi-service dev environment for teams on Kubernetes                                                  https://github.com/tilt-dev/tilt 
  tokei            Count your code, quickly.                                                                                https://github.com/XAMPPRocky/tokei 
  tracee           Linux Runtime Security and Forensics using eBPF                                                          https://github.com/aquasecurity/tracee 
- trivy            A Simple and Comprehensive Vulnerability Scanner for Container Images, Git Repositories and Filesyst...  https://github.com/aquasecurity/trivy 
+ trivy            Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for ...  https://github.com/aquasecurity/trivy 
  typescript       TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
  typos            Source code spell checker                                                                                https://github.com/crate-ci/typos 
  vegeta           HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 

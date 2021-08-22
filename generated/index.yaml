@@ -27,6 +27,9 @@
 - name: cloak
   owner: evansmurithi
   source: github
+- name: codeql
+  owner: github
+  source: github
 - name: conftest
   owner: open-policy-agent
   source: github

@@ -144,6 +144,7 @@ fn releases() -> Vec<Package> {
         tealdeer::release(),
         bottom::release(),
         grex::release(),
+        codeql::release(),
         // infra
         pulumi::release(),
         chisel::release(),

@@ -7,6 +7,7 @@ pub mod camel_k;
 pub mod chisel;
 pub mod choose;
 pub mod cloak;
+pub mod codeql;
 pub mod conftest;
 pub mod consul;
 pub mod containerd;
