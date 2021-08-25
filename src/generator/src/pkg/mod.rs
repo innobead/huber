@@ -148,6 +148,7 @@ pub mod typescript;
 pub mod typos;
 pub mod vegeta;
 pub mod velero;
+pub mod viddy;
 pub mod volta;
 pub mod wabt;
 pub mod wasm_to_oci;

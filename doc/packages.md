@@ -151,6 +151,7 @@
  typos            Source code spell checker                                                                                https://github.com/crate-ci/typos 
  vegeta           HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
  velero           Backup and migrate Kubernetes applications and their persistent volumes                                  https://github.com/vmware-tanzu/velero 
+ viddy            👀  Modern watch command. Time machine and pager etc.                                                    https://github.com/sachaos/viddy 
  volta            Volta: JS Toolchains as Code. ⚡                                                                         https://github.com/volta-cli/volta 
  wabt             The WebAssembly Binary Toolkit                                                                           https://github.com/WebAssembly/wabt 
  wasm-to-oci      Use OCI registries to distribute WASM modules                                                            https://github.com/engineerd/wasm-to-oci 
