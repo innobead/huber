@@ -65,7 +65,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for CurrentCmd {
 
         let name = matches.value_of("name").unwrap();
         if !pkg_service.has(name)? {
-            return Err(anyhow!("{} not installed"));
+            return Err(anyhow!("{} not installed", name));
         }
 
         let pkg = pkg_service.get(name)?;
