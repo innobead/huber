@@ -2,7 +2,7 @@
 
 ![huber in action](./doc/huber.png)
 
-**Huber** is to simplify the package management from GitHub projects with a builtin awesome list (live updating) of popular projects. It also supports *repository* feature for managing the package installation from your perosonal Github project. Please check the complete introduction as below.
+**Huber** is to simplify the package management from GitHub projects with a builtin awesome list (live updating) of popular projects. It also supports *repository* feature for managing the package installation from your personal Github project. Please check the complete introduction as below.
 
 > `Huber is a (new) tool for easy installation of dev/ops CLI tools directly from GitHub. No more trawling the releases pages!` introduced by [Coffee and Cloud Native - 88](https://www.youtube.com/watch?v=LgA6hpKdncw)
 
