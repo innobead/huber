@@ -498,7 +498,7 @@ Removing k3s (version: v1.18.10+k3s2, source: github)
 ## Managing repositories
 
 ### Adding a repository
-The repository can be private or publice. If it's private, make sure you have the permission to access via the authroized SSH private key.
+The repository can be private or public. If it's private, make sure you have the permission to access via the authroized SSH private key.
 
 ```console
 ❯ huber repo add 3rdparty-repo https://github.com/innobead/huber_unmanaged_demo
