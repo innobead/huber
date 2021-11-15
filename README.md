@@ -597,7 +597,7 @@ Error: No update available: 404 Not Found: Not Found
 
 # Contribution
 
-If you would like to add some useful tools in the builtin manged packages list, please have a PR as below steps.
+If you would like to add some useful tools in the builtin managed packages list, please have a PR as below steps.
 
 1. Add a new package module in `src/generator/src/pkg`
 2. Update the added package in `src/generator/src/build.rs`
