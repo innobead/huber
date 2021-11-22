@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: wasm-to-oci
-description: Use OCI registries to distribute WASM modules
+description: Use OCI registries to distribute Wasm modules
 source:
   Github:
     owner: engineerd

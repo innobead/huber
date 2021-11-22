@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: deno
-description: A secure JavaScript and TypeScript runtime
+description: A modern runtime for JavaScript and TypeScript.
 source:
   Github:
     owner: denoland

@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: delta
-description: A viewer for git and diff output
+description: A syntax-highlighting pager for git and diff output
 source:
   Github:
     owner: dandavison

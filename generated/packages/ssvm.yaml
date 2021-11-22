@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: ssvm
-description: "WasmEdge Runtime is a high-performance, extensible, and hardware optimized WebAssembly Virtual Machine for automotive, cloud, AI, and blockchain applications."
+description: "WasmEdge is a lightweight, high-performance, and extensible WebAssembly runtime for cloud native, edge, and decentralized applications. It powers serverless apps, embedded functions, microservices, smart contracts, and IoT devices."
 source:
   Github:
     owner: second-state
