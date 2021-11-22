@@ -7,24 +7,25 @@ assignees: ''
 
 ---
 
-**Describe the bug**
+## Describe the bug
 
 A clear and concise description of what the bug is.
 
-**To Reproduce**
+## To Reproduce
 
 Steps to reproduce the behavior with debug log enabled. `--log-level=debug`
 
-**Expected behavior**
+## Expected behavior
 
 A clear and concise description of what you expected to happen.
 
-**Environment**
+## Environment
 
 - OS version
    - run `uname -a`
 - Huber version
    - run `huber -V`
 
-**Additional context**
+## Additional context
+
 Add any other context about the problem here.

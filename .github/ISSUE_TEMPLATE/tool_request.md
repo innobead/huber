@@ -7,10 +7,10 @@ assignees: ''
 
 ---
 
-**What tool you suggest to add in Huber? and Why? Please provide the below info.**
+## What tool you suggest to add in Huber? and Why? Please provide the below info
 
 GitHub Repo URL: <please update>
 
-**Additional context**
+## Additional context
 
 Add any other context about the request here.
