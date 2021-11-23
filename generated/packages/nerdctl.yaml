@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: nerdctl
-description: "contaiNERD CTL - Docker-compatible CLI for containerd, with support for Compose"
+description: "contaiNERD CTL - Docker-compatible CLI for containerd, with support for Compose, Rootless, eStargz, OCIcrypt, IPFS, ..."
 source:
   Github:
     owner: containerd

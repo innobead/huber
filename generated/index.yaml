@@ -45,6 +45,9 @@
 - name: coreutils
   owner: uutils
   source: github
+- name: cosign
+  owner: sigstore
+  source: github
 - name: croc
   owner: schollz
   source: github

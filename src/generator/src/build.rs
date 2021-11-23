@@ -146,6 +146,7 @@ fn releases() -> Vec<Package> {
         grex::release(),
         codeql::release(),
         viddy::release(),
+        cosign::release(),
         // infra
         pulumi::release(),
         chisel::release(),
