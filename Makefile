@@ -7,6 +7,7 @@ OUTPUT_DIR := $(CURDIR)/.output
 HUBER_ARTIFACT := $(shell $(CURDIR)/hack/huber-artifact-name.sh)
 MANAGED_PKG_ROOT_DIR := $(CURDIR)/generated
 PLATFORMS ?= linux/arm64 # for multi arch
+HUBER_BIN=$(CURDIR)/target/debug/huber
 
 .PHONY: help
 help:
@@ -54,7 +55,7 @@ generate: ## Generate managed package list
 	@echo "! Must have GITHUB_TOKEN to automatically generate package description"
 	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build -vv --manifest-path=./src/generator/Cargo.toml
 	GITHUB_KEY=$(GITHUB_KEY) $(MAKE) build && \
-	(MANAGED_PKG_ROOT_DIR=$(CURDIR)/generated $(CURDIR)/target/debug/huber search | xargs -0 $(CURDIR)/hack/generate-packages.md.sh)
+	(MANAGED_PKG_ROOT_DIR=$(CURDIR)/generated $(HUBER_BIN) search | xargs -0 $(CURDIR)/hack/generate-packages.md.sh)
 
 .PHONY: checksum
 checksum: ## Generate checksum files for built executables
@@ -78,7 +79,7 @@ release-multiarch: ## Release binaries for linux multiple archite
 HUBER ?= huber
 .PHONY: verify
 verify: ## Verify Huber commands via the local package generated folder
-	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) $(HUBER) $(CMD)
+	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) $(HUBER_BIN) $(CMD)
 
 .PHONY: publish
 publish: ## Publish Huber to crates.io

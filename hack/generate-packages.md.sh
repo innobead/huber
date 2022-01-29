@@ -5,7 +5,12 @@ set -o nounset
 set -o pipefail
 #set -o xtrace
 
-PROJECT_DIR=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
+readlink=readlink
+if command -v greadlink &> /dev/null; then
+  readlink=greadlink
+fi
+
+PROJECT_DIR=$($readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 
 content=$(cat <<'EOF'
 ## Huber Managed Packages

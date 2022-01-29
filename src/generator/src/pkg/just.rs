@@ -12,7 +12,31 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "just-v{version}-x86_64-unknown-linux-musl.tar.gz".to_string()
+                    "just-{version}-x86_64-unknown-linux-musl.tar.gz".to_string()
+                ],
+                executable_templates: None,
+                executable_mappings: None,
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+                tag_version_regex_template: None,
+                scan_dirs: None,
+            }),
+            PackageTargetType::LinuxArm64(PackageManagement {
+                artifact_templates: vec![
+                    "just-{version}-aarch64-unknown-linux-musl.tar.gz".to_string()
+                ],
+                executable_templates: None,
+                executable_mappings: None,
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+                tag_version_regex_template: None,
+                scan_dirs: None,
+            }),
+            PackageTargetType::LinuxArm32(PackageManagement {
+                artifact_templates: vec![
+                    "just-{version}-armv7-unknown-linux-musl.tar.gz".to_string()
                 ],
                 executable_templates: None,
                 executable_mappings: None,
@@ -23,7 +47,7 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::MacOS(PackageManagement {
-                artifact_templates: vec!["just-v{version}-x86_64-apple-darwin.tar.gz".to_string()],
+                artifact_templates: vec!["just-{version}-x86_64-apple-darwin.tar.gz".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -33,7 +57,7 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::Windows(PackageManagement {
-                artifact_templates: vec!["just-v{version}-x86_64-pc-windows-msvc.zip".to_string()],
+                artifact_templates: vec!["just-{version}-x86_64-pc-windows-msvc.zip".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
