@@ -62,6 +62,7 @@
  ignite           Ignite a Firecracker microVM                                                                             https://github.com/weaveworks/ignite 
  img              Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
  istio            Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
+ jless            A command-line pager for JSON data.                                                                      https://github.com/PaulJuliusMartinez/jless 
  jq               Command-line JSON processor                                                                              https://github.com/stedolan/jq 
  just             🤖 Just a command runner                                                                                 https://github.com/casey/just 
  jwt-cli          A super fast CLI tool to decode and encode JWTs built in Rust                                            https://github.com/mike-engel/jwt-cli 
@@ -162,7 +163,7 @@
  waypoint         A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
  wstunnel         Tunneling over websocket protocol - Static binary available                                              https://github.com/erebe/wstunnel 
  xh               Friendly and fast tool for sending HTTP requests                                                         https://github.com/ducaale/xh 
- yq               yq is a portable command-line YAML processor                                                             https://github.com/mikefarah/yq 
+ yq               yq is a portable command-line YAML, JSON and XML processor                                               https://github.com/mikefarah/yq 
  zellij           A terminal workspace with batteries included                                                             https://github.com/zellij-org/zellij 
  zola             A fast static site generator in a single binary with everything built-in. https://www.getzola.org        https://github.com/getzola/zola 
  zoxide           A smarter cd command. Supports all major shells.                                                         https://github.com/ajeetdsouza/zoxide 

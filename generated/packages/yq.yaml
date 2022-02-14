@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: yq
-description: yq is a portable command-line YAML processor
+description: "yq is a portable command-line YAML, JSON and XML processor"
 source:
   Github:
     owner: mikefarah
