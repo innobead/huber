@@ -180,6 +180,9 @@
 - name: istio
   owner: istio
   source: github
+- name: jiq
+  owner: fiatjaf
+  source: github
 - name: jless
   owner: PaulJuliusMartinez
   source: github

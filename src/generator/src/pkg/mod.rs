@@ -59,6 +59,7 @@ pub mod hypper;
 pub mod ignite;
 pub mod img;
 pub mod istio;
+pub mod jiq;
 pub mod jless;
 pub mod jq;
 pub mod just;

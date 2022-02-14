@@ -62,6 +62,7 @@
  ignite           Ignite a Firecracker microVM                                                                             https://github.com/weaveworks/ignite 
  img              Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
  istio            Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
+ jiq              jid on jq - interactive JSON query tool using jq expressions                                             https://github.com/fiatjaf/jiq 
  jless            A command-line pager for JSON data.                                                                      https://github.com/PaulJuliusMartinez/jless 
  jq               Command-line JSON processor                                                                              https://github.com/stedolan/jq 
  just             🤖 Just a command runner                                                                                 https://github.com/casey/just 

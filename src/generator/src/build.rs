@@ -74,6 +74,7 @@ async fn main() -> Result<()> {
 fn releases() -> Vec<Package> {
     vec![
         // tools
+        jiq::release(),
         jless::release(),
         onefetch::release(),
         renote::release(),
