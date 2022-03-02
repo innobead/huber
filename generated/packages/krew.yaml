@@ -9,17 +9,20 @@ source:
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "{version}/krew.tar.gz"
-      executable_templates:
-        - krew-linux_amd64
+        - "{version}/krew-linux_amd64.tar.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "{version}/krew-linux_arm64.tar.gz"
+  - LinuxArm32:
+      artifact_templates:
+        - "{version}/krew-linux_arm.tar.gz"
   - MacOS:
       artifact_templates:
-        - "{version}/krew.tar.gz"
-      executable_templates:
-        - krew-darwin_amd64
+        - "{version}/krew-darwin_amd64.tar.gz"
+  - MacOSArm64:
+      artifact_templates:
+        - "{version}/krew-darwin_arm64.tar.gz"
   - Windows:
       artifact_templates:
-        - "{version}/krew.tar.gz"
-      executable_templates:
-        - krew-windows_amd64.exe
+        - "{version}/krew-windows_amd64.tar.gz"
 detail: ~

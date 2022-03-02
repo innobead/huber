@@ -63,13 +63,13 @@
  img              Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
  istio            Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
  jiq              jid on jq - interactive JSON query tool using jq expressions                                             https://github.com/fiatjaf/jiq 
- jless            A command-line pager for JSON data.                                                                      https://github.com/PaulJuliusMartinez/jless 
+ jless            jless is a command-line JSON viewer designed for reading, exploring, and searching through JSON data...  https://github.com/PaulJuliusMartinez/jless 
  jq               Command-line JSON processor                                                                              https://github.com/stedolan/jq 
  just             🤖 Just a command runner                                                                                 https://github.com/casey/just 
  jwt-cli          A super fast CLI tool to decode and encode JWTs built in Rust                                            https://github.com/mike-engel/jwt-cli 
  k0s              k0s - The Zero Friction Kubernetes by Team Lens                                                          https://github.com/k0sproject/k0s 
  k3ai             K3ai is a lightweight, fully automated, AI infrastructure-in-a-box solution that allows anyone to ex...  https://github.com/kf5i/k3ai 
- k3d              Little helper to run Rancher Lab's k3s in Docker                                                         https://github.com/rancher/k3d 
+ k3d              Little helper to run CNCF's k3s in Docker                                                                https://github.com/rancher/k3d 
  k3s              Lightweight Kubernetes                                                                                   https://github.com/rancher/k3s 
  k3sup            bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
  k6               A modern load testing tool, using Go and JavaScript - https://k6.io                                      https://github.com/k6io/k6 
@@ -112,7 +112,7 @@
  okteto           Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
  onefetch         Git repository summary on your terminal                                                                  https://github.com/o2sh/onefetch 
  opa              An open source, general-purpose policy engine.                                                           https://github.com/open-policy-agent/opa 
- opni             AIOps for Kubernetes                                                                                     https://github.com/rancher/opni 
+ opni             Observability + AIOps for Kubernetes                                                                     https://github.com/rancher/opni 
  oras             ORAS CLI                                                                                                 https://github.com/deislabs/oras 
  pack             CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
  packer           Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 

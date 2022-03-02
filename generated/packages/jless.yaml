@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: jless
-description: A command-line pager for JSON data.
+description: "jless is a command-line JSON viewer designed for reading, exploring, and searching through JSON data."
 source:
   Github:
     owner: PaulJuliusMartinez
