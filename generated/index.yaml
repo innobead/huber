@@ -387,6 +387,9 @@
 - name: sad
   owner: ms-jpq
   source: github
+- name: saml2aws
+  owner: Versent
+  source: github
 - name: sd
   owner: chmln
   source: github

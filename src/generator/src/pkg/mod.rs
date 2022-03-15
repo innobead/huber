@@ -128,6 +128,7 @@ pub mod rke;
 pub mod rke2;
 pub mod rustwasmc;
 pub mod sad;
+pub mod saml2aws;
 pub mod sd;
 pub mod shadowsocks;
 pub mod skaffold;

@@ -131,6 +131,7 @@
  rke2                                                                                                                      https://github.com/rancher/rke2 
  rustwasmc        Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/rustwasmc 
  sad              CLI search and replace | Space Age seD                                                                   https://github.com/ms-jpq/sad 
+ saml2aws         CLI tool which enables you to login and retrieve AWS temporary credentials using a SAML IDP              https://github.com/Versent/saml2aws 
  sd               Intuitive find & replace CLI (sed alternative)                                                           https://github.com/chmln/sd 
  shadowsocks      A Rust port of shadowsocks                                                                               https://github.com/shadowsocks/shadowsocks-rust 
  skaffold         Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 

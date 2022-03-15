@@ -149,6 +149,7 @@ fn releases() -> Vec<Package> {
         codeql::release(),
         viddy::release(),
         cosign::release(),
+        saml2aws::release(),
         // infra
         pulumi::release(),
         chisel::release(),

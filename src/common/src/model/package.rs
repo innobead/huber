@@ -62,6 +62,7 @@ pub enum PackageTargetType {
     MacOS(PackageManagement),
     MacOSArm64(PackageManagement),
     Windows(PackageManagement),
+    WindowsArm64(PackageManagement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
