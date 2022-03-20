@@ -102,12 +102,9 @@ pub(crate) fn update_config_by_arg_matches(config: &mut Config, matches: &ArgMat
     updated
 }
 
-pub(crate) async fn process_cmds(
-    container: &DIContainer,
-    matches: &ArgMatches,
-) -> Result<()> {
+pub(crate) async fn process_cmds(container: &DIContainer, matches: &ArgMatches) -> Result<()> {
     let config = container.get::<Config>().unwrap();
-    
+
     match matches.subcommand() {
         Some((cmd::current::CMD_NAME, sub_matches)) => {
             container
