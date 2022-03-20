@@ -2,8 +2,11 @@ use std::env;
 use std::str::FromStr;
 
 use async_trait::async_trait;
-use clap::{App, ArgMatches};
+use clap::{ArgMatches, Command};
+use libcli_rs::output::OutputFormat;
 use log::Level;
+use simpledi_rs::di::DIContainer;
+use simpledi_rs::di::DIContainerTrait;
 
 use config::{ARG_GITHUB_KEY, ARG_GITHUB_TOKEN, ARG_LOG_LEVEL, ARG_OUTPUT_TYPE};
 use current::CurrentCmd;
@@ -17,14 +20,11 @@ use reset::ResetCmd;
 use search::SearchCmd;
 use self_update::SelfUpdateCmd;
 use show::ShowCmd;
-use simpledi_rs::di::DIContainer;
-use simpledi_rs::di::DIContainerTrait;
 use uninstall::UninstallCmd;
 use update::UpdateCmd;
 
 use crate::cmd;
 use crate::cmd::config::ConfigCmd;
-use libcli_rs::output::OutputFormat;
 
 pub(crate) mod config;
 pub(crate) mod current;
@@ -40,32 +40,29 @@ pub(crate) mod show;
 pub(crate) mod uninstall;
 pub(crate) mod update;
 
-pub(crate) trait CommandTrait<'a, 'b>: CommandAsyncTrait<'a, 'b> {
-    fn app(&self) -> App<'a, 'b>;
+pub(crate) trait CommandTrait<'help>: CommandAsyncTrait {
+    fn app(&self) -> Command<'help>;
 }
 
 #[async_trait]
-pub(crate) trait CommandAsyncTrait<'a, 'b> {
+pub(crate) trait CommandAsyncTrait {
     async fn run(
         &self,
         config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()>;
 }
 
-pub(crate) fn prepare_arg_matches<'a, 'b>(app: App<'a, 'b>) -> ArgMatches<'a> {
-    let mut args = env::args();
-    match args {
-        _ if args.len() == 1 => {
-            app.get_matches_from(vec![args.nth(0).unwrap(), "help".to_string()])
-        }
-        _ if args.len() == 2 => {
-            let arg1 = args.nth(0).unwrap();
-            let arg2 = args.nth(0).unwrap();
+pub(crate) fn prepare_arg_matches(app: Command) -> ArgMatches {
+    let args = env::args().collect::<Vec<String>>();
 
-            if ["repo", "config"].contains(&arg2.as_str()) {
-                app.get_matches_from(vec![arg1, arg2, "help".to_string()])
+    match args.len() {
+        1 => app.get_matches_from([args[0].clone(), "help".to_string()]),
+
+        2 => {
+            if [repo::CMD_NAME, config::CMD_NAME].contains(&args[0].as_str()) {
+                app.get_matches_from([args[0].clone(), args[1].clone(), "help".to_string()])
             } else {
                 app.get_matches()
             }
@@ -106,13 +103,12 @@ pub(crate) fn process_arg_matches(config: &mut Config, matches: &ArgMatches) -> 
 }
 
 pub(crate) async fn process_cmds(
-    // runtime: &Runtime,
     config: &Config,
     container: &DIContainer,
-    matches: &ArgMatches<'_>,
+    matches: &ArgMatches,
 ) -> Result<()> {
     match matches.subcommand() {
-        (cmd::current::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::current::CMD_NAME, sub_matches)) => {
             container
                 .get::<CurrentCmd>()
                 .unwrap()
@@ -120,7 +116,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::flush::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::flush::CMD_NAME, sub_matches)) => {
             container
                 .get::<FlushCmd>()
                 .unwrap()
@@ -128,7 +124,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::info::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::info::CMD_NAME, sub_matches)) => {
             container
                 .get::<InfoCmd>()
                 .unwrap()
@@ -136,7 +132,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::install::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::install::CMD_NAME, sub_matches)) => {
             container
                 .get::<InstallCmd>()
                 .unwrap()
@@ -144,7 +140,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::reset::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::reset::CMD_NAME, sub_matches)) => {
             container
                 .get::<ResetCmd>()
                 .unwrap()
@@ -152,7 +148,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::search::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::search::CMD_NAME, sub_matches)) => {
             container
                 .get::<SearchCmd>()
                 .unwrap()
@@ -160,7 +156,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::self_update::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::self_update::CMD_NAME, sub_matches)) => {
             container
                 .get::<SelfUpdateCmd>()
                 .unwrap()
@@ -168,7 +164,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::show::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::show::CMD_NAME, sub_matches)) => {
             container
                 .get::<ShowCmd>()
                 .unwrap()
@@ -176,7 +172,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::uninstall::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::uninstall::CMD_NAME, sub_matches)) => {
             container
                 .get::<UninstallCmd>()
                 .unwrap()
@@ -184,7 +180,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::update::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::update::CMD_NAME, sub_matches)) => {
             container
                 .get::<UpdateCmd>()
                 .unwrap()
@@ -192,7 +188,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::repo::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::repo::CMD_NAME, sub_matches)) => {
             container
                 .get::<RepoCmd>()
                 .unwrap()
@@ -200,7 +196,7 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        (cmd::config::CMD_NAME, Some(sub_matches)) => {
+        Some((cmd::config::CMD_NAME, sub_matches)) => {
             container
                 .get::<ConfigCmd>()
                 .unwrap()
@@ -208,6 +204,6 @@ pub(crate) async fn process_cmds(
                 .await
         }
 
-        _ => unimplemented!("command not implemented"),
+        _ => Err(anyhow!("Command not found")),
     }
 }

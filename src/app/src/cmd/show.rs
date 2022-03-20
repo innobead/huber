@@ -1,7 +1,7 @@
 use std::io::stdout;
 
 use async_trait::async_trait;
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
 use libcli_rs::output::{OutputFactory, OutputTrait};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
@@ -29,22 +29,22 @@ impl ShowCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for ShowCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("s")
             .about("Shows installed packages")
-            .args(&vec![
-                Arg::with_name("name")
+            .args([
+                Arg::new("name")
                     .value_name("package name")
                     .help("Package name")
                     .takes_value(true),
-                Arg::with_name("all")
-                    .short("a")
+                Arg::new("all")
+                    .short('a')
                     .long("all")
                     .help("Show all the installed versions"),
-                Arg::with_name("detail")
-                    .short("d")
+                Arg::new("detail")
+                    .short('d')
                     .long("detail")
                     .help("Show the detailed info of release"),
             ])
@@ -52,12 +52,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ShowCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ShowCmd {
+impl CommandAsyncTrait for ShowCmd {
     async fn run(
         &self,
         config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         let pkg_service = container.get::<PackageService>().unwrap();
         let release_service = container.get::<ReleaseService>().unwrap();

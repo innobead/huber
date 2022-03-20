@@ -1,8 +1,9 @@
 use async_trait::async_trait;
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
 use simpledi_rs::di::DIContainer;
 use simpledi_rs::di::DIContainerTrait;
 
+use huber_common::log::println_many;
 use huber_common::model::config::Config;
 use huber_common::model::config::ConfigPath;
 use huber_common::progress::progress;
@@ -13,7 +14,6 @@ use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseAsyncTrait, ReleaseService};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
-use huber_common::log::println_many;
 
 pub(crate) const CMD_NAME: &str = "current";
 
@@ -30,18 +30,18 @@ impl CurrentCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for CurrentCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for CurrentCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("c")
             .about("Updates the current package version")
             .args(&[
-                Arg::with_name("name")
+                Arg::new("name")
                     .value_name("package name")
                     .help("Package name")
                     .required(true)
                     .takes_value(true),
-                Arg::with_name("version")
+                Arg::new("version")
                     .value_name("package version")
                     .help("Package version")
                     .required(true)
@@ -51,12 +51,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for CurrentCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for CurrentCmd {
+impl CommandAsyncTrait for CurrentCmd {
     async fn run(
         &self,
         _config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         process_lock!();
 

@@ -4,14 +4,13 @@ use std::sync::Arc;
 
 use anyhow::Result;
 use async_trait::async_trait;
-
 use log::info;
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use huber_common::model::config::{Config, ConfigPath};
 use huber_common::model::package::Package;
 use huber_common::model::repo::Repository;
 use huber_common::str::OsStrExt;
-use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 

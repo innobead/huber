@@ -1,5 +1,5 @@
 use async_trait::async_trait;
-use clap::{crate_name, App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
 use simpledi_rs::di::DIContainer;
 
 use huber_common::model::config::Config;
@@ -21,41 +21,41 @@ impl RootCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(crate_name!())
+impl<'help> CommandTrait<'help> for RootCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(env!("CARGO_BIN_NAME"))
             .long_version(env!("HUBER_LONG_VERSION"))
             .about("Huber, simplify github package management")
             .args(&[
-                Arg::with_name(ARG_LOG_LEVEL)
+                Arg::new(ARG_LOG_LEVEL)
                     .value_name("string")
-                    .short("l")
+                    .short('l')
                     .long(ARG_LOG_LEVEL)
                     .help("Log level")
                     .takes_value(true)
                     .global(true)
                     .default_value("error")
                     .possible_values(&["off", "error", "warn", "info", "debug", "trace"]),
-                Arg::with_name(ARG_OUTPUT_TYPE)
+                Arg::new(ARG_OUTPUT_TYPE)
                     .value_name("string")
-                    .short("o")
+                    .short('o')
                     .long(ARG_OUTPUT_TYPE)
                     .help("Output format")
                     .takes_value(true)
                     .global(true)
                     .default_value("console")
                     .possible_values(&["console", "json", "yaml"]),
-                Arg::with_name(ARG_GITHUB_TOKEN)
+                Arg::new(ARG_GITHUB_TOKEN)
                     .value_name("string")
-                    .short("t")
+                    .short('t')
                     .long(ARG_GITHUB_TOKEN)
                     .env("GITHUB_TOKEN")
                     .help("Github token, used for authorized access instead of limited public access")
                     .takes_value(true)
                     .global(true),
-                Arg::with_name(ARG_GITHUB_KEY)
+                Arg::new(ARG_GITHUB_KEY)
                     .value_name("string")
-                    .short("k")
+                    .short('k')
                     .long(ARG_GITHUB_KEY)
                     .env("GITHUB_KEY")
                     .help("Github SSH private key path for authenticating public/private github repository access. This is required if you connect github w/ SSH instead of https")
@@ -66,12 +66,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RootCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RootCmd {
+impl CommandAsyncTrait for RootCmd {
     async fn run(
         &self,
         _config: &Config,
         _container: &DIContainer,
-        _matches: &ArgMatches<'a>,
+        _matches: &ArgMatches,
     ) -> Result<()> {
         unimplemented!()
     }

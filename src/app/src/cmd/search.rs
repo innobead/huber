@@ -1,19 +1,18 @@
 use std::io::stdout;
 
 use async_trait::async_trait;
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
+use libcli_rs::output::{OutputFactory, OutputTrait};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 use huber_common::model::package::PackageSummary;
-
 use huber_common::result::Result;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::ItemSearchTrait;
-use libcli_rs::output::{OutputFactory, OutputTrait};
 
 pub(crate) const CMD_NAME: &str = "search";
 
@@ -30,28 +29,28 @@ impl SearchCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for SearchCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("se")
             .about("Searches package")
             .args(&[
-                Arg::with_name("name")
+                Arg::new("name")
                     .value_name("package name")
                     .help("Package name or search by regex pattern (-p)")
                     .takes_value(true),
-                Arg::with_name("owner")
+                Arg::new("owner")
                     .value_name("string")
-                    .short("r")
+                    .short('r')
                     .long("owner")
                     .help("Package owner")
                     .takes_value(true),
-                Arg::with_name("pattern")
-                    .short("p")
+                Arg::new("pattern")
+                    .short('p')
                     .long("pattern")
                     .help("Regex search pattern"),
-                Arg::with_name("all")
-                    .short("a")
+                Arg::new("all")
+                    .short('a')
                     .long("all")
                     .help("Show all the released versions of package given '--name' specified"),
             ])
@@ -59,12 +58,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for SearchCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for SearchCmd {
+impl CommandAsyncTrait for SearchCmd {
     async fn run(
         &self,
         config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         let pkg_service = container.get::<PackageService>().unwrap();
         let cache_service = container.get::<CacheService>().unwrap();

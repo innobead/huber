@@ -1,7 +1,7 @@
 use async_trait::async_trait;
+use simpledi_rs::di::DependencyInjectTrait;
 
 use huber_common::result::Result;
-use simpledi_rs::di::DependencyInjectTrait;
 
 pub(crate) mod cache;
 pub(crate) mod config;

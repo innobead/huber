@@ -1,5 +1,5 @@
 use async_trait::async_trait;
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
@@ -27,14 +27,14 @@ impl UninstallCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for UninstallCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for UninstallCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_aliases(&["un", "rm"])
             .about("Uninstalls package")
             .arg(
-                Arg::with_name("name")
-                    .multiple(true)
+                Arg::new("name")
+                    .multiple_occurrences(true)
                     .value_name("package name")
                     .help("Package name(s)")
                     .required(true)
@@ -44,12 +44,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UninstallCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UninstallCmd {
+impl CommandAsyncTrait for UninstallCmd {
     async fn run(
         &self,
         _config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         process_lock!();
 

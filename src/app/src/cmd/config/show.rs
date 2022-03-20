@@ -1,13 +1,13 @@
 use std::io::stdout;
 
 use async_trait::async_trait;
-use clap::{App, ArgMatches};
+use clap::{ArgMatches, Command};
+use libcli_rs::output::{OutputFactory, OutputTrait};
 use simpledi_rs::di::DIContainer;
 use simpledi_rs::di::DIContainerTrait;
 
 use huber_common::model::config::Config;
 use huber_common::result::Result;
-use libcli_rs::output::{OutputFactory, OutputTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::config::{ConfigService, ConfigTrait};
@@ -27,21 +27,21 @@ impl ConfigShowCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for ConfigShowCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for ConfigShowCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("s")
             .about("Shows the configuration")
     }
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ConfigShowCmd {
+impl CommandAsyncTrait for ConfigShowCmd {
     async fn run(
         &self,
         config: &Config,
         container: &DIContainer,
-        _matches: &ArgMatches<'a>,
+        _matches: &ArgMatches,
     ) -> Result<()> {
         let config_service = container.get::<ConfigService>().unwrap();
 

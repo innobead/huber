@@ -1,11 +1,9 @@
 #[macro_use]
 extern crate anyhow;
-// #[macro_use]
-// extern crate huber_common;
-#[macro_use]
-extern crate libcli_rs;
 #[macro_use]
 extern crate lazy_static;
+#[macro_use]
+extern crate libcli_rs;
 #[macro_use]
 extern crate maplit;
 #[macro_use]
@@ -13,8 +11,9 @@ extern crate simpledi_rs;
 
 use std::process::exit;
 
-use huber_common::model::config::Config;
 use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
+
+use huber_common::model::config::Config;
 
 use crate::cmd::config::show::ConfigShowCmd;
 use crate::cmd::config::update::ConfigUpdateCmd;
@@ -52,7 +51,7 @@ async fn main() {
     let mut config = Config::new();
 
     // create CLI app, do CLI args/commands match
-    let cmds = vec![
+    let cmds = [
         create_dep!(InstallCmd::new(), container, .app()),
         create_dep!(UninstallCmd::new(), container, .app()),
         create_dep!(UpdateCmd::new(), container, .app()),
@@ -104,7 +103,7 @@ async fn main() {
     // process command
     let config = container_arc.get::<Config>().unwrap();
     if let Err(e) = cmd::process_cmds(&config, &container_arc.clone(), &matches).await {
-        eprintln!("Error: {:?}", e);
+        eprintln!("{:?}", e);
         exit(1)
     }
 }

@@ -3,6 +3,8 @@ use std::fs::File;
 use std::sync::Arc;
 
 use async_trait::async_trait;
+use libcli_rs::progress::ProgressBar;
+use libcli_rs::progress::ProgressTrait;
 use log::info;
 use rayon::prelude::*;
 use regex::Regex;
@@ -14,8 +16,6 @@ use huber_common::model::config::{
 use huber_common::model::package::{Package, PackageIndex};
 use huber_common::model::repo::Repository;
 use huber_common::result::Result;
-use libcli_rs::progress::ProgressBar;
-use libcli_rs::progress::ProgressTrait;
 
 use crate::component::github::{GithubClient, GithubClientTrait};
 use crate::service::repo::{RepoAsyncTrait, RepoService, RepoTrait};

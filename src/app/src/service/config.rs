@@ -2,11 +2,12 @@ use std::fs::{remove_file, File};
 use std::sync::Arc;
 
 use log::{debug, info};
+use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
-use crate::service::ServiceTrait;
 use huber_common::model::config::{Config, ConfigPath};
 use huber_common::result::Result;
-use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
+
+use crate::service::ServiceTrait;
 
 lazy_static! {
     static ref DEFAULT_CONFIG: Config = Config::new();

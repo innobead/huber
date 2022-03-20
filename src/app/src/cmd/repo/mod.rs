@@ -1,9 +1,9 @@
 use async_trait::async_trait;
-use clap::{App, ArgMatches};
+use clap::{ArgMatches, Command};
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 use huber_common::result::Result;
-use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd;
 use crate::cmd::repo::add::RepoAddCmd;
@@ -30,22 +30,22 @@ impl RepoCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for RepoCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Manages repositories")
+impl<'help> CommandTrait<'help> for RepoCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME).about("Manages repositories")
     }
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoCmd {
+impl CommandAsyncTrait for RepoCmd {
     async fn run(
         &self,
         config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         match matches.subcommand() {
-            (cmd::repo::add::CMD_NAME, Some(sub_matches)) => {
+            Some((cmd::repo::add::CMD_NAME, sub_matches)) => {
                 container
                     .get::<RepoAddCmd>()
                     .unwrap()
@@ -53,7 +53,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoCmd {
                     .await
             }
 
-            (cmd::repo::remove::CMD_NAME, Some(sub_matches)) => {
+            Some((cmd::repo::remove::CMD_NAME, sub_matches)) => {
                 container
                     .get::<RepoRemoveCmd>()
                     .unwrap()
@@ -61,7 +61,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoCmd {
                     .await
             }
 
-            (cmd::repo::list::CMD_NAME, Some(sub_matches)) => {
+            Some((cmd::repo::list::CMD_NAME, sub_matches)) => {
                 container
                     .get::<RepoListCmd>()
                     .unwrap()
@@ -69,10 +69,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoCmd {
                     .await
             }
 
-            _ => {
-                println!("{}", matches.usage());
-                Ok(())
-            }
+            _ => Err(anyhow!("Command not found")),
         }
     }
 }

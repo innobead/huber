@@ -1,5 +1,5 @@
 use async_trait::async_trait;
-use clap::{App, ArgMatches};
+use clap::{ArgMatches, Command};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::log::println_many;
@@ -29,9 +29,9 @@ impl FlushCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for FlushCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for FlushCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("f")
             .about("Flushes inactive artifacts")
             .long_about("Flushing inactive artifacts includes removing non-current packages.")
@@ -39,12 +39,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for FlushCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for FlushCmd {
+impl CommandAsyncTrait for FlushCmd {
     async fn run(
         &self,
         _config: &Config,
         container: &DIContainer,
-        _matches: &ArgMatches<'a>,
+        _matches: &ArgMatches,
     ) -> Result<()> {
         process_lock!();
 

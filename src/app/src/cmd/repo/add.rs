@@ -1,16 +1,16 @@
 use async_trait::async_trait;
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
+use huber_common::model::config::ConfigPath;
 use huber_common::model::repo::Repository;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
-use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::repo::RepoService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
-use huber_common::model::config::ConfigPath;
 
 pub(crate) const CMD_NAME: &str = "add";
 
@@ -27,18 +27,18 @@ impl RepoAddCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for RepoAddCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for RepoAddCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("a")
             .about("Add repositories")
-            .args(&vec![
-                Arg::with_name("name")
+            .args([
+                Arg::new("name")
                     .value_name("repo name")
                     .help("Repository name")
                     .takes_value(true)
                     .required(true),
-                Arg::with_name("url")
+                Arg::new("url")
                     .value_name("repo url")
                     .help("Github repo URL")
                     .takes_value(true)
@@ -48,12 +48,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for RepoAddCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for RepoAddCmd {
+impl CommandAsyncTrait for RepoAddCmd {
     async fn run(
         &self,
         _config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         process_lock!();
 

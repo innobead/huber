@@ -1,15 +1,15 @@
 use async_trait::async_trait;
-use clap::{App, ArgMatches};
+use clap::{ArgMatches, Command};
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
+use huber_common::model::config::ConfigPath;
+use huber_common::progress::progress;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
-use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::update::{UpdateService, UpdateTrait};
-use huber_common::model::config::ConfigPath;
-use huber_common::progress::progress;
 
 pub(crate) const CMD_NAME: &str = "reset";
 
@@ -26,9 +26,9 @@ impl ResetCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for ResetCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for ResetCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("r")
             .about("Resets huber")
             .long_about(
@@ -39,12 +39,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for ResetCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ResetCmd {
+impl CommandAsyncTrait for ResetCmd {
     async fn run(
         &self,
         _config: &Config,
         container: &DIContainer,
-        _matches: &ArgMatches<'a>,
+        _matches: &ArgMatches,
     ) -> Result<()> {
         process_lock!();
 

@@ -1,7 +1,7 @@
 use std::io::stdout;
 
 use async_trait::async_trait;
-use clap::{App, ArgMatches};
+use clap::{ArgMatches, Command};
 use libcli_rs::output::{OutputFactory, OutputTrait};
 use simpledi_rs::di::DIContainer;
 use simpledi_rs::di::DIContainerTrait;
@@ -30,21 +30,21 @@ impl ConfigUpdateCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for ConfigUpdateCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for ConfigUpdateCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("u")
             .about("Updates the configuration")
     }
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ConfigUpdateCmd {
+impl CommandAsyncTrait for ConfigUpdateCmd {
     async fn run(
         &self,
         _config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         process_lock!();
 

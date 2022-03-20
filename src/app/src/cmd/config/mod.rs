@@ -1,16 +1,15 @@
 use async_trait::async_trait;
-use clap::{App, ArgMatches};
+use clap::{ArgMatches, Command};
+use simpledi_rs::di::DIContainer;
+use simpledi_rs::di::DIContainerTrait;
 
 use huber_common::model::config::Config;
 use huber_common::result::Result;
-use simpledi_rs::di::DIContainer;
 
 use crate::cmd;
 use crate::cmd::config::show::ConfigShowCmd;
 use crate::cmd::config::update::ConfigUpdateCmd;
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
-
-use simpledi_rs::di::DIContainerTrait;
 
 pub(crate) mod show;
 pub(crate) mod update;
@@ -30,22 +29,22 @@ impl ConfigCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for ConfigCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME).about("Manages the configuration")
+impl<'help> CommandTrait<'help> for ConfigCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME).about("Manages the configuration")
     }
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ConfigCmd {
+impl CommandAsyncTrait for ConfigCmd {
     async fn run(
         &self,
         config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         match matches.subcommand() {
-            (cmd::config::show::CMD_NAME, Some(sub_matches)) => {
+            Some((cmd::config::show::CMD_NAME, sub_matches)) => {
                 container
                     .get::<ConfigShowCmd>()
                     .unwrap()
@@ -53,7 +52,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ConfigCmd {
                     .await
             }
 
-            (cmd::config::update::CMD_NAME, Some(sub_matches)) => {
+            Some((cmd::config::update::CMD_NAME, sub_matches)) => {
                 container
                     .get::<ConfigUpdateCmd>()
                     .unwrap()
@@ -61,10 +60,7 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for ConfigCmd {
                     .await
             }
 
-            _ => {
-                println!("{}", matches.usage());
-                Ok(())
-            }
+            _ => Err(anyhow!("Command not found")),
         }
     }
 }

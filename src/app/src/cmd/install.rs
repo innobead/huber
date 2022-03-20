@@ -1,5 +1,5 @@
 use async_trait::async_trait;
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
@@ -29,22 +29,22 @@ impl InstallCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for InstallCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("in")
             .about("Installs the package")
-            .args(&vec![
-                Arg::with_name("name")
+            .args([
+                Arg::new("name")
                     .value_name("package name")
-                    .multiple(true)
+                    .multiple_occurrences(true)
                     .help("Package name(s)")
                     .required(true)
                     .takes_value(true),
-                Arg::with_name("version")
+                Arg::new("version")
                     .value_name("string")
                     .help("Package version")
-                    .short("v")
+                    .short('v')
                     .long("version")
                     .takes_value(true),
             ])
@@ -52,12 +52,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InstallCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for InstallCmd {
+impl CommandAsyncTrait for InstallCmd {
     async fn run(
         &self,
         _config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         process_lock!();
 

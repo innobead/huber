@@ -2,14 +2,14 @@ use std::cmp::Ordering;
 use std::collections::HashMap;
 
 use async_trait::async_trait;
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
 use log::warn;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 use huber_common::model::config::ConfigPath;
-
 use huber_common::model::release::Release;
+use huber_common::progress::progress;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
 
@@ -17,7 +17,6 @@ use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
-use huber_common::progress::progress;
 
 pub(crate) const CMD_NAME: &str = "update";
 
@@ -34,20 +33,20 @@ impl UpdateCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for UpdateCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for UpdateCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("up")
             .about("Updates the installed package(s)")
-            .args(&vec![
-                Arg::with_name("name")
-                    .multiple(true)
+            .args([
+                Arg::new("name")
+                    .multiple_occurrences(true)
                     .value_name("package name")
                     .help("Package name(s)")
                     .required(false)
                     .takes_value(true),
-                Arg::with_name("dryrun")
-                    .short("d")
+                Arg::new("dryrun")
+                    .short('d')
                     .long("dryrun")
                     .help("Dry run to show available updates")
                     .required(false),
@@ -56,12 +55,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for UpdateCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {
+impl CommandAsyncTrait for UpdateCmd {
     async fn run(
         &self,
         _config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         process_lock!();
 
@@ -132,9 +131,9 @@ impl<'a, 'b> CommandAsyncTrait<'a, 'b> for UpdateCmd {
     }
 }
 
-async fn update<'a>(
+async fn update(
     release_service: &ReleaseService,
-    matches: &ArgMatches<'a>,
+    matches: &ArgMatches,
     new_release: &Release,
     installed_release: &Release,
 ) -> Result<()> {

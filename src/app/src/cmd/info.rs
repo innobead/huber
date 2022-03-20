@@ -1,17 +1,17 @@
 use std::io::stdout;
 
 use async_trait::async_trait;
-use clap::{App, Arg, ArgMatches};
+use clap::{Arg, ArgMatches, Command};
+use libcli_rs::output::{OutputFactory, OutputTrait};
+use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 use huber_common::result::Result;
-use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::ItemOperationTrait;
-use libcli_rs::output::{OutputFactory, OutputTrait};
 
 pub(crate) const CMD_NAME: &str = "info";
 
@@ -19,6 +19,7 @@ pub(crate) const CMD_NAME: &str = "info";
 pub(crate) struct InfoCmd;
 
 unsafe impl Send for InfoCmd {}
+
 unsafe impl Sync for InfoCmd {}
 
 impl InfoCmd {
@@ -27,13 +28,13 @@ impl InfoCmd {
     }
 }
 
-impl<'a, 'b> CommandTrait<'a, 'b> for InfoCmd {
-    fn app(&self) -> App<'a, 'b> {
-        App::new(CMD_NAME)
+impl<'help> CommandTrait<'help> for InfoCmd {
+    fn app(&self) -> Command<'help> {
+        Command::new(CMD_NAME)
             .visible_alias("i")
             .about("Shows the package info")
             .arg(
-                Arg::with_name("name")
+                Arg::new("name")
                     .value_name("package name")
                     .help("Package name")
                     .required(true)
@@ -43,12 +44,12 @@ impl<'a, 'b> CommandTrait<'a, 'b> for InfoCmd {
 }
 
 #[async_trait]
-impl<'a, 'b> CommandAsyncTrait<'a, 'b> for InfoCmd {
+impl CommandAsyncTrait for InfoCmd {
     async fn run(
         &self,
         config: &Config,
         container: &DIContainer,
-        matches: &ArgMatches<'a>,
+        matches: &ArgMatches,
     ) -> Result<()> {
         let pkg_service = container.get::<PackageService>().unwrap();
         let release_service = container.get::<ReleaseService>().unwrap();
