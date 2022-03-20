@@ -184,29 +184,61 @@ impl Package {
                 _ => Err(e),
             },
 
-            "macos" => self
-                .targets
-                .iter()
-                .find_map(|it| {
-                    if let PackageTargetType::MacOS(m) = it {
-                        Some(m.clone())
-                    } else {
-                        None
-                    }
-                })
-                .ok_or(e),
+            "macos" => match arch {
+                "x86_64" => self
+                    .targets
+                    .iter()
+                    .find_map(|it| {
+                        if let PackageTargetType::MacOS(m) = it {
+                            Some(m.clone())
+                        } else {
+                            None
+                        }
+                    })
+                    .ok_or(e),
 
-            "windows" => self
-                .targets
-                .iter()
-                .find_map(|it| {
-                    if let PackageTargetType::Windows(m) = it {
-                        Some(m.clone())
-                    } else {
-                        None
-                    }
-                })
-                .ok_or(e),
+                "aarch64" => self
+                    .targets
+                    .iter()
+                    .find_map(|it| {
+                        if let PackageTargetType::MacOSArm64(m) = it {
+                            Some(m.clone())
+                        } else {
+                            None
+                        }
+                    })
+                    .ok_or(e),
+
+                _ => Err(e),
+            },
+
+            "windows" => match arch {
+                "x86_64" => self
+                    .targets
+                    .iter()
+                    .find_map(|it| {
+                        if let PackageTargetType::Windows(m) = it {
+                            Some(m.clone())
+                        } else {
+                            None
+                        }
+                    })
+                    .ok_or(e),
+
+                "aarch64" => self
+                    .targets
+                    .iter()
+                    .find_map(|it| {
+                        if let PackageTargetType::WindowsArm64(m) = it {
+                            Some(m.clone())
+                        } else {
+                            None
+                        }
+                    })
+                    .ok_or(e),
+
+                _ => Err(e),
+            },
 
             _ => Err(e),
         }

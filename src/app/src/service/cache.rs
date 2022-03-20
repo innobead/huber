@@ -37,11 +37,6 @@ pub(crate) trait CacheAsyncTrait {
 }
 
 #[derive(Debug)]
-pub(crate) struct CacheInfo {
-    location: String,
-}
-
-#[derive(Debug)]
 pub(crate) struct CacheService {
     pub(crate) container: Option<Arc<DIContainer>>,
 }
