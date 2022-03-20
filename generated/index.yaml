@@ -144,6 +144,9 @@
 - name: grex
   owner: pemistahl
   source: github
+- name: grpcurl
+  owner: fullstorydev
+  source: github
 - name: helm
   owner: helm
   source: github

@@ -47,6 +47,7 @@ pub mod go_http_tunnel;
 pub mod gping;
 pub mod gradle;
 pub mod grex;
+pub mod grpcurl;
 pub mod helm;
 pub mod helmfile;
 pub mod hetty;
