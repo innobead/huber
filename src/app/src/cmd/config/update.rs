@@ -12,7 +12,7 @@ use huber_common::progress::progress;
 use huber_common::result::Result;
 use huber_procmacro::process_lock;
 
-use crate::cmd::{process_arg_matches, CommandAsyncTrait, CommandTrait};
+use crate::cmd::{update_config_by_arg_matches, CommandAsyncTrait, CommandTrait};
 use crate::service::config::{ConfigService, ConfigTrait};
 
 pub(crate) const CMD_NAME: &str = "update";
@@ -53,7 +53,7 @@ impl CommandAsyncTrait for ConfigUpdateCmd {
         progress("Updating the configuration")?;
 
         let mut c = config_service.get()?;
-        if process_arg_matches(&mut c, &matches) {
+        if update_config_by_arg_matches(&mut c, &matches) {
             config_service.update(&c)?;
             println!("The configuration updated\n");
         } else {

@@ -10,14 +10,16 @@ extern crate maplit;
 extern crate simpledi_rs;
 
 use std::process::exit;
+use std::sync::Arc;
 
-use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
+use simpledi_rs::di::{DependencyInjectTrait, DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 
+use crate::cmd::CommandTrait;
+use crate::cmd::config::ConfigCmd;
 use crate::cmd::config::show::ConfigShowCmd;
 use crate::cmd::config::update::ConfigUpdateCmd;
-use crate::cmd::config::ConfigCmd;
 use crate::cmd::current::CurrentCmd;
 use crate::cmd::flush::FlushCmd;
 use crate::cmd::info::InfoCmd;
@@ -33,7 +35,6 @@ use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::update::UpdateCmd;
-use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
 use crate::service::config::ConfigService;
 use crate::service::package::PackageService;
@@ -50,7 +51,7 @@ async fn main() {
     let mut container = DIContainer::new();
     let mut config = Config::new();
 
-    // create CLI app, do CLI args/commands match
+    // Create CLI app, do CLI args/commands match
     let cmds = [
         create_dep!(InstallCmd::new(), container, .app()),
         create_dep!(UninstallCmd::new(), container, .app()),
@@ -73,16 +74,31 @@ async fn main() {
             create_dep!(ConfigUpdateCmd::new(), container, .app()),
         ]),
     ];
-
     let app = RootCmd::new().app().subcommands(cmds);
     let matches = cmd::prepare_arg_matches(app);
 
-    // process global args and init config
-    cmd::process_arg_matches(&mut config, &matches);
+    // Init config
+    cmd::update_config_by_arg_matches(&mut config, &matches);
+    let container = init_config(config, container);
+
+    // Init service
+    let container = init_services(container);
+
+    // Process command
+    if let Err(e) = cmd::process_cmds(&container.clone(), &matches).await {
+        eprintln!("{:?}", e);
+        exit(1)
+    }
+}
+
+fn init_config(config: Config, mut container: DIContainer) -> DIContainer {
     let _ = config.init();
     create_dep!(config, container);
 
-    // init services
+    container
+}
+
+fn init_services(mut container: DIContainer) -> Arc<DIContainer> {
     create_dep!(PackageService::new(), container);
     create_dep!(ReleaseService::new(), container);
     create_dep!(CacheService::new(), container);
@@ -90,20 +106,15 @@ async fn main() {
     create_dep!(RepoService::new(), container);
     create_dep!(ConfigService::new(), container);
 
-    // inject dependencies to the container objects
-    let container_arc = container.init().unwrap();
+    let container = container.init().unwrap();
 
-    inject_dep!(PackageService, container_arc.clone());
-    inject_dep!(ReleaseService, container_arc.clone());
-    inject_dep!(CacheService, container_arc.clone());
-    inject_dep!(UpdateService, container_arc.clone());
-    inject_dep!(RepoService, container_arc.clone());
-    inject_dep!(ConfigService, container_arc.clone());
+    // Inject dependencies to the container objects
+    inject_dep!(PackageService, container.clone());
+    inject_dep!(ReleaseService, container.clone());
+    inject_dep!(CacheService, container.clone());
+    inject_dep!(UpdateService, container.clone());
+    inject_dep!(RepoService, container.clone());
+    inject_dep!(ConfigService, container.clone());
 
-    // process command
-    let config = container_arc.get::<Config>().unwrap();
-    if let Err(e) = cmd::process_cmds(&config, &container_arc.clone(), &matches).await {
-        eprintln!("{:?}", e);
-        exit(1)
-    }
+    container
 }

@@ -72,7 +72,7 @@ pub(crate) fn prepare_arg_matches(app: Command) -> ArgMatches {
     }
 }
 
-pub(crate) fn process_arg_matches(config: &mut Config, matches: &ArgMatches) -> bool {
+pub(crate) fn update_config_by_arg_matches(config: &mut Config, matches: &ArgMatches) -> bool {
     let mut updated = false;
 
     if let Some(arg) = matches.value_of(ARG_LOG_LEVEL) {
@@ -103,10 +103,11 @@ pub(crate) fn process_arg_matches(config: &mut Config, matches: &ArgMatches) -> 
 }
 
 pub(crate) async fn process_cmds(
-    config: &Config,
     container: &DIContainer,
     matches: &ArgMatches,
 ) -> Result<()> {
+    let config = container.get::<Config>().unwrap();
+    
     match matches.subcommand() {
         Some((cmd::current::CMD_NAME, sub_matches)) => {
             container
