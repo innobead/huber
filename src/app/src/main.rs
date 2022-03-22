@@ -9,16 +9,18 @@ extern crate maplit;
 #[macro_use]
 extern crate simpledi_rs;
 
-use std::process::exit;
+use std::env;
 use std::sync::Arc;
 
-use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
+use clap::{Command, ErrorKind};
+use simpledi_rs::di::{DependencyInjectTrait, DIContainer, DIContainerTrait};
 
 use huber_common::model::config::Config;
 
+use crate::cmd::CommandTrait;
+use crate::cmd::config::ConfigCmd;
 use crate::cmd::config::show::ConfigShowCmd;
 use crate::cmd::config::update::ConfigUpdateCmd;
-use crate::cmd::config::ConfigCmd;
 use crate::cmd::current::CurrentCmd;
 use crate::cmd::flush::FlushCmd;
 use crate::cmd::info::InfoCmd;
@@ -34,7 +36,6 @@ use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::update::UpdateCmd;
-use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
 use crate::service::config::ConfigService;
 use crate::service::package::PackageService;
@@ -74,21 +75,37 @@ async fn main() {
             create_dep!(ConfigUpdateCmd::new(), container, .app()),
         ]),
     ];
-    let app = RootCmd::new().app().subcommands(cmds);
-    let matches = cmd::prepare_arg_matches(app);
 
-    // Init config
-    cmd::update_config_by_arg_matches(&mut config, &matches);
-    let container = init_config(config, container);
+    let app = init_app(RootCmd::new().app().subcommands(cmds));
+    match app.try_get_matches() {
+        Ok(matches) => {
+            // Init config
+            cmd::update_config_by_arg_matches(&mut config, &matches);
+            let container = init_config(config, container);
 
-    // Init service
-    let container = init_services(container);
+            // Init service
+            let container = init_services(container);
 
-    // Process command
-    if let Err(e) = cmd::process_cmds(&container.clone(), &matches).await {
-        eprintln!("{:?}", e);
-        exit(1)
+            // Process command
+            if let Err(err) = cmd::process_cmds(&container.clone(), &matches).await {
+                clap::error::Error::raw(ErrorKind::Format, err).exit()
+            }
+        }
+
+        Err(err) => {
+            err.exit()
+        }
     }
+}
+
+fn init_app(mut cmd: Command) -> Command {
+    let args: Vec<String> = env::args().collect();
+
+    if args.len() == 1 {
+        let _ = cmd.print_help();
+    }
+
+    cmd
 }
 
 fn init_config(config: Config, mut container: DIContainer) -> DIContainer {

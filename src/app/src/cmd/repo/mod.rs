@@ -69,7 +69,7 @@ impl CommandAsyncTrait for RepoCmd {
                     .await
             }
 
-            _ => Err(anyhow!("Command not found")),
+            _ => Ok(self.app().print_help()?)
         }
     }
 }

@@ -1,7 +1,8 @@
-use semver::Version;
 use std::cmp::Ordering;
 use std::ffi::OsStr;
 use std::str::FromStr;
+
+use semver::Version;
 
 pub trait OsStrExt {
     fn to_str_direct(&self) -> &str;

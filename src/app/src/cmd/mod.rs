@@ -1,4 +1,3 @@
-use std::env;
 use std::str::FromStr;
 
 use async_trait::async_trait;
@@ -52,24 +51,6 @@ pub(crate) trait CommandAsyncTrait {
         container: &DIContainer,
         matches: &ArgMatches,
     ) -> Result<()>;
-}
-
-pub(crate) fn prepare_arg_matches(app: Command) -> ArgMatches {
-    let args = env::args().collect::<Vec<String>>();
-
-    match args.len() {
-        1 => app.get_matches_from([args[0].clone(), "help".to_string()]),
-
-        2 => {
-            if [repo::CMD_NAME, config::CMD_NAME].contains(&args[0].as_str()) {
-                app.get_matches_from([args[0].clone(), args[1].clone(), "help".to_string()])
-            } else {
-                app.get_matches()
-            }
-        }
-
-        _ => app.get_matches(),
-    }
 }
 
 pub(crate) fn update_config_by_arg_matches(config: &mut Config, matches: &ArgMatches) -> bool {
@@ -202,6 +183,6 @@ pub(crate) async fn process_cmds(container: &DIContainer, matches: &ArgMatches) 
                 .await
         }
 
-        _ => Err(anyhow!("Command not found")),
+        _ => Ok(())
     }
 }

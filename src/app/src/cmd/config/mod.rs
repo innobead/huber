@@ -60,7 +60,7 @@ impl CommandAsyncTrait for ConfigCmd {
                     .await
             }
 
-            _ => Err(anyhow!("Command not found")),
+            _ => Ok(self.app().print_help()?)
         }
     }
 }

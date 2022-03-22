@@ -1,9 +1,9 @@
+use std::{env, fmt};
 use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
 use std::path::PathBuf;
 use std::str::FromStr;
-use std::{env, fmt};
 
 use hubcaps_ex::releases::Release as HubcapsRelease;
 use log::{error, warn};
