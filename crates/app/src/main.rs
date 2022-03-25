@@ -13,14 +13,13 @@ use std::env;
 use std::sync::Arc;
 
 use clap::{Command, ErrorKind};
-use simpledi_rs::di::{DependencyInjectTrait, DIContainer, DIContainerTrait};
+use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 
 use huber_common::model::config::Config;
 
-use crate::cmd::CommandTrait;
-use crate::cmd::config::ConfigCmd;
 use crate::cmd::config::show::ConfigShowCmd;
 use crate::cmd::config::update::ConfigUpdateCmd;
+use crate::cmd::config::ConfigCmd;
 use crate::cmd::current::CurrentCmd;
 use crate::cmd::flush::FlushCmd;
 use crate::cmd::info::InfoCmd;
@@ -36,6 +35,7 @@ use crate::cmd::self_update::SelfUpdateCmd;
 use crate::cmd::show::ShowCmd;
 use crate::cmd::uninstall::UninstallCmd;
 use crate::cmd::update::UpdateCmd;
+use crate::cmd::CommandTrait;
 use crate::service::cache::CacheService;
 use crate::service::config::ConfigService;
 use crate::service::package::PackageService;
@@ -92,9 +92,7 @@ async fn main() {
             }
         }
 
-        Err(err) => {
-            err.exit()
-        }
+        Err(err) => err.exit(),
     }
 }
 

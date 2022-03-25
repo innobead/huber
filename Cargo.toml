@@ -1,5 +1,5 @@
 [workspace]
-members = ["src/app", "src/common", "src/procmacro", "src/generator"]
+members = ["crates/app", "crates/common", "crates/procmacro", "crates/generator"]
 
 [profile.release]
 opt-level = 'z'

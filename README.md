@@ -599,8 +599,8 @@ Error: No update available: 404 Not Found: Not Found
 
 If you would like to add some useful tools in the builtin managed packages list, please have a PR as below steps.
 
-1. Add a new package module in `src/generator/src/pkg`
-2. Update the added package in `src/generator/src/build.rs`
+1. Add a new package module in `crates/generator/src/pkg`
+2. Update the added package in `crates/generator/src/build.rs`
 3. `make generate` w/ your `GITHUB_TOKEN` to check if the new package manifest generated in `generated/packages` and `generated/index.yaml` updated accordingly
 4. Fire a PR to make it accept
 

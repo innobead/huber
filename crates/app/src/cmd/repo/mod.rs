@@ -69,7 +69,7 @@ impl CommandAsyncTrait for RepoCmd {
                     .await
             }
 
-            _ => Ok(self.app().print_help()?)
+            _ => Ok(self.app().print_help()?),
         }
     }
 }

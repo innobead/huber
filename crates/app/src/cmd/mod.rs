@@ -183,6 +183,6 @@ pub(crate) async fn process_cmds(container: &DIContainer, matches: &ArgMatches) 
                 .await
         }
 
-        _ => Ok(())
+        _ => Ok(()),
     }
 }

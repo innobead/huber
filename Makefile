@@ -38,7 +38,7 @@ release: ## Release binaries
 
 .PHONY: install
 install: ## Install binaries
-	cargo install $(CARGO_OPTS) --path ./src/app/ --bins
+	cargo install $(CARGO_OPTS) --path ./crates/app/ --bins
 	mkdir -p ~/.huber/bin && cp ~/.cargo/bin/huber ~/.huber/bin && $(CURDIR)/hack/update-env.sh
 
 .PHONY: clean
@@ -83,6 +83,6 @@ verify: ## Verify Huber commands via the local package generated folder
 
 .PHONY: publish
 publish: ## Publish Huber to crates.io
-	cargo publish $(CARGO_OPTS) --manifest-path=./src/common/Cargo.toml || true
-	sleep 10 && cargo publish $(CARGO_OPTS) --manifest-path=./src/procmacro/Cargo.toml || true
-	sleep 10 && cargo publish $(CARGO_OPTS) --manifest-path=./src/app/Cargo.toml || true
+	cargo publish $(CARGO_OPTS) --manifest-path=./crates/common/Cargo.toml || true
+	sleep 10 && cargo publish $(CARGO_OPTS) --manifest-path=./crates/procmacro/Cargo.toml || true
+	sleep 10 && cargo publish $(CARGO_OPTS) --manifest-path=./crates/app/Cargo.toml || true

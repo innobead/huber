@@ -60,7 +60,7 @@ impl CommandAsyncTrait for ConfigCmd {
                     .await
             }
 
-            _ => Ok(self.app().print_help()?)
+            _ => Ok(self.app().print_help()?),
         }
     }
 }

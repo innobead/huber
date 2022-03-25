@@ -1,6 +1,6 @@
-use std::{env, fs};
 use std::fs::File;
 use std::path::PathBuf;
+use std::{env, fs};
 
 use hubcaps_ex::Credentials;
 use libcli_rs::output::OutputFormat;
