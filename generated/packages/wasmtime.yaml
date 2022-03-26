@@ -7,16 +7,10 @@ source:
     owner: bytecodealliance
     repo: wasmtime
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "wasmtime-v{version}-x86_64-linux.tar.xz"
-  - LinuxArm64:
-      artifact_templates:
-        - "wasmtime-v{version}-aarch64-linux.tar.xz"
-  - MacOS:
-      artifact_templates:
-        - "wasmtime-v{version}-x86_64-macos.tar.xz"
   - Windows:
       artifact_templates:
         - "wasmtime-v{version}-x86_64-windows.zip"
+  - Default:
+      artifact_templates:
+        - "wasmtime-v{version}-{arch}-{os}.tar.xz"
 detail: ~

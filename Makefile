@@ -81,6 +81,10 @@ HUBER ?= huber
 verify: ## Verify Huber commands via the local package generated folder
 	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) $(HUBER_BIN) $(CMD)
 
+.PHONY: verify-compatible
+verify-compatible: ## Verify the current Huber commands via the local package generated folder
+	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) $(shell which huber) $(CMD)
+
 .PHONY: publish
 publish: ## Publish Huber to crates.io
 	cargo publish $(CARGO_OPTS) --manifest-path=./crates/common/Cargo.toml || true

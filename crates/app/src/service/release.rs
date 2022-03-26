@@ -1,9 +1,9 @@
 use std::collections::HashMap;
-use std::fs;
 use std::fs::{read_dir, read_link, remove_dir_all, remove_file, File};
 use std::io::Write;
 use std::path::PathBuf;
 use std::sync::Arc;
+use std::{env, fs};
 
 use async_trait::async_trait;
 use compress_tools::{uncompress_archive, Ownership};
@@ -459,6 +459,10 @@ impl ReleaseAsyncTrait for ReleaseService {
                     it.replace("{version}", version.trim_start_matches("v"))
                         .to_string()
                 }
+            })
+            .map(|it| {
+                it.replace("{os}", env::consts::OS)
+                    .replace("{arch}", env::consts::ARCH)
             })
             .collect();
 

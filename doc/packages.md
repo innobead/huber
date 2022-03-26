@@ -53,7 +53,7 @@
  grpcurl          Like cURL, but for gRPC: Command-line tool for interacting with gRPC servers                             https://github.com/fullstorydev/grpcurl 
  helm             The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
  helmfile         Deploy Kubernetes Helm Charts                                                                            https://github.com/roboll/helmfile 
- hetty            Hetty is an HTTP toolkit for security research.                                                          https://github.com/dstotijn/hetty 
+ hetty            An HTTP toolkit for security research.                                                                   https://github.com/dstotijn/hetty 
  hexyl            A command-line hex viewer                                                                                https://github.com/sharkdp/hexyl 
  hub              A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
  huber            Huber 📦, simplify the package management from GitHub projects with a built-in awesome list of pop...    https://github.com/innobead/huber 

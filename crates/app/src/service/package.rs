@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use log::debug;
+use log::{debug, error};
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use huber_common::model::config::{Config, ConfigFieldConvertTrait};
@@ -148,8 +148,10 @@ impl ItemSearchTrait for PackageService {
 
         if let Some(name) = name {
             debug!("Searching package by name: {}", name);
-            if let Ok(pkg) = cache_service.get_package(name) {
-                found_items.push(pkg);
+
+            match cache_service.get_package(name) {
+                Ok(pkg) => found_items.push(pkg),
+                Err(err) => error!("{}", err),
             }
 
             return Ok(found_items);
@@ -157,6 +159,7 @@ impl ItemSearchTrait for PackageService {
 
         if let Some(pattern) = pattern {
             debug!("Searching package by pattern: {}", pattern);
+
             let mut found_pkgs = cache_service.list_packages(pattern, owner)?;
             found_items.append(&mut found_pkgs);
 

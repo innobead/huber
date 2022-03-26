@@ -24,6 +24,7 @@ pub struct Package {
     pub source: PackageSource,
     pub targets: Vec<PackageTargetType>,
     pub detail: Option<PackageDetailType>,
+
     // display purpose, injected from release
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(skip_deserializing)]
@@ -63,6 +64,7 @@ pub enum PackageTargetType {
     MacOSArm64(PackageManagement),
     Windows(PackageManagement),
     WindowsArm64(PackageManagement),
+    Default(PackageManagement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -155,93 +157,85 @@ impl Package {
         let arch = env::consts::ARCH;
         let e = anyhow!("Unsupported OS {} or ARCH {}", os, arch);
 
+        let default_pkg_mgmt: Option<PackageManagement> = self
+            .targets
+            .iter()
+            .find(|it| {
+                if let PackageTargetType::Default(_m) = it {
+                    return true;
+                }
+                false
+            })
+            .map(|it| match it {
+                PackageTargetType::Default(m) => Some(m.clone()),
+                _ => None,
+            })
+            .flatten();
+
         match os {
             "linux" => match arch {
-                "x86_64" => self
-                    .targets
-                    .iter()
-                    .find_map(|it| {
-                        if let PackageTargetType::LinuxAmd64(m) = it {
-                            Some(m.clone())
-                        } else {
-                            None
-                        }
-                    })
-                    .ok_or(e),
+                "x86_64" => self.targets.iter().find_map(|it| {
+                    if let PackageTargetType::LinuxAmd64(m) = it {
+                        Some(m.clone())
+                    } else {
+                        default_pkg_mgmt.clone()
+                    }
+                }),
 
-                "aarch64" => self
-                    .targets
-                    .iter()
-                    .find_map(|it| {
-                        if let PackageTargetType::LinuxArm64(m) = it {
-                            Some(m.clone())
-                        } else {
-                            None
-                        }
-                    })
-                    .ok_or(e),
+                "aarch64" => self.targets.iter().find_map(|it| {
+                    if let PackageTargetType::LinuxArm64(m) = it {
+                        Some(m.clone())
+                    } else {
+                        default_pkg_mgmt.clone()
+                    }
+                }),
 
-                _ => Err(e),
+                _ => None,
             },
 
             "macos" => match arch {
-                "x86_64" => self
-                    .targets
-                    .iter()
-                    .find_map(|it| {
-                        if let PackageTargetType::MacOS(m) = it {
-                            Some(m.clone())
-                        } else {
-                            None
-                        }
-                    })
-                    .ok_or(e),
+                "x86_64" => self.targets.iter().find_map(|it| {
+                    if let PackageTargetType::MacOS(m) = it {
+                        Some(m.clone())
+                    } else {
+                        default_pkg_mgmt.clone()
+                    }
+                }),
 
-                "aarch64" => self
-                    .targets
-                    .iter()
-                    .find_map(|it| {
-                        if let PackageTargetType::MacOSArm64(m) = it {
-                            Some(m.clone())
-                        } else {
-                            None
-                        }
-                    })
-                    .ok_or(e),
+                "aarch64" => self.targets.iter().find_map(|it| {
+                    if let PackageTargetType::MacOSArm64(m) = it {
+                        Some(m.clone())
+                    } else {
+                        default_pkg_mgmt.clone()
+                    }
+                }),
 
-                _ => Err(e),
+                _ => None,
             },
 
             "windows" => match arch {
-                "x86_64" => self
-                    .targets
-                    .iter()
-                    .find_map(|it| {
-                        if let PackageTargetType::Windows(m) = it {
-                            Some(m.clone())
-                        } else {
-                            None
-                        }
-                    })
-                    .ok_or(e),
+                "x86_64" => self.targets.iter().find_map(|it| {
+                    if let PackageTargetType::Windows(m) = it {
+                        Some(m.clone())
+                    } else {
+                        default_pkg_mgmt.clone()
+                    }
+                }),
 
-                "aarch64" => self
-                    .targets
-                    .iter()
-                    .find_map(|it| {
-                        if let PackageTargetType::WindowsArm64(m) = it {
-                            Some(m.clone())
-                        } else {
-                            None
-                        }
-                    })
-                    .ok_or(e),
+                "aarch64" => self.targets.iter().find_map(|it| {
+                    if let PackageTargetType::WindowsArm64(m) = it {
+                        Some(m.clone())
+                    } else {
+                        default_pkg_mgmt.clone()
+                    }
+                }),
 
-                _ => Err(e),
+                _ => None,
             },
 
-            _ => Err(e),
+            _ => None,
         }
+        .ok_or(e)
     }
 
     pub fn parse_version_from_tag_name(&self, tag_name: &String) -> Result<String> {
