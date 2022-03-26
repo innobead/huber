@@ -1,6 +1,6 @@
 [package]
 name = "huber-procmacro"
-version = "0.3.6"
+version = "0.3.7"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2021"
 rust-version = "1.56"
@@ -13,7 +13,7 @@ license-file = "../../LICENSE"
 proc-macro = true
 
 [dependencies]
-huber-common = { path = "../common", version = "0.3.6" }
+huber-common = { path = "../common", version = "0.3.7" }
 proc-macro2 = "1.0"
 syn = "1.0"
 quote = "1.0"
