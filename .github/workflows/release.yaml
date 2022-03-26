@@ -173,11 +173,11 @@ jobs:
       # Need to use this github action plugin to build vcpkg instead of using the one builtin in github action infra.
       # It will cause the following vcpkg packages build failed
       # Ref: https://github.com/OSSystems/compress-tools-rs/blob/master/.github/workflows/windows.yml#L28
-      - name: Install vcpkg
-        uses: lukka/run-vcpkg@v7
-        with:
-          setupOnly: true
-          vcpkgGitCommitId: ec6fe06e8da05a8157dc8581fa96b36b571c1bd5 # 2020.11-1
+#      - name: Install vcpkg
+#        uses: lukka/run-vcpkg@v7
+#        with:
+#          setupOnly: true
+#          vcpkgGitCommitId: ec6fe06e8da05a8157dc8581fa96b36b571c1bd5 # 2020.11-1
 
       - name: Setup build environment
         run: ./hack/windows/setup-dev.ps1
