@@ -26,6 +26,7 @@ jobs:
       - name: Create release and upload artifacts
         uses: ncipollo/release-action@v1
         with:
+          allowUpdates: true
           body: ${{ steps.changelog.outputs.changelog }}
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -48,6 +49,7 @@ jobs:
       - name: Create release and upload artifacts
         uses: ncipollo/release-action@v1
         with:
+          allowUpdates: true
           artifacts: "./.target/*"
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -80,6 +82,7 @@ jobs:
       - name: Create release and upload artifacts
         uses: ncipollo/release-action@v1
         with:
+          allowUpdates: true
           artifacts: "./.target/*"
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -125,6 +128,7 @@ jobs:
       - name: Create release and upload artifacts
         uses: ncipollo/release-action@v1
         with:
+          allowUpdates: true
           artifacts: "./.target/*"
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
