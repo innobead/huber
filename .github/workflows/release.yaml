@@ -8,10 +8,32 @@ on:
       - 'v*'
 
 jobs:
+  create-github-release:
+    name: Create github release
+    runs-on: ubuntu-latest
+    needs: [ ]
+    steps:
+      - name: Checkout code
+        id: checkout-code
+        uses: actions/checkout@v2
+
+      - name: Create changelog
+        id: changelog
+        uses: innobead/github-release-notes-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create release and upload artifacts
+        uses: ncipollo/release-action@v1
+        with:
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
   release-linux-x86_64:
     name: Release for linux x86_64
     runs-on: ubuntu-latest
-    needs: [ ]
+    needs: create-github-release
     steps:
       - name: Checkout code
         id: checkout-code
@@ -23,34 +45,19 @@ jobs:
       - name: Build all artifacts
         run: make release
 
-      - name: Create changelog
-        id: changelog
-        uses: innobead/github-release-notes-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Create release and upload artifacts
-        id: upload-release-asset
-        run: |
-          set -x
-
-          assets=()
-
-          while IFS= read -r -d '' f; do
-            if [[ -f "$f" ]]; then
-              assets+=("-a" "./$f")
-            fi
-          done < <(find ./.target -print0)
-
-          tag_name="${GITHUB_REF##*/}"
-          hub release edit -d "${assets[@]}" -m "" "$tag_name"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./.target/*"
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   release-linux-aarch64:
     name: Rlease for Linux AArch64
     runs-on: ubuntu-latest
+    needs:
+      - create-github-release
+      - release-linux-x86_64
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -71,69 +78,40 @@ jobs:
         run: make release-multiarch
 
       - name: Create release and upload artifacts
-        id: upload-release-asset
-        run: |
-          set -x
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./.target/*"
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-          assets=()
-
-          while IFS= read -r -d '' f; do
-            if [[ -f "$f" ]]; then
-              assets+=("-a" "./$f")
-            fi
-          done < <(find ./.target -print0)
-
-          tag_name="${GITHUB_REF##*/}"
-          tag_name="$(hub release -d | head -n 1 | tr -d '\n')"
-          hub release edit -d "${assets[@]}" -m "" "$tag_name"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-#  release-linux-armv7:
-#    name: Rlease for Linux ARMv7
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Checkout code
-#        uses: actions/checkout@v2
-#
-#      - name: Set up QEMU
-#        uses: docker/setup-qemu-action@v1
-#
-#      - name: Set up Docker Buildx
-#        id: buildx
-#        uses: docker/setup-buildx-action@v1
-#        with:
-#          version: latest
-#
-#      - name: Available platforms
-#        run: echo ${{ steps.buildx.outputs.platforms }}
-#
-#      - name: Setup, Test, Build
-#        run: PLATFORMS=linux/arm/v7 make release-multiarch
-#
-#      - name: Create release and upload artifacts
-#        id: upload-release-asset
-#        run: |
-#          set -x
-#
-#          assets=()
-#
-#          while IFS= read -r -d '' f; do
-#            if [[ -f "$f" ]]; then
-#              assets+=("-a" "./$f")
-#            fi
-#          done < <(find ./.target -print0)
-#
-#          tag_name="${GITHUB_REF##*/}"
-#          tag_name="$(hub release -d | head -n 1 | tr -d '\n')"
-#          hub release edit -d "${assets[@]}" -m "" "$tag_name"
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #  release-linux-armv7:
+  #    name: Rlease for Linux ARMv7
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #      - name: Checkout code
+  #        uses: actions/checkout@v2
+  #
+  #      - name: Set up QEMU
+  #        uses: docker/setup-qemu-action@v1
+  #
+  #      - name: Set up Docker Buildx
+  #        id: buildx
+  #        uses: docker/setup-buildx-action@v1
+  #        with:
+  #          version: latest
+  #
+  #      - name: Available platforms
+  #        run: echo ${{ steps.buildx.outputs.platforms }}
+  #
+  #      - name: Setup, Test, Build
+  #        run: PLATFORMS=linux/arm/v7 make release-multiarch
 
   release-macos:
     name: Release for MacOS
-    needs: release-linux-x86_64
     runs-on: macos-latest
+    needs:
+      - create-github-release
+      - release-linux-x86_64
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -145,39 +123,20 @@ jobs:
         run: source ~/.bashrc && make release
 
       - name: Create release and upload artifacts
-        id: upload-release-asset
-        run: |
-          set -x
-
-          assets=()
-
-          while IFS= read -r -d '' f; do
-            if [[ -f "$f" ]]; then
-              assets+=("-a" "./$f")
-            fi
-          done < <(find ./.target -print0)
-
-          tag_name="${GITHUB_REF##*/}"
-          tag_name="$(hub release -d | head -n 1 | tr -d '\n')"
-          hub release edit -d "${assets[@]}" -m "" "$tag_name"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "./.target/*"
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
   release-windows:
     name: Release for Windows
     runs-on: windows-latest
+    needs:
+      - create-github-release
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      # Need to use this github action plugin to build vcpkg instead of using the one builtin in github action infra.
-      # It will cause the following vcpkg packages build failed
-      # Ref: https://github.com/OSSystems/compress-tools-rs/blob/master/.github/workflows/windows.yml#L28
-#      - name: Install vcpkg
-#        uses: lukka/run-vcpkg@v7
-#        with:
-#          setupOnly: true
-#          vcpkgGitCommitId: ec6fe06e8da05a8157dc8581fa96b36b571c1bd5 # 2020.11-1
 
       - name: Setup build environment
         run: ./hack/windows/setup-dev.ps1

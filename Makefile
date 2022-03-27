@@ -62,9 +62,9 @@ checksum: ## Generate checksum files for built executables
 	$(CURDIR)/hack/generate-checksum.sh $(BUILD_DIR)
 
 .PHONY: udep
-udep: ## Check undepedencies
+udep: ## Check unused depedencies
 	cargo install cargo-udeps --locked
-	cargo +nightly udeps  --workspace --exclude=huber-generator
+	cargo +nightly udeps --workspace --exclude=huber-generator
 
 .PHONY: build-multiarch
 build-multiarch: ## Build binaries for linux multiple architectures
@@ -76,7 +76,6 @@ release-multiarch: ## Release binaries for linux multiple archite
 	mkdir -p $(BUILD_DIR) && cp $(OUTPUT_DIR)/target/huber-* $(BUILD_DIR)/
 	$(MAKE) checksum
 
-HUBER ?= huber
 .PHONY: verify
 verify: ## Verify Huber commands via the local package generated folder
 	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) $(HUBER_BIN) $(CMD)
