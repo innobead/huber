@@ -26,7 +26,6 @@ jobs:
       - name: Create release and upload artifacts
         uses: ncipollo/release-action@v1
         with:
-          allowUpdates: true
           body: ${{ steps.changelog.outputs.changelog }}
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -46,7 +45,7 @@ jobs:
       - name: Build all artifacts
         run: make release
 
-      - name: Create release and upload artifacts
+      - name: Upload artifacts to release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
@@ -79,7 +78,7 @@ jobs:
       - name: Setup, Test, Build
         run: make release-multiarch
 
-      - name: Create release and upload artifacts
+      - name: Upload artifacts to release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
@@ -125,7 +124,7 @@ jobs:
       - name: Build all artifacts
         run: source ~/.bashrc && make release
 
-      - name: Create release and upload artifacts
+      - name: Upload artifacts to release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
@@ -148,7 +147,7 @@ jobs:
       - name: Build all artifacts
         run: ./hack/windows/release.ps1
 
-      - name: Create release and upload artifacts
+      - name: Upload artifacts to release
         id: upload-release-asset
         run: ./hack/windows/upload-release-asset.ps1 ./target/release
         env:
