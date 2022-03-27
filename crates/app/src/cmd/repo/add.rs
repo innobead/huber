@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use async_trait::async_trait;
 use clap::{Arg, ArgMatches, Command};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
@@ -39,10 +41,21 @@ impl<'help> CommandTrait<'help> for RepoAddCmd {
                     .takes_value(true)
                     .required(true),
                 Arg::new("url")
+                    .short('u')
+                    .long("url")
                     .value_name("repo url")
                     .help("Github repo URL")
                     .takes_value(true)
-                    .required(true),
+                    .required(true)
+                    .conflicts_with("file"),
+                Arg::new("file")
+                    .short('f')
+                    .long("file")
+                    .value_name("repo config file")
+                    .help("Local repo config file path")
+                    .takes_value(true)
+                    .required(true)
+                    .conflicts_with("url"),
             ])
     }
 }
@@ -58,7 +71,8 @@ impl CommandAsyncTrait for RepoAddCmd {
         process_lock!();
 
         let name = matches.value_of("name").unwrap();
-        let url = matches.value_of("url").unwrap();
+        let url = matches.value_of("url").map(|it| it.to_string());
+        let file = matches.value_of("file").map(|it| PathBuf::from(it));
 
         let repo_service = container.get::<RepoService>().unwrap();
 
@@ -68,7 +82,8 @@ impl CommandAsyncTrait for RepoAddCmd {
 
         let repo = Repository {
             name: name.to_string(),
-            url: url.to_string(),
+            url,
+            file,
         };
         let repo = repo_service.create(repo).await?;
 

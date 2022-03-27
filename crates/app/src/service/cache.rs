@@ -5,7 +5,7 @@ use std::sync::Arc;
 use async_trait::async_trait;
 use libcli_rs::progress::ProgressBar;
 use libcli_rs::progress::ProgressTrait;
-use log::info;
+use log::{debug, info};
 use rayon::prelude::*;
 use regex::Regex;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
@@ -209,10 +209,24 @@ impl CacheAsyncTrait for CacheService {
 
         let repo_service = self.container.get::<RepoService>().unwrap();
         for repo in repo_service.list()? {
-            progress!(
-                format!("Updating {:?}", config.unmanaged_repo_dir(&repo.name).unwrap()),
-                repo_service.download_save_pkgs_file(&repo.name, &repo.url).await?;
-            );
+            match repo.url {
+                Some(ref url) => {
+                    progress!(
+                        format!(
+                            "Updating {:?}",
+                            config.unmanaged_repo_dir(&repo.name).unwrap()
+                        ),
+                        repo_service
+                            .download_save_pkgs_file_from_remote_github(&repo.name, url)
+                            .await?
+                    );
+                }
+
+                _ => debug!(
+                    "Failed to update unmanaged repo due to empty url: {:?}",
+                    &repo
+                ),
+            }
         }
 
         Ok(())
