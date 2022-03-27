@@ -151,7 +151,7 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "./target/release/*"
+          artifacts: "./target/release/*.exe*"
           draft: true
           token: ${{ secrets.GITHUB_TOKEN }}
 
