@@ -148,7 +148,10 @@ jobs:
         run: ./hack/windows/release.ps1
 
       - name: Upload artifacts to release
-        id: upload-release-asset
-        run: ./hack/windows/upload-release-asset.ps1 ./target/release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "./target/release/*"
+          draft: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
