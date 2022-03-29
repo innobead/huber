@@ -498,14 +498,18 @@ Removing k3s (version: v1.18.10+k3s2, source: github)
 ## Managing repositories
 
 ### Adding a repository
-The repository can be private or public. If it's private, make sure you have the permission to access via the authroized SSH private key.
+The repository can be private, public github repos or even a local huber.yaml. If it's private, make sure you have the permission
+to access via the authorized SSH private key.
 
 ```console
-❯ huber repo add 3rdparty-repo https://github.com/innobead/huber_unmanaged_demo
-Repository { name: "3rdparty-repo", url: "https://github.com/innobead/huber_unmanaged_demo" } added
+❯ huber repo add remote-repo --url https://github.com/innobead/huber_unmanaged_demo
+Repository { name: "remote-repo", url: Some("https://github.com/innobead/huber_unmanaged_demo"), file: None } added
+
+❯ huber repo add local-repo -f huber.yaml
+Repository { name: "local-repo", url: None, file: Some("huber.yaml") } added
 ```
 
-**Add huber.yaml in the topl-level directory of the repository** (ref: [huber.yaml example](https://github.com/innobead/huber_unmanaged_demo/blob/master/huber.yaml))
+**Add huber.yaml in the top-level directory of the repository** (ref: [huber.yaml example](https://github.com/innobead/huber_unmanaged_demo/blob/master/huber.yaml))
 ```yaml
 ---
 - name: conftest2
@@ -533,8 +537,8 @@ Repository { name: "3rdparty-repo", url: "https://github.com/innobead/huber_unma
 ### Listing repositories
 ```console
 ❯ huber repo list
- Name           Url 
- 3rdparty-repo  https://github.com/innobead/huber_unmanaged_demo
+ Name         Url                                               File
+ remote-repo  https://github.com/innobead/huber_unmanaged_demo
 ```
 
 ### Installing the package from the repository
@@ -550,8 +554,8 @@ conftest2 (version: v0.22.0, source: github) installed
 
 ### Deleting a repository
 ```console
-❯ huber repo remove 3rdparty-repo
-3rdparty-repo removed
+❯ huber repo remove remote-repo
+remote-repo removed
 ```
 
 ## Managing configuration
