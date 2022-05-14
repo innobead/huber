@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: arkade
-description: Open Source Kubernetes Marketplace
+description: Open Source Marketplace For Kubernetes
 source:
   Github:
     owner: alexellis
