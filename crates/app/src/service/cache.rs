@@ -198,10 +198,7 @@ impl CacheAsyncTrait for CacheService {
         let dir = config.huber_repo_dir()?;
         info!("Updating {:?}", dir);
 
-        let client = GithubClient::new(
-            config.to_github_credentials(),
-            config.to_github_key_path()
-        );
+        let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
         progress!(
             "Updating managed repos",
