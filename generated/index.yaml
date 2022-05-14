@@ -436,7 +436,7 @@
   owner: hashicorp
   source: github
 - name: terrascan
-  owner: accurics
+  owner: tenable
   source: github
 - name: tilt
   owner: tilt-dev

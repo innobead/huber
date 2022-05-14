@@ -4,7 +4,7 @@
  Name             Description                                                                                              Source 
  ali              Generate HTTP load and plot the results in real-time                                                     https://github.com/nakabonne/ali 
  argocd           Declarative continuous deployment for Kubernetes.                                                        https://github.com/argoproj/argo-cd 
- arkade           Open Source Kubernetes Marketplace                                                                       https://github.com/alexellis/arkade 
+ arkade           Open Source Marketplace For Kubernetes                                                                   https://github.com/alexellis/arkade 
  bat              A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  bottom           Yet another cross-platform graphical process/system monitor.                                             https://github.com/ClementTsang/bottom 
  camel-k          Apache Camel K is a lightweight integration platform, born on Kubernetes, with serverless superpower...  https://github.com/apache/camel-k 
@@ -56,7 +56,7 @@
  hetty            An HTTP toolkit for security research.                                                                   https://github.com/dstotijn/hetty 
  hexyl            A command-line hex viewer                                                                                https://github.com/sharkdp/hexyl 
  hub              A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
- huber            Huber 📦, simplify the package management from GitHub projects with a built-in awesome list of pop...    https://github.com/innobead/huber 
+ huber            Huber 📦, Package Manager for GitHub repos                                                               https://github.com/innobead/huber 
  hugo             The world’s fastest framework for building websites.                                                     https://github.com/gohugoio/hugo 
  hyperfine        A command-line benchmarking tool                                                                         https://github.com/sharkdp/hyperfine 
  hypper                                                                                                                    https://github.com/rancher-sandbox/hypper 
@@ -81,7 +81,7 @@
  ko               Build and deploy Go applications on Kubernetes                                                           https://github.com/google/ko 
  kompose          Go from Docker Compose to Kubernetes                                                                     https://github.com/kubernetes/kompose 
  kotlin           The Kotlin Programming Language.                                                                         https://github.com/JetBrains/kotlin 
- kpt              A Git-native, schema-aware, extensible client-side tool for packaging, customizing, validating, and ...  https://github.com/GoogleContainerTools/kpt 
+ kpt              A package-centric toolchain that enables a WYSIWYG configuration authoring, automation, and delivery...  https://github.com/GoogleContainerTools/kpt 
  krew             📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
  krustlet         Kubernetes Rust Kubelet                                                                                  https://github.com/deislabs/krustlet 
  kube-bench       Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
@@ -122,7 +122,7 @@
  procs            A modern replacement for ps written in Rust                                                              https://github.com/dalance/procs 
  protoc           Protocol Buffers - Google's data interchange format                                                      https://github.com/protocolbuffers/protobuf 
  pueue            :stars: Manage your shell commands.                                                                      https://github.com/Nukesor/pueue 
- pulumi           Pulumi - Developer-First Infrastructure as Code. Your Cloud, Your Language, Your Way 🚀                  https://github.com/pulumi/pulumi 
+ pulumi           Pulumi - Universal Infrastructure as Code. Your Cloud, Your Language, Your Way 🚀                        https://github.com/pulumi/pulumi 
  rancher          Complete container management platform                                                                   https://github.com/rancher/rancher 
  rancher-cli      Rancher CLI                                                                                              https://github.com/rancher/cli 
  renote           Renote is to extend GitHub operation experience, which is a complementary tool to use with gh            https://github.com/ecatlabs/renote 
@@ -147,7 +147,7 @@
  tecli            In a world where everything is Terraform, teams use Terraform Cloud API to manage their workloads. T...  https://github.com/awslabs/tecli 
  termshark        A terminal UI for tshark, inspired by Wireshark                                                          https://github.com/gcla/termshark 
  terraform        Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
- terrascan        Detect compliance and security violations across Infrastructure as Code to mitigate risk before prov...  https://github.com/accurics/terrascan 
+ terrascan        Detect compliance and security violations across Infrastructure as Code to mitigate risk before prov...  https://github.com/tenable/terrascan 
  tilt             Define your dev environment as code. For microservice apps on Kubernetes.                                https://github.com/tilt-dev/tilt 
  tokei            Count your code, quickly.                                                                                https://github.com/XAMPPRocky/tokei 
  tracee           Linux Runtime Security and Forensics using eBPF                                                          https://github.com/aquasecurity/tracee 

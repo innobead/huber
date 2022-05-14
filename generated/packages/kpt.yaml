@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: kpt
-description: "A Git-native, schema-aware, extensible client-side tool for packaging, customizing, validating, and applying Kubernetes resources."
+description: "A package-centric toolchain that enables a WYSIWYG configuration authoring, automation, and delivery experience, which simplifies managing Kubernetes platforms and KRM-driven infrastructure at scale by manipulating declarative Configuration as Data, separated from the code that transforms it."
 source:
   Github:
     owner: GoogleContainerTools
