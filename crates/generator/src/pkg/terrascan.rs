@@ -5,7 +5,7 @@ pub fn release() -> Package {
     Package {
         name: "terrascan".to_string(),
         source: PackageSource::Github {
-            owner: "accurics".to_string(),
+            owner: "tenable".to_string(),
             repo: "terrascan".to_string(),
         },
         detail: None,
