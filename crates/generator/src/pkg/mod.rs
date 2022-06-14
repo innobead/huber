@@ -1,6 +1,7 @@
 pub mod ali;
 pub mod argocd;
 pub mod arkade;
+pub mod axelard;
 pub mod bat;
 pub mod bottom;
 pub mod camel_k;
@@ -134,6 +135,7 @@ pub mod sd;
 pub mod shadowsocks;
 pub mod skaffold;
 pub mod skim;
+pub mod solidity;
 pub mod sonobuoy;
 pub mod ssvm;
 pub mod starship;

@@ -247,6 +247,9 @@ fn releases() -> Vec<Package> {
         node::release(),
         kotlin::release(),
         gradle::release(),
+        // blockchain
+        solidity::release(),
+        axelard::release(),
     ]
 }
 

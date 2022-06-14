@@ -9,6 +9,9 @@
 - name: arkade
   owner: alexellis
   source: github
+- name: axelard
+  owner: axelarnetwork
+  source: github
 - name: bat
   owner: sharkdp
   source: github
@@ -404,6 +407,9 @@
   source: github
 - name: skim
   owner: lotabout
+  source: github
+- name: solidity
+  owner: ethereum
   source: github
 - name: sonobuoy
   owner: vmware-tanzu

@@ -5,6 +5,7 @@
  ali              Generate HTTP load and plot the results in real-time                                                     https://github.com/nakabonne/ali 
  argocd           Declarative continuous deployment for Kubernetes.                                                        https://github.com/argoproj/argo-cd 
  arkade           Open Source Marketplace For Kubernetes                                                                   https://github.com/alexellis/arkade 
+ axelard          Axelar : A Decentralized Blockchain Interoperability Network                                             https://github.com/axelarnetwork/axelar-core 
  bat              A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  bottom           Yet another cross-platform graphical process/system monitor.                                             https://github.com/ClementTsang/bottom 
  camel-k          Apache Camel K is a lightweight integration platform, born on Kubernetes, with serverless superpower...  https://github.com/apache/camel-k 
@@ -137,6 +138,7 @@
  shadowsocks      A Rust port of shadowsocks                                                                               https://github.com/shadowsocks/shadowsocks-rust 
  skaffold         Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  skim             Fuzzy Finder in rust!                                                                                    https://github.com/lotabout/skim 
+ solidity         Solidity, the Smart Contract Programming Language                                                        https://github.com/ethereum/solidity 
  sonobuoy         Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
  ssvm             WasmEdge is a lightweight, high-performance, and extensible WebAssembly runtime for cloud native, ed...  https://github.com/second-state/SSVM 
  starship         ☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!                        https://github.com/starship/starship 
