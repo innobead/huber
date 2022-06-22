@@ -8,7 +8,6 @@ use std::{env, fs};
 use async_trait::async_trait;
 use compress_tools::{uncompress_archive, Ownership};
 use fs_extra::move_items;
-use inflector::cases::uppercase::is_upper_case;
 use is_executable::IsExecutable;
 use libcli_rs::progress::{ProgressBar, ProgressTrait};
 use log::{debug, error, info};
@@ -284,7 +283,9 @@ impl ReleaseTrait for ReleaseService {
                 }
             }
 
-            if is_upper_case(exec_filename_without_version.clone())
+            if exec_filename_without_version
+                .chars()
+                .all(|x| x.is_uppercase())
                 || exec_filename_without_version.starts_with("_")
                 || exec_filename_without_version.starts_with(".")
             {
@@ -443,7 +444,7 @@ impl ReleaseAsyncTrait for ReleaseService {
             .artifact_templates
             .iter()
             .map(|it| {
-                let regex = regex::Regex::new(r"\{version:(\w)\}").unwrap();
+                let regex = Regex::new(r"\{version:(\w)\}").unwrap();
 
                 // v1.1.1 => v1_1_1 if the version separator is _, otherwise v1.1.1 instead
                 if let Some(s) = regex.captures(it) {

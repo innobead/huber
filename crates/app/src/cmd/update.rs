@@ -3,6 +3,7 @@ use std::collections::HashMap;
 
 use async_trait::async_trait;
 use clap::{Arg, ArgMatches, Command};
+use libcli_rs::progress::{ProgressBar, ProgressTrait};
 use log::warn;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
@@ -89,22 +90,31 @@ impl CommandAsyncTrait for UpdateCmd {
 
             let pkg = pkg_service.get(name)?;
 
-            if !release_caches.contains_key(name) {
-                let r = release_service.current(&pkg)?;
-                release_caches.insert(name.to_string(), r);
-            };
+            let (release, release_latest_result) =
+                progress!(format!("Checking if {} has a new update", &pkg), {
+                    if !release_caches.contains_key(name) {
+                        let r = release_service.current(&pkg)?;
+                        release_caches.insert(name.to_string(), r);
+                    };
 
-            let release = release_caches.get(name).unwrap();
+                    (
+                        release_caches.get(name).unwrap(),
+                        release_service.get_latest(&pkg).await,
+                    )
+                });
 
-            match release_service.get_latest(&pkg).await {
+            match release_latest_result {
                 Ok(mut release_latest) => match release_latest.compare(&release)? {
                     Ordering::Greater => {
                         update(&release_service, &matches, &release_latest, &release).await?;
                     }
 
                     _ => {
-                        let sorted_pkgs_sum = pkg_service.find_summary(name, true).await?;
-                        let latest_pkg_sum = sorted_pkgs_sum.first().unwrap();
+                        let latest_pkg_sum =
+                            progress!(format!("Checking if {} has a new update", &pkg), {
+                                let sorted_pkgs_sum = pkg_service.find_summary(name, true).await?;
+                                sorted_pkgs_sum.first().unwrap().to_owned()
+                            });
 
                         if latest_pkg_sum.version.as_ref().unwrap() != &release.version {
                             release_latest.version = latest_pkg_sum.version.clone().unwrap();
@@ -112,7 +122,7 @@ impl CommandAsyncTrait for UpdateCmd {
 
                             update(&release_service, &matches, &release_latest, &release).await?;
                         } else {
-                            println!("The installed {} is the latest version already", release);
+                            progress(&format!("{} is the latest version already", release))?;
                             continue;
                         }
                     }
