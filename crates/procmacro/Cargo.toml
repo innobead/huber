@@ -1,9 +1,9 @@
 [package]
 name = "huber-procmacro"
-version = "0.3.7"
+version = "0.3.8"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2021"
-rust-version = "1.56"
+rust-version = "1.62"
 description = "Interal package used by Huber"
 homepage = "https://github.com/innobead/huber"
 repository = "https://github.com/innobead/huber"
@@ -13,7 +13,7 @@ license-file = "../../LICENSE"
 proc-macro = true
 
 [dependencies]
-huber-common = { path = "../common", version = "0.3.7" }
+huber-common = { path = "../common", version = "0.3.8" }
 proc-macro2 = "1.0"
 syn = "1.0"
 quote = "1.0"

@@ -1,9 +1,9 @@
 [package]
 name = "huber-generator"
-version = "0.3.7"
+version = "0.3.8"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2021"
-rust-version = "1.56"
+rust-version = "1.62"
 build = "src/build.rs"
 
 [build-dependencies]

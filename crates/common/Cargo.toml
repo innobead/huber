@@ -1,9 +1,9 @@
 [package]
 name = "huber-common"
-version = "0.3.7"
+version = "0.3.8"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2021"
-rust-version = "1.56"
+rust-version = "1.62"
 description = "Interal package used by Huber"
 homepage = "https://github.com/innobead/huber"
 repository = "https://github.com/innobead/huber"
