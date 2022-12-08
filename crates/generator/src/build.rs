@@ -241,7 +241,7 @@ fn releases() -> Vec<Package> {
         ssvm::release(),
         wasm_to_oci::release(),
         wabt::release(),
-        // programing
+        // programming
         deno::release(),
         typescript::release(),
         node::release(),
