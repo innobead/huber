@@ -62,7 +62,7 @@ checksum: ## Generate checksum files for built executables
 	$(CURDIR)/hack/generate-checksum.sh $(BUILD_DIR)
 
 .PHONY: udep
-udep: ## Check unused depedencies
+udep: ## Check unused dependencies
 	cargo install cargo-udeps --locked
 	cargo +nightly udeps --workspace --exclude=huber-generator
 
