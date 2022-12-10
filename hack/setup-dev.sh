@@ -5,7 +5,7 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
-RUST_VERSION=${RUST_VERSION:-1.62}
+RUST_VERSION=${RUST_VERSION:-1.65}
 
 function install_linux_dependencies() {
   if [[ $(command -v zypper) ]]; then
