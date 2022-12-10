@@ -23,7 +23,7 @@ build: fmt ## Build binaries
 
 .PHONY: test
 test: ## Run tests
-	cargo test $(CARGO_OPTS)
+	cargo test -v $(CARGO_OPTS)
 
 .PHONY: fmt
 fmt: ## Format & Lint codes
