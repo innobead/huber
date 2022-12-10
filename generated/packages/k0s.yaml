@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: k0s
-description: k0s - The Zero Friction Kubernetes by Team Lens
+description: k0s - The Zero Friction Kubernetes
 source:
   Github:
     owner: k0sproject

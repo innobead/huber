@@ -1,5 +1,6 @@
 [workspace]
 members = ["crates/app", "crates/common", "crates/procmacro", "crates/generator"]
+default-members = ["crates/app"]
 
 [profile.release]
 opt-level = 'z'

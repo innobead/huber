@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: onefetch
-description: Git repository summary on your terminal
+description: Command-line Git information tool
 source:
   Github:
     owner: o2sh

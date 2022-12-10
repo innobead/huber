@@ -6,9 +6,9 @@
 
 > `Huber is a (new) tool for easy installation of dev/ops CLI tools directly from GitHub. No more trawling the releases pages!` introduced by [Coffee and Cloud Native - 88](https://www.youtube.com/watch?v=LgA6hpKdncw)
 
-- Manages released artifacts from github, and decide which version as the current to use
-- Manages the default package repository with an awesome package list including popular star github projects (ex: K8s, K3s, cloud-native, etc)
-- Supports `huber.yaml` in any public/private github repo aware to Huber to manage the described packages
+- Manages released artifacts from GitHub, and decide which version as the current to use
+- Manages the default package repository with an awesome package list including popular star GitHub projects (ex: K8s, K3s, cloud-native, etc)
+- Supports `huber.yaml` in any public/private GitHub repo aware to Huber to manage the described packages
 - Supports secure protocols (`SSH`/`HTTPS`) for github communication
 - Supports cross platforms
   - Linux x86_64/amd64
@@ -85,7 +85,7 @@ For Linux or Mac users, follow below steps to prepare the environment.
 For Windows users, follow below steps to prepare the environment.
 
 1. Download VS 2019 build tool installer, and install C++ development toolchain
-2. Pull vcpkg git repo (https://github.com/microsoft/vcpkg), then do bootstrapping via `./bootstrap-vcpkg.bat`
+2. Pull vcpkg git repo (https://github.com/microsoft/vcpkg), then do bootstrap via `./bootstrap-vcpkg.bat`
 3. Run `./hack/windows/setup-dev.ps1`
 
 # Tutorials

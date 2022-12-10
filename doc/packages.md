@@ -8,6 +8,7 @@
  axelard          Axelar : A Decentralized Blockchain Interoperability Network                                             https://github.com/axelarnetwork/axelar-core 
  bat              A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  bottom           Yet another cross-platform graphical process/system monitor.                                             https://github.com/ClementTsang/bottom 
+ buf              A new way of working with Protocol Buffers.                                                              https://github.com/bufbuild/buf 
  camel-k          Apache Camel K is a lightweight integration platform, born on Kubernetes, with serverless superpower...  https://github.com/apache/camel-k 
  chisel           A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  choose           A human-friendly and fast alternative to cut and (sometimes) awk                                         https://github.com/theryangeary/choose 
@@ -29,7 +30,7 @@
  dive             A tool for exploring each layer in a docker image                                                        https://github.com/wagoodman/dive 
  doctl            The official command line interface for the DigitalOcean API.                                            https://github.com/digitalocean/doctl 
  dog              A command-line DNS client.                                                                               https://github.com/ogham/dog 
- dolt             Dolt – It's Git for Data                                                                                 https://github.com/dolthub/dolt 
+ dolt             Dolt – Git for Data                                                                                      https://github.com/dolthub/dolt 
  drone-cli        Command Line Tools for Drone CI                                                                          https://github.com/drone/drone-cli 
  dua-cli          View disk space usage and delete unwanted data, fast.                                                    https://github.com/Byron/dua-cli 
  dust             A more intuitive version of du in rust                                                                   https://github.com/bootandy/dust 
@@ -50,7 +51,7 @@
  go-http-tunnel   Fast and secure tunnels over HTTP/2                                                                      https://github.com/mmatczuk/go-http-tunnel 
  gping            Ping, but with a graph                                                                                   https://github.com/orf/gping 
  gradle           Adaptable, fast automation for all                                                                       https://github.com/gradle/gradle 
- grex             A command-line tool and library for generating regular expressions from user-provided test cases         https://github.com/pemistahl/grex 
+ grex             A command-line tool and Rust library for generating regular expressions from user-provided test case...  https://github.com/pemistahl/grex 
  grpcurl          Like cURL, but for gRPC: Command-line tool for interacting with gRPC servers                             https://github.com/fullstorydev/grpcurl 
  helm             The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
  helmfile         Deploy Kubernetes Helm Charts                                                                            https://github.com/roboll/helmfile 
@@ -69,11 +70,11 @@
  jq               Command-line JSON processor                                                                              https://github.com/stedolan/jq 
  just             🤖 Just a command runner                                                                                 https://github.com/casey/just 
  jwt-cli          A super fast CLI tool to decode and encode JWTs built in Rust                                            https://github.com/mike-engel/jwt-cli 
- k0s              k0s - The Zero Friction Kubernetes by Team Lens                                                          https://github.com/k0sproject/k0s 
+ k0s              k0s - The Zero Friction Kubernetes                                                                       https://github.com/k0sproject/k0s 
  k3ai             K3ai is a lightweight, fully automated, AI infrastructure-in-a-box solution that allows anyone to ex...  https://github.com/kf5i/k3ai 
  k3d              Little helper to run CNCF's k3s in Docker                                                                https://github.com/rancher/k3d 
  k3s              Lightweight Kubernetes                                                                                   https://github.com/rancher/k3s 
- k3sup            bootstrap Kubernetes with k3s over SSH < 1 min 🚀                                                        https://github.com/alexellis/k3sup 
+ k3sup            bootstrap K3s over SSH in < 60s 🚀                                                                       https://github.com/alexellis/k3sup 
  k6               A modern load testing tool, using Go and JavaScript - https://k6.io                                      https://github.com/k6io/k6 
  k9s              🐶 Kubernetes CLI To Manage Your Clusters In Style!                                                      https://github.com/derailed/k9s 
  keptn            Cloud-native application life-cycle orchestration. Keptn automates your SLO-driven multi-stage deliv...  https://github.com/keptn/keptn 
@@ -82,7 +83,7 @@
  ko               Build and deploy Go applications on Kubernetes                                                           https://github.com/google/ko 
  kompose          Go from Docker Compose to Kubernetes                                                                     https://github.com/kubernetes/kompose 
  kotlin           The Kotlin Programming Language.                                                                         https://github.com/JetBrains/kotlin 
- kpt              A package-centric toolchain that enables a WYSIWYG configuration authoring, automation, and delivery...  https://github.com/GoogleContainerTools/kpt 
+ kpt              Automate Kubernetes Configuration Editing                                                                https://github.com/GoogleContainerTools/kpt 
  krew             📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
  krustlet         Kubernetes Rust Kubelet                                                                                  https://github.com/deislabs/krustlet 
  kube-bench       Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
@@ -94,7 +95,7 @@
  kudo             Kubernetes Universal Declarative Operator (KUDO)                                                         https://github.com/kudobuilder/kudo 
  kustomize        Customization of kubernetes YAML configurations                                                          https://github.com/kubernetes-sigs/kustomize 
  kuttl            KUbernetes Test TooL (kuttl)                                                                             https://github.com/kudobuilder/kuttl 
- kwctl            Go-to CLI tool for Kubewarden users.                                                                     https://github.com/kubewarden/kwctl 
+ kwctl            Go-to CLI tool for Kubewarden users                                                                      https://github.com/kubewarden/kwctl 
  lens             Lens - The way the world runs Kubernetes                                                                 https://github.com/lensapp/lens 
  linkerd2-edge    Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
  linkerd2-stable  Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
@@ -112,10 +113,10 @@
  nushell          A new type of shell                                                                                      https://github.com/nushell/nushell 
  octant           Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
  okteto           Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
- onefetch         Git repository summary on your terminal                                                                  https://github.com/o2sh/onefetch 
+ onefetch         Command-line Git information tool                                                                        https://github.com/o2sh/onefetch 
  opa              An open source, general-purpose policy engine.                                                           https://github.com/open-policy-agent/opa 
- opni             Observability + AIOps for Kubernetes                                                                     https://github.com/rancher/opni 
- oras             ORAS CLI                                                                                                 https://github.com/deislabs/oras 
+ opni             Multi Cluster Observability with AIOps                                                                   https://github.com/rancher/opni 
+ oras             OCI registry client - managing content like artifacts, images, packages                                  https://github.com/deislabs/oras 
  pack             CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
  packer           Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 
  podman           Podman: A tool for managing OCI containers and pods.                                                     https://github.com/containers/podman 
@@ -142,7 +143,7 @@
  sonobuoy         Sonobuoy is a diagnostic tool that makes it easier to understand the state of a Kubernetes cluster b...  https://github.com/vmware-tanzu/sonobuoy 
  ssvm             WasmEdge is a lightweight, high-performance, and extensible WebAssembly runtime for cloud native, ed...  https://github.com/second-state/SSVM 
  starship         ☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!                        https://github.com/starship/starship 
- stern            ⎈ Multi pod and container log tailing for Kubernetes                                                     https://github.com/wercker/stern 
+ stern            ⎈ Multi pod and container log tailing for Kubernetes -- Friendly fork of https://github.com/wercke...    https://github.com/stern/stern 
  submariner       Submariner's Operator installs and maintains your Submariner deployment.                                 https://github.com/submariner-io/submariner-operator 
  syncthing        Open Source Continuous File Synchronization                                                              https://github.com/syncthing/syncthing 
  tealdeer         A very fast implementation of tldr in Rust.                                                              https://github.com/dbrgn/tealdeer 
@@ -153,7 +154,7 @@
  tilt             Define your dev environment as code. For microservice apps on Kubernetes.                                https://github.com/tilt-dev/tilt 
  tokei            Count your code, quickly.                                                                                https://github.com/XAMPPRocky/tokei 
  tracee           Linux Runtime Security and Forensics using eBPF                                                          https://github.com/aquasecurity/tracee 
- trivy            Scanner for vulnerabilities in container images, file systems, and Git repositories, as well as for ...  https://github.com/aquasecurity/trivy 
+ trivy            Find vulnerabilities, misconfigurations, secrets, SBOM in containers, Kubernetes, code repositories,...  https://github.com/aquasecurity/trivy 
  typescript       TypeScript is a superset of JavaScript that compiles to clean JavaScript output.                         https://github.com/microsoft/TypeScript 
  typos            Source code spell checker                                                                                https://github.com/crate-ci/typos 
  vegeta           HTTP load testing tool and library. It's over 9000!                                                      https://github.com/tsenart/vegeta 
@@ -164,11 +165,11 @@
  wasm-to-oci      Use OCI registries to distribute Wasm modules                                                            https://github.com/engineerd/wasm-to-oci 
  wasme            Web Assembly tools and SDKs for extending cloud-native infrastructure                                    https://github.com/solo-io/wasm 
  wasmer           🚀 The leading WebAssembly Runtime supporting WASI and Emscripten                                        https://github.com/wasmerio/wasmer 
- wasmtime         Standalone JIT-style runtime for WebAssembly, using Cranelift                                            https://github.com/bytecodealliance/wasmtime 
+ wasmtime         A fast and secure runtime for WebAssembly                                                                https://github.com/bytecodealliance/wasmtime 
  waypoint         A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
  wstunnel         Tunneling over websocket protocol - Static binary available                                              https://github.com/erebe/wstunnel 
  xh               Friendly and fast tool for sending HTTP requests                                                         https://github.com/ducaale/xh 
- yq               yq is a portable command-line YAML, JSON and XML processor                                               https://github.com/mikefarah/yq 
+ yq               yq is a portable command-line YAML, JSON, XML, CSV and properties processor                              https://github.com/mikefarah/yq 
  zellij           A terminal workspace with batteries included                                                             https://github.com/zellij-org/zellij 
  zola             A fast static site generator in a single binary with everything built-in. https://www.getzola.org        https://github.com/getzola/zola 
  zoxide           A smarter cd command. Supports all major shells.                                                         https://github.com/ajeetdsouza/zoxide 

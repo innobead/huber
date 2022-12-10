@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: dolt
-description: "Dolt – It's Git for Data"
+description: Dolt – Git for Data
 source:
   Github:
     owner: dolthub

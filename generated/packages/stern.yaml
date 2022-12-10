@@ -1,19 +1,34 @@
 # This is generated. Don't modify.
 ---
 name: stern
-description: ⎈ Multi pod and container log tailing for Kubernetes
+description: "⎈ Multi pod and container log tailing for Kubernetes -- Friendly fork of https://github.com/wercker/stern"
 source:
   Github:
-    owner: wercker
+    owner: stern
     repo: stern
 targets:
   - LinuxAmd64:
       artifact_templates:
-        - "{version}/stern_linux_amd64"
+        - "stern_{version}_linux_amd64.tar.gz"
+  - LinuxArm64:
+      artifact_templates:
+        - "stern_{version}_linux_arm64.tar.gz"
+  - LinuxArm32:
+      artifact_templates:
+        - "stern_{version}_linux_arm.tar.gz"
   - MacOS:
       artifact_templates:
-        - "{version}/stern_darwin_amd64"
+        - "stern_{version}_darwin_amd64.tar.gz"
+  - MacOS:
+      artifact_templates:
+        - "stern_{version}_darwin_arm64.tar.gz"
   - Windows:
       artifact_templates:
-        - "{version}/stern_windows_amd64.exe"
+        - "stern_{version}_windows_amd64.tar.gz"
+  - WindowsArm64:
+      artifact_templates:
+        - "stern_{version}_windows_arm64.tar.gz"
+  - WindowsArm:
+      artifact_templates:
+        - "stern_{version}_windows_arm.tar.gz"
 detail: ~

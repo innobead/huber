@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: kwctl
-description: Go-to CLI tool for Kubewarden users.
+description: Go-to CLI tool for Kubewarden users
 source:
   Github:
     owner: kubewarden

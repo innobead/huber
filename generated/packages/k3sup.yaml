@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: k3sup
-description: bootstrap Kubernetes with k3s over SSH < 1 min 🚀
+description: bootstrap K3s over SSH in < 60s 🚀
 source:
   Github:
     owner: alexellis

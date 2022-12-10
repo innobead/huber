@@ -1,3 +1,4 @@
+use array_tool::vec::Uniq;
 use std::collections::HashMap;
 use std::fs::{read_dir, read_link, remove_dir_all, remove_file, File};
 use std::io::Write;
@@ -495,6 +496,10 @@ impl ReleaseAsyncTrait for ReleaseService {
             }
 
             download_urls.push(decoded_download_url);
+        }
+
+        if download_urls.len() < asset_names.len() {
+            return Err(anyhow!("{:?} not found", asset_names.uniq(download_urls)));
         }
 
         // download

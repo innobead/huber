@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: oras
-description: ORAS CLI
+description: "OCI registry client - managing content like artifacts, images, packages"
 source:
   Github:
     owner: deislabs

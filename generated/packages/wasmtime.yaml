@@ -1,7 +1,7 @@
 # This is generated. Don't modify.
 ---
 name: wasmtime
-description: A standalone runtime for WebAssembly
+description: A fast and secure runtime for WebAssembly
 source:
   Github:
     owner: bytecodealliance
