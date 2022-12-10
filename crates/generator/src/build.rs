@@ -1,12 +1,13 @@
 #[macro_use]
 extern crate maplit;
 
-use std::fs::File;
-use std::io::Write;
+use std::env;
 use std::path::Path;
-use std::{env, fs};
+use std::process::Command;
 
 use hubcaps_ex::{Credentials, Github};
+use tokio::fs::{create_dir_all, remove_file, File};
+use tokio::io::AsyncWriteExt;
 
 use huber_common::model::package::{Package, PackageIndex, PackageSource};
 use huber_common::result::Result;
@@ -17,7 +18,8 @@ mod pkg;
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    let generated_dir = &Path::new(env::var("CARGO_MANIFEST_DIR")?.as_str())
+    let pkg_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+    let generated_dir = &Path::new(&pkg_dir)
         .parent()
         .unwrap()
         .parent()
@@ -26,20 +28,44 @@ async fn main() -> Result<()> {
         .join("packages");
 
     // clean up and prepare
-    fs::remove_dir_all(generated_dir.clone()).unwrap();
-    fs::create_dir_all(generated_dir.clone()).unwrap();
+    // remove_dir_all(generated_dir.clone()).unwrap();
+    create_dir_all(generated_dir.clone()).await?;
 
     // generate release manifests, index file
     let index_file = Path::new(generated_dir)
         .parent()
         .unwrap()
         .join("index.yaml");
-    let mut index_file = File::create(index_file)?;
-    writeln!(index_file, "{}", "# This is generated. Don't modify.")?;
+
+    remove_file(&index_file).await?;
+    let mut index_file = File::create(index_file).await?;
+    index_file
+        .write("# This is generated. Don't modify.\n".as_bytes())
+        .await?;
 
     let mut pkg_indexes: Vec<PackageIndex> = vec![];
 
     for mut r in releases().into_iter() {
+        pkg_indexes.push(PackageIndex {
+            name: r.name.clone(),
+            owner: r.source.owner(),
+            source: r.source.to_string(),
+        });
+
+        let gh_pkg_module_rs_file = Path::new(&pkg_dir)
+            .join("src")
+            .join("pkg")
+            .join(format!("{}.rs", r.name));
+        let gh_pkg_module_rs_file_changed = Command::new("git")
+            .args(&["status", "--short", gh_pkg_module_rs_file.to_str().unwrap()])
+            .output()
+            .map(|output| !output.stdout.is_empty())
+            .unwrap();
+
+        if !gh_pkg_module_rs_file_changed {
+            continue;
+        }
+
         update_description(&mut r).await?;
 
         let str = format!(
@@ -47,26 +73,20 @@ async fn main() -> Result<()> {
             serde_yaml::to_string(&r)?
         );
 
-        pkg_indexes.push(PackageIndex {
-            name: r.name.clone(),
-            owner: r.source.owner(),
-            source: r.source.to_string(),
-        });
-
         let pkg_file = Path::new(generated_dir)
             .join(r.name.clone())
             .with_extension("yaml");
 
-        File::create(pkg_file)?.write_all(str.as_bytes())?;
+        File::create(pkg_file)
+            .await?
+            .write_all(str.as_bytes())
+            .await?;
     }
 
     pkg_indexes.sort_by(|x, y| x.name.partial_cmp(&y.name).unwrap());
-
-    writeln!(
-        index_file,
-        "{}",
-        serde_yaml::to_string(&pkg_indexes).unwrap()
-    )?;
+    index_file
+        .write_all(&serde_yaml::to_vec(&pkg_indexes).unwrap())
+        .await?;
 
     Ok(())
 }
