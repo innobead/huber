@@ -19,11 +19,11 @@ setup-dev: ## Setup development environment
 
 .PHONY: build
 build: fmt ## Build binaries
-	cargo build $(CARGO_OPTS) --workspace --exclude=huber-generator
+	cargo build $(CARGO_OPTS)
 
 .PHONY: test
 test: ## Run tests
-	cargo test $(CARGO_OPTS) --workspace --exclude=huber-generator
+	cargo test $(CARGO_OPTS)
 
 .PHONY: fmt
 fmt: ## Format & Lint codes
@@ -64,7 +64,7 @@ checksum: ## Generate checksum files for built executables
 .PHONY: udep
 udep: ## Check unused dependencies
 	cargo install cargo-udeps --locked
-	cargo +nightly udeps --workspace --exclude=huber-generator
+	cargo +nightly udeps
 
 .PHONY: build-multiarch
 build-multiarch: ## Build binaries for linux multiple architectures
