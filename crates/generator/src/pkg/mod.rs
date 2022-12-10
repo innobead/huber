@@ -4,6 +4,7 @@ pub mod arkade;
 pub mod axelard;
 pub mod bat;
 pub mod bottom;
+pub mod buf;
 pub mod camel_k;
 pub mod chisel;
 pub mod choose;

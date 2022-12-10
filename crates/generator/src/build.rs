@@ -151,6 +151,7 @@ fn releases() -> Vec<Package> {
         cosign::release(),
         saml2aws::release(),
         grpcurl::release(),
+        buf::release(),
         // infra
         pulumi::release(),
         chisel::release(),

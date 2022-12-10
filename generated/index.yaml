@@ -18,6 +18,9 @@
 - name: bottom
   owner: ClementTsang
   source: github
+- name: buf
+  owner: bufbuild
+  source: github
 - name: camel-k
   owner: apache
   source: github
@@ -421,7 +424,7 @@
   owner: starship
   source: github
 - name: stern
-  owner: wercker
+  owner: stern
   source: github
 - name: submariner
   owner: submariner-io
