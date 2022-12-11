@@ -41,7 +41,7 @@ function install_macos_dependencies() {
     if ! (brew list $pkg && brew upgrade $pkg); then
       if [[ $pkg == "libarchive" ]]; then
         # fix https://github.com/libarchive/libarchive/pull/1813
-        pkg="libarchive@3.8.1"
+        pkg="libarchive@3.6.1"
       fi
 
       brew install $pkg
