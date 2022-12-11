@@ -38,7 +38,14 @@ function install_macos_dependencies() {
     cmake \
     libarchive \
     openssl; do
-    (brew list $pkg && brew upgrade $pkg) || brew install $pkg
+    if ! (brew list $pkg && brew upgrade $pkg); then
+      if [[ $pkg == "libarchive" ]]; then
+        # fix https://github.com/libarchive/libarchive/pull/1813
+        pkg="libarchive@3.8.1"
+      fi
+
+      brew install $pkg
+    fi
   done
 
   {

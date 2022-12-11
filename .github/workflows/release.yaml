@@ -120,7 +120,9 @@ jobs:
         run: make setup-dev
 
       - name: Build all artifacts
-        run: source ~/.bashrc && make release
+        run: |
+          source ~/.bashrc
+          make release
 
       - name: Upload artifacts to release
         uses: ncipollo/release-action@v1
