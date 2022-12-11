@@ -1,4 +1,4 @@
-name: Build for PR/Push
+name: PR/Push
 
 on:
   workflow_dispatch:
@@ -10,8 +10,8 @@ on:
 
 jobs:
   build-linux-x86_64:
-    name: Build for Linux x86_64
-    runs-on: ubuntu-latest
+    name: Build - linux x86_64
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2

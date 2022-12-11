@@ -10,7 +10,7 @@ on:
 jobs:
   create-github-release:
     name: Create github release
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [ ]
     steps:
       - name: Checkout code
@@ -31,8 +31,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   release-linux-x86_64:
-    name: Release for linux x86_64
-    runs-on: ubuntu-latest
+    name: Release - linux x86_64
+    runs-on: ubuntu-20.04
     needs: create-github-release
     steps:
       - name: Checkout code
@@ -54,8 +54,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   release-linux-aarch64:
-    name: Release for Linux AArch64
-    runs-on: ubuntu-latest
+    name: Release - linux aarch64
+    runs-on: ubuntu-20.04
     needs:
       - create-github-release
     steps:
@@ -86,8 +86,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   #  release-linux-armv7:
-  #    name: Rlease for Linux ARMv7
-  #    runs-on: ubuntu-latest
+  #    name: relase - linux armv7
+  #    runs-on: ubuntu-20.04
   #    steps:
   #      - name: Checkout code
   #        uses: actions/checkout@v2
@@ -108,8 +108,8 @@ jobs:
   #        run: PLATFORMS=linux/arm/v7 make release-multiarch
 
   release-macos:
-    name: Release for MacOS
-    runs-on: macos-latest
+    name: Release - macos
+    runs-on: macos-12
     needs:
       - create-github-release
     steps:
@@ -133,8 +133,8 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
 
   release-windows:
-    name: Release for Windows
-    runs-on: windows-latest
+    name: Release - windows
+    runs-on: windows-2022
     needs:
       - create-github-release
     steps:

@@ -6,8 +6,8 @@ on:
 
 jobs:
   build-linux-x86_64:
-    name: Build for Linux x86_64
-    runs-on: ubuntu-latest
+    name: Build - linux x86_64
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,8 +22,8 @@ jobs:
         run: make build
 
   build-macos:
-    name: Build for MacOS
-    runs-on: macos-latest
+    name: Build - macos
+    runs-on: macos-12
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -42,8 +42,8 @@ jobs:
           make build
 
   build-windows:
-    name: Build for Windows
-    runs-on: windows-latest
+    name: Build - windows
+    runs-on: windows-2022
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
