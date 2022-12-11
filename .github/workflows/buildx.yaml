@@ -9,42 +9,42 @@ jobs:
     name: Build - linux aarch64
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v1
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          version: latest
+    - name: Setup Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+      with:
+        version: latest
 
-      - name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Print available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
 
-      - name: Setup, Test, Build
-        run: make build-multiarch
+    - name: Build artifacts
+      run: make build-multiarch
 
   build-linux-armv7:
     name: Build - linux armv7
     runs-on: ubuntu-20.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+    - name: Setup QEMU
+      uses: docker/setup-qemu-action@v1
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
-        with:
-          version: latest
+    - name: Setup Docker Buildx
+      id: buildx
+      uses: docker/setup-buildx-action@v1
+      with:
+        version: latest
 
-      - name: Available platforms
-        run: echo ${{ steps.buildx.outputs.platforms }}
+    - name: Print available platforms
+      run: echo ${{ steps.buildx.outputs.platforms }}
 
-      - name: Setup, Test, Build
-        run: PLATFORMS=linux/arm/v7 make build-multiarch
+    - name: Build artifacts
+      run: PLATFORMS=linux/arm/v7 make build-multiarch
