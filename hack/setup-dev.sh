@@ -36,7 +36,6 @@ function install_macos_dependencies() {
     libtool \
     pkg-config \
     cmake \
-    libiconv \
     libarchive \
     openssl; do
     (brew list $pkg && brew upgrade $pkg) || brew install $pkg
