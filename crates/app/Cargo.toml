@@ -34,7 +34,7 @@ tokio = { version = "1.16", features = ["full"] } # reqwest 0.10, hubcaps 0.6 do
 #hubcaps = { git = "https://github.com/softprops/hubcaps", rev = "324d02fbb371782c82e9a13b839b86894475c91f" } # wait for hubcaps formal release > 0.6
 hubcaps-ex = "0.6.2"
 compress-tools = "0.14.0"
-derive_more = "=0.99.13" # remove = until https://github.com/OSSystems/compress-tools-rs/pull/58 merged
+derive_more = "=0.99.17" # remove = until https://github.com/OSSystems/compress-tools-rs/pull/58 merged
 regex = "1.4.1"
 futures = "0.3"
 async-trait = "0.1.41"
