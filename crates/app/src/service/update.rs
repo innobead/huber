@@ -24,29 +24,29 @@ pub(crate) trait UpdateAsyncTrait {
 }
 
 #[derive(Debug)]
-pub(crate) struct UpdateService {
+pub(crate) struct HuberUpdateService {
     pub(crate) container: Option<Arc<DIContainer>>,
 }
 
-unsafe impl Send for UpdateService {}
+unsafe impl Send for HuberUpdateService {}
 
-unsafe impl Sync for UpdateService {}
+unsafe impl Sync for HuberUpdateService {}
 
-impl ServiceTrait for UpdateService {}
+impl ServiceTrait for HuberUpdateService {}
 
-impl DependencyInjectTrait for UpdateService {
+impl DependencyInjectTrait for HuberUpdateService {
     fn inject(&mut self, container: Arc<DIContainer>) {
         self.container = Some(container);
     }
 }
 
-impl UpdateService {
+impl HuberUpdateService {
     pub(crate) fn new() -> Self {
         Self { container: None }
     }
 }
 
-impl UpdateTrait for UpdateService {
+impl UpdateTrait for HuberUpdateService {
     fn reset(&self) -> Result<()> {
         let config = self.container.get::<Config>().unwrap();
 
@@ -87,20 +87,29 @@ impl UpdateTrait for UpdateService {
 }
 
 #[async_trait]
-impl UpdateAsyncTrait for UpdateService {
+impl UpdateAsyncTrait for HuberUpdateService {
     async fn has_update(&self) -> Result<(bool, String)> {
         let pkg_service = self.container.get::<PackageService>().unwrap();
         let release_service = self.container.get::<ReleaseService>().unwrap();
 
-        let current_version = env!("HUBER_VERSION").trim_start_matches("v");
+        let current_version =
+            Version::parse(env!("HUBER_VERSION").trim_start_matches("v")).unwrap();
         let pkg = pkg_service.get("huber")?;
 
         match release_service.get_latest(&pkg).await {
             Err(e) => Err(anyhow!("No update available: {:?}", e)),
-            Ok(r) => Ok((
-                Version::parse(r.version.trim_start_matches("v")) > Version::parse(current_version),
-                r.version,
-            )),
+            Ok(r) => {
+                let result = Version::parse(r.version.trim_start_matches("v"))
+                    .map(|ver| ver > current_version);
+
+                match result {
+                    Ok(update_needed) => Ok((update_needed, r.version)),
+                    Err(e) => Err(anyhow!(
+                        "A update available, but failed to continue: {:?}",
+                        e
+                    )),
+                }
+            }
         }
     }
 

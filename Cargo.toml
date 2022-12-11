@@ -3,6 +3,7 @@ members = ["crates/app", "crates/common", "crates/procmacro", "crates/generator"
 default-members = ["crates/app"]
 
 [profile.release]
-opt-level = 'z'
+strip = true
+opt-level = "z"
 lto = true
 codegen-units = 1

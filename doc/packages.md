@@ -109,7 +109,7 @@
  nerdctl          contaiNERD CTL - Docker-compatible CLI for containerd, with support for Compose, Rootless, eStargz, ...  https://github.com/containerd/nerdctl 
  node             Node.js JavaScript runtime :sparkles::turtle::rocket::sparkles:                                          https://github.com/nodejs/node 
  nomad            Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
- norouter         NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
+ norouter         NoRouter: IP-over-Stdio. The easiest multi-host {value} multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
  nushell          A new type of shell                                                                                      https://github.com/nushell/nushell 
  octant           Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
  okteto           Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
@@ -135,7 +135,7 @@
  rustwasmc        Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/rustwasmc 
  sad              CLI search and replace | Space Age seD                                                                   https://github.com/ms-jpq/sad 
  saml2aws         CLI tool which enables you to login and retrieve AWS temporary credentials using a SAML IDP              https://github.com/Versent/saml2aws 
- sd               Intuitive find & replace CLI (sed alternative)                                                           https://github.com/chmln/sd 
+ sd               Intuitive find {value} replace CLI (sed alternative)                                                           https://github.com/chmln/sd 
  shadowsocks      A Rust port of shadowsocks                                                                               https://github.com/shadowsocks/shadowsocks-rust 
  skaffold         Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  skim             Fuzzy Finder in rust!                                                                                    https://github.com/lotabout/skim 

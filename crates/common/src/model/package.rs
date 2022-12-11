@@ -18,8 +18,10 @@ use crate::str::VersionCompareTrait;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Package {
     pub name: String,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
+
     pub description: Option<String>,
     pub source: PackageSource,
     pub targets: Vec<PackageTargetType>,
@@ -70,19 +72,27 @@ pub enum PackageTargetType {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PackageManagement {
+    // {version}, {os} can be used in each. Also, an external URL is acceptable
     pub artifact_templates: Vec<String>,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub executable_templates: Option<Vec<String>>,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub executable_mappings: Option<HashMap<String, String>>,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub install_commands: Option<Vec<String>>,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub uninstall_commands: Option<Vec<String>>,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub upgrade_commands: Option<Vec<String>>,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tag_version_regex_template: Option<String>,
+
     // only keep the {version} part
     #[serde(skip_serializing_if = "Option::is_none")]
     pub scan_dirs: Option<Vec<String>>,
@@ -100,9 +110,11 @@ pub struct GithubPackage {
     pub tag_name: String,
     pub target_commitish: String,
     pub name: String,
+
     #[serde(skip_deserializing)]
     #[serde(skip_serializing)]
     pub body: String,
+
     pub draft: bool,
     pub prerelease: bool,
     pub created_at: String,

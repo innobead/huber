@@ -1,4 +1,3 @@
-use array_tool::vec::Uniq;
 use std::collections::HashMap;
 use std::fs::{read_dir, read_link, remove_dir_all, remove_file, File};
 use std::io::Write;
@@ -468,44 +467,53 @@ impl ReleaseAsyncTrait for ReleaseService {
             })
             .collect();
 
-        let mut download_urls: Vec<String> = vec![];
-        let mut asset_urls: Vec<String> = asset_names
+        let mut asset_download_urls: Vec<String> = vec![];
+        let mut ext_asset_urls: Vec<String> = asset_names // external assets not on github
             .iter()
             .filter(|it| Url::parse(it).is_ok() && it.starts_with("https"))
             .map(|it| it.clone())
             .collect();
-        download_urls.append(&mut asset_urls);
+        asset_download_urls.append(&mut ext_asset_urls);
 
-        if !asset_urls.is_empty() {
-            asset_names = asset_names
+        if !ext_asset_urls.is_empty() {
+            asset_names = asset_names // assets on github
                 .into_iter()
-                .filter(|it| !asset_urls.contains(it))
+                .filter(|it| !ext_asset_urls.contains(it))
                 .collect();
         }
 
         // prepare download urls
-        for a in package_github.assets.iter() {
-            let decoded_download_url = decode(&a.browser_download_url)?;
+        for asset in package_github.assets.iter() {
+            let asset_download_url = decode(&asset.browser_download_url)?;
 
-            if !asset_names.contains(&a.name)
+            if !asset_names.contains(&asset.name) // assets not mentioned in assert names, just ignored
                 && !asset_names
-                    .iter()
-                    .any(|it| decoded_download_url.ends_with(it))
+                .iter()
+                .any(|it| asset_download_url.ends_with(it))
             {
+                debug!(
+                    "Ignored {}, not mentioned or not right arch type defined in the package artifact config",
+                    asset.name
+                );
                 continue;
             }
 
-            download_urls.push(decoded_download_url);
+            asset_download_urls.push(asset_download_url.to_string());
         }
 
-        if download_urls.len() < asset_names.len() {
-            return Err(anyhow!("{:?} not found", asset_names.uniq(download_urls)));
+        if asset_download_urls.is_empty() {
+            return Err(anyhow!(
+                "No available artifacts for {} to download, \
+            so probably the download path in package artifact config outdated. \
+            Please report issue to https://github.com/innobead/huber",
+                package.name
+            ));
         }
 
         // download
         let mut tasks = vec![];
 
-        for download_url in download_urls {
+        for download_url in asset_download_urls {
             // download
             info!("Downloading {}", &download_url);
 

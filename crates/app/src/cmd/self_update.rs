@@ -10,7 +10,7 @@ use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
 use crate::service::cache::{CacheAsyncTrait, CacheService};
-use crate::service::update::{UpdateAsyncTrait, UpdateService};
+use crate::service::update::{HuberUpdateService, UpdateAsyncTrait};
 
 pub(crate) const CMD_NAME: &str = "self-update";
 
@@ -48,7 +48,7 @@ impl CommandAsyncTrait for SelfUpdateCmd {
         let cache_service = container.get::<CacheService>().unwrap();
         let _ = cache_service.update_repositories().await?;
 
-        let update_service = container.get::<UpdateService>().unwrap();
+        let update_service = container.get::<HuberUpdateService>().unwrap();
 
         let r = update_service.has_update().await?;
         if r.0 {

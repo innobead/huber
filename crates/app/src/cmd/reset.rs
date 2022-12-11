@@ -9,7 +9,7 @@ use huber_common::result::Result;
 use huber_procmacro::process_lock;
 
 use crate::cmd::{CommandAsyncTrait, CommandTrait};
-use crate::service::update::{UpdateService, UpdateTrait};
+use crate::service::update::{HuberUpdateService, UpdateTrait};
 
 pub(crate) const CMD_NAME: &str = "reset";
 
@@ -48,7 +48,7 @@ impl CommandAsyncTrait for ResetCmd {
     ) -> Result<()> {
         process_lock!();
 
-        let update_service = container.get::<UpdateService>().unwrap();
+        let update_service = container.get::<HuberUpdateService>().unwrap();
 
         progress(
             "Resetting huber by removing created caches, downloaded files and installed packages",

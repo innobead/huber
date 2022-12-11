@@ -8,6 +8,7 @@ HUBER_ARTIFACT := $(shell $(CURDIR)/hack/huber-artifact-name.sh)
 MANAGED_PKG_ROOT_DIR := $(CURDIR)/generated
 PLATFORMS ?= linux/arm64 # for multi arch
 HUBER_BIN=$(CURDIR)/target/debug/huber
+FORCE_GENERATE ?= false
 
 .PHONY: help
 help:
@@ -18,7 +19,7 @@ setup-dev: ## Setup development environment
 	$(CURDIR)/hack/setup-dev.sh
 
 .PHONY: build
-build: fmt ## Build binaries
+build: fix fmt ## Build binaries
 	cargo build $(CARGO_OPTS)
 
 .PHONY: test
@@ -50,12 +51,14 @@ clean: ## Clean build caches
 fix:  ## Fix code
 	cargo fix --allow-dirty || cargo fix --allow-staged
 
+# Examples:
+# 	FORCE_GENERATE=true|false make generate
 .PHONY: generate
 generate: ## Generate managed package list
 	@echo "! Must have GITHUB_TOKEN to automatically generate package description"
 	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build -vv --package=huber-generator
 	GITHUB_KEY=$(GITHUB_KEY) $(MAKE) build && \
-	(MANAGED_PKG_ROOT_DIR=$(CURDIR)/generated $(HUBER_BIN) search | xargs -0 $(CURDIR)/hack/generate-packages.md.sh)
+	(MANAGED_PKG_ROOT_DIR=$(CURDIR)/generated FORCE_GENERATE=$(FORCE_GENERATE) $(HUBER_BIN) search | xargs -0 $(CURDIR)/hack/generate-packages.md.sh)
 
 .PHONY: checksum
 checksum: ## Generate checksum files for built executables
@@ -66,10 +69,14 @@ udep: ## Check unused dependencies
 	cargo install cargo-udeps --locked
 	cargo +nightly udeps
 
+# Examples:
+# 	PLATFORMS=linux/arm64 make build-multiarch
 .PHONY: build-multiarch
 build-multiarch: ## Build binaries for linux multiple architectures
 	PLATFORMS=$(PLATFORMS) BUILD_TARGET=debug MAKE_TARGET="test build" $(CURDIR)/hack/build-multiarch.sh
 
+# Examples:
+# 	PLATFORMS=linux/arm64 make release-multiarch
 .PHONY: release-multiarch
 release-multiarch: ## Release binaries for linux multiple archite
 	PLATFORMS=$(PLATFORMS) BUILD_TARGET=release OUTPUT_DIR=$(OUTPUT_DIR) MAKE_TARGET=release $(CURDIR)/hack/build-multiarch.sh
@@ -80,8 +87,10 @@ release-multiarch: ## Release binaries for linux multiple archite
 verify: ## Verify Huber commands via the local package generated folder
 	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) $(HUBER_BIN) $(CMD)
 
+# Examples:
+# 	CMD=search make verify-compatible
 .PHONY: verify-compatible
-verify-compatible: ## Verify the current Huber commands via the local package generated folder
+verify-compatible: ## Verify the installed Huber commands compatible with the new local package generated folder
 	MANAGED_PKG_ROOT_DIR=$(MANAGED_PKG_ROOT_DIR) $(shell which huber) $(CMD)
 
 .PHONY: publish

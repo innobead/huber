@@ -26,6 +26,10 @@ async fn main() -> Result<()> {
         .unwrap()
         .join("generated")
         .join("packages");
+    let force_generated: bool = env::var("FORCE_GENERATE")
+        .unwrap_or("false".to_string())
+        .parse()
+        .unwrap();
 
     // clean up and prepare
     // remove_dir_all(generated_dir.clone()).unwrap();
@@ -52,18 +56,20 @@ async fn main() -> Result<()> {
             source: r.source.to_string(),
         });
 
-        let gh_pkg_module_rs_file = Path::new(&pkg_dir)
-            .join("src")
-            .join("pkg")
-            .join(format!("{}.rs", r.name));
-        let gh_pkg_module_rs_file_changed = Command::new("git")
-            .args(&["status", "--short", gh_pkg_module_rs_file.to_str().unwrap()])
-            .output()
-            .map(|output| !output.stdout.is_empty())
-            .unwrap();
+        if !force_generated {
+            let gh_pkg_module_rs_file = Path::new(&pkg_dir)
+                .join("src")
+                .join("pkg")
+                .join(format!("{}.rs", r.name));
+            let gh_pkg_module_rs_file_changed = Command::new("git")
+                .args(&["status", "--short", gh_pkg_module_rs_file.to_str().unwrap()])
+                .output()
+                .map(|output| !output.stdout.is_empty())
+                .unwrap();
 
-        if !gh_pkg_module_rs_file_changed {
-            continue;
+            if !gh_pkg_module_rs_file_changed {
+                continue;
+            }
         }
 
         update_description(&mut r).await?;
@@ -85,7 +91,7 @@ async fn main() -> Result<()> {
 
     pkg_indexes.sort_by(|x, y| x.name.partial_cmp(&y.name).unwrap());
     index_file
-        .write_all(&serde_yaml::to_vec(&pkg_indexes).unwrap())
+        .write_all(serde_yaml::to_string(&pkg_indexes).unwrap().as_bytes())
         .await?;
 
     Ok(())

@@ -24,11 +24,11 @@ log = "0.4"
 pretty_env_logger = "0.4"
 lazy_static = "1.4.0"
 anyhow = "1.0"
-dirs = "3.0.1"
-semver = "0.11.0"
+dirs = "4.0.0"
+semver = "1.0.14"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-serde_yaml = "0.8.13"
+serde_yaml = "~0.8.26"
 reqwest = { version = "0.11", features = ["json"] }
 tokio = { version = "1.16", features = ["full"] } # reqwest 0.10, hubcaps 0.6 does not support tokio 0.3/1.0 yet, ref: https://github.com/seanmonstar/reqwest/issues/1060
 #hubcaps = { git = "https://github.com/softprops/hubcaps", rev = "324d02fbb371782c82e9a13b839b86894475c91f" } # wait for hubcaps formal release > 0.6
@@ -38,11 +38,11 @@ derive_more = "=0.99.17" # remove = until https://github.com/OSSystems/compress-
 regex = "1.4.1"
 futures = "0.3"
 async-trait = "0.1.41"
-git2 = "0.13"
+git2 = "0.15.0"
 chrono = "0.4"
 symlink = "0.1.0"
 is_executable = "1.0.1"
-urlencoding = "1"
+urlencoding = "2.1.2"
 url = "2"
 Inflector = "0.11.4"
 fs_extra = "1.1"

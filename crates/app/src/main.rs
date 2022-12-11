@@ -41,7 +41,7 @@ use crate::service::config::ConfigService;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::repo::RepoService;
-use crate::service::update::UpdateService;
+use crate::service::update::HuberUpdateService;
 
 mod cmd;
 mod component;
@@ -117,7 +117,7 @@ fn init_services(mut container: DIContainer) -> Arc<DIContainer> {
     create_dep!(PackageService::new(), container);
     create_dep!(ReleaseService::new(), container);
     create_dep!(CacheService::new(), container);
-    create_dep!(UpdateService::new(), container);
+    create_dep!(HuberUpdateService::new(), container);
     create_dep!(RepoService::new(), container);
     create_dep!(ConfigService::new(), container);
 
@@ -127,7 +127,7 @@ fn init_services(mut container: DIContainer) -> Arc<DIContainer> {
     inject_dep!(PackageService, container.clone());
     inject_dep!(ReleaseService, container.clone());
     inject_dep!(CacheService, container.clone());
-    inject_dep!(UpdateService, container.clone());
+    inject_dep!(HuberUpdateService, container.clone());
     inject_dep!(RepoService, container.clone());
     inject_dep!(ConfigService, container.clone());
 
