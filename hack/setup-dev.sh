@@ -41,6 +41,7 @@ function install_macos_dependencies() {
     if ! (brew list $pkg && brew upgrade $pkg); then
       if [[ $pkg == "libarchive" ]]; then
         # fix https://github.com/libarchive/libarchive/pull/1813, use 3.6.1 instead
+        export HOMEBREW_NO_CLEANUP_FORMULAE=libarchive
         curl -L "https://raw.githubusercontent.com/Homebrew/homebrew-core/8a1f0e9b4df/Formula/libarchive.rb" > libarchive.rb && brew install libarchive.rb
         continue
       fi
