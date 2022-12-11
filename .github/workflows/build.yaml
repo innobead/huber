@@ -50,7 +50,7 @@ jobs:
         run: ./hack/windows/setup-dev.ps1
 
       - name: Run tests
-        run: cargo test --workspace --exclude=huber-generator
+        run: cargo test
 
       - name: Build all artifacts
-        run: cargo build --workspace --exclude=huber-generator
+        run: cargo build
