@@ -41,7 +41,7 @@ function install_macos_dependencies() {
     if ! (brew list $pkg && brew upgrade $pkg); then
       if [[ $pkg == "libarchive" ]]; then
         # fix https://github.com/libarchive/libarchive/pull/1813
-        pkg="libarchive@3.6.1"
+        pkg="https://raw.githubusercontent.com/Homebrew/homebrew-core/8a1f0e9b4df/Formula/libarchive.rb" # use 3.6.1
       fi
 
       brew install $pkg
