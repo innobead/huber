@@ -10,7 +10,7 @@ use compress_tools::{uncompress_archive, Ownership};
 use fs_extra::move_items;
 use is_executable::IsExecutable;
 use libcli_rs::progress::{ProgressBar, ProgressTrait};
-use log::{debug, error, info};
+use log::{debug, error, info, warn};
 use regex::{Captures, Regex};
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
@@ -486,10 +486,11 @@ impl ReleaseAsyncTrait for ReleaseService {
         for asset in package_github.assets.iter() {
             let asset_download_url = decode(&asset.browser_download_url)?;
 
-            if !asset_names.contains(&asset.name) // assets not mentioned in assert names, just ignored
+            // assets not mentioned in assert names, just ignored
+            if !asset_names.contains(&asset.name)
                 && !asset_names
-                .iter()
-                .any(|it| asset_download_url.ends_with(it))
+                    .iter()
+                    .any(|it| asset_download_url.ends_with(it))
             {
                 debug!(
                     "Ignored {}, not mentioned or not right arch type defined in the package artifact config",
@@ -502,12 +503,11 @@ impl ReleaseAsyncTrait for ReleaseService {
         }
 
         if asset_download_urls.is_empty() {
-            return Err(anyhow!(
-                "No available artifacts for {} to download, \
-            so probably the download path in package artifact config outdated. \
-            Please report issue to https://github.com/innobead/huber",
+            warn!(
+                "No available artifacts for {} to download, so probably the download path in package \
+                artifact config outdated. Please report issue to https://github.com/innobead/huber",
                 package.name
-            ));
+            );
         }
 
         // download

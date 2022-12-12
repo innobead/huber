@@ -11,7 +11,10 @@ pub fn release() -> Package {
         detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/tldr-linux-x86_64-musl".to_string()],
+                artifact_templates: vec![
+                    "{version}/tealdeer-linux-x86_64-musl".to_string(),
+                    "{version}/tldr-linux-x86_64-musl".to_string(),
+                ],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -20,8 +23,8 @@ pub fn release() -> Package {
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["{version}/tldr-linux-arm-musleabihf".to_string()],
+            PackageTargetType::MacOS(PackageManagement {
+                artifact_templates: vec!["{version}/tealdeer-macos-x86_64".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,
@@ -30,8 +33,8 @@ pub fn release() -> Package {
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
-            PackageTargetType::LinuxArm32(PackageManagement {
-                artifact_templates: vec!["{version}/tldr-linux-armv7-musleabihf".to_string()],
+            PackageTargetType::Windows(PackageManagement {
+                artifact_templates: vec!["{version}/tealdeer-windows-x86_64-msvc.exe".to_string()],
                 executable_templates: None,
                 executable_mappings: None,
                 install_commands: None,

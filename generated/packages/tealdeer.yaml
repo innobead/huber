@@ -9,11 +9,12 @@ source:
 targets:
   - LinuxAmd64:
       artifact_templates:
+        - "{version}/tealdeer-linux-x86_64-musl"
         - "{version}/tldr-linux-x86_64-musl"
-  - LinuxArm64:
+  - MacOS:
       artifact_templates:
-        - "{version}/tldr-linux-arm-musleabihf"
-  - LinuxArm32:
+        - "{version}/tealdeer-macos-x86_64"
+  - Windows:
       artifact_templates:
-        - "{version}/tldr-linux-armv7-musleabihf"
+        - "{version}/tealdeer-windows-x86_64-msvc.exe"
 detail: ~
