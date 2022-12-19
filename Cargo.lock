@@ -743,7 +743,7 @@ dependencies = [
  "semver 1.0.14",
  "serde",
  "serde_json",
- "serde_yaml 0.9.14",
+ "serde_yaml 0.9.16",
  "simpledi-rs",
  "symlink",
  "tokio",
@@ -771,7 +771,7 @@ dependencies = [
  "semver 0.11.0",
  "serde",
  "serde_json",
- "serde_yaml 0.9.14",
+ "serde_yaml 0.9.16",
 ]
 
 [[package]]
@@ -782,7 +782,7 @@ dependencies = [
  "huber-common",
  "maplit",
  "serde",
- "serde_yaml 0.9.14",
+ "serde_yaml 0.9.16",
  "tokio",
 ]
 
@@ -1693,9 +1693,9 @@ dependencies = [
 
 [[package]]
 name = "serde_yaml"
-version = "0.9.14"
+version = "0.9.16"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6d232d893b10de3eb7258ff01974d6ee20663d8e833263c99409d4b13a0209da"
+checksum = "92b5b431e8907b50339b51223b97d102db8d987ced36f6e4d03621db9316c834"
 dependencies = [
  "indexmap",
  "itoa 1.0.2",
