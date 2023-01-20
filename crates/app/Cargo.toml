@@ -37,7 +37,7 @@ compress-tools = "0.14.0"
 derive_more = "=0.99.17" # remove = until https://github.com/OSSystems/compress-tools-rs/pull/58 merged
 regex = "1.4.1"
 futures = "0.3"
-async-trait = "0.1.59"
+async-trait = "0.1.62"
 git2 = "0.15.0"
 chrono = "0.4"
 symlink = "0.1.0"
