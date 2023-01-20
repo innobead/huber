@@ -17,7 +17,7 @@ anyhow = "1.0"
 dirs = "3.0.1"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = { version = "1.0", features = ["preserve_order"] }
-serde_yaml = "~0.9.14"
+serde_yaml = "~0.9.17"
 #hubcaps = { git = "https://github.com/softprops/hubcaps", rev = "324d02fbb371782c82e9a13b839b86894475c91f" } # wait for hubcaps formal release > 0.6
 hubcaps-ex = "0.6.2"
 prettytable-rs = "0.9"

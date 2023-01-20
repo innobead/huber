@@ -9,7 +9,7 @@ build = "src/build.rs"
 [build-dependencies]
 huber-common = { path = "../common" }
 serde = { version = "1.0", features = ["derive"] }
-serde_yaml = "~0.9.14"
+serde_yaml = "~0.9.17"
 tokio = { version = "1.23", features = ["full"] } #  reqwest 0.10, hubcaps 0.6 does not support tokio 0.3/1.0 yet, ref: https://github.com/seanmonstar/reqwest/issues/1060
 hubcaps-ex = "0.6.2"
 maplit = "1.0"
