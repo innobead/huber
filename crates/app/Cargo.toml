@@ -38,7 +38,7 @@ derive_more = "=0.99.17" # remove = until https://github.com/OSSystems/compress-
 regex = "1.4.1"
 futures = "0.3"
 async-trait = "0.1.64"
-git2 = "0.15.0"
+git2 = "0.16.1"
 chrono = "0.4"
 symlink = "0.1.0"
 is_executable = "1.0.1"
