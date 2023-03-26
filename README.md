@@ -2,7 +2,7 @@
 
 ![huber in action](./doc/huber.png)
 
-**Huber** is to simplify the package management from GitHub projects with a builtin awesome list (live updating) of popular projects. It also supports *repository* feature for managing the package installation from your personal Github project. Please check the complete introduction as below.
+**Huber** is to simplify the package management from GitHub projects with a builtin awesome list (live updating) of popular projects. It also supports *repository* feature for managing the package installation from your personal GitHub project. Please check the complete introduction as below.
 
 > `Huber is a (new) tool for easy installation of dev/ops CLI tools directly from GitHub. No more trawling the releases pages!` introduced by [Coffee and Cloud Native - 88](https://www.youtube.com/watch?v=LgA6hpKdncw)
 
@@ -603,8 +603,60 @@ Error: No update available: 404 Not Found: Not Found
 
 If you would like to add some useful tools in the builtin managed packages list, please have a PR as below steps.
 
-1. Add a new package module in `crates/generator/src/pkg`
-2. Update the added package in `crates/generator/src/build.rs`
-3. `make generate` w/ your `GITHUB_TOKEN` to check if the new package manifest generated in `generated/packages` and `generated/index.yaml` updated accordingly
-4. Fire a PR to make it accept
+1. Add a new package module in `crates/generator/src/pkg` as the below k3s example.
+<details>
+  <summary>crates/generator/src/pkg/k3s.rs</summary>
 
+```rust
+use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+
+#[allow(dead_code)]
+pub fn release() -> Package {
+    Package {
+        name: "k3s".to_string(),
+        source: PackageSource::Github {
+            owner: "rancher".to_string(),
+            repo: "k3s".to_string(),
+        },
+        detail: None, // Optional
+        targets: vec![
+            // LinuxAmd64, LinuxArm64, LinuxArm32, MacOS, MacOSArm64, Windows, WindowsArm64, WindowsArm, Default
+            // ref: https://github.com/innobead/huber/blob/10fa35d29fcb17471c81d6619de05a142b31ad11/crates/common/src/model/package.rs#L66-L77
+            PackageTargetType::LinuxAmd64(PackageManagement {
+                artifact_templates: vec!["{version}/k3s".to_string()], // {version} will be automatically replaced by the installed release version at runtime
+                executable_templates: None, // Optional
+                executable_mappings: None, // Optional
+                install_commands: None, // Optional
+                uninstall_commands: None, // Optional
+                upgrade_commands: None, // Optional
+                tag_version_regex_template: None, // Optional
+                scan_dirs: None, // Optional
+            }),
+        ],
+        version: None, // Optional
+        description: None, // Optional
+        release_kind: None, // Optional
+    }
+}
+```
+</details>
+
+2. Update the added package in `crates/generator/src/build.rs`
+<details>
+  <summary>Update crates/generator/src/build.rs</summary>
+
+```rust
+fn releases() -> Vec<Package> {
+    vec![
+        // tools
+        jiq::release(),
+        jless::release(),
+        k3s::release(), // <-- add your new package
+    ]
+}
+```
+</details>
+
+3. Run `make generate` to generate the new package yaml into `generated/packages` and `index.yaml` will be updated accordingly. 
+Please note that you need to specify `GITHUB_TOKEN` environment variable with right permissions when running `make generate` to ensure package update successfully. 
+4. Create a PR to add this new package.
