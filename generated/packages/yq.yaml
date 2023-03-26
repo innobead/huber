@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: yq
-description: "yq is a portable command-line YAML, JSON, XML, CSV and properties processor"
+description: yq is a portable command-line YAML, JSON, XML, CSV, TOML  and properties processor
 source:
   Github:
     owner: mikefarah
     repo: yq
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/yq_linux_amd64"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/yq_linux_arm64"
-  - MacOS:
-      artifact_templates:
-        - "{version}/yq_darwin_amd64"
-  - Windows:
-      artifact_templates:
-        - "{version}/yq_windows_amd64.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/yq_linux_amd64'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/yq_linux_arm64'
+- MacOS:
+    artifact_templates:
+    - '{version}/yq_darwin_amd64'
+- Windows:
+    artifact_templates:
+    - '{version}/yq_windows_amd64.exe'
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: rancher
 description: Complete container management platform
 source:
@@ -7,7 +6,7 @@ source:
     owner: rancher
     repo: rancher
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/rancherd-amd64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/rancherd-amd64.tar.gz'
+detail: null

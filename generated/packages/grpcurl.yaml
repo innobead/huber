@@ -1,25 +1,24 @@
 # This is generated. Don't modify.
----
 name: grpcurl
-description: "Like cURL, but for gRPC: Command-line tool for interacting with gRPC servers"
+description: 'Like cURL, but for gRPC: Command-line tool for interacting with gRPC servers'
 source:
   Github:
     owner: fullstorydev
     repo: grpcurl
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "grpcurl_{version}_linux_x86_64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "grpcurl_{version}_linux_arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "grpcurl_{version}_osx_x86_64.tar.gz"
-  - MacOSArm64:
-      artifact_templates:
-        - "grpcurl_{version}_osx_arm64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "grpcurl_{version}_windows_x86_64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - grpcurl_{version}_linux_x86_64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - grpcurl_{version}_linux_arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - grpcurl_{version}_osx_x86_64.tar.gz
+- MacOSArm64:
+    artifact_templates:
+    - grpcurl_{version}_osx_arm64.tar.gz
+- Windows:
+    artifact_templates:
+    - grpcurl_{version}_windows_x86_64.zip
+detail: null

@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: gradle
-description: "Adaptable, fast automation for all"
+description: Adaptable, fast automation for all
 source:
   Github:
     owner: gradle
     repo: gradle
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "https://services.gradle.org/distributions/gradle-{version}-bin.zip"
-  - MacOS:
-      artifact_templates:
-        - "https://services.gradle.org/distributions/gradle-{version}-bin.zip"
-  - Windows:
-      artifact_templates:
-        - "https://services.gradle.org/distributions/gradle-{version}-bin.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - https://services.gradle.org/distributions/gradle-{version}-bin.zip
+- MacOS:
+    artifact_templates:
+    - https://services.gradle.org/distributions/gradle-{version}-bin.zip
+- Windows:
+    artifact_templates:
+    - https://services.gradle.org/distributions/gradle-{version}-bin.zip
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: kuttl
 description: KUbernetes Test TooL (kuttl)
 source:
@@ -7,13 +6,13 @@ source:
     owner: kudobuilder
     repo: kuttl
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "kuttl_{version}_linux_x86_64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "kuttl_{version}_linux_arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "kuttl_{version}_darwin_x86_64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - kuttl_{version}_linux_x86_64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - kuttl_{version}_linux_arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - kuttl_{version}_darwin_x86_64.tar.gz
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: tracee
 description: Linux Runtime Security and Forensics using eBPF
 source:
@@ -7,9 +6,9 @@ source:
     owner: aquasecurity
     repo: tracee
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/tracee.tar.gz"
-      scan_dirs:
-        - dist
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/tracee.tar.gz'
+    scan_dirs:
+    - dist
+detail: null

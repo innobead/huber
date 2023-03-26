@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: ctlptl
 description: Making local Kubernetes clusters fun and easy to set up
 source:
@@ -7,13 +6,13 @@ source:
     owner: tilt-dev
     repo: ctlptl
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "ctlptl.{version}.linux.x86_64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "ctlptl.{version}.mac.x86_64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "ctlptl.{version}.windows.x86_64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - ctlptl.{version}.linux.x86_64.tar.gz
+- MacOS:
+    artifact_templates:
+    - ctlptl.{version}.mac.x86_64.tar.gz
+- Windows:
+    artifact_templates:
+    - ctlptl.{version}.windows.x86_64.tar.gz
+detail: null

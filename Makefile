@@ -49,7 +49,7 @@ clean: ## Clean build caches
 
 .PHONY: fix
 fix:  ## Fix code
-	cargo fix --allow-dirty || cargo fix --allow-staged
+	cargo fix --allow-dirty --allow-staged
 
 # Examples:
 # 	FORCE_GENERATE=true|false make generate
@@ -57,8 +57,8 @@ fix:  ## Fix code
 generate: ## Generate managed package list
 	@echo "! Must have GITHUB_TOKEN to automatically generate package description"
 	GITHUB_TOKEN=$(GITHUB_TOKEN) cargo build -vv --package=huber-generator
-	GITHUB_KEY=$(GITHUB_KEY) $(MAKE) build && \
-	(MANAGED_PKG_ROOT_DIR=$(CURDIR)/generated FORCE_GENERATE=$(FORCE_GENERATE) $(HUBER_BIN) search | xargs -0 $(CURDIR)/hack/generate-packages.md.sh)
+#	GITHUB_KEY=$(GITHUB_KEY) $(MAKE) build && \
+#	(MANAGED_PKG_ROOT_DIR=$(CURDIR)/generated FORCE_GENERATE=$(FORCE_GENERATE) $(HUBER_BIN) search | xargs -0 $(CURDIR)/hack/generate-packages.md.sh)
 
 .PHONY: checksum
 checksum: ## Generate checksum files for built executables

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: fleet
 description: Manage large fleets of Kubernetes clusters
 source:
@@ -7,13 +6,13 @@ source:
     owner: rancher
     repo: fleet
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/fleet-linux-amd64"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/fleet-linux-arm64"
-  - MacOS:
-      artifact_templates:
-        - "{version}/fleet-darwin-arm64"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/fleet-linux-amd64'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/fleet-linux-arm64'
+- MacOS:
+    artifact_templates:
+    - '{version}/fleet-darwin-arm64'
+detail: null

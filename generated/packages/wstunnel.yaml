@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: wstunnel
-description: "Tunneling over websocket protocol - Static binary available "
+description: 'Tunneling over websocket protocol - Static binary available '
 source:
   Github:
     owner: erebe
     repo: wstunnel
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/wstunnel-x64-linux.zip"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/wstunnel-aarch64-ubuntu18.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/wstunnel-x64-macos.zip"
-  - Windows:
-      artifact_templates:
-        - "{version}/wstunnel-x64-windows.exe.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/wstunnel-x64-linux.zip'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/wstunnel-aarch64-ubuntu18.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/wstunnel-x64-macos.zip'
+- Windows:
+    artifact_templates:
+    - '{version}/wstunnel-x64-windows.exe.zip'
+detail: null

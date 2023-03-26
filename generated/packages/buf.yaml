@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: buf
 description: A new way of working with Protocol Buffers.
 source:
@@ -7,28 +6,28 @@ source:
     owner: bufbuild
     repo: buf
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/buf-Linux-x86_64"
-        - "{version}/protoc-gen-buf-breaking-Linux-x86_64"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/buf-Linux-aarch64"
-        - "{version}/protoc-gen-buf-breaking-Linux-aarch64"
-  - MacOS:
-      artifact_templates:
-        - "{version}/buf-Darwin-x86_64"
-        - "{version}/protoc-gen-buf-breaking-Darwin-x86_64"
-  - MacOSArm64:
-      artifact_templates:
-        - "{version}/buf-Darwin-arm64"
-        - "{version}/protoc-gen-buf-breaking-Darwin-arm64"
-  - Windows:
-      artifact_templates:
-        - "{version}/buf-Windows-x86_64"
-        - "{version}/protoc-gen-buf-breaking-Windows-x86_64"
-  - WindowsArm64:
-      artifact_templates:
-        - "{version}/buf-Windows-arm64"
-        - "{version}/protoc-gen-buf-breaking-Windows-arm64"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/buf-Linux-x86_64'
+    - '{version}/protoc-gen-buf-breaking-Linux-x86_64'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/buf-Linux-aarch64'
+    - '{version}/protoc-gen-buf-breaking-Linux-aarch64'
+- MacOS:
+    artifact_templates:
+    - '{version}/buf-Darwin-x86_64'
+    - '{version}/protoc-gen-buf-breaking-Darwin-x86_64'
+- MacOSArm64:
+    artifact_templates:
+    - '{version}/buf-Darwin-arm64'
+    - '{version}/protoc-gen-buf-breaking-Darwin-arm64'
+- Windows:
+    artifact_templates:
+    - '{version}/buf-Windows-x86_64'
+    - '{version}/protoc-gen-buf-breaking-Windows-x86_64'
+- WindowsArm64:
+    artifact_templates:
+    - '{version}/buf-Windows-arm64'
+    - '{version}/protoc-gen-buf-breaking-Windows-arm64'
+detail: null

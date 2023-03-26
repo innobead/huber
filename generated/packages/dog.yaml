@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: dog
 description: A command-line DNS client.
 source:
@@ -7,13 +6,13 @@ source:
     owner: ogham
     repo: dog
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "dog-v{version}-x86_64-unknown-linux-gnu.zip"
-  - MacOS:
-      artifact_templates:
-        - "dog-v{version}-x86_64-apple-darwin.zip"
-  - Windows:
-      artifact_templates:
-        - "dog-v{version}-x86_64-pc-windows-msvc.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - dog-v{version}-x86_64-unknown-linux-gnu.zip
+- MacOS:
+    artifact_templates:
+    - dog-v{version}-x86_64-apple-darwin.zip
+- Windows:
+    artifact_templates:
+    - dog-v{version}-x86_64-pc-windows-msvc.zip
+detail: null

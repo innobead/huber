@@ -1,25 +1,24 @@
 # This is generated. Don't modify.
----
 name: fnm
-description: "🚀 Fast and simple Node.js version manager, built in Rust"
+description: 🚀 Fast and simple Node.js version manager, built in Rust
 source:
   Github:
     owner: Schniz
     repo: fnm
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/fnm-linux.zip"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/fnm-arm64.zip"
-  - LinuxArm32:
-      artifact_templates:
-        - "{version}/fnm-arm64.zip"
-  - MacOS:
-      artifact_templates:
-        - "{version}/fnm-macos.zip"
-  - Windows:
-      artifact_templates:
-        - "{version}/fnm-windows.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/fnm-linux.zip'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/fnm-arm64.zip'
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/fnm-arm64.zip'
+- MacOS:
+    artifact_templates:
+    - '{version}/fnm-macos.zip'
+- Windows:
+    artifact_templates:
+    - '{version}/fnm-windows.zip'
+detail: null

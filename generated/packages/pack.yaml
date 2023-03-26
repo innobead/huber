@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: pack
 description: CLI for building apps using Cloud Native Buildpacks
 source:
@@ -7,13 +6,13 @@ source:
     owner: buildpacks
     repo: pack
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "pack-v{version}-linux.tgz"
-  - MacOS:
-      artifact_templates:
-        - "pack-v{version}-macos.tgz"
-  - Windows:
-      artifact_templates:
-        - "pack-v{version}-windows.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - pack-v{version}-linux.tgz
+- MacOS:
+    artifact_templates:
+    - pack-v{version}-macos.tgz
+- Windows:
+    artifact_templates:
+    - pack-v{version}-windows.zip
+detail: null

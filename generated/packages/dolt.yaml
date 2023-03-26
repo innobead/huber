@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: dolt
 description: Dolt – Git for Data
 source:
@@ -7,13 +6,13 @@ source:
     owner: dolthub
     repo: dolt
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/dolt-linux-amd64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/dolt-darwin-amd64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/dolt-windows-amd64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/dolt-linux-amd64.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/dolt-darwin-amd64.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/dolt-windows-amd64.zip'
+detail: null

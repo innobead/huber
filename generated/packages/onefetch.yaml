@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: onefetch
 description: Command-line Git information tool
 source:
@@ -7,13 +6,13 @@ source:
     owner: o2sh
     repo: onefetch
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/onefetch-linux.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/onefetch-mac.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/onefetch-win.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/onefetch-linux.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/onefetch-mac.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/onefetch-win.tar.gz'
+detail: null

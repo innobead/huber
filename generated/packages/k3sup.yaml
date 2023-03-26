@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: k3sup
 description: bootstrap K3s over SSH in < 60s 🚀
 source:
@@ -7,16 +6,16 @@ source:
     owner: alexellis
     repo: k3sup
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/k3sup"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/k3sup-arm64"
-  - MacOS:
-      artifact_templates:
-        - "{version}/k3sup-darwin"
-  - Windows:
-      artifact_templates:
-        - "{version}/k3sup.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/k3sup'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/k3sup-arm64'
+- MacOS:
+    artifact_templates:
+    - '{version}/k3sup-darwin'
+- Windows:
+    artifact_templates:
+    - '{version}/k3sup.exe'
+detail: null

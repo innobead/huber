@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: tilt
 description: Define your dev environment as code. For microservice apps on Kubernetes.
 source:
@@ -7,13 +6,13 @@ source:
     owner: tilt-dev
     repo: tilt
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "tilt.{version}.linux.x86_64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "tilt.{version}.mac.x86_64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "tilt.{version}.windows.x86_64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - tilt.{version}.linux.x86_64.tar.gz
+- MacOS:
+    artifact_templates:
+    - tilt.{version}.mac.x86_64.tar.gz
+- Windows:
+    artifact_templates:
+    - tilt.{version}.windows.x86_64.zip
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: wasm-to-oci
 description: Use OCI registries to distribute Wasm modules
 source:
@@ -7,13 +6,13 @@ source:
     owner: engineerd
     repo: wasm-to-oci
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/linux-amd64-wasm-to-oci"
-  - MacOS:
-      artifact_templates:
-        - "{version}/darwin-amd64-wasm-to-oci"
-  - Windows:
-      artifact_templates:
-        - "{version}/windows-amd64-wasm-to-oci.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/linux-amd64-wasm-to-oci'
+- MacOS:
+    artifact_templates:
+    - '{version}/darwin-amd64-wasm-to-oci'
+- Windows:
+    artifact_templates:
+    - '{version}/windows-amd64-wasm-to-oci.exe'
+detail: null

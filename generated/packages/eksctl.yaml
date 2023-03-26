@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: eksctl
 description: The official CLI for Amazon EKS
 source:
@@ -7,16 +6,16 @@ source:
     owner: weaveworks
     repo: eksctl
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/eksctl_Linux_amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/eksctl_Linux_arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/eksctl_Darwin_amd64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/eksctl_Windows_amd64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/eksctl_Linux_amd64.tar.gz'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/eksctl_Linux_arm64.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/eksctl_Darwin_amd64.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/eksctl_Windows_amd64.zip'
+detail: null

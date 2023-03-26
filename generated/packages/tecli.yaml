@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: tecli
-description: "In a world where everything is Terraform, teams use Terraform Cloud API to manage their workloads. TECLI increases teams productivity by facilitating such interaction and by providing easy commands that can be executed on a terminal or on CI/CD systems."
+description: In a world where everything is Terraform, teams use Terraform Cloud API to manage their workloads. TECLI increases teams productivity by facilitating such interaction and by providing easy commands that can be executed on a terminal or on CI/CD systems.
 source:
   Github:
     owner: awslabs
     repo: tecli
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/tecli-linux-amd64"
-  - LinuxArm32:
-      artifact_templates:
-        - "{version}/tecli-linux-arm"
-  - MacOS:
-      artifact_templates:
-        - "{version}/tecli-darwin-amd64"
-  - Windows:
-      artifact_templates:
-        - "{version}/tecli-windows-amd64.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/tecli-linux-amd64'
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/tecli-linux-arm'
+- MacOS:
+    artifact_templates:
+    - '{version}/tecli-darwin-amd64'
+- Windows:
+    artifact_templates:
+    - '{version}/tecli-windows-amd64.exe'
+detail: null

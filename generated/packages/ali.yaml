@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: ali
 description: Generate HTTP load and plot the results in real-time
 source:
@@ -7,19 +6,19 @@ source:
     owner: nakabonne
     repo: ali
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "ali_{version}_linux_amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "ali_{version}_linux_arm64.tar.gz"
-  - LinuxArm32:
-      artifact_templates:
-        - "ali_{version}_linux_armv7.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "ali_{version}_darwin_amd64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "ali_{version}_windows_amd64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - ali_{version}_linux_amd64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - ali_{version}_linux_arm64.tar.gz
+- LinuxArm32:
+    artifact_templates:
+    - ali_{version}_linux_armv7.tar.gz
+- MacOS:
+    artifact_templates:
+    - ali_{version}_darwin_amd64.tar.gz
+- Windows:
+    artifact_templates:
+    - ali_{version}_windows_amd64.tar.gz
+detail: null

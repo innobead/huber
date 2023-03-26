@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: kubectl
 description: Production-Grade Container Scheduling and Management
 source:
@@ -7,16 +6,16 @@ source:
     owner: kubernetes
     repo: kubernetes
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/linux/amd64/kubectl"
-  - LinuxArm64:
-      artifact_templates:
-        - "https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/linux/arm64/kubectl"
-  - MacOS:
-      artifact_templates:
-        - "https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/darwin/amd64/kubectl"
-  - Windows:
-      artifact_templates:
-        - "https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/windows/amd64/kubectl.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/linux/amd64/kubectl
+- LinuxArm64:
+    artifact_templates:
+    - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/linux/arm64/kubectl
+- MacOS:
+    artifact_templates:
+    - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/darwin/amd64/kubectl
+- Windows:
+    artifact_templates:
+    - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/windows/amd64/kubectl.exe
+detail: null

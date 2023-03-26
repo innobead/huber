@@ -1,13 +1,12 @@
 # This is generated. Don't modify.
----
 name: nat
-description: "`ls` alternative with useful info and a splash of color 🎨"
+description: '`ls` alternative with useful info and a splash of color 🎨'
 source:
   Github:
     owner: willdoescode
     repo: nat
 targets:
-  - MacOS:
-      artifact_templates:
-        - "{version}/natls_osx_binary"
-detail: ~
+- MacOS:
+    artifact_templates:
+    - '{version}/natls_osx_binary'
+detail: null

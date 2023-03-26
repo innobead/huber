@@ -1,19 +1,26 @@
 [package]
 name = "huber-generator"
-version = "0.3.10"
-authors = ["David Ko <innobead@gmail.com>"]
-edition = "2021"
-rust-version = "1.65"
+version.workspace = true
+description = "Internal package used by Huber"
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+keywords.workspace = true
+categories.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme = "../../README.md"
+license-file = "../../LICENSE"
 build = "src/build.rs"
 
 [build-dependencies]
-huber-common = { path = "../common" }
-serde = { version = "1.0", features = ["derive"] }
-serde_yaml = "~0.9.19"
-tokio = { version = "1.23", features = ["full"] } #  reqwest 0.10, hubcaps 0.6 does not support tokio 0.3/1.0 yet, ref: https://github.com/seanmonstar/reqwest/issues/1060
-hubcaps-ex = "0.6.2"
-maplit = "1.0"
+huber-common.workspace = true
+serde.workspace = true
+serde_yaml.workspace = true
+tokio.workspace = true
+hubcaps-ex.workspace = true
+maplit.workspace = true
 
 [dependencies]
-huber-common = { path = "../common"}
-maplit = "1.0"
+huber-common.workspace = true
+maplit.workspace = true

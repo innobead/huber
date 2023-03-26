@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: kube-linter
 description: KubeLinter is a static analysis tool that checks Kubernetes YAML files and Helm charts to ensure the applications represented in them adhere to best practices.
 source:
@@ -7,13 +6,13 @@ source:
     owner: stackrox
     repo: kube-linter
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/kube-linter-linux.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/kube-linter-darwin.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/kube-linter-windows.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/kube-linter-linux.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/kube-linter-darwin.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/kube-linter-windows.tar.gz'
+detail: null

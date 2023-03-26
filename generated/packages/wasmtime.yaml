@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: wasmtime
 description: A fast and secure runtime for WebAssembly
 source:
@@ -7,10 +6,10 @@ source:
     owner: bytecodealliance
     repo: wasmtime
 targets:
-  - Windows:
-      artifact_templates:
-        - "wasmtime-v{version}-x86_64-windows.zip"
-  - Default:
-      artifact_templates:
-        - "wasmtime-v{version}-{arch}-{os}.tar.xz"
-detail: ~
+- Windows:
+    artifact_templates:
+    - wasmtime-v{version}-x86_64-windows.zip
+- Default:
+    artifact_templates:
+    - wasmtime-v{version}-{arch}-{os}.tar.xz
+detail: null

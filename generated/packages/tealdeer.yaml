@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: tealdeer
 description: A very fast implementation of tldr in Rust.
 source:
@@ -7,14 +6,14 @@ source:
     owner: dbrgn
     repo: tealdeer
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/tealdeer-linux-x86_64-musl"
-        - "{version}/tldr-linux-x86_64-musl"
-  - MacOS:
-      artifact_templates:
-        - "{version}/tealdeer-macos-x86_64"
-  - Windows:
-      artifact_templates:
-        - "{version}/tealdeer-windows-x86_64-msvc.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/tealdeer-linux-x86_64-musl'
+    - '{version}/tldr-linux-x86_64-musl'
+- MacOS:
+    artifact_templates:
+    - '{version}/tealdeer-macos-x86_64'
+- Windows:
+    artifact_templates:
+    - '{version}/tealdeer-windows-x86_64-msvc.exe'
+detail: null

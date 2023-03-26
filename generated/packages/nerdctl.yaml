@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: nerdctl
-description: "contaiNERD CTL - Docker-compatible CLI for containerd, with support for Compose, Rootless, eStargz, OCIcrypt, IPFS, ..."
+description: contaiNERD CTL - Docker-compatible CLI for containerd, with support for Compose, Rootless, eStargz, OCIcrypt, IPFS, ...
 source:
   Github:
     owner: containerd
     repo: nerdctl
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "nerdctl-{version}-linux-amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "nerdctl-{version}-linux-arm64.tar.gz"
-  - LinuxArm32:
-      artifact_templates:
-        - "nerdctl-{version}-linux-arm-v7.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - nerdctl-{version}-linux-amd64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - nerdctl-{version}-linux-arm64.tar.gz
+- LinuxArm32:
+    artifact_templates:
+    - nerdctl-{version}-linux-arm-v7.tar.gz
+detail: null

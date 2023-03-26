@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: wabt
 description: The WebAssembly Binary Toolkit
 source:
@@ -7,13 +6,13 @@ source:
     owner: WebAssembly
     repo: wabt
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "wabt-{version}-ubuntu.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "wabt-{version}-macos.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "wabt-{version}-windows.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - wabt-{version}-ubuntu.tar.gz
+- MacOS:
+    artifact_templates:
+    - wabt-{version}-macos.tar.gz
+- Windows:
+    artifact_templates:
+    - wabt-{version}-windows.tar.gz
+detail: null

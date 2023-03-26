@@ -1,16 +1,15 @@
 # This is generated. Don't modify.
----
 name: renote
-description: "Renote is to extend GitHub operation experience, which is a complementary tool to use with gh"
+description: Renote is to extend GitHub operation experience, which is a complementary tool to use with gh
 source:
   Github:
     owner: ecatlabs
     repo: renote
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/renote-linux-amd64"
-  - MacOS:
-      artifact_templates:
-        - "{version}/renote-darwin-amd64"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/renote-linux-amd64'
+- MacOS:
+    artifact_templates:
+    - '{version}/renote-darwin-amd64'
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: gh
 description: GitHub’s official command line tool
 source:
@@ -7,13 +6,13 @@ source:
     owner: cli
     repo: cli
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "gh_{version}_linux_amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "gh_{version}_linux_arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "gh_{version}_macOS_amd64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - gh_{version}_linux_amd64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - gh_{version}_linux_arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - gh_{version}_macOS_amd64.tar.gz
+detail: null

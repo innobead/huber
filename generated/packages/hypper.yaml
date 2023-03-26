@@ -1,25 +1,24 @@
 # This is generated. Don't modify.
----
 name: hypper
-description: ~
+description: null
 source:
   Github:
     owner: rancher-sandbox
     repo: hypper
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - hypper-v0.2.0-Linux-x86_64.tar.gz
-  - LinuxArm64:
-      artifact_templates:
-        - hypper-v0.2.0-Linux-arm64.tar.gz
-  - LinuxArm32:
-      artifact_templates:
-        - hypper-v0.2.0-Linux-armv6.tar.gz
-  - MacOS:
-      artifact_templates:
-        - hypper-v0.2.0-Darwin-x86_64.tar.gz
-  - Windows:
-      artifact_templates:
-        - hypper-v0.2.0-Windows-x86_64.tar.gz
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - hypper-v0.2.0-Linux-x86_64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - hypper-v0.2.0-Linux-arm64.tar.gz
+- LinuxArm32:
+    artifact_templates:
+    - hypper-v0.2.0-Linux-armv6.tar.gz
+- MacOS:
+    artifact_templates:
+    - hypper-v0.2.0-Darwin-x86_64.tar.gz
+- Windows:
+    artifact_templates:
+    - hypper-v0.2.0-Windows-x86_64.tar.gz
+detail: null

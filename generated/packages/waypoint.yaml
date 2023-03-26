@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: waypoint
-description: "A tool to build, deploy, and release any application on any platform."
+description: A tool to build, deploy, and release any application on any platform.
 source:
   Github:
     owner: hashicorp
     repo: waypoint
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "https://releases.hashicorp.com/waypoint/{version}/waypoint_{version}_linux_amd64.zip"
-  - MacOS:
-      artifact_templates:
-        - "https://releases.hashicorp.com/waypoint/{version}/waypoint_{version}_windows_amd64.zip"
-  - Windows:
-      artifact_templates:
-        - "https://releases.hashicorp.com/waypoint/{version}/waypoint_{version}_darwin_amd64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - https://releases.hashicorp.com/waypoint/{version}/waypoint_{version}_linux_amd64.zip
+- MacOS:
+    artifact_templates:
+    - https://releases.hashicorp.com/waypoint/{version}/waypoint_{version}_windows_amd64.zip
+- Windows:
+    artifact_templates:
+    - https://releases.hashicorp.com/waypoint/{version}/waypoint_{version}_darwin_amd64.zip
+detail: null

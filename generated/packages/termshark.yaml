@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: termshark
-description: "A terminal UI for tshark, inspired by Wireshark"
+description: A terminal UI for tshark, inspired by Wireshark
 source:
   Github:
     owner: gcla
     repo: termshark
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "termshark_{version}_linux_x64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "termshark_{version}_linux_arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "termshark_{version}_macOS_x64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "termshark_{version}_windows_x64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - termshark_{version}_linux_x64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - termshark_{version}_linux_arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - termshark_{version}_macOS_x64.tar.gz
+- Windows:
+    artifact_templates:
+    - termshark_{version}_windows_x64.zip
+detail: null

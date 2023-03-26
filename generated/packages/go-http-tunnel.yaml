@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: go-http-tunnel
 description: Fast and secure tunnels over HTTP/2
 source:
@@ -7,13 +6,13 @@ source:
     owner: mmatczuk
     repo: go-http-tunnel
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/tunnel_linux_amd64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/tunnel_darwin_amd64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/tunnel_windows_amd64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/tunnel_linux_amd64.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/tunnel_darwin_amd64.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/tunnel_windows_amd64.tar.gz'
+detail: null

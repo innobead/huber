@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: oras
-description: "OCI registry client - managing content like artifacts, images, packages"
+description: OCI registry client - managing content like artifacts, images, packages
 source:
   Github:
     owner: deislabs
     repo: oras
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "oras_{version}_linux_amd64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "oras_{version}_darwin_amd64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "oras_{version}_windows_amd64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - oras_{version}_linux_amd64.tar.gz
+- MacOS:
+    artifact_templates:
+    - oras_{version}_darwin_amd64.tar.gz
+- Windows:
+    artifact_templates:
+    - oras_{version}_windows_amd64.tar.gz
+detail: null

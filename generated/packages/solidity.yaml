@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: solidity
-description: "Solidity, the Smart Contract Programming Language"
+description: Solidity, the Smart Contract Programming Language
 source:
   Github:
     owner: ethereum
     repo: solidity
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "v{version}/solc-static-linux"
-  - MacOS:
-      artifact_templates:
-        - "v{version}/solc-macos"
-  - Windows:
-      artifact_templates:
-        - "v{version}/solc-windows.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - v{version}/solc-static-linux
+- MacOS:
+    artifact_templates:
+    - v{version}/solc-macos
+- Windows:
+    artifact_templates:
+    - v{version}/solc-windows.exe
+detail: null

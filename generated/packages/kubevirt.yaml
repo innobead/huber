@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: kubevirt
 description: Kubernetes Virtualization API and runtime in order to define and manage virtual machines.
 source:
@@ -7,13 +6,13 @@ source:
     owner: kubevirt
     repo: kubevirt
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "virtctl-v{version}-linux-amd64"
-  - MacOS:
-      artifact_templates:
-        - "virtctl-v{version}-darwin-amd64"
-  - Windows:
-      artifact_templates:
-        - "virtctl-v{version}-windows-amd64.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - virtctl-v{version}-linux-amd64
+- MacOS:
+    artifact_templates:
+    - virtctl-v{version}-darwin-amd64
+- Windows:
+    artifact_templates:
+    - virtctl-v{version}-windows-amd64.exe
+detail: null

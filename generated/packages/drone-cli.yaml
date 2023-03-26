@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: drone-cli
-description: "Command Line Tools for Drone CI "
+description: 'Command Line Tools for Drone CI '
 source:
   Github:
     owner: drone
     repo: drone-cli
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/drone_linux_amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/drone_linux_arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/drone_darwin_amd64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/drone_windows_amd64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/drone_linux_amd64.tar.gz'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/drone_linux_arm64.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/drone_darwin_amd64.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/drone_windows_amd64.tar.gz'
+detail: null

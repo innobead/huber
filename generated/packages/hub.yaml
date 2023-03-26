@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: hub
 description: A command-line tool that makes git easier to use with GitHub.
 source:
@@ -7,18 +6,18 @@ source:
     owner: github
     repo: hub
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "hub-linux-amd64-{version}.tgz"
-      executable_mappings:
-        install: hub-install
-  - LinuxArm64:
-      artifact_templates:
-        - "hub-linux-arm64-{version}.tgz"
-  - MacOS:
-      artifact_templates:
-        - "hub-darwin-amd64-{version}.tgz"
-  - Windows:
-      artifact_templates:
-        - "hub-windows-amd64-{version}.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - hub-linux-amd64-{version}.tgz
+    executable_mappings:
+      install: hub-install
+- LinuxArm64:
+    artifact_templates:
+    - hub-linux-arm64-{version}.tgz
+- MacOS:
+    artifact_templates:
+    - hub-darwin-amd64-{version}.tgz
+- Windows:
+    artifact_templates:
+    - hub-windows-amd64-{version}.zip
+detail: null

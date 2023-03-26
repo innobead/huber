@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: conftest
 description: Write tests against structured configuration data using the Open Policy Agent Rego query language
 source:
@@ -7,16 +6,16 @@ source:
     owner: open-policy-agent
     repo: conftest
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "conftest_{version}_Linux_x86_64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "conftest_{version}_Linux_arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "conftest_{version}_Darwin_x86_64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "conftest_{version}_Windows_x86_64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - conftest_{version}_Linux_x86_64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - conftest_{version}_Linux_arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - conftest_{version}_Darwin_x86_64.tar.gz
+- Windows:
+    artifact_templates:
+    - conftest_{version}_Windows_x86_64.zip
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: lens
 description: Lens - The way the world runs Kubernetes
 source:
@@ -7,13 +6,13 @@ source:
     owner: lensapp
     repo: lens
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "Lens-{version}.AppImage"
-  - MacOS:
-      artifact_templates:
-        - "Lens-{version}.dmg"
-  - Windows:
-      artifact_templates:
-        - "Lens-Setup-{version}.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - Lens-{version}.AppImage
+- MacOS:
+    artifact_templates:
+    - Lens-{version}.dmg
+- Windows:
+    artifact_templates:
+    - Lens-Setup-{version}.exe
+detail: null

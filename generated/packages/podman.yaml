@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: podman
-description: "Podman: A tool for managing OCI containers and pods."
+description: 'Podman: A tool for managing OCI containers and pods.'
 source:
   Github:
     owner: containers
     repo: podman
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/podman-remote-static.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/podman-remote-release-darwin.zip"
-  - Windows:
-      artifact_templates:
-        - "{version}/podman-remote-release-windows.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/podman-remote-static.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/podman-remote-release-darwin.zip'
+- Windows:
+    artifact_templates:
+    - '{version}/podman-remote-release-windows.zip'
+detail: null

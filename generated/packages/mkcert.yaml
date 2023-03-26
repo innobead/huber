@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: mkcert
-description: "A simple zero-config tool to make locally trusted development certificates with any names you'd like."
+description: A simple zero-config tool to make locally trusted development certificates with any names you'd like.
 source:
   Github:
     owner: FiloSottile
     repo: mkcert
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "mkcert-v{version}-linux-amd64"
-  - LinuxArm64:
-      artifact_templates:
-        - "mkcert-v{version}-linux-arm64"
-  - MacOS:
-      artifact_templates:
-        - "mkcert-v{version}-darwin-amd64"
-  - Windows:
-      artifact_templates:
-        - "mkcert-v{version}-windows-amd64.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - mkcert-v{version}-linux-amd64
+- LinuxArm64:
+    artifact_templates:
+    - mkcert-v{version}-linux-arm64
+- MacOS:
+    artifact_templates:
+    - mkcert-v{version}-darwin-amd64
+- Windows:
+    artifact_templates:
+    - mkcert-v{version}-windows-amd64.exe
+detail: null

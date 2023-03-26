@@ -1,25 +1,24 @@
 # This is generated. Don't modify.
----
 name: tokei
-description: "Count your code, quickly."
+description: Count your code, quickly.
 source:
   Github:
     owner: XAMPPRocky
     repo: tokei
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/tokei-x86_64-unknown-linux-gnu.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/tokei-aarch64-unknown-linux-gnu.tar.gz"
-  - LinuxArm32:
-      artifact_templates:
-        - "{version}/tokei-armv7-unknown-linux-gnueabihf.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/tokei-x86_64-apple-darwin.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/tokei-x86_64-pc-windows-msvc.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/tokei-x86_64-unknown-linux-gnu.tar.gz'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/tokei-aarch64-unknown-linux-gnu.tar.gz'
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/tokei-armv7-unknown-linux-gnueabihf.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/tokei-x86_64-apple-darwin.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/tokei-x86_64-pc-windows-msvc.exe'
+detail: null

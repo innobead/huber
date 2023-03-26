@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: dua-cli
-description: "View disk space usage and delete unwanted data, fast."
+description: View disk space usage and delete unwanted data, fast.
 source:
   Github:
     owner: Byron
     repo: dua-cli
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "dua-v{version}-x86_64-unknown-linux-musl.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "dua-v{version}-x86_64-apple-darwin.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "dua-v{version}-x86_64-pc-windows-msvc.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - dua-v{version}-x86_64-unknown-linux-musl.tar.gz
+- MacOS:
+    artifact_templates:
+    - dua-v{version}-x86_64-apple-darwin.tar.gz
+- Windows:
+    artifact_templates:
+    - dua-v{version}-x86_64-pc-windows-msvc.zip
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: helm
 description: The Kubernetes Package Manager
 source:
@@ -7,16 +6,16 @@ source:
     owner: helm
     repo: helm
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "https://get.helm.sh/helm-v{version}-linux-amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "https://get.helm.sh/helm-v{version}-linux-arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "https://get.helm.sh/helm-v{version}-darwin-amd64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "https://get.helm.sh/helm-v{version}-windows-amd64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - https://get.helm.sh/helm-v{version}-linux-amd64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - https://get.helm.sh/helm-v{version}-linux-arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - https://get.helm.sh/helm-v{version}-darwin-amd64.tar.gz
+- Windows:
+    artifact_templates:
+    - https://get.helm.sh/helm-v{version}-windows-amd64.zip
+detail: null

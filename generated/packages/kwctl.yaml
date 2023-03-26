@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: kwctl
 description: Go-to CLI tool for Kubewarden users
 source:
@@ -7,7 +6,7 @@ source:
     owner: kubewarden
     repo: kwctl
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/kwctl-linux-amd64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/kwctl-linux-amd64.zip'
+detail: null

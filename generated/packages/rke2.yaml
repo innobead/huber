@@ -1,13 +1,12 @@
 # This is generated. Don't modify.
----
 name: rke2
-description: ~
+description: null
 source:
   Github:
     owner: rancher
     repo: rke2
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/rke2.linux-amd64"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/rke2.linux-amd64'
+detail: null

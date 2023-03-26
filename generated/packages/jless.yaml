@@ -1,16 +1,15 @@
 # This is generated. Don't modify.
----
 name: jless
-description: "jless is a command-line JSON viewer designed for reading, exploring, and searching through JSON data."
+description: jless is a command-line JSON viewer designed for reading, exploring, and searching through JSON data.
 source:
   Github:
     owner: PaulJuliusMartinez
     repo: jless
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "jless-v{version}-x86_64-unknown-linux-gnu.zip"
-  - MacOS:
-      artifact_templates:
-        - "jless-v{version}-x86_64-apple-darwin.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - jless-v{version}-x86_64-unknown-linux-gnu.zip
+- MacOS:
+    artifact_templates:
+    - jless-v{version}-x86_64-apple-darwin.zip
+detail: null

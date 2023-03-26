@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: gitui
 description: Blazing 💥 fast terminal-ui for git written in rust 🦀
 source:
@@ -7,13 +6,13 @@ source:
     owner: extrawurst
     repo: gitui
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/gitui-linux-musl.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/gitui-mac.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/gitui-win.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/gitui-linux-musl.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/gitui-mac.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/gitui-win.tar.gz'
+detail: null

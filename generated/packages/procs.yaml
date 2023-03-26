@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: procs
 description: A modern replacement for ps written in Rust
 source:
@@ -7,13 +6,13 @@ source:
     owner: dalance
     repo: procs
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "procs-v{version}-x86_64-lnx.zip"
-  - MacOS:
-      artifact_templates:
-        - "procs-v{version}-x86_64-mac.zip"
-  - Windows:
-      artifact_templates:
-        - "procs-v{version}-x86_64-win.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - procs-v{version}-x86_64-lnx.zip
+- MacOS:
+    artifact_templates:
+    - procs-v{version}-x86_64-mac.zip
+- Windows:
+    artifact_templates:
+    - procs-v{version}-x86_64-win.zip
+detail: null

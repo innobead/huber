@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: wasmer
 description: 🚀 The leading WebAssembly Runtime supporting WASI and Emscripten
 source:
@@ -7,16 +6,16 @@ source:
     owner: wasmerio
     repo: wasmer
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/wasmer-linux-amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/wasmer-linux-aarch64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/wasmer-darwin-amd64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/wasmer-windows.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/wasmer-linux-amd64.tar.gz'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/wasmer-linux-aarch64.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/wasmer-darwin-amd64.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/wasmer-windows.exe'
+detail: null

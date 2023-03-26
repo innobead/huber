@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: nomad
-description: "Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of microservice, batch, containerized, and non-containerized applications. Nomad is easy to operate and scale and has native Consul and Vault integrations."
+description: Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of microservice, batch, containerized, and non-containerized applications. Nomad is easy to operate and scale and has native Consul and Vault integrations.
 source:
   Github:
     owner: hashicorp
     repo: nomad
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "https://releases.hashicorp.com/nomad/{version}/nomad_{version}_linux_amd64.zip"
-  - LinuxArm64:
-      artifact_templates:
-        - "https://releases.hashicorp.com/packer/{version}/nomad_{version}_linux_arm64.zip"
-  - MacOS:
-      artifact_templates:
-        - "https://releases.hashicorp.com/nomad/{version}/nomad_{version}_darwin_amd64.zip"
-  - Windows:
-      artifact_templates:
-        - "https://releases.hashicorp.com/nomad/{version}/nomad_{version}_windows_amd64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - https://releases.hashicorp.com/nomad/{version}/nomad_{version}_linux_amd64.zip
+- LinuxArm64:
+    artifact_templates:
+    - https://releases.hashicorp.com/packer/{version}/nomad_{version}_linux_arm64.zip
+- MacOS:
+    artifact_templates:
+    - https://releases.hashicorp.com/nomad/{version}/nomad_{version}_darwin_amd64.zip
+- Windows:
+    artifact_templates:
+    - https://releases.hashicorp.com/nomad/{version}/nomad_{version}_windows_amd64.zip
+detail: null

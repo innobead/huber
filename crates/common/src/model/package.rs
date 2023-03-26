@@ -18,18 +18,24 @@ use crate::str::VersionCompareTrait;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Package {
     pub name: String,
-
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub version: Option<String>,
 
+    pub version: Option<String>,
     pub description: Option<String>,
+
+    #[serde(with = "serde_yaml::with::singleton_map")]
     pub source: PackageSource,
+
+    #[serde(with = "serde_yaml::with::singleton_map_recursive")]
     pub targets: Vec<PackageTargetType>,
+
+    #[serde(with = "serde_yaml::with::singleton_map")]
     pub detail: Option<PackageDetailType>,
 
     // display purpose, injected from release
     #[serde(skip_serializing_if = "Option::is_none")]
     #[serde(skip_deserializing)]
+    #[serde(with = "serde_yaml::with::singleton_map")]
     pub release_kind: Option<ReleaseKind>,
 }
 

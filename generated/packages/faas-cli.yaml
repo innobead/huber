@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: faas-cli
 description: Official CLI for OpenFaaS
 source:
@@ -7,24 +6,24 @@ source:
     owner: openfaas
     repo: faas-cli
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/faas-cli"
-      executable_mappings:
-        faas-cli: faas
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/faas-cli-arm64"
-      executable_mappings:
-        faas-cli: faas
-  - MacOS:
-      artifact_templates:
-        - "{version}/faas-cli-darwin"
-      executable_mappings:
-        faas-cli: faas
-  - Windows:
-      artifact_templates:
-        - "{version}/faas-cli.exe"
-      executable_mappings:
-        faas-cli: faas
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/faas-cli'
+    executable_mappings:
+      faas-cli: faas
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/faas-cli-arm64'
+    executable_mappings:
+      faas-cli: faas
+- MacOS:
+    artifact_templates:
+    - '{version}/faas-cli-darwin'
+    executable_mappings:
+      faas-cli: faas
+- Windows:
+    artifact_templates:
+    - '{version}/faas-cli.exe'
+    executable_mappings:
+      faas-cli: faas
+detail: null

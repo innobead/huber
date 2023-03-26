@@ -25,6 +25,9 @@ pub trait VersionCompareTrait {
 
 impl VersionCompareTrait for String {
     fn cmp_version(&self, version: &str) -> Option<Ordering> {
-        Version::from_str(&self).partial_cmp(&Version::from_str(version))
+        let msg = format!("{} should be semantic version", version);
+        Version::from_str(&self)
+            .expect(&msg)
+            .partial_cmp(&Version::from_str(version).expect(&msg))
     }
 }

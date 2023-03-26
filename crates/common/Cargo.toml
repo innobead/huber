@@ -1,30 +1,32 @@
 [package]
 name = "huber-common"
-version = "0.3.10"
-authors = ["David Ko <innobead@gmail.com>"]
-edition = "2021"
-rust-version = "1.65"
+version.workspace = true
 description = "Internal package used by Huber"
-homepage = "https://github.com/innobead/huber"
-repository = "https://github.com/innobead/huber"
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+keywords.workspace = true
+categories.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme = "../../README.md"
 license-file = "../../LICENSE"
 
 [dependencies]
-log = "0.4"
-pretty_env_logger = "0.4"
-lazy_static = "1.4.0"
-anyhow = "1.0"
-dirs = "3.0.1"
-serde = { version = "1.0", features = ["derive"] }
-serde_json = { version = "1.0", features = ["preserve_order"] }
-serde_yaml = "~0.9.19"
-#hubcaps = { git = "https://github.com/softprops/hubcaps", rev = "324d02fbb371782c82e9a13b839b86894475c91f" } # wait for hubcaps formal release > 0.6
-hubcaps-ex = "0.6.2"
-prettytable-rs = "0.9"
-Inflector = "0.11.4"
-chrono = "0.4"
-regex = "1.4"
-maplit = "1.0"
-semver = "0.11"
-indicatif = "0.17"
-libcli-rs = "0.1"
+log.workspace = true
+pretty_env_logger.workspace = true
+lazy_static.workspace = true
+anyhow.workspace = true
+dirs.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true
+hubcaps-ex.workspace = true
+prettytable-rs.workspace = true
+Inflector.workspace = true
+chrono.workspace = true
+regex.workspace = true
+maplit.workspace = true
+semver.workspace = true
+indicatif.workspace = true
+libcli-rs.workspace = true

@@ -1,23 +1,26 @@
 [package]
 name = "huber-procmacro"
-version = "0.3.10"
-authors = ["David Ko <innobead@gmail.com>"]
-edition = "2021"
-rust-version = "1.65"
+version.workspace = true
 description = "Internal package used by Huber"
-homepage = "https://github.com/innobead/huber"
-repository = "https://github.com/innobead/huber"
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+keywords.workspace = true
+categories.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme = "../../README.md"
 license-file = "../../LICENSE"
 
 [lib]
 proc-macro = true
 
 [dependencies]
-huber-common = { path = "../common", version = "0.3.9" }
+huber-common.workspace = true
 proc-macro2 = "1.0"
-syn = "1.0"
+syn = "2.0.10"
 quote = "1.0"
-fs2 = "0.4.3"
-dirs = "4.0.0"
-log = "0.4"
-anyhow = "1.0"
+fs2.workspace = true
+dirs.workspace = true
+log.workspace = true
+anyhow.workspace = true

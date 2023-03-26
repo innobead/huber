@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: arkade
-description: Open Source Marketplace For Kubernetes
+description: Open Source Marketplace For Developer Tools
 source:
   Github:
     owner: alexellis
     repo: arkade
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/arkade"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/arkade-arm64"
-  - MacOS:
-      artifact_templates:
-        - "{version}/arkade-darwin"
-  - Windows:
-      artifact_templates:
-        - "{version}/arkade.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/arkade'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/arkade-arm64'
+- MacOS:
+    artifact_templates:
+    - '{version}/arkade-darwin'
+- Windows:
+    artifact_templates:
+    - '{version}/arkade.exe'
+detail: null

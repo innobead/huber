@@ -1,16 +1,15 @@
 # This is generated. Don't modify.
----
 name: ko
-description: Build and deploy Go applications on Kubernetes
+description: Build and deploy Go applications
 source:
   Github:
     owner: google
     repo: ko
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "ko_{version}_Linux_x86_64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "ko_{version}_Darwin_x86_64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - ko_{version}_Linux_x86_64.tar.gz
+- MacOS:
+    artifact_templates:
+    - ko_{version}_Darwin_x86_64.tar.gz
+detail: null

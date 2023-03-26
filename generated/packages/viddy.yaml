@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: viddy
 description: 👀 A modern watch command. Time machine and pager etc.
 source:
@@ -7,13 +6,13 @@ source:
     owner: sachaos
     repo: viddy
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "viddy_{version}_Linux_x86_64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "viddy_{version}_Darwin_x86_64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "viddy_{version}_Windows_x86_64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - viddy_{version}_Linux_x86_64.tar.gz
+- MacOS:
+    artifact_templates:
+    - viddy_{version}_Darwin_x86_64.tar.gz
+- Windows:
+    artifact_templates:
+    - viddy_{version}_Windows_x86_64.tar.gz
+detail: null

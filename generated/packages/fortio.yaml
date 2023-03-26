@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: fortio
-description: "Fortio load testing library, command line tool, advanced echo server and web UI in go (golang). Allows to specify a set query-per-second load and record latency histograms and other useful stats."
+description: Fortio load testing library, command line tool, advanced echo server and web UI in go (golang). Allows to specify a set query-per-second load and record latency histograms and other useful stats.
 source:
   Github:
     owner: fortio
     repo: fortio
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "fortio-linux_x64-{version}.tgz"
-  - MacOS:
-      artifact_templates:
-        - "fortio-linux_x64-{version}.tgz"
-  - Windows:
-      artifact_templates:
-        - "fortio_win_{version}.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - fortio-linux_x64-{version}.tgz
+- MacOS:
+    artifact_templates:
+    - fortio-linux_x64-{version}.tgz
+- Windows:
+    artifact_templates:
+    - fortio_win_{version}.zip
+detail: null

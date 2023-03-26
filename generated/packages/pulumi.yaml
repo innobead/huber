@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: pulumi
-description: "Pulumi - Universal Infrastructure as Code. Your Cloud, Your Language, Your Way 🚀"
+description: Pulumi - Universal Infrastructure as Code. Your Cloud, Your Language, Your Way 🚀
 source:
   Github:
     owner: pulumi
     repo: pulumi
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "https://get.pulumi.com/releases/sdk/pulumi-v{version}-linux-x64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "https://get.pulumi.com/releases/sdk/pulumi-v{version}-darwin-x64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "https://get.pulumi.com/releases/sdk/pulumi-v{version}-windows-x64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - https://get.pulumi.com/releases/sdk/pulumi-v{version}-linux-x64.tar.gz
+- MacOS:
+    artifact_templates:
+    - https://get.pulumi.com/releases/sdk/pulumi-v{version}-darwin-x64.tar.gz
+- Windows:
+    artifact_templates:
+    - https://get.pulumi.com/releases/sdk/pulumi-v{version}-windows-x64.zip
+detail: null

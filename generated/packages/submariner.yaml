@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: submariner
-description: "Submariner's Operator installs and maintains your Submariner deployment."
+description: Submariner's Operator installs and maintains your Submariner deployment.
 source:
   Github:
     owner: submariner-io
     repo: submariner-operator
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "subctl-v{version}-linux-amd64.tar.xz"
-  - LinuxArm64:
-      artifact_templates:
-        - "subctl-v{version}-linux-arm64.tar.xz"
-  - MacOS:
-      artifact_templates:
-        - "subctl-v{version}-darwin-amd64.tar.xz"
-  - Windows:
-      artifact_templates:
-        - "subctl-v{version}-windows-amd64.exe.tar.xz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - subctl-v{version}-linux-amd64.tar.xz
+- LinuxArm64:
+    artifact_templates:
+    - subctl-v{version}-linux-arm64.tar.xz
+- MacOS:
+    artifact_templates:
+    - subctl-v{version}-darwin-amd64.tar.xz
+- Windows:
+    artifact_templates:
+    - subctl-v{version}-windows-amd64.exe.tar.xz
+detail: null

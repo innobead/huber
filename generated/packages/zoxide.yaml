@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: zoxide
 description: A smarter cd command. Supports all major shells.
 source:
@@ -7,16 +6,16 @@ source:
     owner: ajeetdsouza
     repo: zoxide
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/zoxide-x86_64-unknown-linux-musl.tar.gz"
-  - LinuxArm32:
-      artifact_templates:
-        - "{version}/zoxide-armv7-unknown-linux-musleabihf.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/zoxide-x86_64-apple-darwin.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/zoxide-x86_64-pc-windows-msvc.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/zoxide-x86_64-unknown-linux-musl.tar.gz'
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/zoxide-armv7-unknown-linux-musleabihf.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/zoxide-x86_64-apple-darwin.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/zoxide-x86_64-pc-windows-msvc.zip'
+detail: null

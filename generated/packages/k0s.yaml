@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: k0s
 description: k0s - The Zero Friction Kubernetes
 source:
@@ -7,13 +6,13 @@ source:
     owner: k0sproject
     repo: k0s
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "k0s-v{version}-amd64"
-  - LinuxArm64:
-      artifact_templates:
-        - "k0s-v{version}-arm64"
-  - Windows:
-      artifact_templates:
-        - "k0s-v{version}-amd64.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - k0s-v{version}-amd64
+- LinuxArm64:
+    artifact_templates:
+    - k0s-v{version}-arm64
+- Windows:
+    artifact_templates:
+    - k0s-v{version}-amd64.exe
+detail: null

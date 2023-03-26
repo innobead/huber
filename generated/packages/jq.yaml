@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: jq
 description: Command-line JSON processor
 source:
@@ -7,19 +6,19 @@ source:
     owner: stedolan
     repo: jq
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/jq-linux64"
-      executable_mappings:
-        jq-linux64: jq
-  - MacOS:
-      artifact_templates:
-        - "{version}/jq-osx-amd64"
-      executable_mappings:
-        jq-osx-amd64: jq
-  - Windows:
-      artifact_templates:
-        - "{version}/jq-win64.exe"
-      executable_mappings:
-        jq-win64.exe: jq.exe
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/jq-linux64'
+    executable_mappings:
+      jq-linux64: jq
+- MacOS:
+    artifact_templates:
+    - '{version}/jq-osx-amd64'
+    executable_mappings:
+      jq-osx-amd64: jq
+- Windows:
+    artifact_templates:
+    - '{version}/jq-win64.exe'
+    executable_mappings:
+      jq-win64.exe: jq.exe
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: velero
 description: Backup and migrate Kubernetes applications and their persistent volumes
 source:
@@ -7,13 +6,13 @@ source:
     owner: vmware-tanzu
     repo: velero
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "velero-v{version}-linux-amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "velero-v{version}-linux-arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "velero-v{version}-darwin-amd64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - velero-v{version}-linux-amd64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - velero-v{version}-linux-arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - velero-v{version}-darwin-amd64.tar.gz
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: ignite
 description: Ignite a Firecracker microVM
 source:
@@ -7,12 +6,12 @@ source:
     owner: weaveworks
     repo: ignite
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/ignite-amd64"
-        - "{version}/ignited-amd64"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/ignite-arm64"
-        - "{version}/ignited-arm64"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/ignite-amd64'
+    - '{version}/ignited-amd64'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/ignite-arm64'
+    - '{version}/ignited-arm64'
+detail: null

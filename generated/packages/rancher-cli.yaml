@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: rancher-cli
 description: Rancher CLI
 source:
@@ -7,13 +6,13 @@ source:
     owner: rancher
     repo: cli
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "rancher-linux-amd64-v{version}.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "rancher-darwin-amd64-v{version}.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "rancher-windows-amd64-v{version}.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - rancher-linux-amd64-v{version}.tar.gz
+- MacOS:
+    artifact_templates:
+    - rancher-darwin-amd64-v{version}.tar.gz
+- Windows:
+    artifact_templates:
+    - rancher-windows-amd64-v{version}.zip
+detail: null

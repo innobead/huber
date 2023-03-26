@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: powershell
 description: PowerShell for every system!
 source:
@@ -7,10 +6,10 @@ source:
     owner: PowerShell
     repo: PowerShell
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "powershell-{version}-linux-x64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "powershell-{version}-osx-x64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - powershell-{version}-linux-x64.tar.gz
+- MacOS:
+    artifact_templates:
+    - powershell-{version}-osx-x64.tar.gz
+detail: null

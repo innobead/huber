@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 #[macro_use]
 extern crate maplit;
 
@@ -7,10 +9,10 @@ use std::process::Command;
 
 use hubcaps_ex::{Credentials, Github};
 use tokio::fs::{create_dir_all, remove_file, File};
-use tokio::io::AsyncWriteExt;
 
 use huber_common::model::package::{Package, PackageIndex, PackageSource};
 use huber_common::result::Result;
+use tokio::io::AsyncWriteExt;
 
 use crate::pkg::*;
 
@@ -19,6 +21,7 @@ mod pkg;
 #[tokio::main]
 async fn main() -> Result<()> {
     let pkg_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+
     let generated_dir = &Path::new(&pkg_dir)
         .parent()
         .unwrap()
@@ -26,8 +29,16 @@ async fn main() -> Result<()> {
         .unwrap()
         .join("generated")
         .join("packages");
+
     let force_generated: bool = env::var("FORCE_GENERATE")
-        .unwrap_or("false".to_string())
+        .unwrap_or_else(|_| {
+            if generated_dir.exists() {
+                "false"
+            } else {
+                "true"
+            }
+            .to_string()
+        })
         .parse()
         .unwrap();
 
@@ -41,7 +52,7 @@ async fn main() -> Result<()> {
         .unwrap()
         .join("index.yaml");
 
-    remove_file(&index_file).await?;
+    let _ = remove_file(&index_file).await;
     let mut index_file = File::create(index_file).await?;
     index_file
         .write("# This is generated. Don't modify.\n".as_bytes())

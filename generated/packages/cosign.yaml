@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: cosign
 description: Container Signing
 source:
@@ -7,31 +6,31 @@ source:
     owner: sigstore
     repo: cosign
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/cosign-linux-amd64"
-        - "{version}/cosigned-linux-amd64"
-        - "{version}/sget-linux-amd64"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/cosign-linux-arm64"
-        - "{version}/cosigned-linux-arm64"
-        - "{version}/sget-linux-arm64"
-  - LinuxArm32:
-      artifact_templates:
-        - "{version}/cosign-linux-arm"
-        - "{version}/cosigned-linux-arm"
-        - "{version}/sget-linux-arm"
-  - MacOS:
-      artifact_templates:
-        - "{version}/cosign-darwin-amd64"
-        - "{version}/sget-darwin-amd64"
-  - MacOSArm64:
-      artifact_templates:
-        - "{version}/cosign-darwin-arm64"
-        - "{version}/sget-darwin-arm64"
-  - Windows:
-      artifact_templates:
-        - "{version}/cosign-windows-amd64.exe"
-        - "{version}/sget-windows-amd64.exe"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/cosign-linux-amd64'
+    - '{version}/cosigned-linux-amd64'
+    - '{version}/sget-linux-amd64'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/cosign-linux-arm64'
+    - '{version}/cosigned-linux-arm64'
+    - '{version}/sget-linux-arm64'
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/cosign-linux-arm'
+    - '{version}/cosigned-linux-arm'
+    - '{version}/sget-linux-arm'
+- MacOS:
+    artifact_templates:
+    - '{version}/cosign-darwin-amd64'
+    - '{version}/sget-darwin-amd64'
+- MacOSArm64:
+    artifact_templates:
+    - '{version}/cosign-darwin-arm64'
+    - '{version}/sget-darwin-arm64'
+- Windows:
+    artifact_templates:
+    - '{version}/cosign-windows-amd64.exe'
+    - '{version}/sget-windows-amd64.exe'
+detail: null

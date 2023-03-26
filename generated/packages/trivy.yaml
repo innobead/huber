@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: trivy
-description: "Find vulnerabilities, misconfigurations, secrets, SBOM in containers, Kubernetes, code repositories, clouds and more"
+description: Find vulnerabilities, misconfigurations, secrets, SBOM in containers, Kubernetes, code repositories, clouds and more
 source:
   Github:
     owner: aquasecurity
     repo: trivy
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "trivy_{version}_Linux-64bit.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "trivy_{version}_Linux-ARM64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "trivy_{version}_macOS-64bit.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - trivy_{version}_Linux-64bit.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - trivy_{version}_Linux-ARM64.tar.gz
+- MacOS:
+    artifact_templates:
+    - trivy_{version}_macOS-64bit.tar.gz
+detail: null

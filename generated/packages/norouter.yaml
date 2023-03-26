@@ -1,22 +1,21 @@
 # This is generated. Don't modify.
----
 name: norouter
-description: "NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is required. "
+description: 'NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is required. '
 source:
   Github:
     owner: norouter
     repo: norouter
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/norouter-Linux-x86_64.tgz"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/norouter-Linux-aarch64.tgz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/norouter-Darwin-x86_64.tgz"
-  - Windows:
-      artifact_templates:
-        - "{version}/norouter-Windows-x64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/norouter-Linux-x86_64.tgz'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/norouter-Linux-aarch64.tgz'
+- MacOS:
+    artifact_templates:
+    - '{version}/norouter-Darwin-x86_64.tgz'
+- Windows:
+    artifact_templates:
+    - '{version}/norouter-Windows-x64.zip'
+detail: null

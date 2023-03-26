@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: krew
 description: 📦 Find and install kubectl plugins
 source:
@@ -7,22 +6,22 @@ source:
     owner: kubernetes-sigs
     repo: krew
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/krew-linux_amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/krew-linux_arm64.tar.gz"
-  - LinuxArm32:
-      artifact_templates:
-        - "{version}/krew-linux_arm.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/krew-darwin_amd64.tar.gz"
-  - MacOSArm64:
-      artifact_templates:
-        - "{version}/krew-darwin_arm64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/krew-windows_amd64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/krew-linux_amd64.tar.gz'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/krew-linux_arm64.tar.gz'
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/krew-linux_arm.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/krew-darwin_amd64.tar.gz'
+- MacOSArm64:
+    artifact_templates:
+    - '{version}/krew-darwin_arm64.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/krew-windows_amd64.tar.gz'
+detail: null

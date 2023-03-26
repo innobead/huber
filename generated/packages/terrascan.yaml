@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: terrascan
 description: Detect compliance and security violations across Infrastructure as Code to mitigate risk before provisioning cloud native infrastructure.
 source:
@@ -7,16 +6,16 @@ source:
     owner: tenable
     repo: terrascan
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "terrascan_{version}_Linux_x86_64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "terrascan_{version}_Linux_arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "terrascan_{version}_Darwin_x86_64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "terrascan_{version}_Windows_x86_64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - terrascan_{version}_Linux_x86_64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - terrascan_{version}_Linux_arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - terrascan_{version}_Darwin_x86_64.tar.gz
+- Windows:
+    artifact_templates:
+    - terrascan_{version}_Windows_x86_64.tar.gz
+detail: null

@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: sad
 description: CLI search and replace | Space Age seD
 source:
@@ -7,10 +6,10 @@ source:
     owner: ms-jpq
     repo: sad
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/x86_64-unknown-linux-gnu.zip"
-  - MacOS:
-      artifact_templates:
-        - "{version}/x86_64-apple-darwin.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/x86_64-unknown-linux-gnu.zip'
+- MacOS:
+    artifact_templates:
+    - '{version}/x86_64-apple-darwin.zip'
+detail: null

@@ -1,26 +1,25 @@
 # This is generated. Don't modify.
----
 name: istio
-description: "Connect, secure, control, and observe services."
+description: Connect, secure, control, and observe services.
 source:
   Github:
     owner: istio
     repo: istio
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "istio-{version}-linux-amd64.tar.gz"
-        - "istioctl-{version}-linux-amd64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "istio-{version}-linux-arm64.tar.gz"
-        - "istioctl-{version}-linux-arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "istio-{version}-osx.tar.gz"
-        - "istioctl-{version}-osx.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "istio-{version}-win.zip"
-        - "istioctl-{version}-win.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - istio-{version}-linux-amd64.tar.gz
+    - istioctl-{version}-linux-amd64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - istio-{version}-linux-arm64.tar.gz
+    - istioctl-{version}-linux-arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - istio-{version}-osx.tar.gz
+    - istioctl-{version}-osx.tar.gz
+- Windows:
+    artifact_templates:
+    - istio-{version}-win.zip
+    - istioctl-{version}-win.zip
+detail: null

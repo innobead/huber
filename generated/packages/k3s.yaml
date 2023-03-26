@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: k3s
 description: Lightweight Kubernetes
 source:
@@ -7,13 +6,13 @@ source:
     owner: rancher
     repo: k3s
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/k3s"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/k3s-arm64"
-  - LinuxArm32:
-      artifact_templates:
-        - "{version}/k3s-armhf"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/k3s'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/k3s-arm64'
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/k3s-armhf'
+detail: null

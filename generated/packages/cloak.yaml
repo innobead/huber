@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: cloak
 description: A Command Line OTP Authenticator application.
 source:
@@ -7,16 +6,16 @@ source:
     owner: evansmurithi
     repo: cloak
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "cloak-v{version}-x86_64-unknown-linux-musl.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "cloak-v{version}-aarch64-unknown-linux-gnu.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "cloak-v{version}-x86_64-apple-darwin.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "cloak-v{version}-x86_64-pc-windows-msvc.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - cloak-v{version}-x86_64-unknown-linux-musl.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - cloak-v{version}-aarch64-unknown-linux-gnu.tar.gz
+- MacOS:
+    artifact_templates:
+    - cloak-v{version}-x86_64-apple-darwin.tar.gz
+- Windows:
+    artifact_templates:
+    - cloak-v{version}-x86_64-pc-windows-msvc.zip
+detail: null

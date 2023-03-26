@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: gping
-description: "Ping, but with a graph"
+description: Ping, but with a graph
 source:
   Github:
     owner: orf
     repo: gping
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/gping-Linux-x86_64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/gping-Darwin-x86_64.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "{version}/gping-Windows-x86_64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/gping-Linux-x86_64.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/gping-Darwin-x86_64.tar.gz'
+- Windows:
+    artifact_templates:
+    - '{version}/gping-Windows-x86_64.tar.gz'
+detail: null

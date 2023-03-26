@@ -1,25 +1,24 @@
 # This is generated. Don't modify.
----
 name: k6
-description: "A modern load testing tool, using Go and JavaScript - https://k6.io"
+description: A modern load testing tool, using Go and JavaScript - https://k6.io
 source:
   Github:
     owner: k6io
     repo: k6
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "k6-v{version}-linux-amd64.tar.gz"
-        - "k6-v{version}-linux64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "k6-v{version}-linux-arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "k6-v{version}-macos-amd64.zip"
-        - "k6-v{version}-mac.zip"
-  - Windows:
-      artifact_templates:
-        - "k6-v{version}-windows-amd64.zip"
-        - "k6-v{version}-win64.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - k6-v{version}-linux-amd64.tar.gz
+    - k6-v{version}-linux64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - k6-v{version}-linux-arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - k6-v{version}-macos-amd64.zip
+    - k6-v{version}-mac.zip
+- Windows:
+    artifact_templates:
+    - k6-v{version}-windows-amd64.zip
+    - k6-v{version}-win64.zip
+detail: null

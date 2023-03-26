@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: coreutils
 description: Cross-platform Rust rewrite of the GNU coreutils
 source:
@@ -7,19 +6,19 @@ source:
     owner: uutils
     repo: coreutils
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "coreutils-{version}-x86_64-unknown-linux-musl.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "coreutils-{version}-aarch64-unknown-linux-gnu.tar.gz"
-  - LinuxArm32:
-      artifact_templates:
-        - "coreutils-{version}-arm-unknown-linux-gnueabihf.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "coreutils-{version}-x86_64-apple-darwin.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "coreutils-{version}-x86_64-pc-windows-msvc.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - coreutils-{version}-x86_64-unknown-linux-musl.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - coreutils-{version}-aarch64-unknown-linux-gnu.tar.gz
+- LinuxArm32:
+    artifact_templates:
+    - coreutils-{version}-arm-unknown-linux-gnueabihf.tar.gz
+- MacOS:
+    artifact_templates:
+    - coreutils-{version}-x86_64-apple-darwin.tar.gz
+- Windows:
+    artifact_templates:
+    - coreutils-{version}-x86_64-pc-windows-msvc.zip
+detail: null

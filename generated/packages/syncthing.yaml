@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: syncthing
 description: Open Source Continuous File Synchronization
 source:
@@ -7,16 +6,16 @@ source:
     owner: syncthing
     repo: syncthing
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "syncthing-linux-amd64-v{version}.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "syncthing-linux-arm64-v{version}.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "syncthing-macos-amd64-v{version}.zip"
-  - Windows:
-      artifact_templates:
-        - "syncthing-windows-amd64-v{version}.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - syncthing-linux-amd64-v{version}.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - syncthing-linux-arm64-v{version}.tar.gz
+- MacOS:
+    artifact_templates:
+    - syncthing-macos-amd64-v{version}.zip
+- Windows:
+    artifact_templates:
+    - syncthing-windows-amd64-v{version}.zip
+detail: null

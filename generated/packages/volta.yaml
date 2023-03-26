@@ -1,19 +1,18 @@
 # This is generated. Don't modify.
----
 name: volta
-description: "Volta: JS Toolchains as Code. ⚡"
+description: 'Volta: JS Toolchains as Code. ⚡'
 source:
   Github:
     owner: volta-cli
     repo: volta
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "volta-{version}-linux-openssl-1.1.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "volta-{version}-macos.tar.gz"
-  - Windows:
-      artifact_templates:
-        - "volta-{version}-windows.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - volta-{version}-linux-openssl-1.1.tar.gz
+- MacOS:
+    artifact_templates:
+    - volta-{version}-macos.tar.gz
+- Windows:
+    artifact_templates:
+    - volta-{version}-windows.zip
+detail: null

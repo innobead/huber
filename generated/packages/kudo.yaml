@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: kudo
 description: Kubernetes Universal Declarative Operator (KUDO)
 source:
@@ -7,13 +6,13 @@ source:
     owner: kudobuilder
     repo: kudo
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "kudo_{version}_linux_x86_64.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "kudo_{version}_linux_arm64.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "kudo_{version}_darwin_x86_64.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - kudo_{version}_linux_x86_64.tar.gz
+- LinuxArm64:
+    artifact_templates:
+    - kudo_{version}_linux_arm64.tar.gz
+- MacOS:
+    artifact_templates:
+    - kudo_{version}_darwin_x86_64.tar.gz
+detail: null

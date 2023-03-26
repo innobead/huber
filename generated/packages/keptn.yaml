@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: keptn
 description: Cloud-native application life-cycle orchestration. Keptn automates your SLO-driven multi-stage delivery and operations & remediation of your applications.
 source:
@@ -7,13 +6,13 @@ source:
     owner: keptn
     repo: keptn
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}_keptn-linux.tar"
-  - MacOS:
-      artifact_templates:
-        - "{version}_keptn-macOS.tar"
-  - Windows:
-      artifact_templates:
-        - "{version}_keptn-windows.tar"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}_keptn-linux.tar'
+- MacOS:
+    artifact_templates:
+    - '{version}_keptn-macOS.tar'
+- Windows:
+    artifact_templates:
+    - '{version}_keptn-windows.tar'
+detail: null

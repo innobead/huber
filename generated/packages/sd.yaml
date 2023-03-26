@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: sd
 description: Intuitive find & replace CLI (sed alternative)
 source:
@@ -7,10 +6,10 @@ source:
     owner: chmln
     repo: sd
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "sd-v{version}-x86_64-unknown-linux-musl"
-  - MacOS:
-      artifact_templates:
-        - "sd-v{version}-x86_64-apple-darwin"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - sd-v{version}-x86_64-unknown-linux-musl
+- MacOS:
+    artifact_templates:
+    - sd-v{version}-x86_64-apple-darwin
+detail: null

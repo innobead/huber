@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: kind
 description: Kubernetes IN Docker - local clusters for testing Kubernetes
 source:
@@ -7,16 +6,16 @@ source:
     owner: kubernetes-sigs
     repo: kind
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/kind-linux-amd64"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/kind-linux-arm64"
-  - MacOS:
-      artifact_templates:
-        - "{version}/kind-darwin-amd64"
-  - Windows:
-      artifact_templates:
-        - "{version}/kind-windows-amd64"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/kind-linux-amd64'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/kind-linux-arm64'
+- MacOS:
+    artifact_templates:
+    - '{version}/kind-darwin-amd64'
+- Windows:
+    artifact_templates:
+    - '{version}/kind-windows-amd64'
+detail: null

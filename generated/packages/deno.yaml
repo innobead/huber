@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: deno
 description: A modern runtime for JavaScript and TypeScript.
 source:
@@ -7,16 +6,16 @@ source:
     owner: denoland
     repo: deno
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/deno-x86_64-unknown-linux-gnu.zip"
-  - MacOS:
-      artifact_templates:
-        - "{version}/deno-x86_64-apple-darwin.zip"
-  - MacOSArm64:
-      artifact_templates:
-        - "{version}/deno-aarch64-apple-darwin.zip"
-  - Windows:
-      artifact_templates:
-        - "{version}/deno-x86_64-pc-windows-msvc.zip"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/deno-x86_64-unknown-linux-gnu.zip'
+- MacOS:
+    artifact_templates:
+    - '{version}/deno-x86_64-apple-darwin.zip'
+- MacOSArm64:
+    artifact_templates:
+    - '{version}/deno-aarch64-apple-darwin.zip'
+- Windows:
+    artifact_templates:
+    - '{version}/deno-x86_64-pc-windows-msvc.zip'
+detail: null

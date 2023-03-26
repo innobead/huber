@@ -1,5 +1,4 @@
 # This is generated. Don't modify.
----
 name: zellij
 description: A terminal workspace with batteries included
 source:
@@ -7,16 +6,16 @@ source:
     owner: zellij-org
     repo: zellij
 targets:
-  - LinuxAmd64:
-      artifact_templates:
-        - "{version}/zellij-x86_64-unknown-linux-musl.tar.gz"
-  - LinuxArm64:
-      artifact_templates:
-        - "{version}/zellij-aarch64-unknown-linux-musl.tar.gz"
-  - MacOS:
-      artifact_templates:
-        - "{version}/zellij-aarch64-apple-darwin.tar.gz"
-  - MacOSArm64:
-      artifact_templates:
-        - "{version}/zellij-aarch64-apple-darwin.tar.gz"
-detail: ~
+- LinuxAmd64:
+    artifact_templates:
+    - '{version}/zellij-x86_64-unknown-linux-musl.tar.gz'
+- LinuxArm64:
+    artifact_templates:
+    - '{version}/zellij-aarch64-unknown-linux-musl.tar.gz'
+- MacOS:
+    artifact_templates:
+    - '{version}/zellij-aarch64-apple-darwin.tar.gz'
+- MacOSArm64:
+    artifact_templates:
+    - '{version}/zellij-aarch64-apple-darwin.tar.gz'
+detail: null
