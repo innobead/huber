@@ -36,7 +36,7 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde_yaml = "0.9.19"
 reqwest = { version = "0.11", features = ["json"] }
-tokio = { version = "1.23", features = ["full"] } # reqwest 0.10, hubcaps 0.6 does not support tokio 0.3/1.0 yet, ref: https://github.com/seanmonstar/reqwest/issues/1060
+tokio = { version = "1.27", features = ["full"] } # reqwest 0.10, hubcaps 0.6 does not support tokio 0.3/1.0 yet, ref: https://github.com/seanmonstar/reqwest/issues/1060
 #hubcaps = { git = "https://github.com/softprops/hubcaps", rev = "324d02fbb371782c82e9a13b839b86894475c91f" } # wait for hubcaps formal release > 0.6
 hubcaps-ex = "0.6.2"
 compress-tools = "0.14.0"
