@@ -2,19 +2,19 @@
 
 ![huber in action](./doc/huber.png)
 
-**Huber** is to simplify the package management from GitHub projects with a builtin awesome list (live updating) of popular projects. It also supports *repository* feature for managing the package installation from your personal GitHub project. Please check the complete introduction as below.
+**Huber** aims to simplify package install management for GitHub projects by providing a built-in, live-updating awesome list of popular projects. It also supports to manage customized package installation from your personal GitHub project. Please check out the complete introduction below.
 
 > `Huber is a (new) tool for easy installation of dev/ops CLI tools directly from GitHub. No more trawling the releases pages!` introduced by [Coffee and Cloud Native - 88](https://www.youtube.com/watch?v=LgA6hpKdncw)
 
-- Manages released artifacts from GitHub, and decide which version as the current to use
-- Manages the default package repository with an awesome package list including popular star GitHub projects (ex: K8s, K3s, cloud-native, etc)
-- Supports `huber.yaml` in any public/private GitHub repo aware to Huber to manage the described packages
-- Supports secure protocols (`SSH`/`HTTPS`) for github communication
-- Supports cross platforms
+- Manages released artifacts from GitHub and decides which version to use as the current one.
+- Manages the default package repository with an awesome package list that includes popular GitHub projects (e.g., K8s, K3s, cloud-native, etc.).
+- Supports huber.yaml in any public/private GitHub repository known to Huber to manage the described packages.
+- Supports secure protocols (SSH/HTTPS) for communication with GitHub.
+- Supports multiple platforms:
   - Linux x86_64/amd64
   - Linux arm64/aarch64
   - Linux arm-v7
-  - MacOS x86_64/amd64
+  - macOS x86_64/amd64
   - Windows x86_64/amd64
 
 ![huber in action](./doc/demo.svg)
@@ -23,7 +23,7 @@
 
 ## Prerequisites
 
-Please install necessary dependent libraries on the supported platforms to make sure huber work as expected. Use appropriate OS package manager to install the dependencies. 
+Please install the necessary dependent libraries on the supported platforms to ensure that Huber works as expected. You can use the appropriate OS package manager to install the dependencies.
 
 ### Linux (usually installed already)
 
@@ -56,8 +56,7 @@ For vcpkg, you can refer to [vcpkg#quick-start-windows](https://github.com/micro
 
 ### Installing the official version
 
-For official releases, please install the latest release as below command. After the installation, `huber` will be automatically added to the environment path by updating the`$HOME/.bashrc`. 
-But, if it does not work as expected, please remember to add `$HOME/.huber/bin` in the environment path, so `huber` will be looked up correctly. 
+To install the latest official release, please use the following command. After installation, Huber will be automatically added to the environment path by updating `$HOME/.bashrc`. If Huber is not working as expected, please remember to add `$HOME/.huber/bin` to the environment path so that huber can be looked up correctly.
 
 ```console
 # Cargo
@@ -72,7 +71,7 @@ But, if it does not work as expected, please remember to add `$HOME/.huber/bin` 
 
 ### Installing the development version
 
-For Linux or Mac users, follow below steps to prepare the environment.
+Linux and macOS users can follow the steps below to prepare the environment:
 
 ```console
 # Setup development environment
@@ -82,7 +81,7 @@ For Linux or Mac users, follow below steps to prepare the environment.
 ❯ make install
 ```
 
-For Windows users, follow below steps to prepare the environment.
+Windows users can follow the steps below to prepare the environment:
 
 1. Download VS 2019 build tool installer, and install C++ development toolchain
 2. Pull vcpkg git repo (https://github.com/microsoft/vcpkg), then do bootstrap via `./bootstrap-vcpkg.bat`
@@ -601,9 +600,9 @@ Error: No update available: 404 Not Found: Not Found
 
 # Contribution
 
-If you would like to add some useful tools in the builtin managed packages list, please have a PR as below steps.
+If you would like to add some useful tools to the built-in managed packages list, please follow the steps below to submit a pull request (PR):
 
-1. Add a new package module in `crates/generator/src/pkg` as the below k3s example.
+1. Add a new package module in crates/generator/src/pkg, following the example of K3s shown below:
 <details>
   <summary>crates/generator/src/pkg/k3s.rs</summary>
 
@@ -641,7 +640,7 @@ pub fn release() -> Package {
 ```
 </details>
 
-2. Update the added package in `crates/generator/src/build.rs`
+2. Update the added package in `crates/generator/src/build.rs`.
 <details>
   <summary>Update crates/generator/src/build.rs</summary>
 
@@ -657,8 +656,8 @@ fn releases() -> Vec<Package> {
 ```
 </details>
 
-3. Run `make generate` to generate the new package yaml into `generated/packages` and `index.yaml` will be updated accordingly. 
+3. Run `make generate` to generate the new package YAML file into `generated/packages`. The index.yaml file will be updated accordingly.
 > Notes:
-> - Remember to specify `GITHUB_TOKEN` environment variable with right permissions when running `make generate` to ensure package update successfully. 
-> - If don't want to set up Rust development environment, you can also run `./hack/run-make-by-docker.sh` to execute any make target like `./hack/run-make-by-docker.sh make generate`.
-4. Create a PR to add this new package.
+> - Remember to specify `GITHUB_TOKEN` environment variable with the appropriate permissions when running `make generate` to ensure package update successfully. 
+> - If don't want to set up Rust development environment, you can also run `./hack/run-make-by-docker.sh` to execute any make target, such as `./hack/run-make-by-docker.sh make generate`.
+4. Finally, create a pull request (PR) to add this new package.
