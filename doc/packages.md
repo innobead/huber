@@ -4,7 +4,7 @@
  Name             Description                                                                                              Source 
  ali              Generate HTTP load and plot the results in real-time                                                     https://github.com/nakabonne/ali 
  argocd           Declarative continuous deployment for Kubernetes.                                                        https://github.com/argoproj/argo-cd 
- arkade           Open Source Marketplace For Kubernetes                                                                   https://github.com/alexellis/arkade 
+ arkade           Open Source Marketplace For Developer Tools                                                              https://github.com/alexellis/arkade 
  axelard          Axelar : A Decentralized Blockchain Interoperability Network                                             https://github.com/axelarnetwork/axelar-core 
  bat              A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  bottom           Yet another cross-platform graphical process/system monitor.                                             https://github.com/ClementTsang/bottom 
@@ -80,8 +80,8 @@
  keptn            Cloud-native application life-cycle orchestration. Keptn automates your SLO-driven multi-stage deliv...  https://github.com/keptn/keptn 
  ketch            Ketch is an application delivery framework that facilitates the deployment and management of applica...  https://github.com/shipa-corp/ketch 
  kind             Kubernetes IN Docker - local clusters for testing Kubernetes                                             https://github.com/kubernetes-sigs/kind 
- ko               Build and deploy Go applications on Kubernetes                                                           https://github.com/google/ko 
- kompose          Go from Docker Compose to Kubernetes                                                                     https://github.com/kubernetes/kompose 
+ ko               Build and deploy Go applications                                                                         https://github.com/google/ko 
+ kompose          Convert Compose to Kubernetes                                                                            https://github.com/kubernetes/kompose 
  kotlin           The Kotlin Programming Language.                                                                         https://github.com/JetBrains/kotlin 
  kpt              Automate Kubernetes Configuration Editing                                                                https://github.com/GoogleContainerTools/kpt 
  krew             📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
@@ -109,7 +109,7 @@
  nerdctl          contaiNERD CTL - Docker-compatible CLI for containerd, with support for Compose, Rootless, eStargz, ...  https://github.com/containerd/nerdctl 
  node             Node.js JavaScript runtime :sparkles::turtle::rocket::sparkles:                                          https://github.com/nodejs/node 
  nomad            Nomad is an easy-to-use, flexible, and performant workload orchestrator that can deploy a mix of mic...  https://github.com/hashicorp/nomad 
- norouter         NoRouter: IP-over-Stdio. The easiest multi-host {value} multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
+ norouter         NoRouter: IP-over-Stdio. The easiest multi-host & multi-cloud networking ever. No root privilege is ...  https://github.com/norouter/norouter 
  nushell          A new type of shell                                                                                      https://github.com/nushell/nushell 
  octant           Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
  okteto           Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
@@ -135,8 +135,9 @@
  rustwasmc        Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/rustwasmc 
  sad              CLI search and replace | Space Age seD                                                                   https://github.com/ms-jpq/sad 
  saml2aws         CLI tool which enables you to login and retrieve AWS temporary credentials using a SAML IDP              https://github.com/Versent/saml2aws 
- sd               Intuitive find {value} replace CLI (sed alternative)                                                           https://github.com/chmln/sd 
+ sd               Intuitive find & replace CLI (sed alternative)                                                           https://github.com/chmln/sd 
  shadowsocks      A Rust port of shadowsocks                                                                               https://github.com/shadowsocks/shadowsocks-rust 
+ shisho           Lightweight static analyzer for several programming languages                                            https://github.com/flatt-security/shisho 
  skaffold         Easy and Repeatable Kubernetes Development                                                               https://github.com/GoogleContainerTools/skaffold 
  skim             Fuzzy Finder in rust!                                                                                    https://github.com/lotabout/skim 
  solidity         Solidity, the Smart Contract Programming Language                                                        https://github.com/ethereum/solidity 
@@ -169,7 +170,7 @@
  waypoint         A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
  wstunnel         Tunneling over websocket protocol - Static binary available                                              https://github.com/erebe/wstunnel 
  xh               Friendly and fast tool for sending HTTP requests                                                         https://github.com/ducaale/xh 
- yq               yq is a portable command-line YAML, JSON, XML, CSV and properties processor                              https://github.com/mikefarah/yq 
+ yq               yq is a portable command-line YAML, JSON, XML, CSV, TOML  and properties processor                       https://github.com/mikefarah/yq 
  zellij           A terminal workspace with batteries included                                                             https://github.com/zellij-org/zellij 
  zola             A fast static site generator in a single binary with everything built-in. https://www.getzola.org        https://github.com/getzola/zola 
  zoxide           A smarter cd command. Supports all major shells.                                                         https://github.com/ajeetdsouza/zoxide 
