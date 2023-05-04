@@ -134,6 +134,7 @@ pub mod sad;
 pub mod saml2aws;
 pub mod sd;
 pub mod shadowsocks;
+pub mod shisho;
 pub mod skaffold;
 pub mod skim;
 pub mod solidity;

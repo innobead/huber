@@ -189,6 +189,7 @@ fn releases() -> Vec<Package> {
         saml2aws::release(),
         grpcurl::release(),
         buf::release(),
+        shisho::release(),
         // infra
         pulumi::release(),
         chisel::release(),
