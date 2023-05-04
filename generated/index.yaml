@@ -404,6 +404,9 @@
 - name: shadowsocks
   owner: shadowsocks
   source: github
+- name: shisho
+  owner: flatt-security
+  source: github
 - name: skaffold
   owner: GoogleContainerTools
   source: github
