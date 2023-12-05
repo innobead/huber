@@ -100,7 +100,7 @@
  linkerd2-edge    Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
  linkerd2-stable  Ultralight, security-first service mesh for Kubernetes. Main repo for Linkerd 2.x.                       https://github.com/linkerd/linkerd2 
  loc              Count lines of code quickly.                                                                             https://github.com/cgag/loc 
- lsd              The next gen ls command                                                                                  https://github.com/Peltoche/lsd 
+ lsd              The next gen ls command                                                                                  https://github.com/lsd-rs/lsd 
  minikube         Run Kubernetes locally                                                                                   https://github.com/kubernetes/minikube 
  mkcert           A simple zero-config tool to make locally trusted development certificates with any names you'd like...  https://github.com/FiloSottile/mkcert 
  nat              `ls` alternative with useful info and a splash of color 🎨                                               https://github.com/willdoescode/nat 
