@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: terraform
-description: Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an open source tool that codifies APIs into declarative configuration files that can be shared amongst team members, treated as code, edited, reviewed, and versioned.
+description: Terraform enables you to safely and predictably create, change, and improve infrastructure. It is a source-available tool that codifies APIs into declarative configuration files that can be shared amongst team members, treated as code, edited, reviewed, and versioned.
 source:
   Github:
     owner: hashicorp
@@ -15,6 +15,9 @@ targets:
 - MacOS:
     artifact_templates:
     - https://releases.hashicorp.com/terraform/{version}/terraform_{version}_darwin_amd64.zip
+- MacOSArm64:
+    artifact_templates:
+    - https://releases.hashicorp.com/terraform/{version}/terraform_{version}_darwin_arm64.zip
 - Windows:
     artifact_templates:
     - https://releases.hashicorp.com/terraform/{version}/terraform_{version}_windows_amd64.zip

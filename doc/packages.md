@@ -150,7 +150,7 @@
  tealdeer         A very fast implementation of tldr in Rust.                                                              https://github.com/dbrgn/tealdeer 
  tecli            In a world where everything is Terraform, teams use Terraform Cloud API to manage their workloads. T...  https://github.com/awslabs/tecli 
  termshark        A terminal UI for tshark, inspired by Wireshark                                                          https://github.com/gcla/termshark 
- terraform        Terraform enables you to safely and predictably create, change, and improve infrastructure. It is an...  https://github.com/hashicorp/terraform 
+ terraform        Terraform enables you to safely and predictably create, change, and improve infrastructure. It is a ...  https://github.com/hashicorp/terraform 
  terrascan        Detect compliance and security violations across Infrastructure as Code to mitigate risk before prov...  https://github.com/tenable/terrascan 
  tilt             Define your dev environment as code. For microservice apps on Kubernetes.                                https://github.com/tilt-dev/tilt 
  tokei            Count your code, quickly.                                                                                https://github.com/XAMPPRocky/tokei 
