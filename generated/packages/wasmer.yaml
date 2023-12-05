@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: wasmer
-description: 🚀 The leading WebAssembly Runtime supporting WASI and Emscripten
+description: 🚀 The leading WebAssembly Runtime supporting WASIX, WASI and Emscripten
 source:
   Github:
     owner: wasmerio

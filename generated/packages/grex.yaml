@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: grex
-description: A command-line tool and Rust library for generating regular expressions from user-provided test cases
+description: A command-line tool and Rust library with Python bindings for generating regular expressions from user-provided test cases
 source:
   Github:
     owner: pemistahl

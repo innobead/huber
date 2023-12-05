@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: huber
-description: Huber 📦, Package Manager for GitHub repos
+description: Huber 📦, Package Install Manager for GitHub repos
 source:
   Github:
     owner: innobead

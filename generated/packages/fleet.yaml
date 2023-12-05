@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: fleet
-description: Manage large fleets of Kubernetes clusters
+description: Deploy workloads from Git to large fleets of Kubernetes clusters
 source:
   Github:
     owner: rancher
