@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: argocd
-description: Declarative continuous deployment for Kubernetes.
+description: Declarative Continuous Deployment for Kubernetes
 source:
   Github:
     owner: argoproj

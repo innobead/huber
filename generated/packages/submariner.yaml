@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: submariner
-description: Submariner's Operator installs and maintains your Submariner deployment.
+description: Operator that deploys the various Submariner components.
 source:
   Github:
     owner: submariner-io

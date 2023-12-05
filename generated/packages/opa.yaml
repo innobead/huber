@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: opa
-description: An open source, general-purpose policy engine.
+description: Open Policy Agent (OPA) is an open source, general-purpose policy engine.
 source:
   Github:
     owner: open-policy-agent

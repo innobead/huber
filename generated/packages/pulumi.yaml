@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: pulumi
-description: Pulumi - Universal Infrastructure as Code. Your Cloud, Your Language, Your Way 🚀
+description: Pulumi - Infrastructure as Code in any programming language. Build infrastructure intuitively on any cloud using familiar languages 🚀
 source:
   Github:
     owner: pulumi

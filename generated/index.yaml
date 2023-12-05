@@ -294,7 +294,7 @@
   owner: cgag
   source: github
 - name: lsd
-  owner: Peltoche
+  owner: lsd-rs
   source: github
 - name: minikube
   owner: kubernetes

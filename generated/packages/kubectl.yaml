@@ -14,7 +14,10 @@ targets:
     - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/linux/arm64/kubectl
 - MacOS:
     artifact_templates:
-    - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/darwin/amd64/kubectl
+    - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/darwin/amd64/kubectl2
+- MacOSArm64:
+    artifact_templates:
+    - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/darwin/arm64/kubectl
 - Windows:
     artifact_templates:
     - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/windows/amd64/kubectl.exe
