@@ -15,6 +15,9 @@ targets:
 - MacOS:
     artifact_templates:
     - https://releases.hashicorp.com/terraform/{version}/terraform_{version}_darwin_amd64.zip
+- MacOSArm64:
+    artifact_templates:
+    - https://releases.hashicorp.com/terraform/{version}/terraform_{version}_darwin_arm64.zip
 - Windows:
     artifact_templates:
     - https://releases.hashicorp.com/terraform/{version}/terraform_{version}_windows_amd64.zip

@@ -49,6 +49,19 @@ pub fn release() -> Package {
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
+            PackageTargetType::MacOSArm64(PackageManagement {
+                artifact_templates: vec![
+                    "https://releases.hashicorp.com/terraform/{version}/terraform_{version}_darwin_arm64.zip"
+                        .to_string(),
+                ],
+                executable_templates: None,
+                executable_mappings: None,
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+                tag_version_regex_template: None,
+                scan_dirs: None,
+            }),
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec![
                     "https://releases.hashicorp.com/terraform/{version}/terraform_{version}_windows_amd64.zip"
