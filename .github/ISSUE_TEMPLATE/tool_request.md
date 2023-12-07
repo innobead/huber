@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-## What tool you suggest to add in Huber? and Why? Please provide the below info
+## What tool do you suggest to add in Huber? and Why? Please provide the below info
 
 GitHub Repo URL: <!-- please update -->
 
