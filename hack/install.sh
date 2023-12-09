@@ -5,7 +5,7 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
-function get_latest_release() {
+get_latest_release() {
   curl -sfSL "https://api.github.com/repos/innobead/huber/releases/latest" |
     grep '"tag_name":' |
     sed -E 's/.*"([^"]+)".*/\1/'

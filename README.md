@@ -658,6 +658,5 @@ fn releases() -> Vec<Package> {
 
 3. Run `make generate` to generate the new package YAML file into `generated/packages`. The index.yaml file will be updated accordingly.
 > Notes:
-> - Remember to specify `GITHUB_TOKEN` environment variable with the appropriate permissions when running `make generate` to ensure package update successfully. 
-> - If don't want to set up Rust development environment, you can also run `./hack/run-make-by-docker.sh` to execute any make target, such as `./hack/run-make-by-docker.sh make generate`.
+> - Remember to specify `GITHUB_TOKEN` environment variable with the appropriate permissions when running `make generate` to ensure package update successfully.
 4. Finally, create a pull request (PR) to add this new package.

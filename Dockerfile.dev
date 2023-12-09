@@ -1,6 +1,0 @@
-FROM rust:latest
-
-WORKDIR /workspace
-
-RUN apt-get update -y && \
-    apt-get install -y libarchive-dev

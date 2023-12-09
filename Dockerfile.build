@@ -1,17 +1,19 @@
 FROM rust:latest as build
+
 WORKDIR /workspace
+
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 ARG BUILD_TARGET=debug
 ARG MAKE_TARGET=build
+
 COPY . /workspace
+
 RUN suffix=$(echo ${TARGETPLATFORM} | sed "s/\//-/g") && \
     apt update && \
     apt install -y sudo && \
-    make setup-dev && \
-    make ${MAKE_TARGET} && \
-    apt-get clean && \
-    rustup self uninstall -y && \
+    ./hack/setup-dev.sh && \
+    just ${MAKE_TARGET} && \
     cp target/${BUILD_TARGET}/huber target/${BUILD_TARGET}/huber-${suffix}
 
 FROM scratch

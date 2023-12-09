@@ -78,7 +78,7 @@ build-multiarch: ## Build binaries for linux multiple architectures
 # Examples:
 # 	PLATFORMS=linux/arm64 make release-multiarch
 .PHONY: release-multiarch
-release-multiarch: ## Release binaries for linux multiple archite
+release-multiarch: ## Release binaries for linux multiple architectures
 	PLATFORMS=$(PLATFORMS) BUILD_TARGET=release OUTPUT_DIR=$(OUTPUT_DIR) MAKE_TARGET=release $(CURDIR)/hack/build-multiarch.sh
 	mkdir -p $(BUILD_DIR) && cp $(OUTPUT_DIR)/target/huber-* $(BUILD_DIR)/
 	$(MAKE) checksum
