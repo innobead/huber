@@ -75,10 +75,10 @@ Linux and macOS users can follow the steps below to prepare the environment:
 
 ```console
 # Setup development environment
-❯ make set-dev
+❯ ./hack/setup-dev.sh
 
 # Install huber in $HOME/.cargo/bin, $HOME/.huber/bin and update ~/.bashrc
-❯ make install
+❯ just install
 ```
 
 Windows users can follow the steps below to prepare the environment:
@@ -656,7 +656,7 @@ fn releases() -> Vec<Package> {
 ```
 </details>
 
-3. Run `make generate` to generate the new package YAML file into `generated/packages`. The index.yaml file will be updated accordingly.
+3. Run `just generate` to generate the new package YAML file into `generated/packages`. The index.yaml file will be updated accordingly.
 > Notes:
-> - Remember to specify `GITHUB_TOKEN` environment variable with the appropriate permissions when running `make generate` to ensure package update successfully.
+> - Remember to specify `GITHUB_TOKEN` environment variable with the appropriate permissions when running `just generate` to ensure package update successfully.
 4. Finally, create a pull request (PR) to add this new package.
