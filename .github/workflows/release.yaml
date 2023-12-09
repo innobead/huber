@@ -41,11 +41,13 @@ jobs:
       id: checkout-code
       uses: actions/checkout@v3
 
+    - uses: extractions/setup-just@v1
+
     - name: Setup build environment
-      run: make setup-dev
+      run: just setup-dev
 
     - name: Build artifacts
-      run: make release
+      run: just release
 
     - name: Release artifacts
       uses: softprops/action-gh-release@v1
@@ -76,7 +78,7 @@ jobs:
       run: echo ${{ steps.buildx.outputs.platforms }}
 
     - name: Setup, Test, Build
-      run: make release-multiarch
+      run: just release-multiarch
 
     - name: Release artifacts
       uses: softprops/action-gh-release@v1
@@ -84,35 +86,6 @@ jobs:
       with:
         draft: true
         files: "./.target/*"
-
-#  release-linux-armv7:
-#    name: relase - linux armv7
-#    runs-on: ubuntu-20.04
-#    steps:
-#    - name: Checkout code
-#      uses: actions/checkout@v3
-#
-#    - name: Set up QEMU
-#      uses: docker/setup-qemu-action@v1
-#
-#    - name: Set up Docker Buildx
-#      id: buildx
-#      uses: docker/setup-buildx-action@v1
-#      with:
-#        version: latest
-#
-#    - name: Available platforms
-#      run: echo ${{ steps.buildx.outputs.platforms }}
-#
-#    - name: Setup, Test, Build
-#      run: PLATFORMS=linux/arm/v7 make release-multiarch
-#
-#    - name: Release artifacts
-#      uses: softprops/action-gh-release@v1
-#      if: ${{startsWith(github.ref, 'refs/tags/') }}
-#      with:
-#        draft: true
-#        files: "./.target/*"
 
   release-macos:
     name: Release - macos
@@ -123,13 +96,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - uses: extractions/setup-just@v1
+
     - name: Setup build environment
-      run: make setup-dev
+      run: just setup-dev
 
     - name: Build artifacts
       run: |
         source ~/.bashrc
-        make release
+        just release
 
     - name: Release artifacts
       uses: softprops/action-gh-release@v1
@@ -146,6 +121,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
+
+    - uses: extractions/setup-just@v1
 
     - name: Setup build environment
       run: ./hack/windows/setup-dev.ps1

@@ -16,11 +16,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - uses: extractions/setup-just@v1
+
     - name: Setup build environment
-      run: make setup-dev
+      run: just setup-dev
 
     - name: Run tests
-      run: make test
+      run: just test
 
     - name: Build artifacts
-      run: make build
+      run: just build

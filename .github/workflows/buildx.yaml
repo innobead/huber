@@ -25,7 +25,7 @@ jobs:
       run: echo ${{ steps.buildx.outputs.platforms }}
 
     - name: Build artifacts
-      run: make build-multiarch
+      run: just build-multiarch
 
   build-linux-armv7:
     name: Build - linux armv7
@@ -47,4 +47,4 @@ jobs:
       run: echo ${{ steps.buildx.outputs.platforms }}
 
     - name: Build artifacts
-      run: PLATFORMS=linux/arm/v7 make build-multiarch
+      run: just build-multiarch "linux/arm/v7"
