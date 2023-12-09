@@ -4,7 +4,6 @@ version.workspace = true
 description.workspace = true
 authors.workspace = true
 edition.workspace = true
-rust-version.workspace = true
 keywords.workspace = true
 categories.workspace = true
 homepage.workspace = true

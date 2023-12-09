@@ -5,8 +5,6 @@ set -o nounset
 set -o pipefail
 set -o xtrace
 
-RUST_VERSION=${RUST_VERSION:-1.65}
-
 function install_linux_dependencies() {
   if [[ $(command -v zypper) ]]; then
     # sudo zypper install -y -t pattern devel_basis
@@ -58,12 +56,12 @@ function install_macos_dependencies() {
     echo "export PKG_CONFIG_PATH=/usr/local/opt/libarchive/lib/pkgconfig"
   } >>"$HOME"/.bashrc
 
-  . "$HOME"/.bashrc
+  source "$HOME"/.bashrc
 }
 
 function install_rust_dependencies() {
-  if [[ -z $(command -v cargo 2>/dev/null) ]] || [[ -z $(cargo version | awk "/cargo $RUST_VERSION/" 2>/dev/null) ]]; then
-    curl https://sh.rustup.rs -sSf | sh -s -- -y
+  if [[ -z $(command -v cargo 2>/dev/null) ]]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
     source "$HOME"/.cargo/env
     cargo version
   fi
