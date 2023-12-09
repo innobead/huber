@@ -2,8 +2,6 @@ prj_dir := justfile_directory()
 build_cache_dir := prj_dir / '.cache'
 build_dir := prj_dir / '.target'
 
-build_commit := "`git rev-parse --short HEAD 2>/dev/null`-`date +%Y%m%d%H%M%S`"
-build_tag := `git describe --tags --dirty 2>/dev/null`
 huber_artifact_script := prj_dir / 'hack/huber-artifact-name.sh'
 managed_pkg_root_dir := prj_dir / 'generated'
 huber_exec := prj_dir / '/target/debug/huber'
