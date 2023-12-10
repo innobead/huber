@@ -21,7 +21,7 @@ test:
 # Format & Lint codes
 fmt:
     @rustup component add rustfmt clippy
-    @cargo {{ cargo_opts }} fmt
+    @cargo {{ cargo_opts }} fmt --all
 
 # Fix code
 fix:
