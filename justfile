@@ -4,7 +4,7 @@ build_dir := prj_dir / '.target'
 
 huber_artifact_script := prj_dir / 'hack/huber-artifact-name.sh'
 managed_pkg_root_dir := prj_dir / 'generated'
-huber_exec := prj_dir / '/target/debug/huber'
+huber_exec := prj_dir / 'target/debug/huber'
 
 cargo_opts := env('CARGO_OPTS', '')
 github_token := env('GITHUB_TOKEN', '')
