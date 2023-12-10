@@ -15,6 +15,9 @@ targets:
 - MacOS:
     artifact_templates:
     - '{version}/arkade-darwin'
+- MacOSArm64:
+    artifact_templates:
+    - '{version}/arkade-darwin-arm64'
 - Windows:
     artifact_templates:
     - '{version}/arkade.exe'

@@ -40,6 +40,17 @@ pub fn release() -> Package {
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
+            PackageTargetType::MacOSArm64(PackageManagement {
+                artifact_templates: vec!["{version}/arkade-darwin-arm64".to_string()],
+                executable_templates: None,
+                executable_mappings: None,
+                install_commands: None,
+                uninstall_commands: None,
+                upgrade_commands: None,
+                tag_version_regex_template: None,
+                scan_dirs: None,
+            }),
+            // vec!["{version}/arkade-darwin-arm64".to_string()]
             PackageTargetType::Windows(PackageManagement {
                 artifact_templates: vec!["{version}/arkade.exe".to_string()],
                 executable_templates: None,
