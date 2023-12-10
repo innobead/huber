@@ -9,10 +9,10 @@ use std::process::Command;
 
 use hubcaps_ex::{Credentials, Github};
 use tokio::fs::{create_dir_all, remove_file, File};
+use tokio::io::AsyncWriteExt;
 
 use huber_common::model::package::{Package, PackageIndex, PackageSource};
 use huber_common::result::Result;
-use tokio::io::AsyncWriteExt;
 
 use crate::pkg::*;
 
@@ -42,6 +42,12 @@ async fn main() -> Result<()> {
         .parse()
         .unwrap();
 
+    if force_generated {
+        println!("Force generate packages in {:?}", generated_dir);
+    } else {
+        println!("Only generate the impacted packages in {:?}", generated_dir);
+    }
+
     // clean up and prepare
     // remove_dir_all(generated_dir.clone()).unwrap();
     create_dir_all(generated_dir.clone()).await?;
@@ -59,39 +65,54 @@ async fn main() -> Result<()> {
         .await?;
 
     let mut pkg_indexes: Vec<PackageIndex> = vec![];
-
-    for mut r in releases().into_iter() {
+    for mut pkg in releases().into_iter() {
         pkg_indexes.push(PackageIndex {
-            name: r.name.clone(),
-            owner: r.source.owner(),
-            source: r.source.to_string(),
+            name: pkg.name.clone(),
+            owner: pkg.source.owner(),
+            source: pkg.source.to_string(),
         });
 
         if !force_generated {
-            let gh_pkg_module_rs_file = Path::new(&pkg_dir)
+            let pkg_rs_file = Path::new(&pkg_dir)
                 .join("src")
                 .join("pkg")
-                .join(format!("{}.rs", r.name));
-            let gh_pkg_module_rs_file_changed = Command::new("git")
-                .args(&["status", "--short", gh_pkg_module_rs_file.to_str().unwrap()])
-                .output()
-                .map(|output| !output.stdout.is_empty())
-                .unwrap();
+                .join(format!("{}.rs", pkg.name));
 
-            if !gh_pkg_module_rs_file_changed {
+            // This is the best effort to check for any local changes,
+            // except that the change has been pushed to the remote origin.
+            let pkg_rs_file_changed = [
+                "diff --exit-code --quiet",
+                "diff --exit-code --quiet --cached",
+                "diff --exit-code --quiet origin/main",
+            ]
+            .iter()
+            .any(|args| {
+                let mut args: Vec<&str> = args.split(' ').collect();
+                args.append(&mut vec!["--", pkg_rs_file.to_str().unwrap()]);
+
+                Command::new("git")
+                    .args(&args)
+                    .output()
+                    .map(|output| output.status.code().unwrap() != 0)
+                    .unwrap()
+            });
+
+            if !pkg_rs_file_changed {
                 continue;
             }
+
+            println!("{:?} changed", pkg_rs_file)
         }
 
-        update_description(&mut r).await?;
+        update_description(&mut pkg).await?;
 
         let str = format!(
             "# This is generated. Don't modify.\n{}",
-            serde_yaml::to_string(&r)?
+            serde_yaml::to_string(&pkg)?
         );
 
         let pkg_file = Path::new(generated_dir)
-            .join(r.name.clone())
+            .join(pkg.name.clone())
             .with_extension("yaml");
 
         File::create(pkg_file)

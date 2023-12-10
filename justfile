@@ -51,8 +51,8 @@ publish:
 # (local dev) Generate managed package list
 generate force_generate='false':
     @echo "! Must have GITHUB_TOKEN to automatically generate package description"
-    @GITHUB_TOKEN={{ github_token }} cargo build {{ cargo_opts }} -vv --package=huber-generator
-    @GITHUB_KEY={{ github_key }} just build && (MANAGED_PKG_ROOT_DIR={{ managed_pkg_root_dir }} FORCE_GENERATE={{ force_generate }} {{ huber_exec }} search | xargs -0 {{ prj_dir }}/hack/generate-packages.md.sh)
+    @GITHUB_TOKEN={{ github_token }} FORCE_GENERATE={{ force_generate }} cargo build {{ cargo_opts }} -vv --package=huber-generator
+    @GITHUB_KEY={{ github_key }} just build && (MANAGED_PKG_ROOT_DIR={{ managed_pkg_root_dir }} {{ huber_exec }} search | xargs -0 {{ prj_dir }}/hack/generate-packages.md.sh)
 
 # (local dev) Build binaries for linux multiple architectures
 build-multiarch platforms='linux/arm64':
