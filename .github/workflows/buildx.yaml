@@ -2,11 +2,11 @@ name: Buildx
 
 on:
   workflow_dispatch:
-    inputs:
+    inputs: {}
 
 jobs:
   build-linux-aarch64:
-    name: Build - linux aarch64
+    name: Build - linux ARM64
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -17,7 +17,7 @@ jobs:
 
     - name: Setup Docker Buildx
       id: buildx
-      uses: docker/setup-buildx-action@v1
+      uses: docker/setup-buildx-action@v3
       with:
         version: latest
 

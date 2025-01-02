@@ -2,11 +2,12 @@ name: PR/Push
 
 on:
   workflow_dispatch:
-    inputs:
+    inputs: {}
   pull_request:
   push:
     branches:
     - main
+    - dev
 
 jobs:
   build-linux-x86_64:

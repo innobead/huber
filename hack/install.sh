@@ -25,7 +25,7 @@ case $os in
     filename="huber-linux-amd64"
     ;;
   *)
-    echo "The architecture ($arch) is not supported" >/dev/stderr
+    echo "$os:$arch is not supported" >/dev/stderr
     exit 1
     ;;
   esac
@@ -39,7 +39,7 @@ case $os in
     filename="huber-darwin-amd64"
     ;;
   *)
-    echo "The architecture ($arch) is not supported" >/dev/stderr
+    echo "$os:$arch is not supported" >/dev/stderr
     exit 1
     ;;
   esac

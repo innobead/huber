@@ -2,11 +2,11 @@ name: Build
 
 on:
   workflow_dispatch:
-    inputs:
+    inputs: {}
 
 jobs:
   build-linux-x86_64:
-    name: Build - linux x86_64
+    name: Build - Linux x86_64
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
@@ -24,7 +24,7 @@ jobs:
       run: just build
 
   build-macos:
-    name: Build - macos
+    name: Build - MacOS
     runs-on: macos-latest
     steps:
     - name: Checkout code
@@ -44,7 +44,7 @@ jobs:
         just build
 
   build-windows:
-    name: Build - windows
+    name: Build - Windows
     runs-on: windows-latest
     steps:
     - name: Checkout code
