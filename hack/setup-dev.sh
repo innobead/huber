@@ -62,6 +62,7 @@ install_macos_deps() {
 install_rust_deps() {
   if [[ -z $(command -v cargo 2>/dev/null) ]]; then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    rustup toolchain install nightly
     source "$HOME"/.cargo/env
     cargo version
   fi
