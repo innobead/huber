@@ -1,4 +1,4 @@
-[![crates.io](https://img.shields.io/crates/v/huber.svg)](https://crates.io/crates/huber)
+iiii[![crates.io](https://img.shields.io/crates/v/huber.svg)](https://crates.io/crates/huber)
 
 ![huber in action](./doc/huber.png)
 

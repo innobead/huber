@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - protoc-{version}-linux-aarch_64.zip
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - protoc-{version}-osx-x86_64.zip
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - protoc-{version}-win64.zip
 detail: null

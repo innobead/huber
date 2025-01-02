@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: wstunnel
-description: 'Tunneling over websocket protocol - Static binary available '
+description: 'Tunnel all your traffic over Websocket or HTTP2 - Bypass firewalls/DPI - Static binary available '
 source:
   Github:
     owner: erebe
@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/wstunnel-aarch64-ubuntu18.tar.gz'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/wstunnel-x64-macos.zip'
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/wstunnel-x64-windows.exe.zip'
 detail: null

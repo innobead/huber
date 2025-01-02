@@ -1,0 +1,50 @@
+[package]
+name = "huber"
+version.workspace = true
+description.workspace = true
+authors.workspace = true
+edition.workspace = true
+keywords.workspace = true
+categories.workspace = true
+homepage.workspace = true
+repository.workspace = true
+readme = "../README.md"
+license-file = "../LICENSE"
+
+[[bin]]
+name = "huber"
+path = "src/bin/huber.rs"
+
+[build-dependencies]
+chrono.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+async-trait.workspace = true
+chrono.workspace = true
+clap.workspace = true
+compress-tools.workspace = true
+dirs.workspace = true
+fs2.workspace = true
+fs_extra.workspace = true
+futures.workspace = true
+git2.workspace = true
+huber-common.workspace = true
+huber-procmacro.workspace = true
+is_executable.workspace = true
+lazy_static.workspace = true
+libcli-rs.workspace = true
+log.workspace = true
+maplit.workspace = true
+octocrab.workspace = true
+rayon.workspace = true
+regex.workspace = true
+reqwest.workspace = true
+semver.workspace = true
+serde.workspace = true
+serde_yaml.workspace = true
+simpledi-rs.workspace = true
+symlink.workspace = true
+tokio.workspace = true
+url.workspace = true
+urlencoding.workspace = true

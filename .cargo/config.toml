@@ -1,2 +1,2 @@
 [net]
-git-fetch-with-cli = true   # use the `git` executable for git operations due to https://users.rust-lang.org/t/cargo-uses-too-much-memory-being-run-in-qemu/76531/2
+git-fetch-with-cli = true  # use the `git` executable for git operations due to https://users.rust-lang.org/t/cargo-uses-too-much-memory-being-run-in-qemu/76531/2

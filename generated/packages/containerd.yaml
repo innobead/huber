@@ -10,7 +10,7 @@ targets:
     artifact_templates:
     - containerd-{version}-linux-amd64.tar.gz
     - cri-containerd-cni-{version}-linux-amd64.tar.gz
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - containerd-{version}-windows-amd64.tar.gz
     - cri-containerd-cni-{version}-windows-amd64.tar.gz

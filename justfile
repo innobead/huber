@@ -1,11 +1,9 @@
 prj_dir := justfile_directory()
 build_cache_dir := prj_dir / '.cache'
 build_dir := prj_dir / '.target'
-
-huber_artifact_script := prj_dir / 'hack/huber-artifact-name.sh'
+generate_artifact_name := prj_dir / 'hack/generate-artifact-name.sh'
 managed_pkg_root_dir := prj_dir / 'generated'
 huber_exec := prj_dir / 'target/debug/huber'
-
 cargo_opts := env('CARGO_OPTS', '')
 github_token := env('GITHUB_TOKEN', '')
 github_key := env('GITHUB_KEY', '')
@@ -21,7 +19,9 @@ test:
 # Format & Lint codes
 fmt:
     @rustup component add rustfmt clippy
-    @cargo {{ cargo_opts }} fmt --all
+    @cargo install --git https://github.com/DevinR528/cargo-sort.git --tag v1.1.0 cargo-sort
+    @cargo-sort --workspace
+    @cargo {{ cargo_opts }} +nightly fmt --all
 
 # Fix code
 fix:
@@ -30,7 +30,7 @@ fix:
 # Release binaries
 release:
     @just build '--release'
-    @mkdir -p {{ build_dir }} && cp {{ prj_dir }}/target/release/huber {{ build_dir }}/`{{ huber_artifact_script }}`
+    @mkdir -p {{ build_dir }} && cp {{ prj_dir }}/target/release/huber {{ build_dir }}/`{{ generate_artifact_name }}`
     @just _checksum
 
 # Generate checksum files for built executables
@@ -52,17 +52,16 @@ publish:
 generate force_generate='false':
     @echo "! Must have GITHUB_TOKEN to automatically generate package description"
     @GITHUB_TOKEN={{ github_token }} FORCE_GENERATE={{ force_generate }} cargo build {{ cargo_opts }} -vv --package=huber-generator
-    @GITHUB_KEY={{ github_key }} just build && (MANAGED_PKG_ROOT_DIR={{ managed_pkg_root_dir }} {{ huber_exec }} search | xargs -0 {{ prj_dir }}/hack/generate-packages.md.sh)
+    @GITHUB_KEY={{ github_key }} just build && (MANAGED_PKG_ROOT_DIR={{ managed_pkg_root_dir }} {{ huber_exec }} search | xargs -0 {{ prj_dir }}/hack/generate-huber-managed-packages.sh)
 
 # (local dev) Build binaries for linux multiple architectures
 build-multiarch platforms='linux/arm64':
-    PLATFORMS={{ platforms }} BUILD_TARGET=debug MAKE_TARGET="test build" {{ prj_dir }}/hack/build-multiarch.sh
+    PLATFORMS={{ platforms }} BUILD_TARGET=debug JUST_TARGET="test build" {{ prj_dir }}/hack/build-multiarch.sh
 
 # (local dev) Release binaries for linux multiple archite
 release-multiarch platforms='linux/arm64':
-    PLATFORMS={{ platforms }} BUILD_TARGET=release OUTPUT_DIR={{ build_cache_dir }} MAKE_TARGET=release {{ prj_dir }}/hack/build-multiarch.sh
+    PLATFORMS={{ platforms }} BUILD_TARGET=release OUTPUT_DIR={{ build_cache_dir }} JUST_TARGET=release {{ prj_dir }}/hack/build-multiarch.sh
     mkdir -p {{ build_dir }} && cp {{ build_cache_dir }}/target/huber-* {{ build_dir }}/
-    just checksum
 
 # (local dev) Setup development environment
 setup-dev:
@@ -71,7 +70,7 @@ setup-dev:
 # (local dev) Install binaries
 install:
     @cargo install {{ cargo_opts }} --path {{ prj_dir }}/crates/app/ --bins
-    @mkdir -p ~/.huber/bin && cp ~/.cargo/bin/huber ~/.huber/bin && {{ prj_dir }}/hack/update-env.sh
+    @mkdir -p ~/.huber/bin && cp ~/.cargo/bin/huber ~/.huber/bin && {{ prj_dir }}/hack/add-huber-bin-to-env.sh
 
 # (local dev) Verify Huber commands via the local package generated folder
 verify huber_cmd pkg_dir=managed_pkg_root_dir:

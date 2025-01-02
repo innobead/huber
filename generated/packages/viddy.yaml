@@ -8,11 +8,11 @@ source:
 targets:
 - LinuxAmd64:
     artifact_templates:
-    - viddy_{version}_Linux_x86_64.tar.gz
-- MacOS:
+    - viddy_Linux_x86_64.tar.gz
+- MacOSAmd64:
     artifact_templates:
-    - viddy_{version}_Darwin_x86_64.tar.gz
-- Windows:
+    - viddy_Darwin_x86_64.tar.gz
+- WindowsAmd64:
     artifact_templates:
-    - viddy_{version}_Windows_x86_64.tar.gz
+    - viddy_Windows_x86_64.tar.gz
 detail: null

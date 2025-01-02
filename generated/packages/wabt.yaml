@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - wabt-{version}-ubuntu.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - wabt-{version}-macos.tar.gz
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - wabt-{version}-windows.tar.gz
 detail: null

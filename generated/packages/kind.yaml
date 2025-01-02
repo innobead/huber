@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/kind-linux-arm64'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/kind-darwin-amd64'
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/kind-windows-amd64'
 detail: null

@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - '{version}/wasme-linux-amd64'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/wasme-darwin-amd64'
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/wasme-windows-adm64.exe'
 detail: null

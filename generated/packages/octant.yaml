@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - octant_{version}_Linux-arm64.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - octant_{version}_macOS-64bit.tar.gz
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - octant_{version}_Windows-64bit.tar.gz
 detail: null

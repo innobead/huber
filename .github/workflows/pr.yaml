@@ -11,12 +11,12 @@ on:
 jobs:
   build-linux-x86_64:
     name: Build - linux x86_64
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    - uses: extractions/setup-just@v1
+    - uses: extractions/setup-just@v2
 
     - name: Setup build environment
       run: just setup-dev

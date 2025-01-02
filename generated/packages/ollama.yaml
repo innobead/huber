@@ -1,0 +1,24 @@
+# This is generated. Don't modify.
+name: ollama
+description: Get up and running with Llama 3.3, Mistral, Gemma 2, and other large language models.
+source:
+  Github:
+    owner: ollama
+    repo: ollama
+targets:
+- LinuxAmd64:
+    artifact_templates:
+    - ollama-linux-amd64.tgz
+- LinuxArm64:
+    artifact_templates:
+    - ollama-linux-arm64.tgz
+- MacOSAmd64:
+    artifact_templates:
+    - ollama-darwin
+- WindowsAmd64:
+    artifact_templates:
+    - ollama-windows-amd64.zip
+- WindowsArm64:
+    artifact_templates:
+    - ollama-windows-arm64.zip
+detail: null

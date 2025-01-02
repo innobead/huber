@@ -9,7 +9,7 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - '{version}/ketch-linux-amd64'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/ketch-darwin-amd64'
 detail: null

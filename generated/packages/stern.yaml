@@ -12,22 +12,16 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - stern_{version}_linux_arm64.tar.gz
-- LinuxArm32:
-    artifact_templates:
-    - stern_{version}_linux_arm.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - stern_{version}_darwin_amd64.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - stern_{version}_darwin_arm64.tar.gz
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - stern_{version}_windows_amd64.tar.gz
 - WindowsArm64:
     artifact_templates:
     - stern_{version}_windows_arm64.tar.gz
-- WindowsArm:
-    artifact_templates:
-    - stern_{version}_windows_arm.tar.gz
 detail: null

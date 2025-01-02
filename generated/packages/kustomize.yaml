@@ -14,11 +14,11 @@ targets:
     artifact_templates:
     - kustomize_v{version}_linux_arm64.tar.gz
     tag_version_regex_template: ^kustomize/(v\d+.\d+.\d+)$
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - kustomize_v{version}_darwin_amd64.tar.gz
     tag_version_regex_template: ^kustomize/(v\d+.\d+.\d+)$
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - kustomize_v{version}_windows_amd64.tar.gz
     tag_version_regex_template: ^kustomize/(v\d+.\d+.\d+)$

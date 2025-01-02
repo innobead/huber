@@ -11,10 +11,10 @@ targets:
     - '{version}/linux_czkawka_cli'
     - '{version}/linux_czkawka_gui'
     - '{version}/linux_czkawka_gui.AppImage'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/mac_czkawka_cli'
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/windows_czkawka_cli.exe'
 detail: null

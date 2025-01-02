@@ -12,13 +12,13 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/arkade-arm64'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/arkade-darwin'
 - MacOSArm64:
     artifact_templates:
     - '{version}/arkade-darwin-arm64'
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/arkade.exe'
 detail: null

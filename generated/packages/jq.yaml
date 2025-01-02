@@ -11,12 +11,12 @@ targets:
     - '{version}/jq-linux64'
     executable_mappings:
       jq-linux64: jq
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/jq-osx-amd64'
     executable_mappings:
       jq-osx-amd64: jq
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/jq-win64.exe'
     executable_mappings:

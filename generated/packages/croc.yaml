@@ -16,12 +16,12 @@ targets:
     - croc_{version}_Linux-ARM64.tar.gz
     executable_templates:
     - croc
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - croc_{version}_macOS-64bit.tar.gz
     executable_templates:
     - croc
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - croc_{version}_Windows-64bit.zip
     executable_templates:

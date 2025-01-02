@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - virtctl-v{version}-linux-amd64
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - virtctl-v{version}-darwin-amd64
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - virtctl-v{version}-windows-amd64.exe
 detail: null

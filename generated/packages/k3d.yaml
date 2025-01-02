@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/k3d-linux-arm64'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/k3d-darwin-amd64'
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/k3d-windows-amd64.exe'
 detail: null

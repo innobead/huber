@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - kotlin-compiler-{version}.zip
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - kotlin-compiler-{version}.zip
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - kotlin-compiler-{version}.zip
 detail: null

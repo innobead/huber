@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/helmfile_linux_arm64'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/helmfile_darwin_amd64'
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/helmfile_windows_amd64.exe'
 detail: null

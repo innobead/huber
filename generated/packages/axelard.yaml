@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: axelard
-description: 'Axelar : A Decentralized Blockchain Interoperability Network'
+description: 'Axelar: A Decentralized Blockchain Interoperability Network'
 source:
   Github:
     owner: axelarnetwork
@@ -12,16 +12,13 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - axelard-linux-arm64-v{version}
-- LinuxArm32:
-    artifact_templates:
-    - axelard-linux-amd-v{version}
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - axelard-darwin-amd64-v{version}
 - MacOSArm64:
     artifact_templates:
     - axelard-darwin-arm64-v{version}
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - ali_{version}_windows_amd64.tar.gz
 detail: null

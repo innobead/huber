@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: delta
-description: A syntax-highlighting pager for git, diff, and grep output
+description: A syntax-highlighting pager for git, diff, grep, and blame output
 source:
   Github:
     owner: dandavison
@@ -12,13 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - delta-{version}-aarch64-unknown-linux-gnu.tar.gz
-- LinuxArm32:
-    artifact_templates:
-    - delta-{version}-arm-unknown-linux-gnueabihf.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - delta-{version}-x86_64-apple-darwin.tar.gz
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - delta-{version}-x86_64-pc-windows-msvc.zip
 detail: null

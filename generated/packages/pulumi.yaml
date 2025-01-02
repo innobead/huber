@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: pulumi
-description: Pulumi - Infrastructure as Code in any programming language. Build infrastructure intuitively on any cloud using familiar languages 🚀
+description: Pulumi - Infrastructure as Code in any programming language 🚀
 source:
   Github:
     owner: pulumi
@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - https://get.pulumi.com/releases/sdk/pulumi-v{version}-linux-x64.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - https://get.pulumi.com/releases/sdk/pulumi-v{version}-darwin-x64.tar.gz
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - https://get.pulumi.com/releases/sdk/pulumi-v{version}-windows-x64.zip
 detail: null

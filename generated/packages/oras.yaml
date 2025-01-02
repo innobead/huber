@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - oras_{version}_linux_amd64.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - oras_{version}_darwin_amd64.tar.gz
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - oras_{version}_windows_amd64.tar.gz
 detail: null

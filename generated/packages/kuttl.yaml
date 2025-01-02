@@ -12,7 +12,7 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - kuttl_{version}_linux_arm64.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - kuttl_{version}_darwin_x86_64.tar.gz
 detail: null

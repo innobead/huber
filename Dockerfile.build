@@ -5,7 +5,7 @@ WORKDIR /workspace
 ARG TARGETPLATFORM
 ARG BUILDPLATFORM
 ARG BUILD_TARGET=debug
-ARG MAKE_TARGET=build
+ARG JUST_TARGET=build
 
 COPY . /workspace
 
@@ -13,7 +13,7 @@ RUN suffix=$(echo ${TARGETPLATFORM} | sed "s/\//-/g") && \
     apt update && \
     apt install -y sudo && \
     ./hack/setup-dev.sh && \
-    just ${MAKE_TARGET} && \
+    just ${JUST_TARGET} && \
     cp target/${BUILD_TARGET}/huber target/${BUILD_TARGET}/huber-${suffix}
 
 FROM scratch

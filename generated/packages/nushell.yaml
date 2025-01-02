@@ -11,12 +11,12 @@ targets:
     - nu_{version:_}_linux.tar.gz
     scan_dirs:
     - nushell-{version}
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - nu_{version:_}_macOS.zip
     scan_dirs:
     - nushell-{version}
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - nu_{version:_}_windows.zip
     scan_dirs:

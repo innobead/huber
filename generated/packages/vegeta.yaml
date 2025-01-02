@@ -9,7 +9,7 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - vegeta_{version}_linux_amd64.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - vegeta_{version}_darwin_amd64.tar.gz
 detail: null

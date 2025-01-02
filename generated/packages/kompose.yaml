@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/kompose-linux-amd64'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/kompose-darwin-amd64'
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/kompose-windows-amd64.exe'
 detail: null

@@ -10,11 +10,11 @@ targets:
     artifact_templates:
     - hugo_{version}_Linux-64bit.tar.gz
     - hugo_extended_{version}_Linux-64bit.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - hugo_{version}_macOS-64bit.tar.gz
     - hugo_extended_{version}_macOS-64bit.tar.gz
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - hugo_{version}_Windows-64bit.zip
     - hugo_extended_{version}_Windows-64bit.zip

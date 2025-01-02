@@ -9,7 +9,7 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - sd-v{version}-x86_64-unknown-linux-musl
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - sd-v{version}-x86_64-apple-darwin
 detail: null

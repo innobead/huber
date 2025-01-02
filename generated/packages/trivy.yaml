@@ -12,7 +12,7 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - trivy_{version}_Linux-ARM64.tar.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - trivy_{version}_macOS-64bit.tar.gz
 detail: null

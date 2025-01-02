@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: cosign
-description: Container Signing
+description: Code signing and transparency for containers and binaries
 source:
   Github:
     owner: sigstore
@@ -16,12 +16,7 @@ targets:
     - '{version}/cosign-linux-arm64'
     - '{version}/cosigned-linux-arm64'
     - '{version}/sget-linux-arm64'
-- LinuxArm32:
-    artifact_templates:
-    - '{version}/cosign-linux-arm'
-    - '{version}/cosigned-linux-arm'
-    - '{version}/sget-linux-arm'
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - '{version}/cosign-darwin-amd64'
     - '{version}/sget-darwin-amd64'
@@ -29,7 +24,7 @@ targets:
     artifact_templates:
     - '{version}/cosign-darwin-arm64'
     - '{version}/sget-darwin-arm64'
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - '{version}/cosign-windows-amd64.exe'
     - '{version}/sget-windows-amd64.exe'

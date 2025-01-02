@@ -1,0 +1,28 @@
+[package]
+name = "huber-common"
+description = "Internal package used by Huber"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+keywords.workspace = true
+categories.workspace = true
+homepage.workspace = true
+repository.workspace = true
+publish = false
+license-file = "../../LICENSE"
+
+[dependencies]
+anyhow.workspace = true
+chrono.workspace = true
+dirs.workspace = true
+env_logger.workspace = true
+lazy_static.workspace = true
+libcli-rs.workspace = true
+log.workspace = true
+maplit.workspace = true
+octocrab.workspace = true
+regex.workspace = true
+semver.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+serde_yaml.workspace = true

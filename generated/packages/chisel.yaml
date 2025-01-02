@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - chisel_{version}_linux_arm64.gz
-- MacOS:
+- MacOSAmd64:
     artifact_templates:
     - chisel_{version}_darwin_amd64.gz
-- Windows:
+- WindowsAmd64:
     artifact_templates:
     - chisel_{version}_windows_amd64.gz
 detail: null
