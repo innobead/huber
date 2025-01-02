@@ -13,9 +13,7 @@ jobs:
       release_id: ${{ steps.release.outputs.id }}
       release_upload_url: ${{ steps.release.upload_url }}
     steps:
-    - name: Checkout code
-      id: checkout-code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
     - name: Build changelog
       id: changelog
@@ -37,11 +35,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: create_release
     steps:
-    - name: Checkout code
-      id: checkout-code
-      uses: actions/checkout@v4
-
+    - uses: actions/checkout@v4
     - uses: extractions/setup-just@v2
+    - uses: dtolnay/rust-toolchain@stable
 
     - name: Setup build environment
       run: just setup-dev
@@ -62,11 +58,8 @@ jobs:
     needs:
     - create_release
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
+    - uses: actions/checkout@v4
+    - uses: docker/setup-qemu-action@v3
 
     - name: Set up Docker Buildx
       id: buildx
@@ -96,10 +89,9 @@ jobs:
     needs:
     - create_release
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
+    - uses: actions/checkout@v4
     - uses: extractions/setup-just@v2
+    - uses: dtolnay/rust-toolchain@stable
 
     - name: Setup build environment
       run: just setup-dev
@@ -122,10 +114,9 @@ jobs:
     needs:
     - create_release
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
+    - uses: actions/checkout@v4
     - uses: extractions/setup-just@v2
+    - uses: dtolnay/rust-toolchain@stable
 
     - name: Setup build environment
       run: ./hack/windows/setup-dev.ps1

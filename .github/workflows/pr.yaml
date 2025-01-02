@@ -2,7 +2,7 @@ name: PR/Push
 
 on:
   workflow_dispatch:
-    inputs: {}
+    inputs: { }
   pull_request:
   push:
     branches:
@@ -14,10 +14,9 @@ jobs:
     name: Build - linux x86_64
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
+    - uses: actions/checkout@v4
     - uses: extractions/setup-just@v2
+    - uses: dtolnay/rust-toolchain@stable
 
     - name: Setup build environment
       run: just setup-dev
