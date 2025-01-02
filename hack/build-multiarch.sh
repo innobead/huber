@@ -7,7 +7,7 @@ set -o xtrace
 
 PRJ_DIR=$(readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
 BUILD_TARGET=${BUILD_TARGET:-debug}
-MAKE_TARGET=${MAKE_TARGET:-build}
+JUST_TARGET=${JUST_TARGET:-build}
 OUTPUT_DIR=${OUTPUT_DIR:-$PRJ_DIR/.output}
 
 # linux/amd64, linux/riscv64, linux/ppc64le, linux/s390x, linux/386, linux/mips64le, linux/mips64, linux/arm/v7, linux/arm/v6, linux/arm64 supported in `docker buildx`
@@ -27,7 +27,7 @@ cleanup() {
 build() {
   docker buildx build \
     --platform "$PLATFORMS" \
-    --build-arg="MAKE_TARGET=$MAKE_TARGET" \
+    --build-arg="JUST_TARGET=$JUST_TARGET" \
     --build-arg="BUILD_TARGET=$BUILD_TARGET" \
     --output="type=local,dest=$OUTPUT_DIR" \
     -t huber_build:latest \

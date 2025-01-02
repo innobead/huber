@@ -1,0 +1,19 @@
+[package]
+name = "huber-procmacro"
+description = "Internal package used by Huber"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+keywords.workspace = true
+categories.workspace = true
+homepage.workspace = true
+repository.workspace = true
+publish = false
+license-file = "../LICENSE"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+quote.workspace = true
+syn.workspace = true

@@ -1,0 +1,103 @@
+name: Base
+
+on:
+  workflow_call:
+    inputs:
+      release_job:
+        required: false
+        type: boolean
+      target:
+        required: true
+        type: string
+      os:
+        required: true
+        type: string
+      use-cross:
+        required: true
+        type: boolean
+      use-just:
+        required: true
+        type: boolean
+
+jobs:
+  build:
+    name: ${{ inputs.target }} (${{ inputs.os }})
+    runs-on: ${{ inputs.os }}
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Enable Rust cache
+      uses: Swatinem/rust-cache@v2
+      with:
+        cache-targets: 'false'
+
+    - name: Install Just
+      uses: extractions/setup-just@v2
+
+    - name: Install Rust toolchain - stable
+      uses: dtolnay/rust-toolchain@stable
+
+    - name: Install Rust toolchain - nightly
+      uses: dtolnay/rust-toolchain@nightly
+
+    - name: Setup build environment
+      if: inputs.use-just == true
+      run: just setup-dev build-deps
+
+    - name: Setup build environment
+      if: inputs.os == 'windows-2022'
+      run: |
+        ./hack/windows/setup-dev.ps1
+        just build-deps
+
+    - name: Build Cross
+      if: inputs.use-just == true && inputs.use-cross == true
+      run: just build-cross ${{ inputs.target }}
+
+    - name: Cache container images
+      if: inputs.use-cross == true
+      uses: ScribeMD/docker-cache@0.5.0
+      with:
+        key: docker-${{ inputs.os }}-${{ inputs.target }}
+
+    - name: Build
+      if: (inputs.use-just == true || inputs.os == 'windows-2022') && inputs.use-cross == false
+      run: just build ${{ inputs.target }}
+
+    - name: Install coreutils for MacOS
+      if: contains('macos-13,macos-14,macOS-latest', inputs.os)
+      run: brew install coreutils
+
+    - name: Output huber binary path
+      id: bin-path
+      shell: bash
+      run: |
+        EXE_suffix=""
+        case ${{ inputs.target }} in
+          *-pc-windows-*) EXE_suffix=".exe" ;;
+        esac;
+        
+        exec_name=huber-${{ inputs.target }}${EXE_suffix}
+        sha256sum_name=$exec_name.sha256sum
+        cp -f target/${{ inputs.target }}/debug/huber${EXE_suffix} $exec_name
+        sha256sum $exec_name > $exec_name.sha256sum
+        
+        echo "HUBER_BIN_PATH=$exec_name" >> $GITHUB_OUTPUT
+        echo "HUBER_BIN_SHA256SUM_PATH=$sha256sum_name" >> $GITHUB_OUTPUT
+
+    - name: Run tests
+      run: just test
+      if: contains('x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu,aarch64-apple-darwin,x86_64-pc-windows-gnu,arm-unknown-linux-gnueabihf', inputs.target)
+
+    - name: Show built artifacts
+      run: |
+        echo "Artifact: ${{ steps.bin-path.outputs.HUBER_BIN_PATH }}"
+        echo "SHA256SUM: ${{ steps.bin-path.outputs.HUBER_BIN_SHA256SUM_PATH }}"
+
+    - name: Create github release
+      if: inputs.release_job == true && startsWith(github.ref, 'refs/tags/v')
+      uses: softprops/action-gh-release@v2
+      with:
+        files: "${{ steps.bin-path.outputs.HUBER_BIN_PATH }},${{ steps.bin-path.outputs.HUBER_BIN_SHA256SUM_PATH }}"
+        draft: true
+

@@ -1,0 +1,20 @@
+[book]
+description = "Install, upgrade and manage GitHub release packages with ease"
+authors = ["David Ko"]
+language = "en"
+
+[rust]
+edition = "2021"
+
+[preprocessor.alerts]
+[preprocessor.theme]
+pagetoc = true
+
+[output.html]
+default-theme = "ligth"
+preferred-dark-theme = "Ayu"
+
+[output.linkcheck]
+
+[output.html.search]
+limit-results = 20

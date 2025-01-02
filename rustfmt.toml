@@ -1,0 +1,20 @@
+# Set the maximum width of a line
+max_width = 100
+
+# Use spaces instead of tabs for indentation
+hard_tabs = false
+
+# Number of spaces per indentation level
+tab_spaces = 4
+
+# Control the style of braces
+brace_style = "SameLineWhere"
+
+# Reorder imports automatically
+reorder_imports = true
+
+# Group imports by standard, external, and local crates
+group_imports = "StdExternalCrate"
+
+# Enable unstable features if needed (requires nightly)
+unstable_features = true

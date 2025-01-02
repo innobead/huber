@@ -1,5 +1,5 @@
 $tag = (Invoke-WebRequest "https://api.github.com/repos/innobead/huber/releases/latest" | ConvertFrom-Json).tag_name
-$url = "https://github.com/innobead/huber/releases/download/$tag/huber-windows-amd64.exe"
+$url = "https://github.com/innobead/huber/releases/download/$tag/huber-x86_64-pc-windows-gnu.exe"
 
 Write-Host "Downloading the latest huber release: $tag from $url"
 

@@ -1,6 +1,7 @@
 [workspace]
-members = ["crates/app", "crates/common", "crates/procmacro", "crates/generator"]
-default-members = ["crates/app"]
+members = ["huber", "huber-common", "huber-generator", "huber-procmacro"]
+default-members = ["huber"]
+exclude = ["huber-generator"]
 resolver = "2"
 
 [profile.release]
@@ -10,24 +11,29 @@ lto = true
 codegen-units = 1
 
 [workspace.package]
-version = "0.3.11"
-description = "Huber package, simplify `GitHub release` package management with a live awesome list of GitHub project"
+version = "1.0.0"
+description = "Huber, simplify GitHub package management"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2021"
-keywords = ["github", "package-management", "cli", "package"]
-categories = ["command-line-interface", "command-line-utilities", "development-tools"]
+keywords = ["github", "package-management", "cli"]
+categories = [
+    "command-line-interface",
+    "command-line-utilities",
+    "development-tools",
+    "package-management"
+]
 homepage = "https://github.com/innobead/huber"
 repository = "https://github.com/innobead/huber"
 readme = "README.md"
 license-file = "LICENSE"
 
 [workspace.dependencies]
-huber-common = { path = "crates/common" }
-huber-procmacro = { path = "crates/procmacro" }
+huber-common = { path = "huber-common" }
+huber-procmacro = { path = "huber-procmacro" }
 libcli-rs = "0.1.4"
-clap = { version = "3.1.6", features = ["env"] }
+clap = { version = "4.5.21", features = ["env", "derive"] }
 log = "0.4"
-pretty_env_logger = "0.4"
+env_logger = "0.11.5"
 lazy_static = "1.4.0"
 anyhow = "1.0"
 dirs = "5.0.0"
@@ -35,27 +41,31 @@ semver = "1.0.14"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde_yaml = "0.9.19"
-reqwest = { version = "0.11", features = ["json"] }
-tokio = { version = "1.27", features = ["full"] } # reqwest 0.10, hubcaps 0.6 does not support tokio 0.3/1.0 yet, ref: https://github.com/seanmonstar/reqwest/issues/1060
-#hubcaps = { git = "https://github.com/softprops/hubcaps", rev = "324d02fbb371782c82e9a13b839b86894475c91f" } # wait for hubcaps formal release > 0.6
-hubcaps-ex = "0.6.2"
-compress-tools = "0.14.0"
-derive_more = "=0.99.17" # remove = until https://github.com/OSSystems/compress-tools-rs/pull/58 merged
+reqwest = { version = "0.12.9", default-features = false, features = ["json", "native-tls-vendored"] }
+tokio = { version = "1.27", features = ["full"] }
 regex = "1.4.1"
 futures = "0.3"
 async-trait = "0.1.64"
-git2 = "0.16.1"
+git2 = { version = "0.20.0", features = ["vendored-libgit2", "vendored-openssl"] }
 chrono = "0.4"
 symlink = "0.1.0"
 is_executable = "1.0.1"
 urlencoding = "2.1.2"
 url = "2"
-Inflector = "0.11.4"
 fs_extra = "1.1"
 maplit = "1.0"
 rayon = "1.6"
-fs2 = "0.4.3"
 simpledi-rs = "0.1.0"
-array_tool = "1.0.3"
-indicatif = "0.17.3"
-prettytable-rs = "0.10.0"
+quote = "1.0"
+octocrab = "0.42.1"
+syn = "2.0.90"
+fs2 = "0.4.3"
+clap_complete = "4.5.40"
+thiserror = "2.0.9"
+scopeguard = "1.1.0"
+better-panic = "0.3.0"
+filepath = "0.2.0"
+tar = "0.4.43"
+xz2 = "0.1.0"
+flate2 = "1.0.19"
+zip = { version = "2.2.2", default-features = false, features = ["deflate-zlib-ng"] }
