@@ -18,7 +18,4 @@ targets:
 - WindowsAmd64:
     artifact_templates:
     - ollama-windows-amd64.zip
-- WindowsArm64:
-    artifact_templates:
-    - ollama-windows-arm64.zip
 detail: null

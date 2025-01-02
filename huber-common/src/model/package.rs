@@ -67,7 +67,6 @@ pub enum PackageTargetType {
     MacOSAmd64(PackageManagement),
     MacOSArm64(PackageManagement),
     WindowsAmd64(PackageManagement),
-    WindowsArm64(PackageManagement),
     Default(PackageManagement),
 }
 
@@ -227,14 +226,6 @@ impl Package {
             "windows" => match arch {
                 "x86_64" => self.targets.iter().find_map(|it| {
                     if let PackageTargetType::WindowsAmd64(m) = it {
-                        Some(m.clone())
-                    } else {
-                        default_pkg_mgmt.clone()
-                    }
-                }),
-
-                "aarch64" => self.targets.iter().find_map(|it| {
-                    if let PackageTargetType::WindowsArm64(m) = it {
                         Some(m.clone())
                     } else {
                         default_pkg_mgmt.clone()

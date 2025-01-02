@@ -26,8 +26,4 @@ targets:
     artifact_templates:
     - '{version}/buf-Windows-x86_64'
     - '{version}/protoc-gen-buf-breaking-Windows-x86_64'
-- WindowsArm64:
-    artifact_templates:
-    - '{version}/buf-Windows-arm64'
-    - '{version}/protoc-gen-buf-breaking-Windows-arm64'
 detail: null

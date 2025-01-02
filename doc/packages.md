@@ -54,7 +54,6 @@
  huber        Huber 📦, Package Install Manager for GitHub repos                                                       https://github.com/innobead/huber 
  hugo         The world’s fastest framework for building websites.                                                     https://github.com/gohugoio/hugo 
  hyperfine    A command-line benchmarking tool                                                                         https://github.com/sharkdp/hyperfine 
- ignite       Ignite a Firecracker microVM                                                                             https://github.com/weaveworks/ignite 
  img          Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
  istio        Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
  jiq          jid on jq - interactive JSON query tool using jq expressions                                             https://github.com/fiatjaf/jiq 
@@ -62,7 +61,6 @@
  jq           Command-line JSON processor                                                                              https://github.com/stedolan/jq 
  just         🤖 Just a command runner                                                                                 https://github.com/casey/just 
  k0s          k0s - The Zero Friction Kubernetes                                                                       https://github.com/k0sproject/k0s 
- k3ai         K3ai is a lightweight, fully automated, AI infrastructure-in-a-box solution that allows anyone to ex...  https://github.com/kf5i/k3ai 
  k3d          Little helper to run CNCF's k3s in Docker                                                                https://github.com/rancher/k3d 
  k3s          Lightweight Kubernetes                                                                                   https://github.com/rancher/k3s 
  k3sup        bootstrap K3s over SSH in < 60s 🚀                                                                       https://github.com/alexellis/k3sup 
@@ -76,7 +74,6 @@
  kotlin       The Kotlin Programming Language.                                                                         https://github.com/JetBrains/kotlin 
  kpt          Automate Kubernetes Configuration Editing                                                                https://github.com/GoogleContainerTools/kpt 
  krew         📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
- krustlet     Kubernetes Rust Kubelet                                                                                  https://github.com/deislabs/krustlet 
  kube-bench   Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
  kubectl      Production-Grade Container Scheduling and Management                                                     https://github.com/kubernetes/kubernetes 
  kubefire     KubeFire 🔥, creates and manages Kubernetes Clusters using Firecracker microVMs                          https://github.com/innobead/kubefire 
@@ -101,9 +98,9 @@
  nushell      A new type of shell                                                                                      https://github.com/nushell/nushell 
  octant       Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
  okteto       Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
+ ollama       Get up and running with Llama 3.3, Mistral, Gemma 2, and other large language models.                    https://github.com/ollama/ollama 
  onefetch     Command-line Git information tool                                                                        https://github.com/o2sh/onefetch 
  opa          Open Policy Agent (OPA) is an open source, general-purpose policy engine.                                https://github.com/open-policy-agent/opa 
- opni         Multi Cluster Observability with AIOps                                                                   https://github.com/rancher/opni 
  oras         OCI registry client - managing content like artifacts, images, packages                                  https://github.com/deislabs/oras 
  pack         CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
  packer       Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 
