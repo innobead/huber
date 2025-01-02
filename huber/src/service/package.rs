@@ -12,7 +12,7 @@ use crate::github::{GithubClient, GithubClientTrait};
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PackageService {
     pub container: Option<Arc<DIContainer>>,
 }

@@ -9,10 +9,7 @@ use huber_common::model::config::{
 };
 use huber_common::model::package::{Package, PackageIndex};
 use huber_common::model::repo::Repository;
-use libcli_rs::progress;
-use libcli_rs::progress::ProgressBar;
-use libcli_rs::progress::ProgressTrait;
-use log::{debug, info};
+use log::debug;
 use rayon::prelude::*;
 use regex::Regex;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
@@ -185,7 +182,7 @@ impl CacheAsyncTrait for CacheService {
     // FIXME enhance performance
     async fn update_repositories(&self) -> anyhow::Result<()> {
         if let Ok(path) = env::var(MANAGED_PKG_ROOT_DIR) {
-            info!(
+            debug!(
                 "Bypassed updating repositories, because MANAGED_PKG_ROOT_DIR set: {}",
                 path
             );
@@ -200,28 +197,19 @@ impl CacheAsyncTrait for CacheService {
 
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
-        progress!(
-            "Updating managed repos",
-            client.clone("innobead", "huber", dir.clone()).await?;
-        );
+        debug!("Updating managed repos");
+        client.clone("innobead", "huber", dir.clone()).await?;
 
-        progress!("Updating unmanaged repos", ());
-
+        debug!("Updating unmanaged repos");
         let repo_service = self.container.get::<RepoService>().unwrap();
         for repo in repo_service.list()? {
             match repo.url {
                 Some(ref url) => {
-                    progress!(
-                        format!(
-                            "Updating {:?}",
-                            config.unmanaged_repo_dir(&repo.name).unwrap()
-                        ),
-                        repo_service
-                            .download_save_pkgs_file_from_remote_github(&repo.name, url)
-                            .await?
-                    );
+                    debug!("Updating {:?}", config.unmanaged_repo_dir(&repo.name)?);
+                    repo_service
+                        .download_save_pkgs_file_from_remote_github(&repo.name, url)
+                        .await?;
                 }
-
                 _ => debug!(
                     "Failed to update unmanaged repo due to empty url: {:?}",
                     &repo

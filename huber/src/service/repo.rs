@@ -9,7 +9,7 @@ use huber_common::model::config::{Config, ConfigPath};
 use huber_common::model::package::Package;
 use huber_common::model::repo::Repository;
 use huber_common::str::OsStrExt;
-use log::info;
+use log::debug;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
@@ -83,7 +83,7 @@ impl ItemOperationTrait for RepoService {
 
         let path = config.unmanaged_repo_dir(&name)?;
         if path.exists() {
-            info!("{:?} removed", path);
+            debug!("{:?} removed", path);
             let _ = remove_dir_all(path);
         }
 
@@ -134,7 +134,7 @@ impl ItemOperationAsyncTrait for RepoService {
     async fn create(&self, obj: Self::Item_) -> anyhow::Result<Self::ItemInstance_> {
         let config = self.container.get::<Config>().unwrap();
 
-        info!("Creating unmanaged repo: {:?}", &obj);
+        debug!("Creating unmanaged repo: {:?}", &obj);
         let path = config.unmanaged_repo_file(&obj.name)?;
         let file = File::create(&path)?;
         serde_yaml::to_writer(file, &obj)?;
@@ -205,7 +205,7 @@ impl RepoAsyncTrait for RepoService {
             url += "/master/huber.yaml";
         }
 
-        info!("Saving {} to {:?}", &url, &path);
+        debug!("Saving {} to {:?}", &url, &path);
 
         if let Some(token) = config.github_token.clone() {
             let re = regex::Regex::new(r"(http|https)://")?;
@@ -241,7 +241,7 @@ impl RepoAsyncTrait for RepoService {
             let _ = remove_file(&path);
         }
 
-        info!("Saving {:?} to {:?}", url.as_ref(), &path);
+        debug!("Saving {:?} to {:?}", url.as_ref(), &path);
 
         let f = File::create(&path)?;
         serde_yaml::to_writer(&f, &pkgs)?;

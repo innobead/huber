@@ -4,7 +4,7 @@ use std::sync::Arc;
 use anyhow::anyhow;
 use async_trait::async_trait;
 use huber_common::model::config::{Config, ConfigPath};
-use log::info;
+use log::debug;
 use semver::Version;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
@@ -55,16 +55,16 @@ impl UpdateTrait for HuberUpdateService {
                 let path = entry?.path();
 
                 if path.file_name().unwrap().to_str().unwrap() == "huber" {
-                    info!("Keeping huber executable");
+                    debug!("Keeping huber executable");
 
                     let option = fs_extra::file::CopyOptions::new();
                     let temp_path = path.parent().unwrap().join("huber_temp");
 
-                    info!("Coping {:?} to {:?}", &path, &temp_path);
+                    debug!("Coping {:?} to {:?}", &path, &temp_path);
                     let _ = remove_file(&temp_path);
                     fs_extra::file::copy(&path, &temp_path, &option)?;
 
-                    info!("Moving {:?} to {:?}", &temp_path, &path);
+                    debug!("Moving {:?} to {:?}", &temp_path, &path);
                     let _ = remove_file(&path);
                     fs_extra::file::move_file(&temp_path, &path, &option)?;
 

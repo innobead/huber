@@ -6,7 +6,6 @@ use std::str::FromStr;
 use std::{env, fmt};
 
 use anyhow::anyhow;
-use log::{error, warn};
 use regex::Regex;
 use semver::Version;
 use serde::{Deserialize, Serialize};
@@ -162,120 +161,84 @@ impl PackageSource {
 
 impl Package {
     pub fn target(&self) -> anyhow::Result<PackageManagement> {
-        // https://doc.rust-lang.org/std/env/consts/index.html
         let os = env::consts::OS;
         let arch = env::consts::ARCH;
-        let e = anyhow!("Unsupported OS {} or ARCH {}", os, arch);
 
-        let default_pkg_mgmt: Option<PackageManagement> = self
-            .targets
-            .iter()
-            .find(|it| {
-                if let PackageTargetType::Default(_m) = it {
-                    return true;
-                }
-                false
-            })
-            .map(|it| match it {
-                PackageTargetType::Default(m) => Some(m.clone()),
-                _ => None,
-            })
-            .flatten();
+        let default_pkg_mgmt: Option<_> = self.targets.iter().find_map(|it| match it {
+            PackageTargetType::Default(m) => Some(m.clone()),
+            _ => None,
+        });
 
+        self.get_package_management(os, arch, default_pkg_mgmt)
+            .ok_or(anyhow!("Unsupported OS {} or ARCH {}", os, arch))
+    }
+
+    fn get_package_management(
+        &self,
+        os: &str,
+        arch: &str,
+        default_pkg_mgmt: Option<PackageManagement>,
+    ) -> Option<PackageManagement> {
         match os {
             "linux" => match arch {
-                "x86_64" => self.targets.iter().find_map(|it| {
-                    if let PackageTargetType::LinuxAmd64(m) = it {
-                        Some(m.clone())
-                    } else {
-                        default_pkg_mgmt.clone()
-                    }
+                "x86_64" => self.targets.iter().find_map(|it| match it {
+                    PackageTargetType::LinuxAmd64(m) => Some(m.clone()),
+                    _ => default_pkg_mgmt.clone(),
                 }),
-
-                "aarch64" => self.targets.iter().find_map(|it| {
-                    if let PackageTargetType::LinuxArm64(m) = it {
-                        Some(m.clone())
-                    } else {
-                        default_pkg_mgmt.clone()
-                    }
+                "aarch64" => self.targets.iter().find_map(|it| match it {
+                    PackageTargetType::LinuxArm64(m) => Some(m.clone()),
+                    _ => default_pkg_mgmt.clone(),
                 }),
-
                 _ => None,
             },
-
             "macos" => match arch {
-                "x86_64" => self.targets.iter().find_map(|it| {
-                    if let PackageTargetType::MacOSAmd64(m) = it {
-                        Some(m.clone())
-                    } else {
-                        default_pkg_mgmt.clone()
-                    }
+                "x86_64" => self.targets.iter().find_map(|it| match it {
+                    PackageTargetType::MacOSAmd64(m) => Some(m.clone()),
+                    _ => default_pkg_mgmt.clone(),
                 }),
-
-                "aarch64" => self.targets.iter().find_map(|it| {
-                    if let PackageTargetType::MacOSArm64(m) = it {
-                        Some(m.clone())
-                    } else {
-                        default_pkg_mgmt.clone()
-                    }
+                "aarch64" => self.targets.iter().find_map(|it| match it {
+                    PackageTargetType::MacOSArm64(m) => Some(m.clone()),
+                    _ => default_pkg_mgmt.clone(),
                 }),
-
                 _ => None,
             },
-
             "windows" => match arch {
-                "x86_64" => self.targets.iter().find_map(|it| {
-                    if let PackageTargetType::WindowsAmd64(m) = it {
-                        Some(m.clone())
-                    } else {
-                        default_pkg_mgmt.clone()
-                    }
+                "x86_64" => self.targets.iter().find_map(|it| match it {
+                    PackageTargetType::WindowsAmd64(m) => Some(m.clone()),
+                    _ => default_pkg_mgmt.clone(),
                 }),
-
                 _ => None,
             },
-
             _ => None,
         }
-        .ok_or(e)
     }
 
     pub fn parse_version_from_tag_name(&self, tag_name: &String) -> anyhow::Result<String> {
-        let version = if let Some(ref str) = self.target()?.tag_version_regex_template {
-            let mut version = String::new();
-            let regex = Regex::new(&format!(r"{}", str)).unwrap();
+        let mut version = tag_name.clone();
 
-            if let Some(c) = regex.captures(tag_name) {
-                if let Some(m) = c.get(1) {
+        if let Some(ref template) = self.target()?.tag_version_regex_template {
+            let regex = Regex::new(&format!(r"{}", template))?;
+
+            if let Some(capture) = regex.captures(tag_name) {
+                if let Some(m) = capture.get(1) {
                     version = m.as_str().to_string();
                 } else {
-                    error!(
-                        "Failed to capture the version from {} due to the missing captured group 1",
-                        tag_name.clone()
-                    );
-                }
-            }
-
-            if !version.is_empty() {
-                version
-            } else {
-                if Version::parse(tag_name.trim_start_matches("v")).is_ok() {
-                    warn!(
-                        "Failed to capture the version from {}, because the tag name is a qualified version",
-                        tag_name
-                    );
-
-                    tag_name.clone()
-                } else {
                     return Err(anyhow!(
-                        "No qualified version captured from tag name. {}",
-                        tag_name
+                        "Failed to capture the version from {} via tag_version_regex_template {}",
+                        tag_name,
+                        template
                     ));
                 }
             }
-        } else {
-            tag_name.clone()
-        };
+
+            if Version::parse(version.trim_start_matches("v")).is_err() {
+                return Err(anyhow!(
+                    "Failed to parse the version {} from tag_name {}",
+                    version,
+                    tag_name
+                ));
+            }
+        }
 
         Ok(version)
     }

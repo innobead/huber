@@ -1,5 +1,6 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+use std::sync::Arc;
 
 use async_trait::async_trait;
 use clap::Args;
@@ -22,8 +23,8 @@ pub struct LoadArgs {
 #[async_trait]
 impl CommandTrait for LoadArgs {
     async fn run(&self, _: &Config, container: &DIContainer) -> anyhow::Result<()> {
-        let release_service = container.get::<ReleaseService>().unwrap();
-        let pkg_service = container.get::<PackageService>().unwrap();
+        let release_service = Arc::new(container.get::<ReleaseService>().unwrap().clone());
+        let pkg_service = Arc::new(container.get::<PackageService>().unwrap().clone());
 
         let cache_service = container.get::<CacheService>().unwrap();
         cache_service.update_repositories().await?;
@@ -32,9 +33,14 @@ impl CommandTrait for LoadArgs {
         let file = File::open(&self.file)?;
         let reader = BufReader::new(file);
         let versions: Vec<_> = reader.lines().filter_map(Result::ok).collect();
+        let count = versions.len();
 
-        info!("Installing packages: total {}", versions.len());
+        info!("Loaded packages: total {}: {:#?}", count, versions);
+        info!("Installing packages: total {}", count);
         let versions: Vec<_> = parse_package_name_versions(&versions);
-        install_packages(release_service, pkg_service, versions).await
+        install_packages(release_service, pkg_service, versions).await?;
+        info!("Installed packages: total {}", count);
+
+        Ok(())
     }
 }

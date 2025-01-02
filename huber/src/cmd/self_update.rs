@@ -23,6 +23,7 @@ impl CommandTrait for SelfUpdateArgs {
         if has_update {
             info!("Updating Huber {}", version);
             update_service.update().await?;
+            info!("Huber updated to {}", version);
         } else {
             info!(
                 "No update available. The latest version {:?} already installed.",

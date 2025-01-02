@@ -6,7 +6,7 @@ use huber_common::model::config::{Config, ConfigPath};
 use huber_procmacro::process_lock;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
-use log::{debug, info};
+use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
@@ -29,8 +29,6 @@ impl CommandTrait for ConfigShowArgs {
     async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
         let config_service = container.get::<ConfigService>().unwrap();
         let saved_config = config_service.get()?;
-
-        debug!("Runtime config: {:?}", config);
 
         output!(
             config.output_format,
@@ -56,8 +54,9 @@ impl CommandTrait for ConfigSaveArgs {
 
         process_lock!(lock_file);
 
-        info!("Updating {:?}: {:#?}", config_path, config);
+        info!("Saving config to {:?}: {:#?}", config_path, config);
         config_service.update(config)?;
+        info!("Config saved");
 
         Ok(())
     }

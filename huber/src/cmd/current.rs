@@ -42,10 +42,20 @@ impl CommandTrait for CurrentArgs {
                 .into_iter()
                 .find(|it| it.version == version.to_string())
             {
-                info!("Updating the current version of {}: {}", name, r);
+                info!("Updating the current version of {} to {}", name, version);
                 release_service.set_current(&mut r).await?;
+                info!("{}@{} is now the current version", name, version);
             } else {
-                return Err(anyhow!("Package {}@{} not found", pkg.name, version));
+                info!(
+                    "No version provided, trying to find the latest version of {}",
+                    name
+                );
+                let mut release = release_service.get_latest(&pkg).await?;
+                release_service.set_current(&mut release).await?;
+                info!(
+                    "{}@{} is now the current version",
+                    release.package.name, release.version
+                );
             }
         }
 

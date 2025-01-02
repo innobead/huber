@@ -1,4 +1,5 @@
 use std::path::PathBuf;
+use std::process::exit;
 use std::str::FromStr;
 use std::sync::Arc;
 
@@ -18,7 +19,7 @@ use huber::service::update::HuberUpdateService;
 use huber_common::log::Logger;
 use huber_common::model::config::Config;
 use libcli_rs::output::OutputFormat;
-use log::LevelFilter;
+use log::{error, LevelFilter};
 use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 use simpledi_rs::{create_dep, inject_dep};
 
@@ -87,38 +88,41 @@ struct Cli {
 }
 
 #[tokio::main]
-async fn main() -> anyhow::Result<()> {
+async fn main() {
     let cli = Cli::parse();
 
     let (config, container) = init(&cli);
 
-    match &cli.command {
-        Commands::Install(args) => args.run(&config, &container).await?,
+    let result = match &cli.command {
+        Commands::Install(args) => args.run(&config, &container).await,
         Commands::Config(args) => match args.command {
-            ConfigCommands::Show(ref args) => args.run(&config, &container).await?,
-            ConfigCommands::Save(ref args) => args.run(&config, &container).await?,
+            ConfigCommands::Show(ref args) => args.run(&config, &container).await,
+            ConfigCommands::Save(ref args) => args.run(&config, &container).await,
         },
         Commands::Repo(args) => match args.command {
-            RepoCommands::Add(ref args) => args.run(&config, &container).await?,
-            RepoCommands::Remove(ref args) => args.run(&config, &container).await?,
-            RepoCommands::List(ref args) => args.run(&config, &container).await?,
+            RepoCommands::Add(ref args) => args.run(&config, &container).await,
+            RepoCommands::Remove(ref args) => args.run(&config, &container).await,
+            RepoCommands::List(ref args) => args.run(&config, &container).await,
         },
-        Commands::Current(args) => args.run(&config, &container).await?,
-        Commands::Flush(args) => args.run(&config, &container).await?,
-        Commands::Info(args) => args.run(&config, &container).await?,
-        Commands::Reset(args) => args.run(&config, &container).await?,
-        Commands::Search(args) => args.run(&config, &container).await?,
-        Commands::SelfUpdate(args) => args.run(&config, &container).await?,
-        Commands::Show(args) => args.run(&config, &container).await?,
-        Commands::Uninstall(args) => args.run(&config, &container).await?,
-        Commands::Update(args) => args.run(&config, &container).await?,
-        Commands::Save(args) => args.run(&config, &container).await?,
-        Commands::Load(args) => args.run(&config, &container).await?,
-        Commands::Lock(args) => args.run(&config, &container).await?,
-        Commands::Unlock(args) => args.run(&config, &container).await?,
-    }
+        Commands::Current(args) => args.run(&config, &container).await,
+        Commands::Flush(args) => args.run(&config, &container).await,
+        Commands::Info(args) => args.run(&config, &container).await,
+        Commands::Reset(args) => args.run(&config, &container).await,
+        Commands::Search(args) => args.run(&config, &container).await,
+        Commands::SelfUpdate(args) => args.run(&config, &container).await,
+        Commands::Show(args) => args.run(&config, &container).await,
+        Commands::Uninstall(args) => args.run(&config, &container).await,
+        Commands::Update(args) => args.run(&config, &container).await,
+        Commands::Save(args) => args.run(&config, &container).await,
+        Commands::Load(args) => args.run(&config, &container).await,
+        Commands::Lock(args) => args.run(&config, &container).await,
+        Commands::Unlock(args) => args.run(&config, &container).await,
+    };
 
-    Ok(())
+    if let Err(e) = result {
+        error!("{}", e);
+        exit(1);
+    }
 }
 
 fn init(cli: &Cli) -> (Config, Arc<DIContainer>) {

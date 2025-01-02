@@ -1,7 +1,8 @@
+use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::Args;
 use huber_common::model::config::Config;
-use log::{debug, info, warn};
+use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
@@ -24,14 +25,14 @@ impl CommandTrait for UnlockArgs {
 
         for pkg in &self.name {
             if pkg_service.has(&pkg)? {
-                warn!("Package {} not found", pkg);
-                continue;
+                return Err(anyhow!("Package {} not found", pkg));
             }
 
             if !require_update {
                 require_update = true;
             }
 
+            info!("Unlocking package: {}", pkg);
             config.lock_pkg_versions.remove(pkg);
         }
 
@@ -41,9 +42,9 @@ impl CommandTrait for UnlockArgs {
         }
 
         let config_service = container.get::<ConfigService>().unwrap();
+        config_service.update(&config)?;
+        info!("Unlocked packages");
 
-        info!("Unlocking packages: {:?}", self.name);
-        debug!("Updating config: {:?}", config);
-        config_service.update(&config)
+        Ok(())
     }
 }

@@ -74,8 +74,8 @@ install:
 
 # (local dev) Verify Huber commands via the local package generated folder
 verify huber_cmd pkg_dir=managed_pkg_root_dir:
-    MANAGED_PKG_ROOT_DIR={{ managed_pkg_root_dir }} {{ huber_exec }} {{ huber_cmd }}
+    @MANAGED_PKG_ROOT_DIR={{ pkg_dir }} {{ huber_exec }} {{ huber_cmd }}
 
 # (local dev) Verify the installed Huber commands compatible with the new local package generated folder
 verify-compatible huber_cmd pkg_dir=managed_pkg_root_dir:
-    MANAGED_PKG_ROOT_DIR={{ managed_pkg_root_dir }} `which huber` {{ huber_cmd }}
+    @MANAGED_PKG_ROOT_DIR={{ pkg_dir }} `which huber` {{ huber_cmd }}

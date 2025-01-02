@@ -31,6 +31,8 @@ impl CommandTrait for FlushArgs {
                 if !r.current {
                     info!("Removing {}", r);
                     release_service.delete_release(&r)?;
+                    info!("{} removed", r);
+
                     flushed_releases.push(r);
                 }
             }

@@ -7,7 +7,7 @@ use git2::{Cred, ErrorCode, FetchOptions, RemoteCallbacks, Repository};
 use huber_common::file::is_empty_dir;
 use huber_common::model::package::Package;
 use huber_common::model::release::Release;
-use log::{debug, info};
+use log::debug;
 use octocrab::auth::Auth;
 use octocrab::{Octocrab, OctocrabBuilder};
 
@@ -77,7 +77,7 @@ impl GithubClient {
     fn clone_fresh<P: AsRef<Path> + Send>(&self, url: &str, dir: P) -> anyhow::Result<Repository> {
         let clone_repo_by_key = |key: &PathBuf| -> anyhow::Result<Repository> {
             if key.exists() {
-                info!("Cloning huber repo via SSH");
+                debug!("Cloning huber repo via SSH");
 
                 // Prepare builder.
                 let fetch_options = self.create_git_fetch_options(key.clone())?;
@@ -104,7 +104,7 @@ impl GithubClient {
                         .contains("authentication required but no callback set")
                 {
                     debug!("Failed to clone huber repo due to the SSH key required as per the user git config");
-                    info!("Using the default user key path to try cloning huber repo again");
+                    debug!("Using the default user key path to try cloning huber repo again");
 
                     let p = dirs::home_dir().unwrap().join(".ssh").join("id_rsa");
                     clone_repo_by_key(&p)
@@ -122,7 +122,7 @@ impl GithubClient {
 
         let mut fetch_options = if let Some(key) = self.ssh_key.as_ref() {
             if key.exists() {
-                info!("Fetching huber repo via SSH");
+                debug!("Fetching huber repo via SSH");
                 Some(self.create_git_fetch_options(key.clone())?)
             } else {
                 None

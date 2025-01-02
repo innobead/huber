@@ -33,6 +33,7 @@ impl CommandTrait for UpdateArgs {
         let mut installed_latest_pkg_releases: HashMap<String, Release> = hashmap! {};
 
         for ref name in self.name.iter() {
+            info!("Checking for updates for {}", name);
             if !release_service.has(name)? {
                 return Err(anyhow!(
                     "Unable to update {}, because it's not installed",
@@ -46,14 +47,25 @@ impl CommandTrait for UpdateArgs {
                 if release.compare(&existing_release)? == Ordering::Greater {
                     installed_latest_pkg_releases.insert(release.name.clone(), release);
                 }
+            } else {
+                installed_latest_pkg_releases.insert(release.name.clone(), release);
             }
         }
 
         for (name, installed_release) in installed_latest_pkg_releases.iter() {
+            info!(
+                "Checking for updates for {}. The latest installed version is {}",
+                name, installed_release.version
+            );
+
             let pkg = pkg_service.get(name)?;
             let new_release = release_service.get_latest(&pkg).await?;
 
             if new_release.compare(&installed_release)? == Ordering::Greater {
+                info!(
+                    "Found an update for {}. Installed version: {}, Latest version: {}",
+                    name, installed_release.version, new_release.version
+                );
                 update(
                     &release_service,
                     self.dryrun,
@@ -61,6 +73,10 @@ impl CommandTrait for UpdateArgs {
                     &installed_release,
                 )
                 .await?;
+                info!(
+                    "Successfully updated {}. Installed version: {}, Latest version: {}",
+                    name, installed_release.version, new_release.version
+                );
             }
         }
 

@@ -1,11 +1,12 @@
 use std::io::stdout;
 
+use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::Args;
 use huber_common::model::config::Config;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
-use log::{debug, info, warn};
+use log::info;
 use serde::{Deserialize, Serialize};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
@@ -37,8 +38,7 @@ impl CommandTrait for LockArgs {
 
         for (pkg, version) in &self.name_version {
             if !pkg_service.has(&pkg)? {
-                warn!("Package {} not found", pkg);
-                continue;
+                return Err(anyhow!("{} package not found", pkg));
             }
 
             info!("Locking package: {}@{}", pkg, version);
@@ -65,9 +65,8 @@ impl CommandTrait for LockArgs {
         }
 
         let config_service = container.get::<ConfigService>().unwrap();
-
-        debug!("Updating config: {:?}", config);
         config_service.update(&config)?;
+        info!("Packages locked successfully");
 
         Ok(())
     }

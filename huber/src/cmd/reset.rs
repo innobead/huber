@@ -19,6 +19,7 @@ impl CommandTrait for ResetArgs {
             "Resetting Huber by removing created caches, downloaded files and installed packages"
         );
         update_service.reset()?;
+        info!("Huber reset");
 
         Ok(())
     }

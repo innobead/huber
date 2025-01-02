@@ -14,12 +14,9 @@ use huber_common::log::println_many;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
-use huber_common::progress::progress;
 use huber_common::str::OsStrExt;
 use is_executable::IsExecutable;
-use libcli_rs::progress;
-use libcli_rs::progress::{ProgressBar, ProgressTrait};
-use log::{debug, error, info, warn};
+use log::{debug, error, info};
 use maplit::hashmap;
 use regex::{Captures, Regex};
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
@@ -61,7 +58,7 @@ pub trait ReleaseAsyncTrait {
     async fn set_current(&self, release: &mut Release) -> anyhow::Result<Vec<String>>;
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ReleaseService {
     pub container: Option<Arc<DIContainer>>,
 }
@@ -98,7 +95,7 @@ impl ReleaseService {
 
     #[cfg(not(target_os = "windows"))]
     pub fn set_executable_permission(&self, path: &PathBuf) -> anyhow::Result<()> {
-        info!("Making {:?} as executable", path);
+        debug!("Making {:?} as executable", path);
 
         use std::os::unix::fs::PermissionsExt;
         fs::set_permissions(path, fs::Permissions::from_mode(0o755))?;
@@ -107,7 +104,7 @@ impl ReleaseService {
 
     #[cfg(target_os = "windows")]
     pub fn set_executable_permission(&self, path: &PathBuf) -> anyhow::Result<()> {
-        info!("Ignored to make {:?} as executable", path);
+        debug!("Ignored to make {:?} as executable", path);
         Ok(())
     }
 
@@ -161,7 +158,7 @@ impl ReleaseService {
             let download_file_path = config.temp_dir()?.join(&filename);
 
             let task = async move {
-                info!("Saving {} to {:?}", &download_url, download_file_path);
+                debug!("Saving {} to {:?}", &download_url, download_file_path);
 
                 let _ = remove_file(&download_file_path);
                 let _ = remove_dir_all(&download_file_path);
@@ -183,7 +180,7 @@ impl ReleaseService {
                 {
                     let dest_f = pkg_dir.join(&filename);
 
-                    info!(
+                    debug!(
                         "Moving {:?} to {:?}, because it's not an archive, regarded as an executable",
                         &download_file_path, &dest_f
                     );
@@ -196,26 +193,25 @@ impl ReleaseService {
                 }
 
                 match ext {
-                    None => info!(
+                    None => debug!(
                         "Ignored {:?}, because it is not archived",
                         &download_file_path
                     ),
 
                     Some(ext) if ext.to_str().unwrap() == "exe" => {
-                        info!(
-                            "Ignored {:?}, because it is not archived and w/ suffix 'exe'",
+                        debug!(
+                            "Ignored {:?}, because it is not archived and with suffix 'exe'",
                             &download_file_path
                         );
                     }
 
                     Some(ext) => {
-                        // uncompress
-                        info!("Decompressing {} which has extension {:?}", filename, ext);
+                        debug!("Decompressing {} which has extension {:?}", filename, ext);
 
                         let extract_dir = download_file_path.parent().unwrap().join("extract");
                         let download_file = File::open(&download_file_path)?;
 
-                        info!("Decompressing {:?} to {:?}", &download_file, &extract_dir);
+                        debug!("Decompressing {:?} to {:?}", &download_file, &extract_dir);
                         fs::create_dir_all(&extract_dir)?;
                         uncompress_archive(&download_file, &extract_dir, Ownership::Ignore)?;
 
@@ -229,7 +225,7 @@ impl ReleaseService {
 
                         let mut symbolic_links: HashMap<PathBuf, PathBuf> = hashmap! {};
                         let items_to_copy: Vec<PathBuf> = if extract_content_dir.is_dir() {
-                            info!("Moving {:?}/* to {:?}", &extract_content_dir, &pkg_dir);
+                            debug!("Moving {:?}/* to {:?}", &extract_content_dir, &pkg_dir);
                             extract_content_dir
                                 .read_dir()?
                                 .filter_map(|it| {
@@ -249,7 +245,7 @@ impl ReleaseService {
                                 })
                                 .collect()
                         } else {
-                            info!("Moving {:?} to {:?}", &extract_content_dir, &pkg_dir);
+                            debug!("Moving {:?} to {:?}", &extract_content_dir, &pkg_dir);
                             vec![extract_content_dir]
                         };
 
@@ -258,11 +254,11 @@ impl ReleaseService {
                         move_items(&items_to_copy, &pkg_dir, &option)?;
 
                         for (dest_link, src_link) in symbolic_links {
-                            info!("Add extra linked files {:?} to {:?}", src_link, dest_link);
+                            debug!("Add extra linked files {:?} to {:?}", src_link, dest_link);
                             symlink_file(src_link, dest_link)?
                         }
 
-                        info!(
+                        debug!(
                             "Removing temp files {:?}, {:?}",
                             download_file_path, extract_dir
                         );
@@ -319,12 +315,12 @@ impl ReleaseTrait for ReleaseService {
     }
 
     fn reset_current(&self, pkg: &Package) -> anyhow::Result<()> {
-        info!("Cleaning {} from the current manifests", &pkg);
+        debug!("Cleaning {} from the current manifests", &pkg);
 
         let config = self.container.get::<Config>().unwrap();
 
         // remove old symlink bin, current
-        info!("Removing the current package symbolic links: {}", &pkg);
+        debug!("Removing the current package symbolic links: {}", &pkg);
 
         let current_pkg_dir = config.current_pkg_dir(&pkg)?;
         let current_bin_dir = config.current_pkg_bin_dir(&pkg)?;
@@ -334,10 +330,10 @@ impl ReleaseTrait for ReleaseService {
         scan_dirs.push(current_bin_dir.clone());
 
         for dir in scan_dirs {
-            info!("Scanning executables in {:?}", dir);
+            debug!("Scanning executables in {:?}", dir);
 
             if !dir.exists() {
-                info!("Ignored scanning {:?}, because it does not exist", dir);
+                debug!("Ignored scanning {:?}, because it does not exist", dir);
                 continue;
             }
 
@@ -351,12 +347,12 @@ impl ReleaseTrait for ReleaseService {
         }
 
         if current_pkg_dir.exists() {
-            info!("Removing link {:?}", &current_pkg_dir);
+            debug!("Removing link {:?}", &current_pkg_dir);
             remove_symlink_dir(&current_pkg_dir)?;
         }
 
         // remove it from index
-        info!("Removing {} from the current index", &pkg);
+        debug!("Removing {} from the current index", &pkg);
 
         let index_f = config.current_index_file()?;
         let indexes = if index_f.exists() {
@@ -396,7 +392,7 @@ impl ReleaseTrait for ReleaseService {
             .executable_templates
             .unwrap_or(vec![]);
         if exec_templates.len() > 0 && !exec_templates.contains(&exec_filename) {
-            info!(
+            debug!(
                 "Ignored to link {:?} because it does not mentioned in executable_templates {:?}",
                 &file, exec_templates
             );
@@ -432,7 +428,7 @@ impl ReleaseTrait for ReleaseService {
             let _ = remove_file(&exec_file_path);
 
             if exec_filename.starts_with(".") {
-                info!(
+                debug!(
                     "Ignored to link {:?} to {:?} because it's a hidden file",
                     &file, &exec_file_path
                 );
@@ -448,7 +444,7 @@ impl ReleaseTrait for ReleaseService {
 
             if let Some(ext) = exec_file_path_without_version.extension() {
                 if !SUPPORTED_EXTRA_EXECUTABLE_TYPES.contains(&ext.to_str_direct()) {
-                    info!(
+                    debug!(
                         "Ignored to link {:?} to {:?} because of ext suffix {:?} not supported. {:?}",
                         &file, &exec_file_path, ext, SUPPORTED_EXTRA_EXECUTABLE_TYPES
                     );
@@ -463,7 +459,7 @@ impl ReleaseTrait for ReleaseService {
                 || exec_filename_without_version.starts_with("_")
                 || exec_filename_without_version.starts_with(".")
             {
-                info!(
+                debug!(
                     "Ignored to link {:?} to {:?} because of file name patterns (uppercase, class cass or starts with _)",
                     &file, &exec_file_path
                 );
@@ -476,7 +472,7 @@ impl ReleaseTrait for ReleaseService {
             }
 
             if !file.is_executable() {
-                info!(
+                debug!(
                     "Ignored to link {:?} to {:?} because it's not executable)",
                     &file, &exec_file_path
                 );
@@ -484,7 +480,7 @@ impl ReleaseTrait for ReleaseService {
                 return Ok(());
             }
 
-            info!("Linking {:?} to {:?}", &file, &exec_file_path);
+            debug!("Linking {:?} to {:?}", &file, &exec_file_path);
             symlink_file(file, &exec_file_path)?;
             exec_file_paths.push(exec_file_path.to_str().unwrap().to_string());
 
@@ -525,7 +521,7 @@ impl ReleaseTrait for ReleaseService {
             let exec_file_path = config.bin_dir()?.join(&exec_filename);
 
             if exec_file_path.exists() {
-                info!("Removing link {:?}", &exec_file_path);
+                debug!("Removing link {:?}", &exec_file_path);
                 remove_symlink_file(exec_file_path)?;
             }
         }
@@ -584,7 +580,7 @@ impl ReleaseTrait for ReleaseService {
     }
 
     fn delete_release(&self, release: &Release) -> anyhow::Result<()> {
-        info!("Removing release: {}", &release);
+        debug!("Removing release: {}", &release);
 
         let cr = self.current(&release.package)?;
         if cr.version == release.version {
@@ -608,7 +604,7 @@ impl ReleaseAsyncTrait for ReleaseService {
         package: &Package,
         package_github: &GithubPackage,
     ) -> anyhow::Result<()> {
-        info!("Downloading github package artifacts {}", &package);
+        debug!("Downloading github package artifacts {}", &package);
 
         let config = self.container.get::<Config>().unwrap();
         let version = package.parse_version_from_tag_name(&package_github.tag_name)?;
@@ -650,11 +646,10 @@ impl ReleaseAsyncTrait for ReleaseService {
         }
 
         if asset_download_urls.is_empty() {
-            warn!(
-                "No available artifacts for {} to download, so probably the download path in package \
-                artifact config outdated. Please report issue to https://github.com/innobead/huber",
+            return Err(anyhow!(
+                "No available artifacts for {} to download",
                 package.name
-            );
+            ));
         }
 
         // download
@@ -665,7 +660,7 @@ impl ReleaseAsyncTrait for ReleaseService {
     }
 
     async fn set_current(&self, release: &mut Release) -> anyhow::Result<Vec<String>> {
-        info!("Setting the current release: {}", &release);
+        debug!("Setting the current release: {}", &release);
 
         let config = self.container.get::<Config>().unwrap();
         release.current = true;
@@ -679,14 +674,14 @@ impl ReleaseAsyncTrait for ReleaseService {
         scan_dirs.push(current_bin_dir.clone());
 
         // remove old symlink bin, current
-        info!(
+        debug!(
             "Removing the old current release symbolic links: {}",
             &release.package
         );
         self.reset_current(&release.package)?;
 
         // update current symlink
-        info!("Updating the current release symbolic links: {}", &release);
+        debug!("Updating the current release symbolic links: {}", &release);
 
         let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
         symlink_dir(&source, &current_pkg_dir)?;
@@ -694,10 +689,10 @@ impl ReleaseAsyncTrait for ReleaseService {
         // scan executables in scan_dirs
         let mut linked_exe_files: Vec<String> = vec![];
         for dir in scan_dirs {
-            info!("Scanning executables in {:?}", dir);
+            debug!("Scanning executables in {:?}", dir);
 
             if !dir.exists() {
-                info!("Ignored scanning {:?}, because it does not exist", dir);
+                debug!("Ignored scanning {:?}, because it does not exist", dir);
                 continue;
             }
 
@@ -719,7 +714,7 @@ impl ReleaseAsyncTrait for ReleaseService {
         let mut indexes: Vec<ReleaseIndex> = vec![];
 
         // update old current release manifest
-        info!("Updating the current index manifest: {:?}", &index_f);
+        debug!("Updating the current index manifest: {:?}", &index_f);
 
         if index_f.exists() {
             let f = File::open(&index_f)?;
@@ -782,7 +777,7 @@ impl ItemOperationTrait for ReleaseService {
     type Condition = Package;
 
     fn delete(&self, name: &str) -> anyhow::Result<()> {
-        info!("Deleting releases of package {}", name);
+        debug!("Deleting releases of package {}", name);
 
         let config = self.container.get::<Config>().unwrap();
         let pkg_service = self.container.get::<PackageService>().unwrap();
@@ -850,7 +845,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
     type Condition_ = Package;
 
     async fn create(&self, obj: Self::Item_) -> anyhow::Result<Self::ItemInstance_> {
-        info!("Creating release from package: {}", &obj);
+        debug!("Creating release from package: {}", &obj);
 
         if self.has(&obj.name)? {
             return Err(anyhow!("{} already installed", &obj.name));
@@ -860,7 +855,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
     }
 
     async fn update(&self, obj: &Self::Item_) -> anyhow::Result<Self::ItemInstance_> {
-        info!("Updating release from package: {}", &obj);
+        debug!("Updating release from package: {}", &obj);
 
         let config = self.container.get::<Config>().unwrap();
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
@@ -869,19 +864,16 @@ impl ItemOperationAsyncTrait for ReleaseService {
         let mut release = match &obj.source {
             PackageSource::Github { owner, repo } => match &obj.version {
                 Some(v) => {
-                    progress(&format!("Getting {} of package release {}", &v, &obj))?;
+                    debug!("Getting {} of package release {}", &v, &obj);
                     client.get_release(&owner, &repo, &v, &obj).await?
                 }
                 None => {
-                    progress(&format!("Getting the latest release of package {}", &obj))?;
+                    debug!("Getting the latest release of package {}", &obj);
 
                     if let Ok(r) = client.get_latest_release(&owner, &repo, &obj).await {
                         r
                     } else {
-                        progress(&format!(
-                            "Getting the latest pre-release of package {}",
-                            &obj
-                        ))?;
+                        debug!("Getting the latest pre-release of package {}", &obj);
                         client
                             .get_releases(&owner, &repo, &obj)
                             .await?
@@ -900,18 +892,14 @@ impl ItemOperationAsyncTrait for ReleaseService {
 
         match release_detail.unwrap() {
             PackageDetailType::Github { package: p } => {
-                progress!(
-                    format!(
-                        "Downloading package artifacts from github {:?}",
-                        obj.source.url()
-                    ),
-                    self.download_install_github_package(&obj, &p).await?;
+                debug!(
+                    "Downloading package artifacts from github {:?}",
+                    obj.source.url()
                 );
+                self.download_install_github_package(&obj, &p).await?;
 
-                let executables = progress!(
-                    format!("Setting {} as the current package", release),
-                    self.set_current(&mut release).await?;
-                );
+                debug!("Setting {} as the current package", release);
+                let executables = self.set_current(&mut release).await?;
 
                 println_many("Installed executables", &executables);
                 release.executables = Some(executables);

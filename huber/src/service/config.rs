@@ -4,7 +4,7 @@ use std::sync::Arc;
 use anyhow::anyhow;
 use huber_common::model::config::{Config, ConfigPath};
 use lazy_static::lazy_static;
-use log::{debug, info};
+use log::debug;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::service::ServiceTrait;
@@ -59,7 +59,7 @@ impl ConfigTrait for ConfigService {
     fn update(&self, config: &Config) -> anyhow::Result<()> {
         let path = DEFAULT_CONFIG.config_file()?;
 
-        info!("Updating the config {:?}", path);
+        debug!("Updating the config {:?}: {:?}", path, config);
         if path.exists() {
             let _ = remove_file(&path);
         }

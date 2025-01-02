@@ -176,13 +176,11 @@ impl ConfigPath for Config {
 
     fn installed_pkg_dir(&self, pkg: &Package, version: &str) -> anyhow::Result<PathBuf> {
         let version = pkg.parse_version_from_tag_name(&version.to_string())?;
-
         dir(self.installed_pkg_base_dir(&pkg)?.join(version))
     }
 
     fn installed_pkg_bin_dir(&self, pkg: &Package, version: &str) -> anyhow::Result<PathBuf> {
         let version = pkg.parse_version_from_tag_name(&version.to_string())?;
-
         dir(self.installed_pkg_dir(pkg, &version)?.join("bin"))
     }
 

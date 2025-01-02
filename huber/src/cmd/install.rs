@@ -1,9 +1,12 @@
+use std::sync::Arc;
+
 use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::Args;
 use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
+use tokio::task::JoinHandle;
 
 use crate::cmd::CommandTrait;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
@@ -23,8 +26,8 @@ pub struct InstallArgs {
 #[async_trait]
 impl CommandTrait for InstallArgs {
     async fn run(&self, _config: &Config, container: &DIContainer) -> anyhow::Result<()> {
-        let release_service = container.get::<ReleaseService>().unwrap();
-        let pkg_service = container.get::<PackageService>().unwrap();
+        let release_service = Arc::new(container.get::<ReleaseService>().unwrap().clone());
+        let pkg_service = Arc::new(container.get::<PackageService>().unwrap().clone());
 
         let cache_service = container.get::<CacheService>().unwrap();
         cache_service.update_repositories().await?;
@@ -50,8 +53,8 @@ pub fn parse_package_name_versions(name_versions: &Vec<String>) -> Vec<(String, 
 }
 
 pub async fn install_packages(
-    release_service: &ReleaseService,
-    pkg_service: &PackageService,
+    release_service: Arc<ReleaseService>,
+    pkg_service: Arc<PackageService>,
     versions: Vec<(String, String)>,
 ) -> anyhow::Result<()> {
     for (name, _) in versions.iter() {
@@ -60,14 +63,33 @@ pub async fn install_packages(
         }
     }
 
-    for (name, version) in versions.iter() {
-        let mut pkg = pkg_service.get(name)?;
-        pkg.version = version.to_string().into();
+    let mut join_handles = vec![];
+    for (name, version) in versions.clone().into_iter() {
+        let pkg_service = pkg_service.clone();
+        let release_service = release_service.clone();
 
-        info!("Installing {}", pkg);
-        if release_service.has(name)? {
+        let handle: JoinHandle<anyhow::Result<()>> = tokio::spawn(async move {
+            let mut pkg = pkg_service.get(&name)?;
+            pkg.version = if version.is_empty() {
+                None
+            } else {
+                Some(version)
+            };
+
+            let version = pkg.version.clone().unwrap_or("latest".to_string());
+            info!("Installing {}@{}", pkg.name, version);
             release_service.update(&pkg).await?;
-        }
+            info!("{}@{} installed", pkg.name, version);
+
+            Ok(())
+        });
+
+        join_handles.push(handle);
     }
+
+    for handle in join_handles.into_iter() {
+        handle.await??;
+    }
+
     Ok(())
 }

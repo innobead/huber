@@ -60,6 +60,7 @@ impl CommandTrait for RepoAddArgs {
         };
         info!("Adding repo {}", repo);
         repo_service.create(repo).await?;
+        info!("Repo added");
 
         Ok(())
     }

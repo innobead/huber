@@ -31,6 +31,7 @@ impl CommandTrait for UninstallArgs {
         for name in self.name.iter() {
             info!("Uninstalling {}", name);
             release_service.delete(name)?;
+            info!("Uninstalled {}", name);
         }
 
         Ok(())

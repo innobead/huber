@@ -33,6 +33,7 @@ impl CommandTrait for SaveArgs {
         info!("Saving the package list to {}", self.file);
         let mut file = File::create(&self.file)?;
         file.write_all(versions.join("\n").as_bytes())?;
+        info!("Saved the package list to {}", self.file);
 
         Ok(())
     }
