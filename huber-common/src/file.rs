@@ -25,7 +25,7 @@ pub fn trim_os_arch(str: &str) -> String {
     arch_pattern.sort_by(revert_sort);
     let arch_pattern = arch_pattern.join("|");
 
-    let res = vec![
+    let res = [
         Regex::new(&format!(
             r"(?i)([-_]v\d+.\d+.\d+)?[-_.]({})[-_]({})[-_]*",
             os_pattern, arch_pattern
@@ -45,10 +45,8 @@ pub fn trim_os_arch(str: &str) -> String {
         str.to_string()
     };
 
-    if cfg!(target_os = "windows") {
-        if !str.ends_with(".exe") {
-            str += ".exe";
-        }
+    if cfg!(target_os = "windows") && !str.ends_with(".exe") {
+        str += ".exe";
     }
 
     str

@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::fs::{read_dir, read_link, remove_dir_all, remove_file, File};
 use std::io::Write;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::{env, fs};
 
@@ -39,9 +39,9 @@ pub trait ReleaseTrait {
     fn link_executables_for_current(
         &self,
         release: &Release,
-        file: &PathBuf,
+        file: &Path,
     ) -> anyhow::Result<Option<Vec<String>>>;
-    fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> anyhow::Result<()>;
+    fn unlink_executables_for_current(&self, pkg: &Package, file: &Path) -> anyhow::Result<()>;
 
     fn get_executables_for_current(&self, pkg: &Package) -> anyhow::Result<Vec<String>>;
     fn delete_release(&self, release: &Release) -> anyhow::Result<()>;
@@ -75,6 +75,12 @@ impl DependencyInjectTrait for ReleaseService {
     }
 }
 
+impl Default for ReleaseService {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl ReleaseService {
     pub fn new() -> Self {
         Self { container: None }
@@ -88,13 +94,13 @@ impl ReleaseService {
 
         match &pkg.source {
             PackageSource::Github { owner, repo } => {
-                client.get_latest_release(&owner, &repo, pkg).await
+                client.get_latest_release(owner, repo, pkg).await
             }
         }
     }
 
     #[cfg(not(target_os = "windows"))]
-    pub fn set_executable_permission(&self, path: &PathBuf) -> anyhow::Result<()> {
+    pub fn set_executable_permission(&self, path: &Path) -> anyhow::Result<()> {
         debug!("Making {:?} as executable", path);
 
         use std::os::unix::fs::PermissionsExt;
@@ -108,7 +114,7 @@ impl ReleaseService {
         Ok(())
     }
 
-    fn get_assets(package: &Package, version: &String) -> anyhow::Result<Vec<String>> {
+    fn get_assets(package: &Package, version: &str) -> anyhow::Result<Vec<String>> {
         let asset_names: Vec<String> = package
             .target()?
             .artifact_templates
@@ -144,7 +150,7 @@ impl ReleaseService {
         &self,
         package: &Package,
         config: &Config,
-        version: &String,
+        version: &str,
         asset_download_urls: &mut Vec<String>,
     ) -> anyhow::Result<()> {
         let mut tasks = vec![];
@@ -153,7 +159,7 @@ impl ReleaseService {
             // download
             info!("Downloading {}", &download_url);
 
-            let pkg_dir = config.installed_pkg_dir(package, &version)?;
+            let pkg_dir = config.installed_pkg_dir(package, version)?;
             let filename = download_url.split("/").last().unwrap().to_string();
             let download_file_path = config.temp_dir()?.join(&filename);
 
@@ -170,7 +176,7 @@ impl ReleaseService {
                     Ok(response) => {
                         let mut dest_f = File::create(&download_file_path)?;
                         let bytes = response.bytes().await?;
-                        dest_f.write(&bytes)?;
+                        dest_f.write_all(&bytes)?;
                     }
                 }
 
@@ -309,7 +315,7 @@ impl ReleaseTrait for ReleaseService {
         let mut r: Release = serde_yaml::from_reader(&f)?;
 
         r.current = false;
-        let _ = remove_file(&p)?;
+        remove_file(&p)?;
         let f = File::create(&p)?;
         Ok(serde_yaml::to_writer(f, &r)?)
     }
@@ -322,8 +328,8 @@ impl ReleaseTrait for ReleaseService {
         // remove old symlink bin, current
         debug!("Removing the current package symbolic links: {}", &pkg);
 
-        let current_pkg_dir = config.current_pkg_dir(&pkg)?;
-        let current_bin_dir = config.current_pkg_bin_dir(&pkg)?;
+        let current_pkg_dir = config.current_pkg_dir(pkg)?;
+        let current_bin_dir = config.current_pkg_bin_dir(pkg)?;
 
         let mut scan_dirs: Vec<PathBuf> = pkg.get_scan_dirs(&current_pkg_dir)?;
         scan_dirs.push(current_pkg_dir.clone());
@@ -337,11 +343,11 @@ impl ReleaseTrait for ReleaseService {
                 continue;
             }
 
-            for entry in read_dir(&dir)?.into_iter() {
+            for entry in read_dir(&dir)? {
                 let entry = entry?;
                 let path = entry.path();
                 if path.is_file() {
-                    self.unlink_executables_for_current(&pkg, &path)?;
+                    self.unlink_executables_for_current(pkg, &path)?;
                 }
             }
         }
@@ -380,7 +386,7 @@ impl ReleaseTrait for ReleaseService {
     fn link_executables_for_current(
         &self,
         release: &Release,
-        file: &PathBuf,
+        file: &Path,
     ) -> anyhow::Result<Option<Vec<String>>> {
         let config = self.container.get::<Config>().unwrap();
         let exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
@@ -391,7 +397,7 @@ impl ReleaseTrait for ReleaseService {
             .target()?
             .executable_templates
             .unwrap_or(vec![]);
-        if exec_templates.len() > 0 && !exec_templates.contains(&exec_filename) {
+        if !exec_templates.is_empty() && !exec_templates.contains(&exec_filename) {
             debug!(
                 "Ignored to link {:?} because it does not mentioned in executable_templates {:?}",
                 &file, exec_templates
@@ -408,16 +414,13 @@ impl ReleaseTrait for ReleaseService {
             .target()?
             .executable_mappings
             .unwrap_or(hashmap![]);
-        if exec_mappings.len() > 0 {
+        if !exec_mappings.is_empty() {
             let re = Regex::new(r"(\d+.\d+.\d+)").unwrap();
             let expected_exec_filename = re.replace(&exec_filename, "{version}").to_string();
 
             if let Some(mapped_exec_names) = exec_mappings.get(&expected_exec_filename) {
                 let re = Regex::new(r"\s+").unwrap();
-                exec_filenames = re
-                    .split(&mapped_exec_names)
-                    .map(|x| x.to_string())
-                    .collect();
+                exec_filenames = re.split(mapped_exec_names).map(|x| x.to_string()).collect();
             }
         }
 
@@ -484,7 +487,7 @@ impl ReleaseTrait for ReleaseService {
             symlink_file(file, &exec_file_path)?;
             exec_file_paths.push(exec_file_path.to_str().unwrap().to_string());
 
-            return Ok(());
+            Ok(())
         };
 
         for ref x in exec_filenames {
@@ -498,7 +501,7 @@ impl ReleaseTrait for ReleaseService {
         }
     }
 
-    fn unlink_executables_for_current(&self, pkg: &Package, file: &PathBuf) -> anyhow::Result<()> {
+    fn unlink_executables_for_current(&self, pkg: &Package, file: &Path) -> anyhow::Result<()> {
         let config = self.container.get::<Config>().unwrap();
         let exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
         let mut exec_filenames = vec![exec_filename.clone()];
@@ -506,18 +509,15 @@ impl ReleaseTrait for ReleaseService {
         // update linked exec name according to executable_mappings if it exists
         let exec_mappings: HashMap<String, String> =
             pkg.target()?.executable_mappings.unwrap_or(hashmap![]);
-        if exec_mappings.len() > 0 {
+        if !exec_mappings.is_empty() {
             if let Some(mapped_exec_names) = exec_mappings.get(&exec_filename) {
                 let re = Regex::new(r"\s+").unwrap();
-                exec_filenames = re
-                    .split(&mapped_exec_names)
-                    .map(|x| x.to_string())
-                    .collect();
+                exec_filenames = re.split(mapped_exec_names).map(|x| x.to_string()).collect();
             }
         }
 
         for ref exec_filename in exec_filenames {
-            let exec_filename = trim_os_arch(&exec_filename);
+            let exec_filename = trim_os_arch(exec_filename);
             let exec_file_path = config.bin_dir()?.join(&exec_filename);
 
             if exec_file_path.exists() {
@@ -533,8 +533,8 @@ impl ReleaseTrait for ReleaseService {
         let config = self.container.get::<Config>().unwrap();
         let mut results: Vec<String> = vec![];
 
-        let pkg_dir = config.current_pkg_dir(&pkg)?;
-        let pkg_bin_dir = config.current_pkg_bin_dir(&pkg)?;
+        let pkg_dir = config.current_pkg_dir(pkg)?;
+        let pkg_bin_dir = config.current_pkg_bin_dir(pkg)?;
         let exec_mappings: HashMap<String, String> =
             pkg.target()?.executable_mappings.unwrap_or(hashmap![]);
 
@@ -547,7 +547,7 @@ impl ReleaseTrait for ReleaseService {
                 continue;
             }
 
-            for entry in read_dir(&dir)?.into_iter() {
+            for entry in read_dir(&dir)? {
                 let entry = entry?;
                 let path = entry.path();
 
@@ -555,18 +555,16 @@ impl ReleaseTrait for ReleaseService {
                     let exec_filename = path.file_name().unwrap().to_str().unwrap().to_string();
                     let mut exec_filenames = vec![exec_filename.clone()];
 
-                    if exec_mappings.len() > 0 {
+                    if !exec_mappings.is_empty() {
                         if let Some(mapped_exec_names) = exec_mappings.get(&exec_filename) {
                             let re = Regex::new(r"\s+").unwrap();
-                            exec_filenames = re
-                                .split(&mapped_exec_names)
-                                .map(|x| x.to_string())
-                                .collect();
+                            exec_filenames =
+                                re.split(mapped_exec_names).map(|x| x.to_string()).collect();
                         }
                     }
 
                     for ref exec_filename in exec_filenames {
-                        let exec_filename = trim_os_arch(&exec_filename);
+                        let exec_filename = trim_os_arch(exec_filename);
                         let p = config.bin_dir()?.join(exec_filename);
                         if p.exists() {
                             results.push(p.to_str().unwrap().to_string());
@@ -614,15 +612,12 @@ impl ReleaseAsyncTrait for ReleaseService {
         let mut ext_asset_urls: Vec<String> = asset_names // external assets not on github
             .iter()
             .filter(|it| Url::parse(it).is_ok() && it.starts_with("https"))
-            .map(|it| it.clone())
+            .cloned()
             .collect();
         asset_download_urls.append(&mut ext_asset_urls);
 
         if !ext_asset_urls.is_empty() {
-            asset_names = asset_names
-                .into_iter()
-                .filter(|it| !ext_asset_urls.contains(it))
-                .collect();
+            asset_names.retain(|it| !ext_asset_urls.contains(it));
         }
 
         // prepare download urls
@@ -696,12 +691,12 @@ impl ReleaseAsyncTrait for ReleaseService {
                 continue;
             }
 
-            for entry in read_dir(&dir)?.into_iter() {
+            for entry in read_dir(&dir)? {
                 let entry = entry?;
                 let path = entry.path();
                 if path.is_file() {
                     debug!("Scanning file: {:?}", path);
-                    if let Some(mut paths) = self.link_executables_for_current(&release, &path)? {
+                    if let Some(mut paths) = self.link_executables_for_current(release, &path)? {
                         linked_exe_files.append(&mut paths);
                     }
                 } else {
@@ -733,10 +728,7 @@ impl ReleaseAsyncTrait for ReleaseService {
                 serde_yaml::to_writer(f, &r)?;
             }
 
-            indexes = indexes
-                .into_iter()
-                .filter(|it| it.name != release.package.name)
-                .collect();
+            indexes.retain(|it| it.name != release.package.name);
         }
 
         indexes.push(ReleaseIndex {
@@ -764,7 +756,7 @@ impl ReleaseAsyncTrait for ReleaseService {
             .collect();
 
         for r in inactive_releases {
-            self.clean_current(&r)?;
+            self.clean_current(r)?;
         }
 
         Ok(linked_exe_files)
@@ -865,17 +857,17 @@ impl ItemOperationAsyncTrait for ReleaseService {
             PackageSource::Github { owner, repo } => match &obj.version {
                 Some(v) => {
                     debug!("Getting {} of package release {}", &v, &obj);
-                    client.get_release(&owner, &repo, &v, &obj).await?
+                    client.get_release(owner, repo, v, obj).await?
                 }
                 None => {
                     debug!("Getting the latest release of package {}", &obj);
 
-                    if let Ok(r) = client.get_latest_release(&owner, &repo, &obj).await {
+                    if let Ok(r) = client.get_latest_release(owner, repo, obj).await {
                         r
                     } else {
                         debug!("Getting the latest pre-release of package {}", &obj);
                         client
-                            .get_releases(&owner, &repo, &obj)
+                            .get_releases(owner, repo, obj)
                             .await?
                             .first()
                             .expect("")
@@ -896,7 +888,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
                     "Downloading package artifacts from github {:?}",
                     obj.source.url()
                 );
-                self.download_install_github_package(&obj, &p).await?;
+                self.download_install_github_package(obj, p).await?;
 
                 debug!("Setting {} as the current package", release);
                 let executables = self.set_current(&mut release).await?;
@@ -916,8 +908,8 @@ impl ItemOperationAsyncTrait for ReleaseService {
 
         let mut releases: Vec<Release> = vec![];
 
-        let pkg_base_dir = config.installed_pkg_base_dir(&pkg)?;
-        for entry in read_dir(&pkg_base_dir)?.into_iter() {
+        let pkg_base_dir = config.installed_pkg_base_dir(pkg)?;
+        for entry in read_dir(&pkg_base_dir)? {
             let entry = entry?;
             let filename = entry.file_name();
             let filename = filename.to_str().unwrap();
@@ -927,7 +919,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
             }
 
             if entry.path().is_dir() {
-                let p = config.installed_pkg_manifest_file(&pkg, &filename)?;
+                let p = config.installed_pkg_manifest_file(pkg, filename)?;
                 let f = File::open(p)?;
                 let r: Release = serde_yaml::from_reader(f)?;
 
@@ -960,7 +952,7 @@ impl ItemSearchTrait for ReleaseService {
 
             let mut updated_r = r.clone();
 
-            if releases.iter().find(|it| it.version == r.version).is_some() {
+            if releases.iter().any(|it| it.version == r.version) {
                 updated_r.current = true;
             }
 

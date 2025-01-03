@@ -39,7 +39,7 @@ impl CommandTrait for InstallArgs {
     }
 }
 
-pub fn parse_package_name_versions(name_versions: &Vec<String>) -> Vec<(String, String)> {
+pub fn parse_package_name_versions(name_versions: &[String]) -> Vec<(String, String)> {
     name_versions
         .iter()
         .map(|name_version| {

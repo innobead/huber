@@ -24,7 +24,7 @@ impl CommandTrait for UnlockArgs {
         let mut require_update = false;
 
         for pkg in &self.name {
-            if pkg_service.has(&pkg)? {
+            if pkg_service.has(pkg)? {
                 return Err(anyhow!("Package {} not found", pkg));
             }
 

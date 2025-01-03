@@ -38,10 +38,7 @@ impl CommandTrait for CurrentArgs {
             let pkg = pkg_service.get(name)?;
             let releases = release_service.find(&pkg).await?;
 
-            if let Some(mut r) = releases
-                .into_iter()
-                .find(|it| it.version == version.to_string())
-            {
+            if let Some(mut r) = releases.into_iter().find(|it| it.version == *version) {
                 info!("Updating the current version of {} to {}", name, version);
                 release_service.set_current(&mut r).await?;
                 info!("{}@{} is now the current version", name, version);

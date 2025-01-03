@@ -32,7 +32,7 @@ impl CommandTrait for LoadArgs {
         info!("Loading packages from {}", self.file);
         let file = File::open(&self.file)?;
         let reader = BufReader::new(file);
-        let versions: Vec<_> = reader.lines().filter_map(Result::ok).collect();
+        let versions: Vec<_> = reader.lines().map_while(Result::ok).collect();
         let count = versions.len();
 
         info!("Loaded packages: total {}: {:#?}", count, versions);

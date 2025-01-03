@@ -29,9 +29,9 @@ impl VersionCompareTrait for String {
         let regex = Regex::new(r"^v").unwrap();
 
         let self_version = Version::from_str(&regex.replace(self, ""))
-            .expect(&format!("{} should be semantic version", self));
+            .unwrap_or_else(|_| panic!("{} should be semantic version", self));
         let comparing_version = Version::from_str(&regex.replace(version, ""))
-            .expect(&format!("{} should be semantic version", version));
+            .unwrap_or_else(|_| panic!("{} should be semantic version", version));
 
         self_version.partial_cmp(&comparing_version)
     }

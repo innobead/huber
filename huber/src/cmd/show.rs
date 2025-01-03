@@ -77,7 +77,7 @@ impl ShowArgs {
     async fn show_package(
         &self,
         name: &str,
-        exc_keys: &Vec<&str>,
+        exc_keys: &[&str],
         config: &Config,
         pkg_service: &PackageService,
         release_service: &ReleaseService,
@@ -104,16 +104,19 @@ impl ShowArgs {
                     stdout(),
                     &releases,
                     None,
-                    Some(exc_keys.clone()),
+                    Some(exc_keys.into()),
                 )
             );
         }
 
-        output!(config.output_format, .display(
-            stdout(),
-            &release,
-            None,
-            Some(exc_keys.clone()),
-        ))
+        output!(
+            config.output_format,
+            .display(
+                stdout(),
+                &release,
+                None,
+                Some(exc_keys.into()),
+            )
+        )
     }
 }

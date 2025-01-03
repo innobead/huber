@@ -63,7 +63,7 @@ impl CommandTrait for SearchArgs {
                 self.owner.as_deref(),
             )?
             .into_iter()
-            .map(|it| PackageSummary::from(it))
+            .map(PackageSummary::from)
             .collect();
 
         output!(

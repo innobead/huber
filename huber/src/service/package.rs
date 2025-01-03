@@ -21,6 +21,12 @@ unsafe impl Send for PackageService {}
 
 unsafe impl Sync for PackageService {}
 
+impl Default for PackageService {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl PackageService {
     pub fn new() -> Self {
         Self { container: None }
@@ -37,18 +43,14 @@ impl PackageService {
             .into_iter()
             .filter(|it| {
                 if release_build_only {
-                    return if let ReleaseKind::Release =
-                        it.release_kind.unwrap_or(ReleaseKind::PreRelease)
-                    {
-                        true
-                    } else {
-                        false
-                    };
+                    return matches!(
+                        it.release_kind.unwrap_or(ReleaseKind::PreRelease),
+                        ReleaseKind::Release
+                    );
                 }
-
                 true
             })
-            .map(|it| PackageSummary::from(it))
+            .map(PackageSummary::from)
             .collect();
 
         pkgs.sort_by_version();
@@ -83,8 +85,8 @@ impl ItemOperationTrait for PackageService {
         debug!("Getting package: {}", name);
 
         let results = self.search(Some(name), None, None)?;
-        if results.len() > 0 {
-            Ok(results.get(0).unwrap().to_owned())
+        if !results.is_empty() {
+            Ok(results.first().unwrap().to_owned())
         } else {
             Err(anyhow!("{} not found", name))
         }
@@ -114,7 +116,7 @@ impl ItemOperationAsyncTrait for PackageService {
 
         match &pkg.source {
             PackageSource::Github { owner, repo } => {
-                let releases = client.get_releases(&owner, &repo, &pkg).await?;
+                let releases = client.get_releases(owner, repo, &pkg).await?;
                 Ok(releases
                     .into_iter()
                     .map(|it| {

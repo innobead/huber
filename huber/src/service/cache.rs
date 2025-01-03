@@ -50,6 +50,12 @@ impl DependencyInjectTrait for CacheService {
     }
 }
 
+impl Default for CacheService {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl CacheService {
     pub fn new() -> Self {
         Self { container: None }
@@ -92,7 +98,7 @@ impl CacheTrait for CacheService {
                 .get_package_indexes()?
                 .par_iter()
                 .filter_map(|it: &PackageIndex| {
-                    if owner == "" || it.owner == owner {
+                    if owner.is_empty() || it.owner == owner {
                         if let Ok(p) = self.get_package(&it.name) {
                             Some(p)
                         } else {

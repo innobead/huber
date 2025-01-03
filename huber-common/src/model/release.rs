@@ -63,9 +63,7 @@ impl Display for Release {
         write!(
             f,
             "{} (version: {}, source: {})",
-            self.name,
-            self.version,
-            self.package.source.to_string()
+            self.name, self.version, self.package.source
         )
     }
 }
@@ -102,22 +100,18 @@ impl From<octocrab::models::repos::Release> for Release {
                         id: *r.id,
                         tag_name: r.tag_name.clone(),
                         target_commitish: r.target_commitish,
-                        name: r.name.unwrap_or(String::new()),
-                        body: r.body.unwrap_or(String::new()),
+                        name: r.name.unwrap_or_default(),
+                        body: r.body.unwrap_or_default(),
                         draft: r.draft,
                         prerelease: r.prerelease,
                         created_at: r.created_at.map_or("".to_string(), |s| s.to_string()),
                         published_at: r.published_at.map_or("".to_string(), |s| s.to_string()),
-                        assets: r
-                            .assets
-                            .into_iter()
-                            .map(|it| GithubAsset::from(it))
-                            .collect(),
+                        assets: r.assets.into_iter().map(GithubAsset::from).collect(),
                     },
                 }),
                 version: Some(r.tag_name.clone()),
                 description: None,
-                release_kind: Some(release_kind.clone()),
+                release_kind: Some(release_kind),
             },
             executables: None,
             kind: Some(release_kind),

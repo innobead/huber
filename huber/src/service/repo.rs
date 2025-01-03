@@ -49,6 +49,12 @@ impl DependencyInjectTrait for RepoService {
     }
 }
 
+impl Default for RepoService {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl RepoService {
     pub fn new() -> Self {
         Self { container: None }
@@ -81,7 +87,7 @@ impl ItemOperationTrait for RepoService {
     fn delete(&self, name: &str) -> anyhow::Result<()> {
         let config = self.container.get::<Config>().unwrap();
 
-        let path = config.unmanaged_repo_dir(&name)?;
+        let path = config.unmanaged_repo_dir(name)?;
         if path.exists() {
             debug!("{:?} removed", path);
             let _ = remove_dir_all(path);
@@ -190,7 +196,7 @@ impl RepoAsyncTrait for RepoService {
     ) -> anyhow::Result<()> {
         let config = self.container.get::<Config>().unwrap();
 
-        let path = config.unmanaged_repo_pkgs_file(&name)?;
+        let path = config.unmanaged_repo_pkgs_file(name)?;
         if path.exists() {
             let _ = remove_file(&path);
         }
@@ -220,7 +226,7 @@ impl RepoAsyncTrait for RepoService {
             Ok(response) => {
                 let mut f = File::create(&path)?;
                 let bytes = response.bytes().await?;
-                f.write(&bytes)?;
+                f.write_all(&bytes)?;
 
                 Ok(())
             }
@@ -236,7 +242,7 @@ impl RepoAsyncTrait for RepoService {
         let pkgs: Vec<Package> = get_packages_from_file(f)?;
 
         let config = self.container.get::<Config>().unwrap();
-        let path = config.unmanaged_repo_pkgs_file(&name)?;
+        let path = config.unmanaged_repo_pkgs_file(name)?;
         if path.exists() {
             let _ = remove_file(&path);
         }

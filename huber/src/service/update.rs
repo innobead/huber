@@ -39,6 +39,12 @@ impl DependencyInjectTrait for HuberUpdateService {
     }
 }
 
+impl Default for HuberUpdateService {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
 impl HuberUpdateService {
     pub fn new() -> Self {
         Self { container: None }

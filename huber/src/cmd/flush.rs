@@ -38,7 +38,7 @@ impl CommandTrait for FlushArgs {
             }
         }
 
-        if flushed_releases.len() == 0 {
+        if flushed_releases.is_empty() {
             info!("Nothing to flush");
         }
 

@@ -84,7 +84,7 @@ impl GithubClient {
                 let mut builder = git2::build::RepoBuilder::new();
                 builder.fetch_options(fetch_options);
 
-                return Ok(builder.clone(&url, dir.as_ref())?);
+                return Ok(builder.clone(url, dir.as_ref())?);
             }
 
             Err(anyhow!("The configured github key not found, {:?}", key))
@@ -96,7 +96,7 @@ impl GithubClient {
 
         debug!("Cloning huber repo via https");
         //Note: if encountering authentication required, probably hit this issue https://github.com/rust-lang/git2-rs/issues/463
-        match Repository::clone(&url, &dir) {
+        match Repository::clone(url, &dir) {
             Err(err) => {
                 if err.code() == ErrorCode::GenericError
                     && err
@@ -249,7 +249,7 @@ impl GithubClientTrait for GithubClient {
                 release.package.name = pkg.name.clone();
                 release.package.source = pkg.source.clone();
                 release.package.targets = pkg.targets.clone();
-                release.package.release_kind = release.kind.clone();
+                release.package.release_kind = release.kind;
 
                 release
             })

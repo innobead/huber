@@ -128,7 +128,7 @@ async fn main() {
 fn init(cli: &Cli) -> (Config, Arc<DIContainer>) {
     let config = Config {
         log_level: cli.log_level.to_string(),
-        output_format: cli.output_format.clone(),
+        output_format: cli.output_format,
         huber_dir: PathBuf::from(&cli.huber_dir),
         github_token: cli.github_token.clone(),
         github_key: cli.github_key.clone(),

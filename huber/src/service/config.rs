@@ -10,7 +10,7 @@ use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 use crate::service::ServiceTrait;
 
 lazy_static! {
-    pub static ref DEFAULT_CONFIG: Config = Config::new();
+    pub static ref DEFAULT_CONFIG: Config = Default::default();
 }
 
 #[derive(Debug)]
@@ -25,6 +25,12 @@ unsafe impl Sync for ConfigService {}
 pub trait ConfigTrait {
     fn get(&self) -> anyhow::Result<Config>;
     fn update(&self, config: &Config) -> anyhow::Result<()>;
+}
+
+impl Default for ConfigService {
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 impl ConfigService {

@@ -50,7 +50,7 @@ async fn main() -> anyhow::Result<()> {
     let _ = remove_file(&index_file).await;
     let mut index_file = File::create(index_file).await?;
     index_file
-        .write("# This is generated. Don't modify.\n".as_bytes())
+        .write_all("# This is generated. Don't modify.\n".as_bytes())
         .await?;
 
     let mut pkg_indexes: Vec<PackageIndex> = vec![];

@@ -52,8 +52,8 @@ pub trait ConfigPath {
     fn current_index_file(&self) -> anyhow::Result<PathBuf>;
 }
 
-impl Config {
-    pub fn new() -> Self {
+impl Default for Config {
+    fn default() -> Self {
         let default_config = Self {
             log_level: LevelFilter::Off.to_string(),
             output_format: OutputFormat::Console,
@@ -95,11 +95,7 @@ impl ConfigFieldConvertTrait for Config {
     }
 
     fn to_github_key_path(&self) -> Option<PathBuf> {
-        if let Some(path) = self.github_key.clone() {
-            Some(PathBuf::from(path))
-        } else {
-            None
-        }
+        self.github_key.clone().map(PathBuf::from)
     }
 }
 
@@ -176,7 +172,7 @@ impl ConfigPath for Config {
 
     fn installed_pkg_dir(&self, pkg: &Package, version: &str) -> anyhow::Result<PathBuf> {
         let version = pkg.parse_version_from_tag_name(&version.to_string())?;
-        dir(self.installed_pkg_base_dir(&pkg)?.join(version))
+        dir(self.installed_pkg_base_dir(pkg)?.join(version))
     }
 
     fn installed_pkg_bin_dir(&self, pkg: &Package, version: &str) -> anyhow::Result<PathBuf> {
@@ -194,7 +190,7 @@ impl ConfigPath for Config {
     }
 
     fn current_pkg_dir(&self, pkg: &Package) -> anyhow::Result<PathBuf> {
-        Ok(self.installed_pkg_base_dir(&pkg)?.join("current"))
+        Ok(self.installed_pkg_base_dir(pkg)?.join("current"))
     }
 
     fn current_pkg_bin_dir(&self, pkg: &Package) -> anyhow::Result<PathBuf> {

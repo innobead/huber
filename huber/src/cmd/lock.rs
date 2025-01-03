@@ -37,7 +37,7 @@ impl CommandTrait for LockArgs {
         let mut require_update = false;
 
         for (pkg, version) in &self.name_version {
-            if !pkg_service.has(&pkg)? {
+            if !pkg_service.has(pkg)? {
                 return Err(anyhow!("{} package not found", pkg));
             }
 

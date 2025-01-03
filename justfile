@@ -22,6 +22,7 @@ fmt:
     @cargo install --git https://github.com/DevinR528/cargo-sort.git --tag v1.1.0 cargo-sort
     @cargo-sort --workspace
     @cargo {{ cargo_opts }} +nightly fmt --all
+    @cargo clippy --fix --allow-dirty --allow-staged
 
 # Fix code
 fix:

@@ -4,10 +4,9 @@ use chrono::prelude::*;
 
 fn main() {
     let short_version = command("git", vec!["describe", "--tags", "--dirty"])
-        .unwrap_or_else(|| format!("v{}", env!("CARGO_PKG_VERSION").to_string()));
+        .unwrap_or_else(|| format!("v{}", env!("CARGO_PKG_VERSION")));
 
-    let commit =
-        command("git", vec!["rev-parse", "--short", "HEAD"]).unwrap_or_else(|| "".to_string());
+    let commit = command("git", vec!["rev-parse", "--short", "HEAD"]).unwrap_or_default();
     let timestamp = Utc::now().format("%Y%m%d%H%M%S").to_string();
     let version = format!("{} Commit: {}-{}", short_version, commit, timestamp);
 

@@ -1,7 +1,7 @@
 use std::cmp::Ordering;
 use std::collections::HashMap;
 use std::fmt::{Display, Formatter};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::str::FromStr;
 use std::{env, fmt};
 
@@ -154,7 +154,7 @@ impl PackageSource {
 
     pub fn owner(&self) -> String {
         match self {
-            PackageSource::Github { owner, repo: _ } => format!("{}", owner),
+            PackageSource::Github { owner, repo: _ } => owner.to_string(),
         }
     }
 }
@@ -217,7 +217,7 @@ impl Package {
         let mut version = tag_name.clone();
 
         if let Some(ref template) = self.target()?.tag_version_regex_template {
-            let regex = Regex::new(&format!(r"{}", template))?;
+            let regex = Regex::new(&template.to_string())?;
 
             if let Some(capture) = regex.captures(tag_name) {
                 if let Some(m) = capture.get(1) {
@@ -243,7 +243,7 @@ impl Package {
         Ok(version)
     }
 
-    pub fn get_scan_dirs(&self, pkg_dir: &PathBuf) -> anyhow::Result<Vec<PathBuf>> {
+    pub fn get_scan_dirs(&self, pkg_dir: &Path) -> anyhow::Result<Vec<PathBuf>> {
         let mut scan_dirs = vec![];
 
         if let Some(extra_scan_dirs) = self.target()?.scan_dirs {
@@ -281,11 +281,7 @@ impl From<octocrab::models::repos::Release> for GithubPackage {
             prerelease: r.prerelease,
             created_at: r.created_at.map_or("".into(), |x| x.to_string()),
             published_at: r.published_at.map_or("".into(), |x| x.to_string()),
-            assets: r
-                .assets
-                .into_iter()
-                .map(|it| GithubAsset::from(it))
-                .collect(),
+            assets: r.assets.into_iter().map(GithubAsset::from).collect(),
         }
     }
 }
@@ -317,15 +313,15 @@ impl Display for Package {
 impl Display for PackageSource {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            PackageSource::Github { .. } => write!(f, "{}", "github"),
+            PackageSource::Github { .. } => write!(f, "github"),
         }
     }
 }
 
 impl PackageSummary {
     pub fn compare(&self, pkg: &PackageSummary) -> anyhow::Result<Ordering> {
-        let v1 = Version::from_str(&self.version.clone().unwrap().trim_start_matches("v"))?;
-        let v2 = Version::from_str(&pkg.version.clone().unwrap().trim_start_matches("v"))?;
+        let v1 = Version::from_str(self.version.clone().unwrap().trim_start_matches("v"))?;
+        let v2 = Version::from_str(pkg.version.clone().unwrap().trim_start_matches("v"))?;
 
         Ok(v1.cmp(&v2))
     }
@@ -338,7 +334,7 @@ impl From<Package> for PackageSummary {
             description: p.description.clone(),
             source: Some(p.source.url()),
             version: p.version.clone(),
-            kind: p.release_kind.clone(),
+            kind: p.release_kind,
         }
     }
 }

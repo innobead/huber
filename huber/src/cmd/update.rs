@@ -44,7 +44,7 @@ impl CommandTrait for UpdateArgs {
 
         for release in release_service.list()? {
             if let Some(existing_release) = installed_latest_pkg_releases.get(&release.name) {
-                if release.compare(&existing_release)? == Ordering::Greater {
+                if release.compare(existing_release)? == Ordering::Greater {
                     installed_latest_pkg_releases.insert(release.name.clone(), release);
                 }
             } else {
@@ -61,16 +61,16 @@ impl CommandTrait for UpdateArgs {
             let pkg = pkg_service.get(name)?;
             let new_release = release_service.get_latest(&pkg).await?;
 
-            if new_release.compare(&installed_release)? == Ordering::Greater {
+            if new_release.compare(installed_release)? == Ordering::Greater {
                 info!(
                     "Found an update for {}. Installed version: {}, Latest version: {}",
                     name, installed_release.version, new_release.version
                 );
                 update(
-                    &release_service,
+                    release_service,
                     self.dryrun,
                     &new_release,
-                    &installed_release,
+                    installed_release,
                 )
                 .await?;
                 info!(
