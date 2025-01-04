@@ -2,7 +2,7 @@ use std::io::stdout;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use clap::Args;
+use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use huber_common::model::release::SortModelTrait;
 use libcli_rs::output;
@@ -16,13 +16,24 @@ use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
 #[derive(Args)]
 pub struct ShowArgs {
-    #[arg(help = "Package name")]
+    #[arg(help = "Package name", num_args = 1, value_hint = ValueHint::Unknown)]
     name: Option<String>,
 
-    #[arg(help = "Show all the installed versions", long)]
+    #[arg(
+        help = "Show all the installed versions",
+        long,
+        num_args = 1,
+        value_hint = ValueHint::Unknown
+    )]
     all: bool,
 
-    #[arg(help = "Show the detailed artifact info", long, requires = "name")]
+    #[arg(
+        help = "Show the detailed artifact info",
+        long,
+        requires = "name",
+        num_args = 1,
+        value_hint = ValueHint::Unknown
+    )]
     detail: bool,
 }
 

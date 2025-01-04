@@ -1,6 +1,6 @@
 use anyhow::anyhow;
 use async_trait::async_trait;
-use clap::Args;
+use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
@@ -12,7 +12,7 @@ use crate::service::ItemOperationTrait;
 
 #[derive(Args)]
 pub struct UnlockArgs {
-    #[arg(help = "Package name")]
+    #[arg(help = "Package name", num_args = 1, value_hint = ValueHint::Unknown)]
     name: Vec<String>,
 }
 

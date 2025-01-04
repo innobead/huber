@@ -2,7 +2,7 @@ use std::fs::File;
 use std::io::Write;
 
 use async_trait::async_trait;
-use clap::Args;
+use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
@@ -13,7 +13,12 @@ use crate::service::ItemOperationTrait;
 
 #[derive(Args)]
 pub struct SaveArgs {
-    #[arg(help = "Save the list of installed 'current' packages to a file", long)]
+    #[arg(
+        help = "Save the list of installed 'current' packages to a file",
+        long,
+        num_args = 1,
+        value_hint = ValueHint::FilePath
+    )]
     file: String,
 }
 

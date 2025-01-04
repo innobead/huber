@@ -23,6 +23,7 @@ anyhow.workspace = true
 async-trait.workspace = true
 chrono.workspace = true
 clap.workspace = true
+clap_complete.workspace = true
 compress-tools.workspace = true
 dirs.workspace = true
 fs2.workspace = true

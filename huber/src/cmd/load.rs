@@ -3,7 +3,7 @@ use std::io::{BufRead, BufReader};
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use clap::Args;
+use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
@@ -16,7 +16,12 @@ use crate::service::release::ReleaseService;
 
 #[derive(Args)]
 pub struct LoadArgs {
-    #[arg(help = "Load a package list to install", long)]
+    #[arg(
+        help = "Load a package list to install",
+        long,
+        num_args = 1,
+        value_hint = ValueHint::Unknown
+    )]
     file: String,
 }
 

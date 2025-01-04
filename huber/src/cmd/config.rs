@@ -14,10 +14,10 @@ use crate::service::config::{ConfigService, ConfigTrait};
 
 #[derive(Subcommand)]
 pub enum ConfigCommands {
-    #[command(about = "Show Huber config")]
+    #[command(about = "Show Huber config", bin_name = "show")]
     Show(ConfigShowArgs),
 
-    #[command(about = "Save Huber config via global options")]
+    #[command(about = "Save Huber config via global options", bin_name = "save")]
     Save(ConfigSaveArgs),
 }
 

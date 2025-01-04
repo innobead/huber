@@ -2,7 +2,7 @@ use std::io::stdout;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use clap::Args;
+use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
@@ -20,6 +20,8 @@ use crate::service::ItemOperationTrait;
 pub struct LockArgs {
     #[arg(
         help = "Package name (e.g. 'package-name' or 'package-name@version')",
+        num_args = 1,
+        value_hint = ValueHint::Unknown,
         value_parser = parse_name_version
     )]
     name_version: Vec<(String, String)>,

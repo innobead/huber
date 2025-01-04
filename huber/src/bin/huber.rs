@@ -1,10 +1,12 @@
+use std::io;
 use std::path::PathBuf;
 use std::process::exit;
 use std::str::FromStr;
 use std::sync::Arc;
 
 use anyhow::anyhow;
-use clap::Parser;
+use clap::{CommandFactory, Parser, ValueHint};
+use clap_complete::Generator;
 use huber::cmd::config::ConfigCommands;
 use huber::cmd::repo::RepoCommands;
 use huber::cmd::CommandTrait;
@@ -24,13 +26,14 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 use simpledi_rs::{create_dep, inject_dep};
 
 #[derive(Parser)]
-#[command(version, about, long_about = None)]
+#[command(version, bin_name = env!("CARGO_PKG_NAME"), about, long_about = None)]
 struct Cli {
     #[arg(
         help = "Log level",
         short = 'l',
         long,
         global = true,
+        num_args = 1,
         default_value_t = get_default_log_level(),
         value_parser = parse_log_level
     )]
@@ -40,6 +43,8 @@ struct Cli {
         help = "GitHub token",
         long,
         global = true,
+        num_args = 1,
+        value_hint = ValueHint::Unknown,
         env = "GITHUB_TOKEN",
         group = "github_auth"
     )]
@@ -49,6 +54,8 @@ struct Cli {
         help = "Github SSH key path",
         long,
         global = true,
+        num_args = 1,
+        value_hint = ValueHint::FilePath,
         env = "GITHUB_KEY",
         group = "github_auth"
     )]
@@ -59,6 +66,8 @@ struct Cli {
         short,
         long,
         global = true,
+        num_args = 1,
+        value_hint = ValueHint::Unknown,
         default_value = "console",
         value_parser = parse_output_format,
         hide = true,
@@ -69,6 +78,8 @@ struct Cli {
         help = "Huber directory",
         long,
         global = true,
+        num_args = 1,
+        value_hint = ValueHint::DirPath,
         default_value_t = get_default_huber_dir(),
         value_parser = parse_huber_dir
     )]
@@ -78,6 +89,8 @@ struct Cli {
         help = "GitHub base URI",
         long,
         global = true,
+        num_args = 1,
+        value_hint = ValueHint::Url,
         env = "GITHUB_BASE_URI",
         default_value = "https://api.github.com"
     )]
@@ -117,6 +130,10 @@ async fn main() {
         Commands::Load(args) => args.run(&config, &container).await,
         Commands::Lock(args) => args.run(&config, &container).await,
         Commands::Unlock(args) => args.run(&config, &container).await,
+        Commands::Completions { shell } => {
+            shell.generate(&Cli::command(), &mut io::stdout());
+            Ok(())
+        }
     };
 
     if let Err(e) = result {

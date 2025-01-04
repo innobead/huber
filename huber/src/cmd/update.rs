@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use clap::Args;
+use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use huber_common::model::release::Release;
 use log::info;
@@ -17,10 +17,15 @@ use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
 #[derive(Args)]
 pub struct UpdateArgs {
-    #[arg(help = "Package name")]
+    #[arg(help = "Package name", num_args = 1, value_hint = ValueHint::Unknown)]
     name: Vec<String>,
 
-    #[arg(help = "Dry run to show available updates", long)]
+    #[arg(
+        help = "Dry run to show available updates",
+        long,
+        num_args = 1,
+        value_hint = ValueHint::Unknown
+    )]
     dryrun: bool,
 }
 

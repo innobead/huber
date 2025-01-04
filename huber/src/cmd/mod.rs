@@ -1,5 +1,6 @@
 use async_trait::async_trait;
 use clap::Subcommand;
+use clap_complete::Shell;
 use config::ConfigArgs;
 use current::CurrentArgs;
 use flush::FlushArgs;
@@ -45,51 +46,57 @@ pub trait CommandTrait {
 
 #[derive(Subcommand)]
 pub enum Commands {
-    #[command(about = "Manage Huber configuration")]
+    #[command(about = "Manage Huber configuration", bin_name = "config")]
     Config(ConfigArgs),
 
-    #[command(about = "Update the current package version")]
+    #[command(about = "Update the current package version", bin_name = "current")]
     Current(CurrentArgs),
 
-    #[command(about = "Flush inactive artifacts")]
+    #[command(about = "Show completions", bin_name = "completions")]
+    Completions {
+        #[arg(help = "Shell name", num_args = 1, value_enum)]
+        shell: Shell,
+    },
+
+    #[command(about = "Flush inactive artifacts", bin_name = "flush")]
     Flush(FlushArgs),
 
-    #[command(about = "Show package info")]
+    #[command(about = "Show package info", bin_name = "info")]
     Info(InfoArgs),
 
-    #[command(about = "Install packages")]
+    #[command(about = "Install packages", bin_name = "install")]
     Install(InstallArgs),
 
-    #[command(about = "Manage Huber repositories")]
+    #[command(about = "Manage Huber repositories", bin_name = "repo")]
     Repo(RepoArgs),
 
-    #[command(about = "Reset Huber")]
+    #[command(about = "Reset Huber", bin_name = "reset")]
     Reset(ResetArgs),
 
-    #[command(about = "Search package")]
+    #[command(about = "Search package", bin_name = "search")]
     Search(SearchArgs),
 
-    #[command(about = "Update huber")]
+    #[command(about = "Update huber", bin_name = "self-update")]
     SelfUpdate(SelfUpdateArgs),
 
-    #[command(about = "Show installed packages")]
+    #[command(about = "Show installed packages", bin_name = "show")]
     Show(ShowArgs),
 
-    #[command(about = "Uninstall packages")]
+    #[command(about = "Uninstall packages", bin_name = "uninstall")]
     Uninstall(UninstallArgs),
 
-    #[command(about = "Updates the installed packages")]
+    #[command(about = "Updates the installed packages", bin_name = "update")]
     Update(UpdateArgs),
 
-    #[command(about = "Save installed packages to a file")]
+    #[command(about = "Save installed packages to a file", bin_name = "save")]
     Save(SaveArgs),
 
-    #[command(about = "Load installed packages from a file")]
+    #[command(about = "Load installed packages from a file", bin_name = "load")]
     Load(LoadArgs),
 
-    #[command(about = "Lock the package version")]
+    #[command(about = "Lock the package version", bin_name = "lock")]
     Lock(LockArgs),
 
-    #[command(about = "Unlock the package version")]
+    #[command(about = "Unlock the package version", bin_name = "unlock")]
     Unlock(UnlockArgs),
 }

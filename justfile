@@ -73,10 +73,10 @@ install:
     @cargo install {{ cargo_opts }} --path {{ prj_dir }}/crates/app/ --bins
     @mkdir -p ~/.huber/bin && cp ~/.cargo/bin/huber ~/.huber/bin && {{ prj_dir }}/hack/add-huber-bin-to-env.sh
 
-# (local dev) Verify Huber commands via the local package generated folder
-verify huber_cmd pkg_dir=managed_pkg_root_dir:
+# (local dev) Run commands using the built Huber with the local package generated folder
+run huber_cmd pkg_dir=managed_pkg_root_dir:
     @MANAGED_PKG_ROOT_DIR={{ pkg_dir }} {{ huber_exec }} {{ huber_cmd }}
 
-# (local dev) Verify the installed Huber commands compatible with the new local package generated folder
-verify-compatible huber_cmd pkg_dir=managed_pkg_root_dir:
+# (local dev) Run commands using the installed Huber with the local package generated folder
+run-installed huber_cmd pkg_dir=managed_pkg_root_dir:
     @MANAGED_PKG_ROOT_DIR={{ pkg_dir }} `which huber` {{ huber_cmd }}

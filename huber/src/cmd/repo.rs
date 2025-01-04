@@ -2,7 +2,7 @@ use std::io::stdout;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use clap::{Args, Subcommand};
+use clap::{Args, Subcommand, ValueHint};
 use huber_common::model::config::Config;
 use huber_common::model::repo::Repository;
 use libcli_rs::output;
@@ -22,25 +22,30 @@ pub struct RepoArgs {
 
 #[derive(Subcommand)]
 pub enum RepoCommands {
-    #[command(about = "Add a new repo")]
+    #[command(about = "Add a new repo", bin_name = "add")]
     Add(RepoAddArgs),
 
-    #[command(about = "Remove a repo")]
+    #[command(about = "Remove a repo", bin_name = "remove")]
     Remove(RepoRemoveArgs),
 
-    #[command(about = "List all repos")]
+    #[command(about = "List all repos", bin_name = "list")]
     List(RepoListArgs),
 }
 
 #[derive(Args)]
 pub struct RepoAddArgs {
-    #[arg(help = "Repo name")]
+    #[arg(help = "Repo name", num_args = 1, value_hint = ValueHint::Unknown)]
     name: String,
 
-    #[arg(help = "GitHub repo URL", long)]
+    #[arg(help = "GitHub repo URL", long, num_args = 1, value_hint = ValueHint::Url)]
     url: String,
 
-    #[arg(help = "Local file path of the repo config", long)]
+    #[arg(
+        help = "Local file path of the repo config",
+        long,
+        num_args = 1,
+        value_hint = ValueHint::FilePath
+    )]
     file: String,
 }
 
@@ -68,7 +73,7 @@ impl CommandTrait for RepoAddArgs {
 
 #[derive(Args)]
 pub struct RepoRemoveArgs {
-    #[arg(help = "Repo names")]
+    #[arg(help = "Repo names", num_args = 1, value_hint = ValueHint::Unknown)]
     name: Vec<String>,
 }
 

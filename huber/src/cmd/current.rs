@@ -1,6 +1,6 @@
 use anyhow::anyhow;
 use async_trait::async_trait;
-use clap::Args;
+use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
@@ -15,6 +15,8 @@ use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 pub struct CurrentArgs {
     #[arg(
         help = "Package name with version (e.g. 'package-name@version')",
+        num_args = 1,
+        value_hint = ValueHint::Unknown,
         value_parser = parse_name_version
     )]
     name_version: Vec<(String, String)>,

@@ -1,7 +1,7 @@
 use std::io::stdout;
 
 use async_trait::async_trait;
-use clap::Args;
+use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
@@ -14,7 +14,7 @@ use crate::service::ItemOperationTrait;
 
 #[derive(Args)]
 pub struct InfoArgs {
-    #[arg(help = "Package name")]
+    #[arg(help = "Package name", num_args = 1, value_hint = ValueHint::Unknown)]
     name: String,
 }
 

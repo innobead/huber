@@ -1,7 +1,7 @@
 use std::io::stdout;
 
 use async_trait::async_trait;
-use clap::Args;
+use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use huber_common::model::package::PackageSummary;
 use libcli_rs::output;
@@ -15,16 +15,26 @@ use crate::service::ItemSearchTrait;
 
 #[derive(Args)]
 pub struct SearchArgs {
-    #[arg(help = "Package name or regex search with --pattern")]
+    #[arg(
+        help = "Package name or regex search with --pattern",
+        num_args = 1,
+        value_hint = ValueHint::Unknown
+    )]
     name: Option<String>,
 
-    #[arg(help = "Regex search", long)]
+    #[arg(help = "Regex search", long, num_args = 1, value_hint = ValueHint::Unknown)]
     pattern: bool,
 
-    #[arg(help = "Package owner", long)]
+    #[arg(help = "Package owner", long, num_args = 1, value_hint = ValueHint::Unknown)]
     owner: Option<String>,
 
-    #[arg(help = "Show all the released versions", long, requires = "name")]
+    #[arg(
+        help = "Show all the released versions",
+        long,
+        requires = "name",
+        num_args = 1,
+        value_hint = ValueHint::Unknown
+    )]
     all: bool,
 }
 
