@@ -9,8 +9,6 @@ use anyhow::anyhow;
 use async_trait::async_trait;
 use compress_tools::{uncompress_archive, Ownership};
 use fs_extra::move_items;
-use huber_common::file::trim_os_arch;
-use huber_common::log::println_many;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
@@ -24,6 +22,7 @@ use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file
 use url::Url;
 use urlencoding::decode;
 
+use crate::file::trim_os_arch;
 use crate::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
@@ -893,7 +892,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
                 debug!("Setting {} as the current package", release);
                 let executables = self.set_current(&mut release).await?;
 
-                println_many("Installed executables", &executables);
+                info!("Installed executables:\n{:#?}", &executables);
                 release.executables = Some(executables);
 
                 Ok(release)

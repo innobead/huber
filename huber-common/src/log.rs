@@ -1,6 +1,6 @@
 use std::str::FromStr;
 
-use log::{info, LevelFilter};
+use log::LevelFilter;
 
 use crate::model::config::Config;
 
@@ -27,9 +27,4 @@ impl Logger {
 
         Ok(())
     }
-}
-
-pub fn println_many(msg: &str, objs: &[String]) {
-    let lines: String = objs.join("\n - ");
-    info!("{}:\n - {}", msg, lines.trim_end_matches(" - "));
 }
