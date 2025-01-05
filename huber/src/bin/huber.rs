@@ -4,26 +4,24 @@ use std::process::exit;
 use std::str::FromStr;
 use std::sync::Arc;
 
-use anyhow::anyhow;
+use anyhow::{anyhow, Error};
 use clap::{CommandFactory, Parser, ValueHint};
 use clap_complete::Generator;
 use huber::cmd::config::ConfigCommands;
 use huber::cmd::repo::RepoCommands;
 use huber::cmd::CommandTrait;
 use huber::cmd::Commands;
-use huber::service::cache::CacheService;
-use huber::service::config::ConfigService;
-use huber::service::config::DEFAULT_CONFIG;
-use huber::service::package::PackageService;
-use huber::service::release::ReleaseService;
-use huber::service::repo::RepoService;
-use huber::service::update::HuberUpdateService;
+use huber::error::HuberError;
+use huber::service::config::{ConfigService, DEFAULT_CONFIG};
+use huber::service::init_services;
+use huber_common::fs::dir;
 use huber_common::log::Logger;
 use huber_common::model::config::Config;
 use libcli_rs::output::OutputFormat;
-use log::{error, LevelFilter};
+use log::{error, warn, LevelFilter};
+use scopeguard::defer;
 use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
-use simpledi_rs::{create_dep, inject_dep};
+use simpledi_rs::inject_dep;
 
 #[derive(Parser)]
 #[command(version, bin_name = env!("CARGO_PKG_NAME"), about, long_about = None)]
@@ -40,24 +38,22 @@ struct Cli {
     log_level: LevelFilter,
 
     #[arg(
-        help = "GitHub token",
+        help = "GitHub token; Optional until reaching the rate limit of GitHub API",
         long,
         global = true,
         num_args = 1,
         value_hint = ValueHint::Unknown,
         env = "GITHUB_TOKEN",
-        group = "github_auth"
     )]
     github_token: Option<String>,
 
     #[arg(
-        help = "Github SSH key path",
+        help = "Github SSH key path; Optional, if you want to use SSH to clone the Huber repository",
         long,
         global = true,
         num_args = 1,
         value_hint = ValueHint::FilePath,
         env = "GITHUB_KEY",
-        group = "github_auth"
     )]
     github_key: Option<String>,
 
@@ -68,11 +64,11 @@ struct Cli {
         global = true,
         num_args = 1,
         value_hint = ValueHint::Unknown,
-        default_value = "console",
+        default_value_t = get_default_output_format(),
         value_parser = parse_output_format,
         hide = true,
     )]
-    output_format: OutputFormat,
+    output_format: String,
 
     #[arg(
         help = "Huber directory",
@@ -137,41 +133,39 @@ async fn main() {
     };
 
     if let Err(e) = result {
-        error!("{}", e);
-        exit(1);
+        defer! {
+            exit(1);
+        }
+
+        if let Some(e) = e.downcast_ref::<Error>() {
+            error!("{}", e);
+        } else if let Some(e) = e.downcast_ref::<HuberError>() {
+            match e {
+                HuberError::ConfigNotFound(_) => {
+                    warn!(
+                        "Config not found, please run `huber config save` to create a new one \
+                        if want to persist the configuration"
+                    );
+                }
+            }
+        }
     }
 }
 
 fn init(cli: &Cli) -> (Config, Arc<DIContainer>) {
-    let config = Config {
-        log_level: cli.log_level.to_string(),
-        output_format: cli.output_format,
-        huber_dir: PathBuf::from(&cli.huber_dir),
-        github_token: cli.github_token.clone(),
-        github_key: cli.github_key.clone(),
-        github_base_uri: cli.github_base_uri.clone(),
-        lock_pkg_versions: Default::default(),
-    };
+    let config = Config::new(
+        cli.log_level.to_string(),
+        OutputFormat::from_str(&cli.output_format).unwrap(),
+        dir(PathBuf::from(&cli.huber_dir)).unwrap(),
+        cli.github_token.clone(),
+        cli.github_key.clone(),
+        cli.github_base_uri.clone(),
+        Default::default(),
+    );
 
     Logger::init(&config).expect("Failed to init logger");
 
-    let mut container = DIContainer::new();
-
-    create_dep!(config.clone(), container);
-    create_dep!(CacheService::new(), container);
-    create_dep!(ConfigService::new(), container);
-    create_dep!(PackageService::new(), container);
-    create_dep!(ReleaseService::new(), container);
-    create_dep!(RepoService::new(), container);
-    create_dep!(HuberUpdateService::new(), container);
-
-    let container = container.init().unwrap();
-
-    inject_dep!(PackageService, container.clone());
-    inject_dep!(ReleaseService, container.clone());
-    inject_dep!(CacheService, container.clone());
-    inject_dep!(HuberUpdateService, container.clone());
-    inject_dep!(RepoService, container.clone());
+    let container = init_services(&config);
     inject_dep!(ConfigService, container.clone());
 
     (config, container)
@@ -181,14 +175,20 @@ fn parse_log_level(log_level: &str) -> anyhow::Result<LevelFilter> {
     Ok(LevelFilter::from_str(&log_level.to_uppercase())?)
 }
 
-fn parse_output_format(format: &str) -> anyhow::Result<OutputFormat> {
-    OutputFormat::from_str(format).map_err(|_| anyhow!("Invalid output format: {}", format))
+fn parse_output_format(format: &str) -> anyhow::Result<String> {
+    OutputFormat::from_str(format)
+        .map_err(|_| anyhow!("Invalid output format: {}", format))
+        .map(|t| match t {
+            OutputFormat::Console => "console".to_string(),
+            OutputFormat::Yaml => "yaml".to_string(),
+            OutputFormat::Json => "json".to_string(),
+        })
 }
 
 fn parse_huber_dir(dir: &str) -> anyhow::Result<String> {
     let p = PathBuf::from(dir);
-    if !p.is_dir() {
-        return Err(anyhow!("Invalid huber dir: {}", dir));
+    if p.exists() && !p.is_dir() {
+        return Err(anyhow!("Huber dir ({}) is not a directory", dir));
     }
 
     Ok(p.into_os_string()
@@ -208,4 +208,13 @@ fn get_default_huber_dir() -> String {
 fn get_default_log_level() -> LevelFilter {
     LevelFilter::from_str(DEFAULT_CONFIG.log_level.as_str())
         .expect("Failed to get default log level")
+}
+
+fn get_default_output_format() -> String {
+    //TODO: fix this in libcli-rs
+    match DEFAULT_CONFIG.output_format {
+        OutputFormat::Console => "console".to_string(),
+        OutputFormat::Yaml => "yaml".to_string(),
+        OutputFormat::Json => "json".to_string(),
+    }
 }

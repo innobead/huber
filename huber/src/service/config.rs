@@ -7,6 +7,7 @@ use lazy_static::lazy_static;
 use log::debug;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
+use crate::error::HuberError;
 use crate::service::ServiceTrait;
 
 lazy_static! {
@@ -59,11 +60,13 @@ impl ConfigTrait for ConfigService {
             return Ok(serde_yaml::from_reader::<File, Config>(f)?);
         }
 
-        Err(anyhow!("Config not found: {:?}", config.config_file()?))
+        Err(anyhow!(HuberError::ConfigNotFound(
+            config_path.to_string_lossy().to_string()
+        )))
     }
 
     fn update(&self, config: &Config) -> anyhow::Result<()> {
-        let path = DEFAULT_CONFIG.config_file()?;
+        let path = config.config_file()?;
 
         debug!("Updating the config {:?}: {:?}", path, config);
         if path.exists() {

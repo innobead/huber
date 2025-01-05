@@ -28,7 +28,6 @@ mod info;
 mod install;
 mod load;
 mod lock;
-mod option;
 pub mod repo;
 mod reset;
 mod save;

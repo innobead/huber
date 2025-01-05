@@ -33,11 +33,6 @@ pub trait GithubClientTrait {
         repo: &str,
         pkg: &Package,
     ) -> anyhow::Result<Vec<Release>>;
-    async fn download_artifacts<P: AsRef<Path> + Send>(
-        &self,
-        release: &Release,
-        dir: P,
-    ) -> anyhow::Result<()>;
     async fn clone<P: AsRef<Path> + Send + Sync>(
         &self,
         owner: &str,
@@ -257,14 +252,6 @@ impl GithubClientTrait for GithubClient {
             .collect();
 
         Ok(releases)
-    }
-
-    async fn download_artifacts<P: AsRef<Path> + Send>(
-        &self,
-        _release: &Release,
-        _dir: P,
-    ) -> anyhow::Result<()> {
-        unimplemented!()
     }
 
     async fn clone<P: AsRef<Path> + Send + Sync>(

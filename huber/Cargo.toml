@@ -18,6 +18,11 @@ path = "src/bin/huber.rs"
 [build-dependencies]
 chrono.workspace = true
 
+[dev-dependencies]
+assert_cmd = "2.0.16"
+pretty_assertions = "1.4.1"
+rstest = "0.24.0"
+
 [dependencies]
 anyhow.workspace = true
 async-trait.workspace = true
@@ -41,11 +46,14 @@ octocrab.workspace = true
 rayon.workspace = true
 regex.workspace = true
 reqwest.workspace = true
+scopeguard.workspace = true
 semver.workspace = true
 serde.workspace = true
 serde_yaml.workspace = true
 simpledi-rs.workspace = true
 symlink.workspace = true
+tempfile = "3.15.0"
+thiserror.workspace = true
 tokio.workspace = true
 url.workspace = true
 urlencoding.workspace = true

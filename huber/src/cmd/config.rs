@@ -51,6 +51,7 @@ impl CommandTrait for ConfigSaveArgs {
         let config_service = container.get::<ConfigService>().unwrap();
         let lock_file = config.lock_file()?;
         let config_path = config.config_file()?;
+        info!("!!! the config file: {:?}", config_path);
 
         process_lock!(lock_file);
 

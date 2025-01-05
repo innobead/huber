@@ -5,8 +5,8 @@ use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
-use crate::cmd::option::parser::parse_name_version;
 use crate::cmd::CommandTrait;
+use crate::opt::parse_pkg_name_version;
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseAsyncTrait, ReleaseService};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
@@ -17,7 +17,7 @@ pub struct CurrentArgs {
         help = "Package name with version (e.g. 'package-name@version')",
         num_args = 1,
         value_hint = ValueHint::Unknown,
-        value_parser = parse_name_version
+        value_parser = parse_pkg_name_version
     )]
     name_version: Vec<(String, String)>,
 }

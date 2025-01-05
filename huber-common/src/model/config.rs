@@ -1,13 +1,14 @@
 use std::collections::HashMap;
+use std::env;
 use std::fs::File;
 use std::path::PathBuf;
-use std::{env, fs};
 
 use libcli_rs::output::OutputFormat;
 use log::LevelFilter;
 use octocrab::auth::Auth;
 use serde::{Deserialize, Serialize};
 
+use crate::fs::dir;
 use crate::model::package::Package;
 
 pub const MANAGED_PKG_ROOT_DIR: &str = "MANAGED_PKG_ROOT_DIR"; // generated directory
@@ -21,6 +22,28 @@ pub struct Config {
     pub github_key: Option<String>,
     pub github_base_uri: Option<String>,
     pub lock_pkg_versions: HashMap<String, Vec<String>>,
+}
+
+impl Config {
+    pub fn new(
+        log_level: String,
+        output_format: OutputFormat,
+        huber_dir: PathBuf,
+        github_token: Option<String>,
+        github_key: Option<String>,
+        github_base_uri: Option<String>,
+        lock_pkg_versions: HashMap<String, Vec<String>>,
+    ) -> Self {
+        Self {
+            log_level,
+            output_format,
+            huber_dir: dir(huber_dir).unwrap(),
+            github_token,
+            github_key,
+            github_base_uri,
+            lock_pkg_versions,
+        }
+    }
 }
 
 pub trait ConfigPath {
@@ -101,6 +124,10 @@ impl ConfigFieldConvertTrait for Config {
 
 impl ConfigPath for Config {
     fn lock_file(&self) -> anyhow::Result<PathBuf> {
+        let f = self.huber_dir.join("lock");
+        if !f.exists() {
+            File::create(f.as_path())?;
+        }
         Ok(self.huber_dir.join("lock"))
     }
 
@@ -210,13 +237,4 @@ impl ConfigPath for Config {
             .join("index")
             .with_extension("yaml"))
     }
-}
-
-fn dir(dir: PathBuf) -> anyhow::Result<PathBuf> {
-    if !dir.exists() {
-        let _ = fs::remove_dir_all(dir.as_path());
-        fs::create_dir_all(dir.as_path())?;
-    }
-
-    Ok(dir)
 }
