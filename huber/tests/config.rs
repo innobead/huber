@@ -1,12 +1,19 @@
 use assert_cmd::Command;
+use scopeguard::defer;
 use tempfile::tempdir;
 
 mod common;
 
 use common::HUBER_EXEC;
 
+use crate::common::reset_huber;
+
 #[test]
 fn test_config_not_found() {
+    defer! {
+        reset_huber();
+    }
+
     Command::new(HUBER_EXEC)
         .arg("config")
         .arg("show")
@@ -20,6 +27,10 @@ fn test_config_not_found() {
 
 #[test]
 fn test_config_save_and_found() {
+    defer! {
+        reset_huber();
+    }
+
     let github_token = "token";
     let github_base_uri = "uri";
     let github_key = "key";

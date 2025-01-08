@@ -5,9 +5,10 @@ use async_trait::async_trait;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait};
 use huber_common::model::package::{Package, PackageSource, PackageSummary};
 use huber_common::model::release::{ReleaseKind, SortModelTrait};
-use log::{debug, error};
+use log::debug;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
+use crate::error::HuberError::PackageNotFound;
 use crate::github::{GithubClient, GithubClientTrait};
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
@@ -88,7 +89,7 @@ impl ItemOperationTrait for PackageService {
         if !results.is_empty() {
             Ok(results.first().unwrap().to_owned())
         } else {
-            Err(anyhow!("{} not found", name))
+            Err(anyhow!(PackageNotFound(name.into())))
         }
     }
 }
@@ -160,7 +161,7 @@ impl ItemSearchTrait for PackageService {
 
             match cache_service.get_package(name) {
                 Ok(pkg) => found_items.push(pkg),
-                Err(err) => error!("{}", err),
+                Err(err) => debug!("Package not found: {}", err),
             }
 
             return Ok(found_items);

@@ -21,7 +21,7 @@ pub struct Config {
     pub github_token: Option<String>,
     pub github_key: Option<String>,
     pub github_base_uri: Option<String>,
-    pub lock_pkg_versions: HashMap<String, Vec<String>>,
+    pub lock_pkg_versions: HashMap<String, String>,
 }
 
 impl Config {
@@ -32,17 +32,27 @@ impl Config {
         github_token: Option<String>,
         github_key: Option<String>,
         github_base_uri: Option<String>,
-        lock_pkg_versions: HashMap<String, Vec<String>>,
+        lock_pkg_versions: HashMap<String, String>,
     ) -> Self {
-        Self {
-            log_level,
-            output_format,
-            huber_dir: dir(huber_dir).unwrap(),
-            github_token,
-            github_key,
-            github_base_uri,
-            lock_pkg_versions,
+        let mut config = Config::default();
+
+        config.log_level = log_level;
+        config.output_format = output_format;
+        config.huber_dir = huber_dir;
+        if let Some(token) = github_token {
+            config.github_token = Some(token);
         }
+        if let Some(key) = github_key {
+            config.github_key = Some(key);
+        }
+        if let Some(uri) = github_base_uri {
+            config.github_base_uri = Some(uri);
+        }
+        if !lock_pkg_versions.is_empty() {
+            config.lock_pkg_versions = lock_pkg_versions;
+        }
+
+        config
     }
 }
 

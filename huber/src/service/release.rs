@@ -14,7 +14,7 @@ use huber_common::model::package::{GithubPackage, Package, PackageDetailType, Pa
 use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::str::OsStrExt;
 use is_executable::IsExecutable;
-use log::{debug, error, info};
+use log::{debug, info};
 use maplit::hashmap;
 use regex::{Captures, Regex};
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
@@ -657,6 +657,9 @@ impl ReleaseAsyncTrait for ReleaseService {
         debug!("Setting the current release: {}", &release);
 
         let config = self.container.get::<Config>().unwrap();
+
+        //TODO check locked version
+
         release.current = true;
         release.name = release.package.name.clone();
 
@@ -808,14 +811,14 @@ impl ItemOperationTrait for ReleaseService {
                         Ok(f) => {
                             releases.push(serde_yaml::from_reader(f)?);
                         }
-                        Err(e) => error!(
+                        Err(e) => debug!(
                             "Failed to read {:?} and ignored from the installed release list: {}",
                             p, e
                         ),
                     }
                 }
                 Err(e) => {
-                    error!("Failed to get {} package because the package probably removed from the repositories: {}", &ri.name, e);
+                    debug!("Failed to get {} package because the package probably removed from the repositories: {}", &ri.name, e);
                     continue;
                 }
             }

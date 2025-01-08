@@ -26,11 +26,13 @@ rstest = "0.24.0"
 [dependencies]
 anyhow.workspace = true
 async-trait.workspace = true
+better-panic.workspace = true
 chrono.workspace = true
 clap.workspace = true
 clap_complete.workspace = true
 compress-tools.workspace = true
 dirs.workspace = true
+filepath.workspace = true
 fs2.workspace = true
 fs_extra.workspace = true
 futures.workspace = true

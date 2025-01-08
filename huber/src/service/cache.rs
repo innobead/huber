@@ -14,6 +14,7 @@ use rayon::prelude::*;
 use regex::Regex;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
+use crate::error::HuberError::PackageNotFound;
 use crate::github::{GithubClient, GithubClientTrait};
 use crate::service::repo::{RepoAsyncTrait, RepoService, RepoTrait};
 use crate::service::{ItemOperationTrait, ServiceTrait};
@@ -65,7 +66,7 @@ impl CacheService {
 impl CacheTrait for CacheService {
     fn get_package(&self, name: &str) -> anyhow::Result<Package> {
         if !self.has_package(name)? {
-            return Err(anyhow!("{} not found", name));
+            return Err(anyhow!(PackageNotFound(name.into())));
         }
 
         let config = self.container.get::<Config>().unwrap();
@@ -86,7 +87,7 @@ impl CacheTrait for CacheService {
             .into_iter()
             .find(|it| it.name == name)
         {
-            None => Err(anyhow!("{} not found", name)),
+            None => Err(anyhow!(PackageNotFound(name.into()))),
             Some(pkg) => Ok(pkg),
         }
     }

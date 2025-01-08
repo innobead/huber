@@ -10,6 +10,7 @@ use libcli_rs::output::{OutputFactory, OutputTrait};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
+use crate::error::HuberError::{NoPackagesInstalled, PackageNotFound};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
@@ -70,7 +71,7 @@ impl CommandTrait for ShowArgs {
         };
 
         if releases.is_empty() {
-            return Err(anyhow!("No package installed"));
+            return Err(anyhow!(NoPackagesInstalled));
         }
 
         output!(config.output_format, .display(
@@ -92,7 +93,7 @@ impl ShowArgs {
         release_service: &ReleaseService,
     ) -> anyhow::Result<()> {
         if !release_service.has(name)? {
-            return Err(anyhow!("Failed to find package {}", name));
+            return Err(anyhow!(PackageNotFound(name.to_string())));
         }
 
         let pkg = pkg_service.get(name)?;

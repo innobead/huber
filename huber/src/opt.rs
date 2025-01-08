@@ -1,16 +1,17 @@
 use anyhow::anyhow;
+use semver::Version;
 
 /// Parse package name and version
 ///
 /// # Examples
 ///
 /// ```
-/// use huber::opt::parse_pkg_name_version;
-/// let (name, version) = parse_pkg_name_version("package-name@version").unwrap();
+/// use huber::opt::parse_pkg_name_semver;
+/// let (name, version) = parse_pkg_name_semver("package-name@1.2.3").unwrap();
 /// assert_eq!(name, "package-name");
-/// assert_eq!(version, "version");
+/// assert_eq!(version, "v1.2.3");
 /// ```
-pub fn parse_pkg_name_version(name_version: &str) -> anyhow::Result<(String, String)> {
+pub fn parse_pkg_name_semver(name_version: &str) -> anyhow::Result<(String, String)> {
     let result: Vec<_> = name_version.splitn(2, '@').collect();
 
     if result.len() != 2 {
@@ -19,5 +20,8 @@ pub fn parse_pkg_name_version(name_version: &str) -> anyhow::Result<(String, Str
         ));
     }
 
-    Ok((result[0].to_string(), result[1].to_string()))
+    let (name, version) = (result[0].to_string(), result[1].to_string());
+    Version::parse(&version)?;
+
+    Ok((name, format!("v{}", version)))
 }

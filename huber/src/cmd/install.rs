@@ -9,6 +9,8 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use tokio::task::JoinHandle;
 
 use crate::cmd::CommandTrait;
+use crate::error::HuberError::PackageNotFound;
+use crate::opt::parse_pkg_name_semver;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
@@ -19,14 +21,15 @@ pub struct InstallArgs {
     #[arg(
         help = "Package name (e.g. 'package-name' or 'package-name@version')",
         num_args = 1,
-        value_hint = ValueHint::Unknown
+        required = true,
+        value_parser = parse_pkg_name_semver,
+        value_hint = ValueHint::Unknown,
     )]
-    name_version: Vec<String>,
+    name_version: Vec<(String, String)>,
 
     #[arg(
         help = "Set the installed package as current",
         long,
-        num_args = 1,
         value_hint = ValueHint::Unknown
     )]
     current: bool,
@@ -41,8 +44,7 @@ impl CommandTrait for InstallArgs {
         let cache_service = container.get::<CacheService>().unwrap();
         cache_service.update_repositories().await?;
 
-        let versions: Vec<_> = parse_package_name_versions(&self.name_version);
-        install_packages(release_service, pkg_service, versions).await?;
+        install_packages(release_service, pkg_service, &self.name_version).await?;
 
         Ok(())
     }
@@ -64,21 +66,21 @@ pub fn parse_package_name_versions(name_versions: &[String]) -> Vec<(String, Str
 pub async fn install_packages(
     release_service: Arc<ReleaseService>,
     pkg_service: Arc<PackageService>,
-    versions: Vec<(String, String)>,
+    pkg_versions: &Vec<(String, String)>,
 ) -> anyhow::Result<()> {
-    for (name, _) in versions.iter() {
-        if !pkg_service.has(name)? {
-            return Err(anyhow!("{} package not found", name));
+    for (pkg, _) in pkg_versions.iter() {
+        if !pkg_service.has(pkg)? {
+            return Err(anyhow!(PackageNotFound(pkg.clone())));
         }
     }
 
     let mut join_handles = vec![];
-    for (name, version) in versions.clone().into_iter() {
+    for (pkg, version) in pkg_versions.clone().into_iter() {
         let pkg_service = pkg_service.clone();
         let release_service = release_service.clone();
 
         let handle: JoinHandle<anyhow::Result<()>> = tokio::spawn(async move {
-            let mut pkg = pkg_service.get(&name)?;
+            let mut pkg = pkg_service.get(&pkg)?;
             pkg.version = if version.is_empty() {
                 None
             } else {

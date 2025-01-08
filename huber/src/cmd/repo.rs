@@ -11,6 +11,7 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
+use crate::error::HuberError::{RepoAlreadyExist, RepoNotFound};
 use crate::service::repo::RepoService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
@@ -55,7 +56,7 @@ impl CommandTrait for RepoAddArgs {
         let repo_service = container.get::<RepoService>().unwrap();
 
         if repo_service.has(&self.name)? {
-            return Err(anyhow!("{} repo already exists", self.name));
+            return Err(anyhow!(RepoAlreadyExist(self.name.clone())));
         }
 
         let repo = Repository {
@@ -84,7 +85,7 @@ impl CommandTrait for RepoRemoveArgs {
 
         for repo in &self.name {
             if !repo_service.has(repo)? {
-                return Err(anyhow!("{} repo not found", repo));
+                return Err(anyhow!(RepoNotFound(repo.clone())));
             }
 
             info!("Removing repo {}", repo);

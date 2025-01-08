@@ -6,6 +6,7 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
+use crate::error::HuberError::PackageNotFound;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::ItemOperationTrait;
@@ -24,7 +25,7 @@ impl CommandTrait for UninstallArgs {
 
         for name in self.name.iter() {
             if !pkg_service.has(name)? {
-                return Err(anyhow!("{} package not found", name));
+                return Err(anyhow!(PackageNotFound(name.clone())));
             }
         }
 

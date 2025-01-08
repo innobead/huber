@@ -5,12 +5,15 @@ use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
+use huber_common::model::package::Package;
 use huber_common::model::release::Release;
-use log::info;
+use log::{info, warn};
 use maplit::hashmap;
+use semver::Version;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
+use crate::error::HuberError::{PackageNotInstalled, PackageUnableToUpdate};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
@@ -23,7 +26,6 @@ pub struct UpdateArgs {
     #[arg(
         help = "Dry run to show available updates",
         long,
-        num_args = 1,
         value_hint = ValueHint::Unknown
     )]
     dryrun: bool,
@@ -31,31 +33,20 @@ pub struct UpdateArgs {
 
 #[async_trait]
 impl CommandTrait for UpdateArgs {
-    async fn run(&self, _: &Config, container: &DIContainer) -> anyhow::Result<()> {
+    async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
         let release_service = container.get::<ReleaseService>().unwrap();
         let pkg_service = container.get::<PackageService>().unwrap();
 
-        let mut installed_latest_pkg_releases: HashMap<String, Release> = hashmap! {};
-
-        for ref name in self.name.iter() {
-            info!("Checking for updates for {}", name);
+        for name in self.name.iter() {
             if !release_service.has(name)? {
-                return Err(anyhow!(
-                    "Unable to update {}, because it's not installed",
-                    name
-                ));
+                return Err(anyhow!(PackageUnableToUpdate(anyhow!(
+                    PackageNotInstalled(name.clone())
+                ))));
             }
         }
 
-        for release in release_service.list()? {
-            if let Some(existing_release) = installed_latest_pkg_releases.get(&release.name) {
-                if release.compare(existing_release)? == Ordering::Greater {
-                    installed_latest_pkg_releases.insert(release.name.clone(), release);
-                }
-            } else {
-                installed_latest_pkg_releases.insert(release.name.clone(), release);
-            }
-        }
+        let mut installed_latest_pkg_releases: HashMap<String, Release> = hashmap! {};
+        get_installed_latest_pkg_releases(release_service, &mut installed_latest_pkg_releases)?;
 
         for (name, installed_release) in installed_latest_pkg_releases.iter() {
             info!(
@@ -66,9 +57,17 @@ impl CommandTrait for UpdateArgs {
             let pkg = pkg_service.get(name)?;
             let new_release = release_service.get_latest(&pkg).await?;
 
+            info!(
+                "Found the latest version of {}: {}",
+                name, new_release.version
+            );
+            if !is_pkg_updatable(config, &pkg, &new_release) {
+                continue;
+            }
+
             if new_release.compare(installed_release)? == Ordering::Greater {
                 info!(
-                    "Found an update for {}. Installed version: {}, Latest version: {}",
+                    "Updating package {} from {} to {}",
                     name, installed_release.version, new_release.version
                 );
                 update(
@@ -79,14 +78,54 @@ impl CommandTrait for UpdateArgs {
                 )
                 .await?;
                 info!(
-                    "Successfully updated {}. Installed version: {}, Latest version: {}",
-                    name, installed_release.version, new_release.version
+                    "Package {} updated to {} successfully",
+                    name, new_release.version
+                );
+            } else {
+                info!(
+                    "Nothing to update, as the currently installed version ({}) is equal to or \
+                higher than the found version ({})",
+                    installed_release.version, new_release.version
                 );
             }
         }
 
         Ok(())
     }
+}
+
+fn get_installed_latest_pkg_releases(
+    release_service: &ReleaseService,
+    installed_latest_pkg_releases: &mut HashMap<String, Release>,
+) -> anyhow::Result<()> {
+    for release in release_service.list()? {
+        if let Some(existing_release) = installed_latest_pkg_releases.get(&release.name) {
+            if release.compare(existing_release)? == Ordering::Greater {
+                installed_latest_pkg_releases.insert(release.name.clone(), release);
+            }
+        } else {
+            installed_latest_pkg_releases.insert(release.name.clone(), release);
+        }
+    }
+    Ok(())
+}
+
+fn is_pkg_updatable(config: &Config, pkg: &Package, latest_release: &Release) -> bool {
+    if let Some(lock_version) = config.lock_pkg_versions.get(&pkg.name) {
+        let lock_version = Version::parse(lock_version.trim_start_matches("v")).unwrap();
+        let latest_version =
+            Version::parse(latest_release.version.trim_start_matches("v")).unwrap();
+
+        if latest_version.cmp(&lock_version) == Ordering::Greater {
+            warn!(
+                "Package {} is locked to version {}. Skipping update",
+                pkg.name, lock_version
+            );
+            return false;
+        }
+    }
+
+    true
 }
 
 async fn update(

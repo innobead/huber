@@ -10,7 +10,7 @@ github_key := env('GITHUB_KEY', '')
 
 # Build binaries
 build cmd_opts='': fix fmt
-    cargo {{ cargo_opts }} build {{ cmd_opts }}
+    @cargo {{ cargo_opts }} build {{ cmd_opts }}
 
 # Run tests
 test:
@@ -74,8 +74,8 @@ install:
     @mkdir -p ~/.huber/bin && cp ~/.cargo/bin/huber ~/.huber/bin && {{ prj_dir }}/hack/add-huber-bin-to-env.sh
 
 # (local dev) Run commands using the built Huber with the local package generated folder
-run huber_cmd pkg_dir=managed_pkg_root_dir:
-    @MANAGED_PKG_ROOT_DIR={{ pkg_dir }} {{ huber_exec }} {{ huber_cmd }}
+@run huber_cmd pkg_dir=managed_pkg_root_dir:
+    MANAGED_PKG_ROOT_DIR={{ pkg_dir }} {{ huber_exec }} {{ huber_cmd }}
 
 # (local dev) Run commands using the installed Huber with the local package generated folder
 run-installed huber_cmd pkg_dir=managed_pkg_root_dir:

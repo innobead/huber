@@ -20,6 +20,7 @@ pub struct LoadArgs {
         help = "Load a package list to install",
         long,
         num_args = 1,
+        default_value = "huber-packages.txt",
         value_hint = ValueHint::Unknown
     )]
     file: String,
@@ -35,6 +36,7 @@ impl CommandTrait for LoadArgs {
         cache_service.update_repositories().await?;
 
         info!("Loading packages from {}", self.file);
+
         let file = File::open(&self.file)?;
         let reader = BufReader::new(file);
         let versions: Vec<_> = reader.lines().map_while(Result::ok).collect();
@@ -42,8 +44,10 @@ impl CommandTrait for LoadArgs {
 
         info!("Loaded packages: total {}: {:#?}", count, versions);
         info!("Installing packages: total {}", count);
+
         let versions: Vec<_> = parse_package_name_versions(&versions);
-        install_packages(release_service, pkg_service, versions).await?;
+        install_packages(release_service, pkg_service, &versions).await?;
+
         info!("Installed packages: total {}", count);
 
         Ok(())

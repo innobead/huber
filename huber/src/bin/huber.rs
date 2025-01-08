@@ -140,19 +140,14 @@ async fn main() {
         if let Some(e) = e.downcast_ref::<Error>() {
             error!("{}", e);
         } else if let Some(e) = e.downcast_ref::<HuberError>() {
-            match e {
-                HuberError::ConfigNotFound(_) => {
-                    warn!(
-                        "Config not found, please run `huber config save` to create a new one \
-                        if want to persist the configuration"
-                    );
-                }
-            }
+            warn!("{}", e);
         }
     }
 }
 
 fn init(cli: &Cli) -> (Config, Arc<DIContainer>) {
+    better_panic::install();
+
     let config = Config::new(
         cli.log_level.to_string(),
         OutputFormat::from_str(&cli.output_format).unwrap(),
