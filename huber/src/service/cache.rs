@@ -1,14 +1,16 @@
 use std::env;
 use std::fs::File;
-use std::sync::Arc;
+use std::sync::{Arc, RwLock};
+use std::time::SystemTime;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
 use huber_common::model::config::{
-    Config, ConfigFieldConvertTrait, ConfigPath, MANAGED_PKG_ROOT_DIR,
+    Config, ConfigFieldConvertTrait, ConfigPath, HUBER_PKG_ROOT_DIR,
 };
 use huber_common::model::package::{Package, PackageIndex};
 use huber_common::model::repo::Repository;
+use lazy_static::lazy_static;
 use log::debug;
 use rayon::prelude::*;
 use regex::Regex;
@@ -19,13 +21,18 @@ use crate::github::{GithubClient, GithubClientTrait};
 use crate::service::repo::{RepoAsyncTrait, RepoService, RepoTrait};
 use crate::service::{ItemOperationTrait, ServiceTrait};
 
+lazy_static! {
+    static ref managed_repo_modified_time: RwLock<Option<SystemTime>> = Default::default();
+    static ref managed_pkg_indexes: RwLock<Vec<PackageIndex>> = Default::default();
+}
+
 pub trait CacheTrait {
     fn get_package(&self, name: &str) -> anyhow::Result<Package>;
-    fn get_unmanaged_package(&self, name: &str) -> anyhow::Result<Package>;
+    fn get_external_package(&self, name: &str) -> anyhow::Result<Package>;
     fn list_packages(&self, pattern: &str, owner: &str) -> anyhow::Result<Vec<Package>>;
-    fn list_unmanaged_packages(&self) -> anyhow::Result<Vec<Package>>;
+    fn list_external_packages(&self) -> anyhow::Result<Vec<Package>>;
     fn has_package(&self, name: &str) -> anyhow::Result<bool>;
-    fn has_unmanaged_package(&self, name: &str) -> anyhow::Result<bool>;
+    fn has_external_package(&self, name: &str) -> anyhow::Result<bool>;
     fn get_package_indexes(&self) -> anyhow::Result<Vec<PackageIndex>>;
 }
 
@@ -70,20 +77,20 @@ impl CacheTrait for CacheService {
         }
 
         let config = self.container.get::<Config>().unwrap();
-        let pkg_file = config.managed_pkg_manifest_file(name)?;
+        let pkg_file = config.pkg_manifest_file(name)?;
 
         if pkg_file.exists() {
             Ok(serde_yaml::from_reader::<File, Package>(File::open(
                 pkg_file,
             )?)?)
         } else {
-            self.get_unmanaged_package(name)
+            self.get_external_package(name)
         }
     }
 
-    fn get_unmanaged_package(&self, name: &str) -> anyhow::Result<Package> {
+    fn get_external_package(&self, name: &str) -> anyhow::Result<Package> {
         match self
-            .list_unmanaged_packages()?
+            .list_external_packages()?
             .into_iter()
             .find(|it| it.name == name)
         {
@@ -95,34 +102,38 @@ impl CacheTrait for CacheService {
     fn list_packages(&self, pattern: &str, owner: &str) -> anyhow::Result<Vec<Package>> {
         // managed packages
         let mut pkgs: Vec<Package> = match pattern {
-            "" => self
-                .get_package_indexes()?
-                .par_iter()
-                .filter_map(|it: &PackageIndex| {
-                    if owner.is_empty() || it.owner == owner {
-                        if let Ok(p) = self.get_package(&it.name) {
-                            Some(p)
+            "" => {
+                let indexes: Vec<_> = self.get_package_indexes()?.into_par_iter().collect();
+                indexes
+                    .into_iter()
+                    .filter_map(|it| {
+                        if owner.is_empty() || it.owner == owner {
+                            self.get_package(&it.name)
+                                .map_err(|err| {
+                                    debug!("{}", err);
+                                    err
+                                })
+                                .ok()
                         } else {
                             None
                         }
-                    } else {
-                        None
-                    }
-                })
-                .collect(),
+                    })
+                    .collect()
+            }
 
             _ => {
                 let regex = Regex::new(pattern)?;
-
-                self.get_package_indexes()?
-                    .par_iter()
-                    .filter_map(|it: &PackageIndex| {
+                let indexes: Vec<_> = self.get_package_indexes()?.into_par_iter().collect();
+                indexes
+                    .into_iter()
+                    .filter_map(|it| {
                         if regex.is_match(&it.name) {
-                            if let Ok(p) = self.get_package(&it.name) {
-                                Some(p)
-                            } else {
-                                None
-                            }
+                            self.get_package(&it.name)
+                                .map_err(|err| {
+                                    debug!("{}", err);
+                                    err
+                                })
+                                .ok()
                         } else {
                             None
                         }
@@ -131,14 +142,14 @@ impl CacheTrait for CacheService {
             }
         };
 
-        // unmanaged packages
-        pkgs.append(&mut self.list_unmanaged_packages()?);
+        // external packages
+        pkgs.append(&mut self.list_external_packages()?);
         pkgs.sort_by(|p1, p2| p1.name.cmp(&p2.name));
 
         Ok(pkgs)
     }
 
-    fn list_unmanaged_packages(&self) -> anyhow::Result<Vec<Package>> {
+    fn list_external_packages(&self) -> anyhow::Result<Vec<Package>> {
         let repo_service = self.container.get::<RepoService>().unwrap();
 
         let repos = repo_service.list()?;
@@ -163,24 +174,43 @@ impl CacheTrait for CacheService {
             return Ok(true);
         }
 
-        // unmanaged
-        self.has_unmanaged_package(name)
+        // external
+        self.has_external_package(name)
     }
 
-    fn has_unmanaged_package(&self, name: &str) -> anyhow::Result<bool> {
+    fn has_external_package(&self, name: &str) -> anyhow::Result<bool> {
         Ok(self
-            .list_unmanaged_packages()?
+            .list_external_packages()?
             .iter()
             .any(|it| it.name == name))
     }
 
     fn get_package_indexes(&self) -> anyhow::Result<Vec<PackageIndex>> {
         let config = self.container.get::<Config>().unwrap();
-        let index_file = config.managed_pkg_index_file()?;
-        let pkg_indexes =
+        let index_file = config.pkg_index_file()?;
+
+        let time = File::open(&index_file)?.metadata()?.modified()?;
+        let modified_time = *managed_repo_modified_time
+            .read()
+            .map_err(|e| anyhow!("{}", e))?;
+        if modified_time.is_some() && modified_time.unwrap() == time {
+            return Ok(managed_pkg_indexes
+                .read()
+                .map_err(|e| anyhow!("{}", e))?
+                .clone());
+        }
+
+        managed_repo_modified_time
+            .write()
+            .map_err(|e| anyhow!("{}", e))?
+            .replace(time);
+        *managed_pkg_indexes.write().map_err(|e| anyhow!("{}", e))? =
             serde_yaml::from_reader::<File, Vec<PackageIndex>>(File::open(index_file)?)?;
 
-        Ok(pkg_indexes)
+        Ok(managed_pkg_indexes
+            .read()
+            .map_err(|e| anyhow!("{}", e))?
+            .clone())
     }
 }
 
@@ -188,39 +218,41 @@ impl CacheTrait for CacheService {
 impl CacheAsyncTrait for CacheService {
     // FIXME enhance performance
     async fn update_repositories(&self) -> anyhow::Result<()> {
-        if let Ok(path) = env::var(MANAGED_PKG_ROOT_DIR) {
-            debug!(
-                "Bypassed updating repositories, because MANAGED_PKG_ROOT_DIR set: {}",
-                path
-            );
-            return Ok(());
-        }
-
-        debug!("Updating repos");
         let config = self.container.get::<Config>().unwrap();
 
-        let dir = config.huber_repo_dir()?;
-        debug!("Updating {:?}", dir);
+        if let Ok(path) = env::var(HUBER_PKG_ROOT_DIR) {
+            debug!(
+                "Bypassed updating repositories, because huber_pkg_root_dir set: {}",
+                path
+            );
+        } else {
+            debug!("Updating huber repo");
+            let dir = config.huber_repo_dir()?;
 
-        let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
+            debug!("Updating {:?}", dir);
+            let client =
+                GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
+            client.clone("innobead", "huber", dir).await?;
+        }
 
-        debug!("Updating managed repos");
-        client.clone("innobead", "huber", dir.clone()).await?;
-
-        debug!("Updating unmanaged repos");
+        debug!("Updating external repos");
         let repo_service = self.container.get::<RepoService>().unwrap();
         for repo in repo_service.list()? {
-            match repo.url {
-                Some(ref url) => {
-                    debug!("Updating {:?}", config.unmanaged_repo_dir(&repo.name)?);
-                    repo_service
-                        .download_save_pkgs_file_from_remote_github(&repo.name, url)
-                        .await?;
-                }
-                _ => debug!(
-                    "Failed to update unmanaged repo due to empty url: {:?}",
+            if let Some(url) = repo.url {
+                debug!("Updating {:?}", config.external_repo_dir(&repo.name)?);
+                repo_service
+                    .download_save_pkgs_file_from_remote_github(&repo.name, &url)
+                    .await?;
+            } else if let Some(file) = repo.file {
+                debug!("Updating {:?}", config.external_repo_dir(&repo.name)?);
+                repo_service
+                    .download_save_pkgs_file_from_local(&repo.name, &file)
+                    .await?;
+            } else {
+                debug!(
+                    "Failed to update external repos due to empty url and file: {:?}",
                     &repo
-                ),
+                );
             }
         }
 

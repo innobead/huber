@@ -12,7 +12,7 @@ mod pkg;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    let pkg_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
+    let pkg_dir = env!("CARGO_MANIFEST_DIR");
 
     let generated_dir = &Path::new(&pkg_dir)
         .parent()

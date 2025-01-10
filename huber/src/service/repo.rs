@@ -1,5 +1,5 @@
 use std::fs::{read_dir, remove_dir_all, remove_file, File};
-use std::io::{Seek, SeekFrom, Write};
+use std::io::Write;
 use std::path::Path;
 use std::sync::Arc;
 
@@ -87,7 +87,7 @@ impl ItemOperationTrait for RepoService {
     fn delete(&self, name: &str) -> anyhow::Result<()> {
         let config = self.container.get::<Config>().unwrap();
 
-        let path = config.unmanaged_repo_dir(name)?;
+        let path = config.external_repo_dir(name)?;
         if path.exists() {
             debug!("{:?} removed", path);
             let _ = remove_dir_all(path);
@@ -114,7 +114,7 @@ impl ItemOperationTrait for RepoService {
                     continue;
                 }
 
-                let repo_f = config.unmanaged_repo_file(dir_name)?;
+                let repo_f = config.external_repo_file(dir_name)?;
                 if repo_f.exists() {
                     let f = File::open(&repo_f)?;
                     let result: Repository = serde_yaml::from_reader(f)?;
@@ -140,11 +140,7 @@ impl ItemOperationAsyncTrait for RepoService {
     async fn create(&self, obj: Self::Item_) -> anyhow::Result<Self::ItemInstance_> {
         let config = self.container.get::<Config>().unwrap();
 
-        debug!("Creating unmanaged repo: {:?}", &obj);
-        let path = config.unmanaged_repo_file(&obj.name)?;
-        let file = File::create(&path)?;
-        serde_yaml::to_writer(file, &obj)?;
-
+        debug!("Creating external repo: {:?}", &obj);
         match &obj {
             _ if obj.url.is_some() => {
                 self.download_save_pkgs_file_from_remote_github(
@@ -161,6 +157,10 @@ impl ItemOperationAsyncTrait for RepoService {
 
             _ => return Err(anyhow!("Repo file or url not provided: {:?}", &obj)),
         }
+
+        let path = config.external_repo_file(&obj.name)?;
+        let file = File::create(&path)?;
+        serde_yaml::to_writer(file, &obj)?;
 
         Ok(obj)
     }
@@ -180,7 +180,7 @@ impl ItemOperationAsyncTrait for RepoService {
 impl RepoTrait for RepoService {
     fn get_packages_by_repo(&self, name: &str) -> anyhow::Result<Vec<Package>> {
         let config = self.container.get::<Config>().unwrap();
-        let f = config.unmanaged_repo_pkgs_file(name)?;
+        let f = config.external_repo_pkgs_file(name)?;
         let f = File::open(&f)?;
 
         Ok(serde_yaml::from_reader(f)?)
@@ -196,28 +196,22 @@ impl RepoAsyncTrait for RepoService {
     ) -> anyhow::Result<()> {
         let config = self.container.get::<Config>().unwrap();
 
-        let path = config.unmanaged_repo_pkgs_file(name)?;
+        let path = config.external_repo_pkgs_file(name)?;
         if path.exists() {
             let _ = remove_file(&path);
         }
 
         let mut url = url.to_string();
-        if !url.contains("raw.githubusercontent.com") {
-            url = url
-                .replace("github.com", "raw.githubusercontent.com")
-                .replace("/blob/", "/");
-        }
-        if !url.ends_with("huber.yaml") {
-            url += "/master/huber.yaml";
-        }
-
         debug!("Saving {} to {:?}", &url, &path);
 
-        if let Some(token) = config.github_token.clone() {
-            let re = regex::Regex::new(r"(http|https)://")?;
-            url = re
-                .replace(&url, format!("$1://{}@", token).as_str())
-                .to_string()
+        let from_github = url.contains("raw.githubusercontent.com");
+        if from_github {
+            if let Some(token) = config.github_token.clone() {
+                let re = regex::Regex::new(r"(http|https)://")?;
+                url = re
+                    .replace(&url, format!("$1://{}@", token).as_str())
+                    .to_string()
+            }
         }
 
         let response = reqwest::get(&url.to_string()).await?;
@@ -242,7 +236,7 @@ impl RepoAsyncTrait for RepoService {
         let pkgs: Vec<Package> = get_packages_from_file(f)?;
 
         let config = self.container.get::<Config>().unwrap();
-        let path = config.unmanaged_repo_pkgs_file(name)?;
+        let path = config.external_repo_pkgs_file(name)?;
         if path.exists() {
             let _ = remove_file(&path);
         }
@@ -257,12 +251,5 @@ impl RepoAsyncTrait for RepoService {
 }
 
 fn get_packages_from_file(f: File) -> anyhow::Result<Vec<Package>> {
-    let r: serde_yaml::Result<Vec<Package>> = serde_yaml::from_reader(&f);
-    if let Ok(pkgs) = r {
-        return Ok(pkgs);
-    }
-
-    let mut f = f;
-    f.seek(SeekFrom::Start(0))?;
-    Ok(vec![serde_yaml::from_reader(f)?])
+    Ok(serde_yaml::from_reader(&f)?)
 }

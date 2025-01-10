@@ -131,12 +131,12 @@ impl GithubClient {
 
         // fetch the origin
         let mut remote = repo.find_remote("origin")?;
-        remote.fetch(&["master"], fetch_options.as_mut(), None)?;
+        remote.fetch(&["main"], fetch_options.as_mut(), None)?;
         let fetch_head = repo.find_reference("FETCH_HEAD")?;
         let commit = repo.reference_to_annotated_commit(&fetch_head)?;
 
         // merge local, and checkout
-        let reference_name = format!("refs/heads/{}", "master");
+        let reference_name = format!("refs/heads/{}", "main");
         let mut reference = repo.find_reference(&reference_name)?;
         let name = reference.name().expect("");
         repo.set_head(name)?;

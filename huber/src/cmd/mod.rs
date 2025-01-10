@@ -93,9 +93,9 @@ pub enum Commands {
     #[command(about = "Load installed packages from a file", bin_name = "load")]
     Load(LoadArgs),
 
-    #[command(about = "Lock the package version", bin_name = "lock")]
+    #[command(about = "Lock packages or Show locked packages", bin_name = "lock")]
     Lock(LockArgs),
 
-    #[command(about = "Unlock the package version", bin_name = "unlock")]
+    #[command(about = "Unlock packages", bin_name = "unlock", bin_name = "unlock")]
     Unlock(UnlockArgs),
 }

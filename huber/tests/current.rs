@@ -1,9 +1,8 @@
-use std::path::Path;
-
-use assert_cmd::Command;
 use scopeguard::defer;
 
-use crate::common::{install_pkg, reset_huber, HUBER_EXEC};
+use crate::common::{
+    install_pkg, reset_huber, INVALID_PKG, INVALID_PKG_VERSION, PKG_VERSION_1, PKG_VERSION_1_ASSERT,
+};
 
 #[macro_use]
 mod common;
@@ -14,24 +13,15 @@ fn test_current() {
         reset_huber();
     }
 
-    install_pkg("k9s@v0.32.7");
+    install_pkg(PKG_VERSION_1);
 
-    let assert = Command::new(HUBER_EXEC)
-        .arg("current")
-        .arg("k9s@v0.32.7")
-        .env(
-            "MANAGED_PKG_ROOT_DIR",
-            Path::new(env!("CARGO_MANIFEST_DIR"))
-                .parent()
-                .unwrap()
-                .join("generated"),
-        )
-        .assert()
-        .success();
-
+    let assert = huber_cmd!(arg("current").arg(PKG_VERSION_1).assert().success());
     assert_eq_last_line!(
         assert.get_output().stderr,
-        "[INFO ] k9s@v0.32.7 is now the current version"
+        format!(
+            "[INFO ] {} is now the current version",
+            PKG_VERSION_1_ASSERT
+        )
     );
 }
 
@@ -41,17 +31,12 @@ fn test_current_fail() {
         reset_huber();
     }
 
-    Command::new(HUBER_EXEC)
-        .arg("current")
-        .arg("pkg_notfound@1.1.1")
-        .env(
-            "MANAGED_PKG_ROOT_DIR",
-            Path::new(env!("CARGO_MANIFEST_DIR"))
-                .parent()
-                .unwrap()
-                .join("generated"),
-        )
+    huber_cmd!(arg("current")
+        .arg(INVALID_PKG_VERSION)
         .assert()
         .failure()
-        .stderr("[WARN ] package not installed: \"pkg_notfound\"\n");
+        .stderr(format!(
+            "[WARN ] Package not installed: \"{}\"\n",
+            INVALID_PKG
+        )));
 }

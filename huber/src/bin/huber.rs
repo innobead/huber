@@ -1,10 +1,11 @@
+use std::error::Error;
 use std::io;
 use std::path::PathBuf;
 use std::process::exit;
 use std::str::FromStr;
 use std::sync::Arc;
 
-use anyhow::{anyhow, Error};
+use anyhow::anyhow;
 use clap::{CommandFactory, Parser, ValueHint};
 use clap_complete::Generator;
 use huber::cmd::config::ConfigCommands;
@@ -111,7 +112,7 @@ async fn main() {
         Commands::Repo(args) => match args.command {
             RepoCommands::Add(ref args) => args.run(&config, &container).await,
             RepoCommands::Remove(ref args) => args.run(&config, &container).await,
-            RepoCommands::List(ref args) => args.run(&config, &container).await,
+            RepoCommands::Show(ref args) => args.run(&config, &container).await,
         },
         Commands::Current(args) => args.run(&config, &container).await,
         Commands::Flush(args) => args.run(&config, &container).await,
@@ -137,10 +138,11 @@ async fn main() {
             exit(1);
         }
 
-        if let Some(e) = e.downcast_ref::<Error>() {
+        if let Some(e) = e.downcast_ref::<HuberError>() {
+            let source_err = e.source().map(|e| format!(": {}", e)).unwrap_or_default();
+            warn!("{}{}", e, source_err);
+        } else {
             error!("{}", e);
-        } else if let Some(e) = e.downcast_ref::<HuberError>() {
-            warn!("{}", e);
         }
     }
 }

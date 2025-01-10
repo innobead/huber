@@ -1,6 +1,6 @@
 use std::fs;
-use std::path::Path;
 
+use filepath::FilePath;
 use scopeguard::defer;
 
 use crate::common::{install_pkg, reset_huber, save_pkg_list};
@@ -16,19 +16,19 @@ fn test_save() {
 
     install_pkg("k9s");
 
-    let file_name = "huber-packages.txt";
-    let file_path = Path::new(file_name);
+    let file = tempfile::tempfile().unwrap();
+    let path = file.path().unwrap();
     defer! {
-        let  _ = fs::remove_file(file_path);
+        let  _ = fs::remove_file(&path);
     };
 
-    let result = save_pkg_list(file_name);
+    let result = save_pkg_list(path.to_string_lossy().as_ref());
     assert_eq_last_line!(
         result.get_output().stderr,
         format!(
             "[INFO ] Saved the package list to {}",
-            file_path.canonicalize().unwrap().to_string_lossy()
+            path.canonicalize().unwrap().to_string_lossy().to_string()
         )
     );
-    assert!(fs::exists(file_path).unwrap());
+    assert!(fs::exists(&path).unwrap());
 }

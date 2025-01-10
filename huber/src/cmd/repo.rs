@@ -1,4 +1,5 @@
 use std::io::stdout;
+use std::path::PathBuf;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
@@ -11,7 +12,9 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
-use crate::error::HuberError::{RepoAlreadyExist, RepoNotFound};
+use crate::error::HuberError::{
+    NoRepositoriesAdded, RepoAlreadyExist, RepoNotFound, RepoUnableToAdd,
+};
 use crate::service::repo::RepoService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
@@ -29,8 +32,8 @@ pub enum RepoCommands {
     #[command(about = "Remove a repo", bin_name = "remove")]
     Remove(RepoRemoveArgs),
 
-    #[command(about = "List all repos", bin_name = "list")]
-    List(RepoListArgs),
+    #[command(about = "Show all repos", bin_name = "list")]
+    Show(RepoShowArgs),
 }
 
 #[derive(Args)]
@@ -38,16 +41,25 @@ pub struct RepoAddArgs {
     #[arg(help = "Repo name", num_args = 1, value_hint = ValueHint::Unknown)]
     name: String,
 
-    #[arg(help = "GitHub repo URL", long, num_args = 1, value_hint = ValueHint::Url)]
-    url: String,
-
     #[arg(
-        help = "Local file path of the repo config",
+        help = "URL of the Huber package index file",
         long,
         num_args = 1,
+        group = "repo",
+        required = true,
+        value_hint = ValueHint::Url
+    )]
+    url: Option<String>,
+
+    #[arg(
+        help = "File path of the Huber package index file",
+        long,
+        num_args = 1,
+        group = "repo",
+        required = true,
         value_hint = ValueHint::FilePath
     )]
-    file: String,
+    file: Option<String>,
 }
 
 #[async_trait]
@@ -61,11 +73,13 @@ impl CommandTrait for RepoAddArgs {
 
         let repo = Repository {
             name: self.name.clone(),
-            url: Some(self.url.clone()),
-            file: Some(self.file.clone().into()),
+            url: self.url.clone(),
+            file: self.file.clone().map(PathBuf::from),
         };
         info!("Adding repo {}", repo);
-        repo_service.create(repo).await?;
+        if let Err(err) = repo_service.create(repo).await {
+            return Err(anyhow!(RepoUnableToAdd(self.name.clone(), err)));
+        };
         info!("Repo added");
 
         Ok(())
@@ -90,6 +104,7 @@ impl CommandTrait for RepoRemoveArgs {
 
             info!("Removing repo {}", repo);
             repo_service.delete(repo)?;
+            info!("Repo removed");
         }
 
         Ok(())
@@ -97,14 +112,18 @@ impl CommandTrait for RepoRemoveArgs {
 }
 
 #[derive(Args)]
-pub struct RepoListArgs {}
+pub struct RepoShowArgs {}
 
 #[async_trait]
-impl CommandTrait for RepoListArgs {
+impl CommandTrait for RepoShowArgs {
     async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
         let repo_service = container.get::<RepoService>().unwrap();
 
         let repos = repo_service.list()?;
+        if repos.is_empty() {
+            return Err(anyhow!(NoRepositoriesAdded));
+        }
+
         output!(
             config.output_format,
             .display(

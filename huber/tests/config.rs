@@ -1,10 +1,8 @@
-use assert_cmd::Command;
 use scopeguard::defer;
 use tempfile::tempdir;
 
+#[macro_use]
 mod common;
-
-use common::HUBER_EXEC;
 
 use crate::common::reset_huber;
 
@@ -14,15 +12,11 @@ fn test_config_not_found() {
         reset_huber();
     }
 
-    Command::new(HUBER_EXEC)
-        .arg("config")
+    huber_cmd!(arg("config")
         .arg("show")
         .assert()
         .failure()
-        .stderr(
-            "[WARN ] Config not found, please run `huber config save` to create a new one \
-            if want to persist the configuration\n",
-        );
+        .stderr("[WARN ] Config not found: \"/home/davidko/.huber/config.yaml\"\n",));
 }
 
 #[test]
@@ -37,8 +31,7 @@ fn test_config_save_and_found() {
     let log_level = "trace";
     let huber_dir = tempdir().unwrap();
 
-    Command::new(HUBER_EXEC)
-        .arg("config")
+    huber_cmd!(arg("config")
         .arg("save")
         .arg("--github-token")
         .arg(github_token)
@@ -53,13 +46,12 @@ fn test_config_save_and_found() {
         .arg("--output-format")
         .arg("yaml")
         .assert()
-        .success();
+        .success());
 
-    Command::new(HUBER_EXEC)
-        .arg("config")
+    huber_cmd!(arg("config")
         .arg("show")
         .arg("--huber-dir")
         .arg(huber_dir.path())
         .assert()
-        .success();
+        .success());
 }

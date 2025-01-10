@@ -10,7 +10,7 @@ use tokio::task::JoinHandle;
 
 use crate::cmd::CommandTrait;
 use crate::error::HuberError::PackageNotFound;
-use crate::opt::parse_pkg_name_semver;
+use crate::opt::parse_pkg_name_optional_semver;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
@@ -22,7 +22,7 @@ pub struct InstallArgs {
         help = "Package name (e.g. 'package-name' or 'package-name@version')",
         num_args = 1,
         required = true,
-        value_parser = parse_pkg_name_semver,
+        value_parser = parse_pkg_name_optional_semver,
         value_hint = ValueHint::Unknown,
     )]
     name_version: Vec<(String, String)>,
@@ -66,7 +66,7 @@ pub fn parse_package_name_versions(name_versions: &[String]) -> Vec<(String, Str
 pub async fn install_packages(
     release_service: Arc<ReleaseService>,
     pkg_service: Arc<PackageService>,
-    pkg_versions: &Vec<(String, String)>,
+    pkg_versions: &[(String, String)],
 ) -> anyhow::Result<()> {
     for (pkg, _) in pkg_versions.iter() {
         if !pkg_service.has(pkg)? {
@@ -75,7 +75,7 @@ pub async fn install_packages(
     }
 
     let mut join_handles = vec![];
-    for (pkg, version) in pkg_versions.clone().into_iter() {
+    for (pkg, version) in pkg_versions.iter().cloned() {
         let pkg_service = pkg_service.clone();
         let release_service = release_service.clone();
 

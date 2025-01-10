@@ -11,7 +11,7 @@ use serde::{Deserialize, Serialize};
 use crate::fs::dir;
 use crate::model::package::Package;
 
-pub const MANAGED_PKG_ROOT_DIR: &str = "MANAGED_PKG_ROOT_DIR"; // generated directory
+pub const HUBER_PKG_ROOT_DIR: &str = "huber_pkg_root_dir"; // generated directory
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Config {
@@ -25,6 +25,7 @@ pub struct Config {
 }
 
 impl Config {
+    #[allow(clippy::field_reassign_with_default)]
     pub fn new(
         log_level: String,
         output_format: OutputFormat,
@@ -65,13 +66,13 @@ pub trait ConfigPath {
     fn repo_root_dir(&self) -> anyhow::Result<PathBuf>;
     fn huber_repo_dir(&self) -> anyhow::Result<PathBuf>;
 
-    fn unmanaged_repo_dir(&self, name: &str) -> anyhow::Result<PathBuf>;
-    fn unmanaged_repo_file(&self, name: &str) -> anyhow::Result<PathBuf>;
-    fn unmanaged_repo_pkgs_file(&self, name: &str) -> anyhow::Result<PathBuf>;
+    fn external_repo_dir(&self, name: &str) -> anyhow::Result<PathBuf>;
+    fn external_repo_file(&self, name: &str) -> anyhow::Result<PathBuf>;
+    fn external_repo_pkgs_file(&self, name: &str) -> anyhow::Result<PathBuf>;
 
-    fn managed_pkg_root_dir(&self) -> anyhow::Result<PathBuf>;
-    fn managed_pkg_manifest_file(&self, name: &str) -> anyhow::Result<PathBuf>;
-    fn managed_pkg_index_file(&self) -> anyhow::Result<PathBuf>;
+    fn huber_pkg_root_dir(&self) -> anyhow::Result<PathBuf>;
+    fn pkg_manifest_file(&self, name: &str) -> anyhow::Result<PathBuf>;
+    fn pkg_index_file(&self) -> anyhow::Result<PathBuf>;
 
     fn installed_pkg_root_dir(&self) -> anyhow::Result<PathBuf>;
     fn installed_pkg_base_dir(&self, pkg: &Package) -> anyhow::Result<PathBuf>;
@@ -161,37 +162,37 @@ impl ConfigPath for Config {
         dir(self.repo_root_dir()?.join("huber"))
     }
 
-    fn unmanaged_repo_dir(&self, name: &str) -> anyhow::Result<PathBuf> {
+    fn external_repo_dir(&self, name: &str) -> anyhow::Result<PathBuf> {
         dir(self.repo_root_dir()?.join(name))
     }
 
-    fn unmanaged_repo_file(&self, name: &str) -> anyhow::Result<PathBuf> {
-        Ok(self.unmanaged_repo_dir(name)?.join("repo.yaml"))
+    fn external_repo_file(&self, name: &str) -> anyhow::Result<PathBuf> {
+        Ok(self.external_repo_dir(name)?.join("repo.yaml"))
     }
 
-    fn unmanaged_repo_pkgs_file(&self, name: &str) -> anyhow::Result<PathBuf> {
-        Ok(self.unmanaged_repo_dir(name)?.join("huber.yaml"))
+    fn external_repo_pkgs_file(&self, name: &str) -> anyhow::Result<PathBuf> {
+        Ok(self.external_repo_dir(name)?.join("huber.yaml"))
     }
 
-    fn managed_pkg_root_dir(&self) -> anyhow::Result<PathBuf> {
-        if let Ok(path) = env::var(MANAGED_PKG_ROOT_DIR) {
+    fn huber_pkg_root_dir(&self) -> anyhow::Result<PathBuf> {
+        if let Ok(path) = env::var(HUBER_PKG_ROOT_DIR) {
             dir(PathBuf::from(path))
         } else {
             dir(self.huber_repo_dir()?.join("generated"))
         }
     }
 
-    fn managed_pkg_manifest_file(&self, name: &str) -> anyhow::Result<PathBuf> {
+    fn pkg_manifest_file(&self, name: &str) -> anyhow::Result<PathBuf> {
         Ok(self
-            .managed_pkg_root_dir()?
+            .huber_pkg_root_dir()?
             .join("packages")
             .join(name)
             .with_extension("yaml"))
     }
 
-    fn managed_pkg_index_file(&self) -> anyhow::Result<PathBuf> {
+    fn pkg_index_file(&self) -> anyhow::Result<PathBuf> {
         Ok(self
-            .managed_pkg_root_dir()?
+            .huber_pkg_root_dir()?
             .join("index")
             .with_extension("yaml"))
     }

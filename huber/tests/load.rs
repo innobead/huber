@@ -1,10 +1,9 @@
 use std::fs;
-use std::path::Path;
 
-use assert_cmd::Command;
+use filepath::FilePath;
 use scopeguard::defer;
 
-use crate::common::{install_pkg, reset_huber, save_pkg_list, HUBER_EXEC};
+use crate::common::{install_pkg, reset_huber, save_pkg_list, PKG_VERSION_1};
 
 #[macro_use]
 mod common;
@@ -15,25 +14,14 @@ fn test_load() {
         reset_huber();
     }
 
-    let file_name = "huber-packages.txt";
-    defer!(fs::remove_file(file_name).unwrap(););
+    let file = tempfile::tempfile().unwrap();
+    let path = file.path().unwrap().to_string_lossy().to_string();
+    defer!(fs::remove_file(&path).unwrap());
 
-    install_pkg("k9s");
-    save_pkg_list(file_name);
+    install_pkg(PKG_VERSION_1);
+    save_pkg_list(&path);
 
-    let assert = Command::new(HUBER_EXEC)
-        .arg("load")
-        .arg("--file")
-        .arg(file_name)
-        .env(
-            "MANAGED_PKG_ROOT_DIR",
-            Path::new(env!("CARGO_MANIFEST_DIR"))
-                .parent()
-                .unwrap()
-                .join("generated"),
-        )
-        .assert()
-        .success();
+    let assert = huber_cmd!(arg("load").arg("--file").arg(&path).assert().success());
     assert_eq_last_line!(
         assert.get_output().stderr,
         "[INFO ] Installed packages: total 1"

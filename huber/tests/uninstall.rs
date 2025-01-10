@@ -1,10 +1,7 @@
-use std::path::Path;
-
-use assert_cmd::Command;
-use common::{install_pkg, uninstall_pkg, HUBER_EXEC};
+use common::{install_pkg, uninstall_pkg};
 use scopeguard::defer;
 
-use crate::common::reset_huber;
+use crate::common::{reset_huber, INVALID_PKG};
 
 #[macro_use]
 mod common;
@@ -27,17 +24,9 @@ fn test_uninstall_fail() {
         reset_huber();
     }
 
-    Command::new(HUBER_EXEC)
-        .arg("uninstall")
-        .arg("pkg_notfound")
-        .env(
-            "MANAGED_PKG_ROOT_DIR",
-            Path::new(env!("CARGO_MANIFEST_DIR"))
-                .parent()
-                .unwrap()
-                .join("generated"),
-        )
+    huber_cmd!(arg("uninstall")
+        .arg(INVALID_PKG)
         .assert()
         .failure()
-        .stderr("[WARN ] package not found: \"pkg_notfound\"\n");
+        .stderr(format!("[WARN ] Package not found: \"{}\"\n", INVALID_PKG)));
 }

@@ -98,7 +98,7 @@
  nushell      A new type of shell                                                                                      https://github.com/nushell/nushell 
  octant       Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
  okteto       Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
- ollama       Get up and running with Llama 3.3, Mistral, Gemma 2, and other large language models.                    https://github.com/ollama/ollama 
+ ollama       Get up and running with Llama 3.3, Phi 4, Gemma 2, and other large language models.                      https://github.com/ollama/ollama 
  onefetch     Command-line Git information tool                                                                        https://github.com/o2sh/onefetch 
  opa          Open Policy Agent (OPA) is an open source, general-purpose policy engine.                                https://github.com/open-policy-agent/opa 
  oras         OCI registry client - managing content like artifacts, images, packages                                  https://github.com/deislabs/oras 

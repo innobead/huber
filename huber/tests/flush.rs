@@ -1,9 +1,6 @@
-use std::path::Path;
-
-use assert_cmd::Command;
 use scopeguard::defer;
 
-use crate::common::{install_pkg, reset_huber, HUBER_EXEC};
+use crate::common::{install_pkg, reset_huber, PKG_VERSION_1, PKG_VERSION_2};
 
 #[macro_use]
 mod common;
@@ -14,18 +11,10 @@ fn test_flush_nothing() {
         reset_huber();
     }
 
-    Command::new(HUBER_EXEC)
-        .arg("flush")
-        .env(
-            "MANAGED_PKG_ROOT_DIR",
-            Path::new(env!("CARGO_MANIFEST_DIR"))
-                .parent()
-                .unwrap()
-                .join("generated"),
-        )
+    huber_cmd!(arg("flush")
         .assert()
         .success()
-        .stderr("[INFO ] Nothing to flush\n");
+        .stderr("[INFO ] Nothing to flush\n"));
 }
 
 #[test]
@@ -34,23 +23,17 @@ fn test_flush() {
         reset_huber();
     }
 
-    install_pkg("k9s@v0.32.6");
-    install_pkg("k9s@v0.32.7");
+    install_pkg(PKG_VERSION_1);
+    install_pkg(PKG_VERSION_2);
 
-    let assert = Command::new(HUBER_EXEC)
-        .arg("flush")
-        .env(
-            "MANAGED_PKG_ROOT_DIR",
-            Path::new(env!("CARGO_MANIFEST_DIR"))
-                .parent()
-                .unwrap()
-                .join("generated"),
-        )
-        .assert()
-        .success();
+    let assert = huber_cmd!(arg("flush").assert().success());
+    let tokens: Vec<_> = PKG_VERSION_1.splitn(2, '@').collect();
 
     assert_eq_last_line!(
         assert.get_output().stderr,
-        "[INFO ] k9s (version: v0.32.6, source: github) removed"
+        format!(
+            "[INFO ] {} (version: v{}, source: github) removed",
+            tokens[0], tokens[1]
+        )
     );
 }

@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: ollama
-description: Get up and running with Llama 3.3, Mistral, Gemma 2, and other large language models.
+description: Get up and running with Llama 3.3, Phi 4, Gemma 2, and other large language models.
 source:
   Github:
     owner: ollama

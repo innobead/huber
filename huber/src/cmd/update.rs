@@ -9,7 +9,7 @@ use huber_common::model::package::Package;
 use huber_common::model::release::Release;
 use log::{info, warn};
 use maplit::hashmap;
-use semver::Version;
+use semver::{Version, VersionReq};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
@@ -62,6 +62,12 @@ impl CommandTrait for UpdateArgs {
                 name, new_release.version
             );
             if !is_pkg_updatable(config, &pkg, &new_release) {
+                warn!(
+                    "Package {} is locked to version {}. Skipping update to {}",
+                    pkg.name,
+                    config.lock_pkg_versions.get(&pkg.name).unwrap(),
+                    new_release.version
+                );
                 continue;
             }
 
@@ -110,19 +116,17 @@ fn get_installed_latest_pkg_releases(
     Ok(())
 }
 
-fn is_pkg_updatable(config: &Config, pkg: &Package, latest_release: &Release) -> bool {
+fn is_pkg_updatable(config: &Config, pkg: &Package, new_release: &Release) -> bool {
     if let Some(lock_version) = config.lock_pkg_versions.get(&pkg.name) {
-        let lock_version = Version::parse(lock_version.trim_start_matches("v")).unwrap();
-        let latest_version =
-            Version::parse(latest_release.version.trim_start_matches("v")).unwrap();
+        let lock_version = lock_version.trim_start_matches("v");
+        let new_version = Version::parse(new_release.version.trim_start_matches("v")).unwrap();
 
-        if latest_version.cmp(&lock_version) == Ordering::Greater {
-            warn!(
-                "Package {} is locked to version {}. Skipping update",
-                pkg.name, lock_version
-            );
+        if Version::parse(lock_version).is_ok() {
             return false;
         }
+
+        let lock_version = VersionReq::parse(lock_version).unwrap();
+        return lock_version.matches(&new_version);
     }
 
     true

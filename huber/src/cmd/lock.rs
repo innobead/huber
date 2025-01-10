@@ -14,7 +14,7 @@ use crate::cmd::CommandTrait;
 use crate::error::HuberError::{
     NoPackagesLocked, PackageNotFound, PackageNotInstalled, PackageUnableToLock,
 };
-use crate::opt::parse_pkg_name_semver;
+use crate::opt::parse_pkg_name_semver_req;
 use crate::service::config::{ConfigService, ConfigTrait};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
@@ -23,11 +23,12 @@ use crate::service::ItemOperationTrait;
 #[derive(Args)]
 pub struct LockArgs {
     #[arg(
-        help = "Package name (e.g. 'package-name' or 'package-name@version', \
-        the optional version follows Cargo's dependency version requirement format)",
+        help = "Package name (e.g. 'package-name', 'package-name@version' or \
+        'package-name@<version-requirement>' \
+        using Cargo's dependency version requirement format)",
         num_args = 1,
         value_hint = ValueHint::Unknown,
-        value_parser = parse_pkg_name_semver,
+        value_parser = parse_pkg_name_semver_req,
     )]
     name_version: Vec<(String, String)>,
 
