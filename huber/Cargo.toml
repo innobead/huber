@@ -22,6 +22,7 @@ chrono.workspace = true
 assert_cmd = "2.0.16"
 pretty_assertions = "1.4.1"
 rstest = "0.24.0"
+whoami = "1.5.2"
 
 [dependencies]
 anyhow.workspace = true

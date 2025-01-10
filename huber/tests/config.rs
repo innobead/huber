@@ -1,5 +1,6 @@
 use scopeguard::defer;
 use tempfile::tempdir;
+use whoami::username;
 
 #[macro_use]
 mod common;
@@ -12,11 +13,10 @@ fn test_config_not_found() {
         reset_huber();
     }
 
-    huber_cmd!(arg("config")
-        .arg("show")
-        .assert()
-        .failure()
-        .stderr("[WARN ] Config not found: \"/home/davidko/.huber/config.yaml\"\n",));
+    huber_cmd!(arg("config").arg("show").assert().failure().stderr(format!(
+        "[WARN ] Config not found: \"/home/{}/.huber/config.yaml\"\n",
+        username()
+    )));
 }
 
 #[test]
