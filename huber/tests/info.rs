@@ -27,5 +27,5 @@ fn test_info_fail() {
         .arg(INVALID_PKG)
         .assert()
         .failure()
-        .stderr(format!("[WARN ] Package not found: \"{}\"\n", INVALID_PKG)));
+        .stderr(format!("[ERROR] Package not found: \"{}\"\n", INVALID_PKG)));
 }

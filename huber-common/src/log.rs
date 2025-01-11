@@ -1,5 +1,4 @@
 use std::str::FromStr;
-
 use log::LevelFilter;
 
 use crate::model::config::Config;

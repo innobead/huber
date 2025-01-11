@@ -9,6 +9,7 @@ use anyhow::anyhow;
 use clap::{CommandFactory, Parser, ValueHint};
 use clap_complete::Generator;
 use huber::cmd::config::ConfigCommands;
+use huber::cmd::lock::LockCommands;
 use huber::cmd::repo::RepoCommands;
 use huber::cmd::CommandTrait;
 use huber::cmd::Commands;
@@ -19,11 +20,10 @@ use huber_common::fs::dir;
 use huber_common::log::Logger;
 use huber_common::model::config::Config;
 use libcli_rs::output::OutputFormat;
-use log::{error, warn, LevelFilter};
+use log::{error, LevelFilter};
 use scopeguard::defer;
 use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 use simpledi_rs::inject_dep;
-use huber::cmd::lock::LockCommands;
 
 #[derive(Parser)]
 #[command(version, bin_name = env!("CARGO_PKG_NAME"), about, long_about = None)]
@@ -149,7 +149,7 @@ async fn main() {
 
         if let Some(e) = e.downcast_ref::<HuberError>() {
             let source_err = e.source().map(|e| format!(": {}", e)).unwrap_or_default();
-            warn!("{}{}", e, source_err);
+            error!("{}{}", e, source_err);
         } else {
             error!("{}", e);
         }

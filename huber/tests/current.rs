@@ -36,7 +36,7 @@ fn test_current_fail() {
         .assert()
         .failure()
         .stderr(format!(
-            "[WARN ] Package not installed: \"{}\"\n",
+            "[ERROR] Package not installed: \"{}\"\n",
             INVALID_PKG
         )));
 }

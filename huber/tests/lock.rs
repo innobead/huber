@@ -29,7 +29,7 @@ fn test_lock_fail() {
 
     assert_eq_last_line!(
         assert.get_output().stderr,
-        "[WARN ] Package unable to lock: Package not installed: \"k9s\""
+        "[ERROR] Package unable to lock: Package not installed: \"k9s\""
     );
 }
 

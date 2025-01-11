@@ -14,7 +14,7 @@ fn test_config_not_found() {
     }
 
     huber_cmd!(arg("config").arg("show").assert().failure().stderr(format!(
-        "[WARN ] Config not found: \"/home/{}/.huber/config.yaml\"\n",
+        "[ERROR] Config not found: \"/home/{}/.huber/config.yaml\"\n",
         username()
     )));
 }

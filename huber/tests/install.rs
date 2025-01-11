@@ -30,5 +30,5 @@ fn test_install_fail() {
         .arg(INVALID_PKG_VERSION)
         .assert()
         .failure()
-        .stderr("[WARN ] Package not found: \"pkg_notfound\"\n"));
+        .stderr("[ERROR] Package not found: \"pkg_notfound\"\n"));
 }
