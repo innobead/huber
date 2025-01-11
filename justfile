@@ -22,7 +22,7 @@ fmt:
     @cargo install --git https://github.com/DevinR528/cargo-sort.git --tag v1.1.0 cargo-sort
     @cargo-sort --workspace
     @cargo {{ cargo_opts }} +nightly fmt --all
-    @cargo clippy --fix --allow-dirty --allow-staged
+    @cargo clippy --fix --no-deps --allow-dirty --allow-staged
 
 # Fix code
 fix:
@@ -36,7 +36,7 @@ release:
 
 # Generate checksum files for built executables
 _checksum:
-    @{{ prj_dir }}/hack/generate-checksum.sh {{ build_dir }}
+    @{{ prj_dir }}/hack/generate-artifact-checksum.sh {{ build_dir }}
 
 # Clean build caches
 clean:
@@ -53,7 +53,7 @@ publish:
 generate force_generate='false':
     @echo "! Must have GITHUB_TOKEN to automatically generate package description"
     @GITHUB_TOKEN={{ github_token }} FORCE_GENERATE={{ force_generate }} cargo build {{ cargo_opts }} -vv --package=huber-generator
-    @GITHUB_KEY={{ github_key }} just build && (huber_pkg_root_dir={{ huber_pkg_root_dir }} {{ huber_exec }} search | xargs -0 {{ prj_dir }}/hack/generate-huber-managed-packages.sh)
+    @GITHUB_KEY={{ github_key }} just build && (huber_pkg_root_dir={{ huber_pkg_root_dir }} {{ huber_exec }} search | xargs -0 {{ prj_dir }}/hack/generate-huber-packages.sh)
 
 # (local dev) Build binaries for linux multiple architectures
 build-multiarch platforms='linux/arm64':
