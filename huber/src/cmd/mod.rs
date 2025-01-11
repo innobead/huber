@@ -27,7 +27,7 @@ mod flush;
 mod info;
 mod install;
 mod load;
-mod lock;
+pub mod lock;
 pub mod repo;
 mod reset;
 mod save;

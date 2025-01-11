@@ -39,28 +39,23 @@ fn test_lock() {
         reset_huber();
     }
 
-    install_pkg("k9s@0.32.5");
-    let assert = Command::new(HUBER_EXEC)
-        .arg("lock")
-        .arg("k9s@0.32.5")
-        .env(
-            "huber_pkg_root_dir",
-            Path::new(env!("CARGO_MANIFEST_DIR"))
-                .parent()
-                .unwrap()
-                .join("generated"),
-        )
-        .assert()
-        .success();
+    install_pkg(PKG_VERSION_1);
+    let assert = huber_cmd!(arg("lock").arg(PKG_VERSION_1).assert().success());
     assert_eq_last_line!(
         assert.get_output().stderr,
         "[INFO ] Packages locked successfully"
     );
 
+    huber_cmd!(arg("lock").arg("show").assert().success());
+
     let assert = update_pkg("k9s");
-    assert_eq_last_line!(
+    let tokens: Vec<_> = PKG_VERSION_1.splitn(2, '@').collect();
+    assert_eq_last_line_regex!(
         assert.get_output().stderr,
-        "[WARN ] Package k9s is locked to version v0.32.5. Skipping update to v0.32.7"
+        &format!(
+            r"\[WARN \] Package k9s is locked to version {}. Skipping update to \S+",
+            tokens[1]
+        )
     );
 }
 
@@ -75,13 +70,6 @@ fn test_lock_semver_req() {
 
     let assert = huber_cmd!(arg("lock")
         .arg(format!("{}@~{}", tokens[0], tokens[1]))
-        .env(
-            "huber_pkg_root_dir",
-            Path::new(env!("CARGO_MANIFEST_DIR"))
-                .parent()
-                .unwrap()
-                .join("generated"),
-        )
         .assert()
         .success());
 

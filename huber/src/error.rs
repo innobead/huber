@@ -20,18 +20,9 @@ pub enum HuberError {
     #[error("Repository unable to add")]
     RepoUnableToAdd(String, #[source] anyhow::Error),
 
-    #[error("No repositories added")]
-    NoRepositoriesAdded,
-
-    #[error("No packages installed")]
-    NoPackagesInstalled,
-
     #[error("Package unable to update")]
     PackageUnableToUpdate(#[source] anyhow::Error),
 
     #[error("Package unable to lock")]
     PackageUnableToLock(#[source] anyhow::Error),
-
-    #[error("No packages locked")]
-    NoPackagesLocked,
 }

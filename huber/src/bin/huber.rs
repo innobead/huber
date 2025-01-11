@@ -23,6 +23,7 @@ use log::{error, warn, LevelFilter};
 use scopeguard::defer;
 use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 use simpledi_rs::inject_dep;
+use huber::cmd::lock::LockCommands;
 
 #[derive(Parser)]
 #[command(version, bin_name = env!("CARGO_PKG_NAME"), about, long_about = None)]
@@ -125,7 +126,15 @@ async fn main() {
         Commands::Update(args) => args.run(&config, &container).await,
         Commands::Save(args) => args.run(&config, &container).await,
         Commands::Load(args) => args.run(&config, &container).await,
-        Commands::Lock(args) => args.run(&config, &container).await,
+        Commands::Lock(args) => {
+            if let Some(cmd) = &args.command {
+                match cmd {
+                    LockCommands::Show(args) => args.run(&config, &container).await,
+                }
+            } else {
+                args.run(&config, &container).await
+            }
+        }
         Commands::Unlock(args) => args.run(&config, &container).await,
         Commands::Completions { shell } => {
             shell.generate(&Cli::command(), &mut io::stdout());

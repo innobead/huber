@@ -7,10 +7,11 @@ use huber_common::model::config::Config;
 use huber_common::model::release::SortModelTrait;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
+use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
-use crate::error::HuberError::{NoPackagesInstalled, PackageNotFound};
+use crate::error::HuberError::PackageNotFound;
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
@@ -71,7 +72,8 @@ impl CommandTrait for ShowArgs {
         };
 
         if releases.is_empty() {
-            return Err(anyhow!(NoPackagesInstalled));
+            info!("No packages installed");
+            return Ok(());
         }
 
         output!(config.output_format, .display(

@@ -12,9 +12,7 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
-use crate::error::HuberError::{
-    NoRepositoriesAdded, RepoAlreadyExist, RepoNotFound, RepoUnableToAdd,
-};
+use crate::error::HuberError::{RepoAlreadyExist, RepoNotFound, RepoUnableToAdd};
 use crate::service::repo::RepoService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
@@ -121,7 +119,8 @@ impl CommandTrait for RepoShowArgs {
 
         let repos = repo_service.list()?;
         if repos.is_empty() {
-            return Err(anyhow!(NoRepositoriesAdded));
+            info!("No repositories added");
+            return Ok(());
         }
 
         output!(

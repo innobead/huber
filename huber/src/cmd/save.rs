@@ -1,7 +1,6 @@
 use std::fs::File;
 use std::io::Write;
 
-use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use filepath::FilePath;
@@ -10,7 +9,6 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
-use crate::error::HuberError::NoPackagesInstalled;
 use crate::service::release::ReleaseService;
 use crate::service::ItemOperationTrait;
 
@@ -40,7 +38,8 @@ impl CommandTrait for SaveArgs {
             .collect();
 
         if versions.is_empty() {
-            return Err(anyhow!(NoPackagesInstalled));
+            info!("No packages installed");
+            return Ok(())
         }
 
         info!("Saving the package list to {}", self.file);
