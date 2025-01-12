@@ -37,6 +37,7 @@ pub struct LockArgs {
         long,
         group = "lock",
         conflicts_with = "name_version",
+        num_args = 1,
         value_hint = ValueHint::Unknown
     )]
     pub all: bool,
@@ -45,6 +46,7 @@ pub struct LockArgs {
         help = "Treat version requirement as a caret requirement if \
         no version requirement is specified",
         long,
+        num_args = 1,
         value_hint = ValueHint::Unknown
     )]
     pub caret_required: bool,
@@ -53,6 +55,7 @@ pub struct LockArgs {
         help = "Treat version requirement as a tilde requirement if \
         no version requirement is specified",
         long,
+        num_args = 1,
         value_hint = ValueHint::Unknown
     )]
     pub tilde_required: bool,

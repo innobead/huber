@@ -24,6 +24,7 @@ pub struct ShowArgs {
     #[arg(
         help = "Show all the installed versions",
         long,
+        num_args = 1,
         value_hint = ValueHint::Unknown
     )]
     all: bool,
@@ -32,6 +33,7 @@ pub struct ShowArgs {
         help = "Show the detailed artifact info",
         long,
         requires = "name",
+        num_args = 1,
         value_hint = ValueHint::Unknown
     )]
     detail: bool,

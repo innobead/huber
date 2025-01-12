@@ -22,7 +22,7 @@ pub struct SearchArgs {
     )]
     name: Option<String>,
 
-    #[arg(help = "Regex search", long, value_hint = ValueHint::Unknown)]
+    #[arg(help = "Regex search", long, num_args = 1, value_hint = ValueHint::Unknown)]
     pattern: bool,
 
     #[arg(help = "Package owner", long, num_args = 1, value_hint = ValueHint::Unknown)]
@@ -32,6 +32,7 @@ pub struct SearchArgs {
         help = "Show all the released versions",
         long,
         requires = "name",
+        num_args = 1,
         value_hint = ValueHint::Unknown
     )]
     all: bool,

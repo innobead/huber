@@ -28,13 +28,6 @@ pub struct InstallArgs {
         value_hint = ValueHint::Unknown,
     )]
     name_version: Vec<(String, String)>,
-
-    #[arg(
-        help = "Set the installed package as current",
-        long,
-        value_hint = ValueHint::Unknown
-    )]
-    current: bool,
 }
 
 #[async_trait]
