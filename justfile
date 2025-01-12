@@ -26,9 +26,12 @@ fmt:
 
 # Fix code
 fix:
+    @cargo {{ cargo_opts }} fix --allow-dirty --allow-staged
+
+# Find unused dependencies
+udeps:
     @cargo install cargo-udeps
     @cargo +nightly udeps --all-targets
-    @cargo {{ cargo_opts }} fix --allow-dirty --allow-staged
 
 # Release binaries
 release:
