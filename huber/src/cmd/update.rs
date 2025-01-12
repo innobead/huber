@@ -27,7 +27,7 @@ pub struct UpdateArgs {
     #[arg(
         help = "Dry run to show available updates",
         long,
-        num_args = 1,
+        num_args = 0,
         value_hint = ValueHint::Unknown
     )]
     dryrun: bool,

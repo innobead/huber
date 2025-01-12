@@ -20,8 +20,8 @@ chrono.workspace = true
 
 [dev-dependencies]
 assert_cmd = "2.0.16"
-whoami = "1.5.2"
 sequential-test = "0.2.4"
+whoami = "1.5.2"
 
 [dependencies]
 anyhow.workspace = true

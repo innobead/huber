@@ -3,6 +3,7 @@ use std::path::Path;
 use assert_cmd::Command;
 use scopeguard::defer;
 use sequential_test::sequential;
+
 use crate::common::{install_pkg, reset_huber, update_pkg, HUBER_EXEC, PKG_VERSION_1};
 
 #[macro_use]

@@ -39,7 +39,7 @@ impl CommandTrait for SaveArgs {
 
         if versions.is_empty() {
             info!("No packages installed");
-            return Ok(())
+            return Ok(());
         }
 
         info!("Saving the package list to {}", self.file);

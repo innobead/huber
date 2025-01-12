@@ -1,5 +1,6 @@
 use scopeguard::defer;
 use sequential_test::sequential;
+
 use crate::common::{install_pkg, reset_huber, PKG_VERSION_1, PKG_VERSION_2};
 
 #[macro_use]

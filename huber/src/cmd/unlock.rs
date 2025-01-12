@@ -29,7 +29,7 @@ pub struct UnlockArgs {
         long,
         group = "lock",
         required = true,
-        num_args = 1,
+        num_args = 0,
         value_hint = ValueHint::Unknown
     )]
     all: bool,
