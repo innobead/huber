@@ -145,7 +145,7 @@ fn lock_pkgs(
     Ok(())
 }
 
-fn get_version_requirement(caret_required: bool, tilde_required: bool, version: &String) -> String {
+fn get_version_requirement(caret_required: bool, tilde_required: bool, version: &str) -> String {
     let version = version.trim_start_matches("v");
     if caret_required {
         format!("^{}", version)
