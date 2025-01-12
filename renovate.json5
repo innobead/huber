@@ -1,0 +1,28 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "config:recommended",
+    "schedule:nonOfficeHours"
+  ],
+  baseBranches: ["dev"],
+  timezone: "Asia/Taipei",
+  statusCheckNames: {
+    buildPass: "Build - linux x86_64"
+  },
+  enabledManagers: ["dockerfile", "cargo", "github-actions"],
+  vulnerabilityAlerts: {
+    labels: ["security"],
+    automerge: true
+  },
+  packageRules: [
+    {
+      matchUpdateTypes: ["major", "minor"],
+      enabled: false
+    },
+    {
+      matchUpdateTypes: ["patch", "pin", "digest"],
+      automerge: true,
+      autoApprove: true,
+    }
+  ]
+}
