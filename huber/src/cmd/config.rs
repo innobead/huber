@@ -2,7 +2,7 @@ use std::io::stdout;
 
 use async_trait::async_trait;
 use clap::{Args, Subcommand};
-use huber_common::model::config::{Config, ConfigPath};
+use huber_common::model::config::Config;
 use huber_procmacro::process_lock;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
@@ -10,6 +10,7 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
+use crate::lock_huber_ops;
 use crate::service::config::{ConfigService, ConfigTrait};
 
 #[derive(Subcommand)]
@@ -48,13 +49,10 @@ pub struct ConfigSaveArgs {}
 #[async_trait]
 impl CommandTrait for ConfigSaveArgs {
     async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+        lock_huber_ops!(config);
+
         let config_service = container.get::<ConfigService>().unwrap();
-        let lock_file = config.lock_file()?;
         let config_path = config.config_file()?;
-        info!("!!! the config file: {:?}", config_path);
-
-        process_lock!(lock_file);
-
         info!("Saving config to {:?}: {:#?}", config_path, config);
         config_service.update(config)?;
         info!("Config saved");

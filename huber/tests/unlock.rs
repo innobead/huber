@@ -1,11 +1,12 @@
 use scopeguard::defer;
-
+use sequential_test::sequential;
 use crate::common::{install_pkg, lock_pkg, reset_huber, PKG_VERSION_1};
 
 #[macro_use]
 mod common;
 
 #[test]
+#[sequential]
 fn test_unlock() {
     defer! {
         reset_huber();

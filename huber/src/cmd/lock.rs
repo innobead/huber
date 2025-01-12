@@ -12,6 +12,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
 use crate::error::HuberError::{PackageNotFound, PackageNotInstalled, PackageUnableToLock};
+use crate::lock_huber_ops;
 use crate::opt::parse_pkg_name_semver_req;
 use crate::service::config::{ConfigService, ConfigTrait};
 use crate::service::package::PackageService;
@@ -79,6 +80,8 @@ impl CommandTrait for LockShowArgs {
 #[async_trait]
 impl CommandTrait for LockArgs {
     async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+        lock_huber_ops!(config);
+
         let pkg_service = container.get::<PackageService>().unwrap();
         let release_service = container.get::<ReleaseService>().unwrap();
         let config_service = container.get::<ConfigService>().unwrap();

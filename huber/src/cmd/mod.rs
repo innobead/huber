@@ -99,3 +99,14 @@ pub enum Commands {
     #[command(about = "Unlock packages", bin_name = "unlock", bin_name = "unlock")]
     Unlock(UnlockArgs),
 }
+
+#[macro_export]
+macro_rules! lock_huber_ops {
+    ($config:ident) => {
+        use huber_common::model::config::ConfigPath;
+        use huber_procmacro::process_lock;
+
+        let lock_file = $config.lock_file()?;
+        process_lock!(lock_file);
+    };
+}

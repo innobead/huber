@@ -872,6 +872,7 @@ dependencies = [
  "reqwest",
  "scopeguard",
  "semver",
+ "sequential-test",
  "serde",
  "serde_yaml",
  "simpledi-rs",
@@ -2046,6 +2047,21 @@ name = "semver"
 version = "1.0.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3cb6eb87a131f756572d7fb904f6e7b68633f09cca868c5df1c4b8d1a694bbba"
+
+[[package]]
+name = "sequential-macro"
+version = "0.1.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eb5facc5f409a55d25bf271c853402a00e1187097d326757043f5dd711944d07"
+
+[[package]]
+name = "sequential-test"
+version = "0.2.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f0d9c0d773bc7e7733264f460e5dfa00b2510421ddd6284db0749eef8dfb79e9"
+dependencies = [
+ "sequential-macro",
+]
 
 [[package]]
 name = "serde"

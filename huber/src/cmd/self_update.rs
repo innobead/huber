@@ -5,6 +5,7 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
+use crate::lock_huber_ops;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::update::{HuberUpdateService, UpdateAsyncTrait};
 
@@ -13,7 +14,9 @@ pub struct SelfUpdateArgs {}
 
 #[async_trait]
 impl CommandTrait for SelfUpdateArgs {
-    async fn run(&self, _: &Config, container: &DIContainer) -> anyhow::Result<()> {
+    async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+        lock_huber_ops!(config);
+
         let cache_service = container.get::<CacheService>().unwrap();
         let _ = cache_service.update_repositories().await?;
 

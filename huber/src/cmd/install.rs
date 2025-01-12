@@ -4,12 +4,14 @@ use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
+use huber_procmacro::process_lock;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use tokio::task::JoinHandle;
 
 use crate::cmd::CommandTrait;
 use crate::error::HuberError::PackageNotFound;
+use crate::lock_huber_ops;
 use crate::opt::parse_pkg_name_optional_semver;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
@@ -37,7 +39,9 @@ pub struct InstallArgs {
 
 #[async_trait]
 impl CommandTrait for InstallArgs {
-    async fn run(&self, _config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+    async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+        lock_huber_ops!(config);
+
         let release_service = Arc::new(container.get::<ReleaseService>().unwrap().clone());
         let pkg_service = Arc::new(container.get::<PackageService>().unwrap().clone());
 

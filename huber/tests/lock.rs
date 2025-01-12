@@ -2,13 +2,14 @@ use std::path::Path;
 
 use assert_cmd::Command;
 use scopeguard::defer;
-
+use sequential_test::sequential;
 use crate::common::{install_pkg, reset_huber, update_pkg, HUBER_EXEC, PKG_VERSION_1};
 
 #[macro_use]
 mod common;
 
 #[test]
+#[sequential]
 fn test_lock_fail() {
     defer! {
         reset_huber();
@@ -34,6 +35,7 @@ fn test_lock_fail() {
 }
 
 #[test]
+#[sequential]
 fn test_lock() {
     defer! {
         reset_huber();
@@ -60,6 +62,7 @@ fn test_lock() {
 }
 
 #[test]
+#[sequential]
 fn test_lock_semver_req() {
     defer! {
         reset_huber();

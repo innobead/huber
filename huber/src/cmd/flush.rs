@@ -6,6 +6,7 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
+use crate::lock_huber_ops;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
@@ -14,7 +15,9 @@ pub struct FlushArgs {}
 
 #[async_trait]
 impl CommandTrait for FlushArgs {
-    async fn run(&self, _: &Config, container: &DIContainer) -> anyhow::Result<()> {
+    async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+        lock_huber_ops!(config);
+
         let release_service = container.get::<ReleaseService>().unwrap();
 
         let current_releases = release_service.list()?;

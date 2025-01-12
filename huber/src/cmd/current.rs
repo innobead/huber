@@ -7,6 +7,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
 use crate::error::HuberError::PackageNotInstalled;
+use crate::lock_huber_ops;
 use crate::opt::parse_pkg_name_semver;
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseAsyncTrait, ReleaseService};
@@ -26,7 +27,9 @@ pub struct CurrentArgs {
 
 #[async_trait]
 impl CommandTrait for CurrentArgs {
-    async fn run(&self, _: &Config, container: &DIContainer) -> anyhow::Result<()> {
+    async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+        lock_huber_ops!(config);
+
         let release_service = container.get::<ReleaseService>().unwrap();
         let pkg_service = container.get::<PackageService>().unwrap();
 

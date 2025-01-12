@@ -7,6 +7,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
 use crate::error::HuberError::PackageNotFound;
+use crate::lock_huber_ops;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::ItemOperationTrait;
@@ -19,7 +20,9 @@ pub struct UninstallArgs {
 
 #[async_trait]
 impl CommandTrait for UninstallArgs {
-    async fn run(&self, _: &Config, container: &DIContainer) -> anyhow::Result<()> {
+    async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+        lock_huber_ops!(config);
+
         let pkg_service = container.get::<PackageService>().unwrap();
         let release_service = container.get::<ReleaseService>().unwrap();
 

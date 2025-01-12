@@ -2,13 +2,14 @@ use std::fs;
 
 use filepath::FilePath;
 use scopeguard::defer;
-
+use sequential_test::sequential;
 use crate::common::{install_pkg, reset_huber, save_pkg_list};
 
 #[macro_use]
 mod common;
 
 #[test]
+#[sequential]
 fn test_save() {
     defer! {
         reset_huber();

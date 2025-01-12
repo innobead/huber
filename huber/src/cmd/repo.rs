@@ -13,6 +13,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
 use crate::error::HuberError::{RepoAlreadyExist, RepoNotFound, RepoUnableToAdd};
+use crate::lock_huber_ops;
 use crate::service::repo::RepoService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
@@ -62,7 +63,9 @@ pub struct RepoAddArgs {
 
 #[async_trait]
 impl CommandTrait for RepoAddArgs {
-    async fn run(&self, _: &Config, container: &DIContainer) -> anyhow::Result<()> {
+    async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+        lock_huber_ops!(config);
+
         let repo_service = container.get::<RepoService>().unwrap();
 
         if repo_service.has(&self.name)? {
@@ -92,7 +95,9 @@ pub struct RepoRemoveArgs {
 
 #[async_trait]
 impl CommandTrait for RepoRemoveArgs {
-    async fn run(&self, _: &Config, container: &DIContainer) -> anyhow::Result<()> {
+    async fn run(&self, config: &Config, container: &DIContainer) -> anyhow::Result<()> {
+        lock_huber_ops!(config);
+
         let repo_service = container.get::<RepoService>().unwrap();
 
         for repo in &self.name {

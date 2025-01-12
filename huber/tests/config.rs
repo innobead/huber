@@ -1,4 +1,5 @@
 use scopeguard::defer;
+use sequential_test::sequential;
 use tempfile::tempdir;
 use whoami::username;
 
@@ -20,6 +21,7 @@ fn test_config_not_found() {
 }
 
 #[test]
+#[sequential]
 fn test_config_save_and_found() {
     defer! {
         reset_huber();

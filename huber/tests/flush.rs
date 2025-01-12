@@ -1,11 +1,12 @@
 use scopeguard::defer;
-
+use sequential_test::sequential;
 use crate::common::{install_pkg, reset_huber, PKG_VERSION_1, PKG_VERSION_2};
 
 #[macro_use]
 mod common;
 
 #[test]
+#[sequential]
 fn test_flush_nothing() {
     defer! {
         reset_huber();
@@ -18,6 +19,7 @@ fn test_flush_nothing() {
 }
 
 #[test]
+#[sequential]
 fn test_flush() {
     defer! {
         reset_huber();

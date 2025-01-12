@@ -2,13 +2,14 @@ use std::env;
 use std::path::Path;
 
 use scopeguard::defer;
-
+use sequential_test::sequential;
 use crate::common::reset_huber;
 
 #[macro_use]
 mod common;
 
 #[test]
+#[sequential]
 fn test_repo_add_show_remove() {
     defer! {
         reset_huber();

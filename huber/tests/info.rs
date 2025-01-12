@@ -1,11 +1,12 @@
 use scopeguard::defer;
-
+use sequential_test::sequential;
 use crate::common::{install_pkg, reset_huber, INVALID_PKG, PKG_VERSION_1};
 
 #[macro_use]
 mod common;
 
 #[test]
+#[sequential]
 fn test_info() {
     defer! {
         reset_huber();
@@ -18,6 +19,7 @@ fn test_info() {
 }
 
 #[test]
+#[sequential]
 fn test_info_fail() {
     defer! {
         reset_huber();

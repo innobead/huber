@@ -1,12 +1,13 @@
 use common::{install_pkg, uninstall_pkg};
 use scopeguard::defer;
-
+use sequential_test::sequential;
 use crate::common::{reset_huber, INVALID_PKG};
 
 #[macro_use]
 mod common;
 
 #[test]
+#[sequential]
 fn test_uninstall() {
     defer! {
         reset_huber();
@@ -19,6 +20,7 @@ fn test_uninstall() {
 }
 
 #[test]
+#[sequential]
 fn test_uninstall_fail() {
     defer! {
         reset_huber();
