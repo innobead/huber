@@ -107,6 +107,7 @@ macro_rules! lock_huber_ops {
         use huber_procmacro::process_lock;
 
         let lock_file = $config.lock_file()?;
+        #[cfg(not(target_os = "windows"))]
         process_lock!(lock_file);
     };
 }
