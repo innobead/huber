@@ -6,9 +6,6 @@
   ],
   baseBranches: ["dev"],
   timezone: "Asia/Taipei",
-  statusCheckNames: {
-    buildPass: "Build - linux x86_64"
-  },
   enabledManagers: ["dockerfile", "cargo", "github-actions"],
   vulnerabilityAlerts: {
     labels: ["security"],
