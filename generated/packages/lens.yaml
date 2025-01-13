@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - Lens-{version}.AppImage
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - Lens-{version}.dmg
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - Lens-Setup-{version}.exe
 detail: null

@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - pack-v{version}-linux.tgz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - pack-v{version}-macos.tgz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - pack-v{version}-windows.zip
 detail: null

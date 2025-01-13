@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - volta-{version}-linux-openssl-1.1.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - volta-{version}-macos.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - volta-{version}-windows.zip
 detail: null

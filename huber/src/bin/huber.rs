@@ -20,7 +20,7 @@ use huber_common::fs::dir;
 use huber_common::log::Logger;
 use huber_common::model::config::Config;
 use libcli_rs::output::OutputFormat;
-use log::{error, LevelFilter};
+use log::{debug, error, LevelFilter};
 use scopeguard::defer;
 use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 use simpledi_rs::inject_dep;
@@ -144,6 +144,7 @@ async fn main() {
 
     if let Err(e) = result {
         defer! {
+            debug!("{:?}", e);
             exit(1);
         }
 
@@ -151,7 +152,7 @@ async fn main() {
             let source_err = e.source().map(|e| format!(": {}", e)).unwrap_or_default();
             error!("{}{}", e, source_err);
         } else {
-            error!("{}", e);
+            error!("Unknown: {}", e);
         }
     }
 }

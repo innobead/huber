@@ -17,9 +17,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "linkerd2-cli-edge-{version}-linux-amd64".to_string() => "linkerd2-edge".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: Some(r"^edge-(\d+.\d+.\d+)$".to_string()),
                 scan_dirs: None,
             }),
@@ -29,9 +26,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "linkerd2-cli-edge-{version}-linux-arm64".to_string() => "linkerd2-edge".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: Some(r"^edge-(\d+.\d+.\d+)$".to_string()),
                 scan_dirs: None,
             }),
@@ -41,9 +35,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "linkerd2-cli-edge-{version}-darwin".to_string() => "linkerd2-edge".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: Some(r"^edge-(\d+.\d+.\d+)$".to_string()),
                 scan_dirs: None,
             }),
@@ -53,9 +44,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "linkerd2-cli-edge-{version}-windows.exe".to_string() => "linkerd2-edge.exe".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: Some(r"^edge-(\d+.\d+.\d+)$".to_string()),
                 scan_dirs: None,
             }),

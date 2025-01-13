@@ -818,8 +818,11 @@ impl ItemOperationTrait for ReleaseService {
                     }
                 }
                 Err(e) => {
-                    debug!("Failed to get {} package because the package probably removed from the repositories: {}", &ri.name, e);
-                    continue;
+                    return Err(anyhow!(
+                        "Failed to get the installed {} package: {}",
+                        &ri.name,
+                        e
+                    ));
                 }
             }
         }

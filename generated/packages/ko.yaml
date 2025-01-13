@@ -9,7 +9,7 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - ko_{version}_Linux_x86_64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - ko_{version}_Darwin_x86_64.tar.gz
 detail: null

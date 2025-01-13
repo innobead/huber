@@ -16,7 +16,10 @@ targets:
     - k9s_Linux_arm64.tar.gz
     - k9s_v{version}_Linux_arm64.tar.gz
     - '{version}/k9s_Linux_arm64.tar.gz'
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - k9s_Linux_arm.tar.gz
+- MacOS:
     artifact_templates:
     - k9s_Darwin_amd64.tar.gz
     - k9s_v{version}_Darwin_x86_64.tar.gz
@@ -24,9 +27,14 @@ targets:
 - MacOSArm64:
     artifact_templates:
     - k9s_Darwin_arm64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - k9s_Windows_amd64.tar.gz
+    - k9s_v{version}_Windows_x86_64.tar.gz
+    - '{version}/k9s_Windows_x86_64.tar.gz'
+- WindowsArm:
+    artifact_templates:
+    - k9s_Windows_arm.tar.gz
     - k9s_v{version}_Windows_x86_64.tar.gz
     - '{version}/k9s_Windows_x86_64.tar.gz'
 detail: null

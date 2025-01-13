@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - mkcert-v{version}-linux-arm64
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - mkcert-v{version}-darwin-amd64
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - mkcert-v{version}-windows-amd64.exe
 detail: null

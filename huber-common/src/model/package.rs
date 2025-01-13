@@ -16,22 +16,23 @@ use crate::str::VersionCompareTrait;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Package {
     pub name: String,
+
     #[serde(skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
+
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Option::is_none")]
     pub description: Option<String>,
 
-    #[serde(with = "serde_yaml::with::singleton_map")]
     pub source: PackageSource,
 
-    #[serde(with = "serde_yaml::with::singleton_map_recursive")]
     pub targets: Vec<PackageTargetType>,
 
+    #[serde(skip)]
     #[serde(with = "serde_yaml::with::singleton_map")]
     pub detail: Option<PackageDetailType>,
 
-    // display purpose, injected from release
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[serde(skip_deserializing)]
+    #[serde(skip)]
     #[serde(with = "serde_yaml::with::singleton_map")]
     pub release_kind: Option<ReleaseKind>,
 }
@@ -79,15 +80,6 @@ pub struct PackageManagement {
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub executable_mappings: Option<HashMap<String, String>>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub install_commands: Option<Vec<String>>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub uninstall_commands: Option<Vec<String>>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub upgrade_commands: Option<Vec<String>>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     pub tag_version_regex_template: Option<String>,

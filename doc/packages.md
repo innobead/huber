@@ -74,7 +74,6 @@
  kotlin       The Kotlin Programming Language.                                                                         https://github.com/JetBrains/kotlin 
  kpt          Automate Kubernetes Configuration Editing                                                                https://github.com/GoogleContainerTools/kpt 
  krew         📦 Find and install kubectl plugins                                                                      https://github.com/kubernetes-sigs/krew 
- kube-bench   Checks whether Kubernetes is deployed according to security best practices as defined in the CIS Kub...  https://github.com/aquasecurity/kube-bench 
  kubectl      Production-Grade Container Scheduling and Management                                                     https://github.com/kubernetes/kubernetes 
  kubefire     KubeFire 🔥, creates and manages Kubernetes Clusters using Firecracker microVMs                          https://github.com/innobead/kubefire 
  kubestr                                                                                                               https://github.com/kastenhq/kubestr 

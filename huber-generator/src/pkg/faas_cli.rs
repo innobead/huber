@@ -17,9 +17,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "faas-cli".to_string() => "faas".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
@@ -29,9 +26,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "faas-cli".to_string() => "faas".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
@@ -41,9 +35,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "faas-cli".to_string() => "faas".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
@@ -53,9 +44,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "faas-cli".to_string() => "faas".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),

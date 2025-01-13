@@ -14,10 +14,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - hub-linux-arm64-{version}.tgz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - hub-darwin-amd64-{version}.tgz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - hub-windows-amd64-{version}.zip
 detail: null

@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/eksctl_Linux_arm64.tar.gz'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/eksctl_Darwin_amd64.tar.gz'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/eksctl_Windows_amd64.zip'
 detail: null

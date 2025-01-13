@@ -12,13 +12,13 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - grpcurl_{version}_linux_arm64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - grpcurl_{version}_osx_x86_64.tar.gz
 - MacOSArm64:
     artifact_templates:
     - grpcurl_{version}_osx_arm64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - grpcurl_{version}_windows_x86_64.zip
 detail: null

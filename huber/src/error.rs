@@ -17,7 +17,7 @@ pub enum HuberError {
     #[error("Repository not found: {0:?}")]
     RepoNotFound(String),
 
-    #[error("Repository unable to add")]
+    #[error("Repository unable to add: {0:?}")]
     RepoUnableToAdd(String, #[source] anyhow::Error),
 
     #[error("Package unable to update")]

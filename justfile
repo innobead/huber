@@ -2,7 +2,7 @@ prj_dir := justfile_directory()
 build_cache_dir := prj_dir / '.cache'
 build_dir := prj_dir / '.target'
 generate_artifact_name := prj_dir / 'hack/generate-artifact-name.sh'
-huber_pkg_root_dir := prj_dir / 'generated'
+huber_pkg_root_dir := prj_dir / 'generated-v1'
 huber_exec := prj_dir / 'target/debug/huber'
 cargo_opts := env('CARGO_OPTS', '')
 github_token := env('GITHUB_TOKEN', '')
@@ -55,10 +55,10 @@ publish:
     @sleep 10 && cargo publish {{ cargo_opts }} --manifest-path={{ prj_dir }}/crates/app/Cargo.toml || true
 
 # (local dev) Generate managed package list
-generate force_generate='false':
+generate force='false':
     @echo "! Must have GITHUB_TOKEN to automatically generate package description"
-    @GITHUB_TOKEN={{ github_token }} FORCE_GENERATE={{ force_generate }} cargo build {{ cargo_opts }} -vv --package=huber-generator
-    @GITHUB_KEY={{ github_key }} just build && (huber_pkg_root_dir={{ huber_pkg_root_dir }} {{ huber_exec }} search | xargs -0 {{ prj_dir }}/hack/generate-huber-packages.sh)
+    @GITHUB_TOKEN={{ github_token }} FORCE={{ force }} cargo build {{ cargo_opts }} -vv --package=huber-generator
+    @GITHUB_KEY={{ github_key }} just build && (HUBER_PKG_ROOT_DIR={{ huber_pkg_root_dir }} {{ huber_exec }} search | xargs -0 {{ prj_dir }}/hack/generate-huber-packages.sh)
 
 # (local dev) Build binaries for linux multiple architectures
 build-multiarch platforms='linux/arm64':
@@ -80,8 +80,8 @@ install:
 
 # (local dev) Run commands using the built Huber with the local package generated folder
 @run huber_cmd pkg_dir=huber_pkg_root_dir:
-    huber_pkg_root_dir={{ pkg_dir }} {{ huber_exec }} {{ huber_cmd }}
+    HUBER_PKG_ROOT_DIR={{ pkg_dir }} {{ huber_exec }} {{ huber_cmd }}
 
 # (local dev) Run commands using the installed Huber with the local package generated folder
 run-installed huber_cmd pkg_dir=huber_pkg_root_dir:
-    @huber_pkg_root_dir={{ pkg_dir }} `which huber` {{ huber_cmd }}
+    @HUBER_PKG_ROOT_DIR={{ pkg_dir }} `which huber` {{ huber_cmd }}

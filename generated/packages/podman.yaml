@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - '{version}/podman-remote-static.tar.gz'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/podman-remote-release-darwin.zip'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/podman-remote-release-windows.zip'
 detail: null

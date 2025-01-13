@@ -12,4 +12,7 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/k3s-arm64'
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/k3s-armhf'
 detail: null

@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - ctlptl.{version}.linux.x86_64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - ctlptl.{version}.mac.x86_64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - ctlptl.{version}.windows.x86_64.tar.gz
 detail: null

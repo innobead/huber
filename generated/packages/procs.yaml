@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - procs-v{version}-x86_64-lnx.zip
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - procs-v{version}-x86_64-mac.zip
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - procs-v{version}-x86_64-win.zip
 detail: null

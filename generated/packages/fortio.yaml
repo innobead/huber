@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - fortio-linux_x64-{version}.tgz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - fortio-linux_x64-{version}.tgz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - fortio_win_{version}.zip
 detail: null

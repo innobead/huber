@@ -14,11 +14,11 @@ targets:
     artifact_templates:
     - istio-{version}-linux-arm64.tar.gz
     - istioctl-{version}-linux-arm64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - istio-{version}-osx.tar.gz
     - istioctl-{version}-osx.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - istio-{version}-win.zip
     - istioctl-{version}-win.zip

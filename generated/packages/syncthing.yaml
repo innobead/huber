@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - syncthing-linux-arm64-v{version}.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - syncthing-macos-amd64-v{version}.zip
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - syncthing-windows-amd64-v{version}.zip
 detail: null

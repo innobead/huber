@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - tilt.{version}.linux.x86_64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - tilt.{version}.mac.x86_64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - tilt.{version}.windows.x86_64.zip
 detail: null

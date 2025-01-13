@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: wasmer
-description: 🚀 Fast, secure, lightweight containers based on WebAssembly
+description: 🚀 The leading WebAssembly Runtime supporting WASIX, WASI and Emscripten
 source:
   Github:
     owner: wasmerio
@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/wasmer-linux-aarch64.tar.gz'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/wasmer-darwin-amd64.tar.gz'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/wasmer-windows.exe'
 detail: null

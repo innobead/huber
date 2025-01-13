@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/okteto-Linux-arm64'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/okteto-Darwin-x86_64'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/okteto.exe'
 detail: null

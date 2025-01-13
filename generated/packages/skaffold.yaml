@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/skaffold-linux-arm64'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/skaffold-darwin-amd64'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/skaffold-windows-amd64.exe'
 detail: null

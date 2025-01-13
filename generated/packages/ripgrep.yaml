@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - ripgrep-{version}-x86_64-unknown-linux-musl.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - ripgrep-{version}-x86_64-apple-darwin.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - ripgrep-{version}-x86_64-pc-windows-msvc.zip
 detail: null

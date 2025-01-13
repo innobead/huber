@@ -12,10 +12,13 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - nats-{version}-linux-arm64.zip
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - nats-{version}-linux-arm7.zip
+- MacOS:
     artifact_templates:
     - nats-{version}-darwin-amd64.zip
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - nats-{version}-windows-amd64.zip
 detail: null

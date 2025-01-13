@@ -12,13 +12,13 @@ targets:
     - fission-all-{version}.tgz
     executable_mappings:
       fission-cli-linux: fission
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/fission-cli-osx'
     - fission-all-{version}.tgz
     executable_mappings:
       fission-cli-osx: fission
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/fission-cli-windows.exe'
     - fission-all-{version}.tgz

@@ -17,9 +17,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "jq-linux64".to_string() => "jq".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
@@ -29,9 +26,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "jq-osx-amd64".to_string() => "jq".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
@@ -41,9 +35,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "jq-win64.exe".to_string() => "jq.exe".to_string()
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),

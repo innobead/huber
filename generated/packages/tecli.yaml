@@ -9,10 +9,13 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - '{version}/tecli-linux-amd64'
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/tecli-linux-arm'
+- MacOS:
     artifact_templates:
     - '{version}/tecli-darwin-amd64'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/tecli-windows-amd64.exe'
 detail: null

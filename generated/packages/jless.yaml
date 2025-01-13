@@ -9,7 +9,7 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - jless-v{version}-x86_64-unknown-linux-gnu.zip
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - jless-v{version}-x86_64-apple-darwin.zip
 detail: null

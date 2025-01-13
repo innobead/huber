@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/k3sup-arm64'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/k3sup-darwin'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/k3sup.exe'
 detail: null

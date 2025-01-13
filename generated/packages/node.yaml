@@ -12,13 +12,16 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - https://nodejs.org/dist/v{version}/node-v{version}-linux-arm64.tar.xz
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - https://nodejs.org/dist/v{version}/node-v{version}-linux-armv7l.tar.xz
+- MacOS:
     artifact_templates:
     - https://nodejs.org/dist/v{version}/node-v{version}-darwin-x64.tar.gz
 - MacOSArm64:
     artifact_templates:
     - https://nodejs.org/dist/v{version}/node-v{version}-darwin-arm64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - https://nodejs.org/dist/v{version}/node-v{version}-win-x64.zip
 detail: null

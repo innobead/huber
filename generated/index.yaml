@@ -98,6 +98,9 @@
 - name: eksctl
   owner: weaveworks
   source: github
+- name: epinio
+  owner: epinio
+  source: github
 - name: exa
   owner: ogham
   source: github
@@ -173,6 +176,12 @@
 - name: hyperfine
   owner: sharkdp
   source: github
+- name: hypper
+  owner: rancher-sandbox
+  source: github
+- name: ignite
+  owner: weaveworks
+  source: github
 - name: img
   owner: genuinetools
   source: github
@@ -196,6 +205,9 @@
   source: github
 - name: k0s
   owner: k0sproject
+  source: github
+- name: k3ai
+  owner: kf5i
   source: github
 - name: k3d
   owner: rancher
@@ -235,6 +247,9 @@
   source: github
 - name: krew
   owner: kubernetes-sigs
+  source: github
+- name: krustlet
+  owner: deislabs
   source: github
 - name: kube-bench
   owner: aquasecurity
@@ -317,14 +332,14 @@
 - name: okteto
   owner: okteto
   source: github
-- name: ollama
-  owner: ollama
-  source: github
 - name: onefetch
   owner: o2sh
   source: github
 - name: opa
   owner: open-policy-agent
+  source: github
+- name: opni
+  owner: rancher
   source: github
 - name: oras
   owner: deislabs
@@ -360,7 +375,7 @@
   owner: rancher
   source: github
 - name: renote
-  owner: innobead
+  owner: ecatlabs
   source: github
 - name: rio
   owner: rancher

@@ -11,7 +11,8 @@ use serde::{Deserialize, Serialize};
 use crate::fs::dir;
 use crate::model::package::Package;
 
-pub const HUBER_PKG_ROOT_DIR: &str = "huber_pkg_root_dir"; // generated directory
+pub const HUBER_PKG_ROOT_DIR: &str = "HUBER_PKG_ROOT_DIR"; // generated directory
+pub const GENERATED_DIR_NAME: &str = "generated-v1";
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Config {
@@ -178,7 +179,7 @@ impl ConfigPath for Config {
         if let Ok(path) = env::var(HUBER_PKG_ROOT_DIR) {
             dir(PathBuf::from(path))
         } else {
-            dir(self.huber_repo_dir()?.join("generated"))
+            dir(self.huber_repo_dir()?.join(GENERATED_DIR_NAME))
         }
     }
 

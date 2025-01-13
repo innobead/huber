@@ -19,9 +19,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "xh".to_string() => "xh xhs".to_string(),
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
@@ -31,9 +28,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "xh".to_string() => "xh xhs".to_string(),
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),
@@ -43,9 +37,6 @@ pub fn release() -> Package {
                 executable_mappings: Some(hashmap! {
                     "xh".to_string() => "xh xhs".to_string(),
                 }),
-                install_commands: None,
-                uninstall_commands: None,
-                upgrade_commands: None,
                 tag_version_regex_template: None,
                 scan_dirs: None,
             }),

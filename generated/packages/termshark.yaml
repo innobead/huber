@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - termshark_{version}_linux_arm64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - termshark_{version}_macOS_x64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - termshark_{version}_windows_x64.zip
 detail: null

@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - subctl-v{version}-linux-arm64.tar.xz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - subctl-v{version}-darwin-amd64.tar.xz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - subctl-v{version}-windows-amd64.exe.tar.xz
 detail: null

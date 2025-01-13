@@ -9,10 +9,13 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - '{version}/zoxide-x86_64-unknown-linux-musl.tar.gz'
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/zoxide-armv7-unknown-linux-musleabihf.tar.gz'
+- MacOS:
     artifact_templates:
     - '{version}/zoxide-x86_64-apple-darwin.tar.gz'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/zoxide-x86_64-pc-windows-msvc.zip'
 detail: null

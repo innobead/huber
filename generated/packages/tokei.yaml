@@ -12,10 +12,13 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/tokei-aarch64-unknown-linux-gnu.tar.gz'
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/tokei-armv7-unknown-linux-gnueabihf.tar.gz'
+- MacOS:
     artifact_templates:
     - '{version}/tokei-x86_64-apple-darwin.tar.gz'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/tokei-x86_64-pc-windows-msvc.exe'
 detail: null

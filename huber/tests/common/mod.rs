@@ -15,11 +15,11 @@ macro_rules! huber_cmd {
     ($($body:tt)*) => {
         assert_cmd::Command::new(crate::common::HUBER_EXEC)
             .env(
-                "huber_pkg_root_dir",
+                "HUBER_PKG_ROOT_DIR",
                 std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
                     .parent()
                     .unwrap()
-                    .join("generated"),
+                    .join("generated-v1"),
             )
             .$($body)*
     };

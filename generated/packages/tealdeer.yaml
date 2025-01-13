@@ -10,10 +10,10 @@ targets:
     artifact_templates:
     - '{version}/tealdeer-linux-x86_64-musl'
     - '{version}/tldr-linux-x86_64-musl'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/tealdeer-macos-x86_64'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/tealdeer-windows-x86_64-msvc.exe'
 detail: null

@@ -12,7 +12,7 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - k0s-v{version}-arm64
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - k0s-v{version}-amd64.exe
 detail: null

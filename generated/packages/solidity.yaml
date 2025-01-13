@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - v{version}/solc-static-linux
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - v{version}/solc-macos
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - v{version}/solc-windows.exe
 detail: null

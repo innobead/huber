@@ -12,10 +12,13 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/fnm-arm64.zip'
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/fnm-arm64.zip'
+- MacOS:
     artifact_templates:
     - '{version}/fnm-macos.zip'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/fnm-windows.zip'
 detail: null

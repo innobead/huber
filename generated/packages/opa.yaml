@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - '{version}/opa_linux_amd64'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/opa_darwin_amd64'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/opa_windows_amd64.exe'
 detail: null

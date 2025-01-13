@@ -12,4 +12,7 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - nerdctl-{version}-linux-arm64.tar.gz
+- LinuxArm32:
+    artifact_templates:
+    - nerdctl-{version}-linux-arm-v7.tar.gz
 detail: null

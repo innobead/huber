@@ -1,12 +1,12 @@
 # This is generated. Don't modify.
 name: wasmtime
-description: A lightweight WebAssembly runtime that is fast, secure, and standards-compliant
+description: A fast and secure runtime for WebAssembly
 source:
   Github:
     owner: bytecodealliance
     repo: wasmtime
 targets:
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - wasmtime-v{version}-x86_64-windows.zip
 - Default:

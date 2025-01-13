@@ -13,11 +13,11 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - k6-v{version}-linux-arm64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - k6-v{version}-macos-amd64.zip
     - k6-v{version}-mac.zip
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - k6-v{version}-windows-amd64.zip
     - k6-v{version}-win64.zip

@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - kpt_linux_amd64-{version}.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - kpt_darwin_amd64-{version}.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - kpt_windows_amd64-{version}.tar.gz
 detail: null

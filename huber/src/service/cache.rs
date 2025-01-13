@@ -222,8 +222,8 @@ impl CacheAsyncTrait for CacheService {
 
         if let Ok(path) = env::var(HUBER_PKG_ROOT_DIR) {
             debug!(
-                "Bypassed updating repositories, because huber_pkg_root_dir set: {}",
-                path
+                "Bypassed updating repositories, because {} is set to {}",
+                HUBER_PKG_ROOT_DIR, path
             );
         } else {
             debug!("Updating huber repo");

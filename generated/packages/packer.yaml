@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - https://releases.hashicorp.com/packer/{version}/packer_{version}_linux_arm64.zip
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - https://releases.hashicorp.com/packer/{version}/packer_{version}_darwin_amd64.zip
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - https://releases.hashicorp.com/packer/{version}/packer_{version}_windows_amd64.zip
 detail: null

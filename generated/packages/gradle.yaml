@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - https://services.gradle.org/distributions/gradle-{version}-bin.zip
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - https://services.gradle.org/distributions/gradle-{version}-bin.zip
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - https://services.gradle.org/distributions/gradle-{version}-bin.zip
 detail: null

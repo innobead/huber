@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - flux_0.3.0_linux_arm64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - flux_0.3.0_darwin_amd64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - flux_0.3.0_windows_amd64.zip
 detail: null

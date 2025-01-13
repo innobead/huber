@@ -9,7 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - exa-linux-x86_64-{version}.zip
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - exa-linux-armv7-{version}.zip
+- MacOS:
     artifact_templates:
     - exa-macos-x86_64-{version}.zip
 detail: null

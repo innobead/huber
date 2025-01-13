@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - '{version}/argocd-linux-amd64'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/argocd-darwin-amd64'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/argocd-windows-amd64.exe'
 detail: null

@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - '{version}_keptn-linux.tar'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}_keptn-macOS.tar'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}_keptn-windows.tar'
 detail: null

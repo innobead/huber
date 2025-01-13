@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - '{version}/norouter-Linux-aarch64.tgz'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/norouter-Darwin-x86_64.tgz'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/norouter-Windows-x64.zip'
 detail: null

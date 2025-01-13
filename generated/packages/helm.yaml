@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - https://get.helm.sh/helm-v{version}-linux-arm64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - https://get.helm.sh/helm-v{version}-darwin-amd64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - https://get.helm.sh/helm-v{version}-windows-amd64.zip
 detail: null

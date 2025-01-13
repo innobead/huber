@@ -14,11 +14,15 @@ targets:
     artifact_templates:
     - '{version}/pueue-linux-aarch64'
     - '{version}/pueued-linux-aarch64'
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - '{version}/pueue-linux-armv7'
+    - '{version}/pueued-linux-armv7'
+- MacOS:
     artifact_templates:
     - '{version}/pueue-macos-x86_64'
     - '{version}/pueued-macos-x86_64'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/pueue-windows-x86_64.exe'
     - '{version}/pueued-windows-x86_64.exe'

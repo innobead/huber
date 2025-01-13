@@ -12,10 +12,10 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - conftest_{version}_Linux_arm64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - conftest_{version}_Darwin_x86_64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - conftest_{version}_Windows_x86_64.zip
 detail: null

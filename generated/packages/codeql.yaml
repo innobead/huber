@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - '{version}/codeql-linux64.zip'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/codeql-osx64.zip'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/codeql-win64.zip'
 detail: null

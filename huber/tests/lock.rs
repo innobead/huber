@@ -1,10 +1,7 @@
-use std::path::Path;
-
-use assert_cmd::Command;
 use scopeguard::defer;
 use sequential_test::sequential;
 
-use crate::common::{install_pkg, reset_huber, update_pkg, HUBER_EXEC, PKG_VERSION_1};
+use crate::common::{install_pkg, reset_huber, update_pkg, PKG_VERSION_1};
 
 #[macro_use]
 mod common;
@@ -16,22 +13,15 @@ fn test_lock_fail() {
         reset_huber();
     }
 
-    let assert = Command::new(HUBER_EXEC)
-        .arg("lock")
-        .arg("k9s@0.32.7")
-        .env(
-            "huber_pkg_root_dir",
-            Path::new(env!("CARGO_MANIFEST_DIR"))
-                .parent()
-                .unwrap()
-                .join("generated"),
-        )
-        .assert()
-        .failure();
+    let tokens: Vec<_> = PKG_VERSION_1.splitn(2, '@').collect();
+    let assert = huber_cmd!(arg("lock").arg(PKG_VERSION_1).assert().failure());
 
     assert_eq_last_line!(
         assert.get_output().stderr,
-        "[ERROR] Package unable to lock: Package not installed: \"k9s\""
+        format!(
+            "[ERROR] Package unable to lock: Package not installed: \"{}\"",
+            tokens[0]
+        )
     );
 }
 

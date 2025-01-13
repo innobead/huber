@@ -1,6 +1,6 @@
 # This is generated. Don't modify.
 name: buf
-description: The best way of working with Protocol Buffers.
+description: A new way of working with Protocol Buffers.
 source:
   Github:
     owner: bufbuild
@@ -14,7 +14,7 @@ targets:
     artifact_templates:
     - '{version}/buf-Linux-aarch64'
     - '{version}/protoc-gen-buf-breaking-Linux-aarch64'
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/buf-Darwin-x86_64'
     - '{version}/protoc-gen-buf-breaking-Darwin-x86_64'
@@ -22,8 +22,12 @@ targets:
     artifact_templates:
     - '{version}/buf-Darwin-arm64'
     - '{version}/protoc-gen-buf-breaking-Darwin-arm64'
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - '{version}/buf-Windows-x86_64'
     - '{version}/protoc-gen-buf-breaking-Windows-x86_64'
+- WindowsArm64:
+    artifact_templates:
+    - '{version}/buf-Windows-arm64'
+    - '{version}/protoc-gen-buf-breaking-Windows-arm64'
 detail: null

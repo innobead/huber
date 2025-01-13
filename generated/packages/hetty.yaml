@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - hetty_{version}_Linux_x86_64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - hetty_{version}_macOS_x86_64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - hetty_{version}_Windows_x86_64.zip
 detail: null

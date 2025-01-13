@@ -12,10 +12,13 @@ targets:
 - LinuxArm64:
     artifact_templates:
     - ali_{version}_linux_arm64.tar.gz
-- MacOSAmd64:
+- LinuxArm32:
+    artifact_templates:
+    - ali_{version}_linux_armv7.tar.gz
+- MacOS:
     artifact_templates:
     - ali_{version}_darwin_amd64.tar.gz
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - ali_{version}_windows_amd64.tar.gz
 detail: null

@@ -9,7 +9,7 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - powershell-{version}-linux-x64.tar.gz
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - powershell-{version}-osx-x64.tar.gz
 detail: null

@@ -6,7 +6,7 @@ source:
     owner: willdoescode
     repo: nat
 targets:
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - '{version}/natls_osx_binary'
 detail: null

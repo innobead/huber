@@ -9,10 +9,10 @@ targets:
 - LinuxAmd64:
     artifact_templates:
     - https://releases.hashicorp.com/waypoint/{version}/waypoint_{version}_linux_amd64.zip
-- MacOSAmd64:
+- MacOS:
     artifact_templates:
     - https://releases.hashicorp.com/waypoint/{version}/waypoint_{version}_windows_amd64.zip
-- WindowsAmd64:
+- Windows:
     artifact_templates:
     - https://releases.hashicorp.com/waypoint/{version}/waypoint_{version}_darwin_amd64.zip
 detail: null
