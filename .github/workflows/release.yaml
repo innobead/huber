@@ -42,6 +42,7 @@ jobs:
 
     - run: just setup-dev
     - run: just release
+
     - uses: softprops/action-gh-release@v2
       if: ${{startsWith(github.ref, 'refs/tags/') }}
       with:
@@ -61,14 +62,10 @@ jobs:
       with:
         version: latest
 
-    - name: Print available platforms
-      run: echo ${{ steps.buildx.outputs.platforms }}
+    - run: echo ${{ steps.buildx.outputs.platforms }}
+    - run: just release-multiarch
 
-    - name: Setup, Test, Build
-      run: just release-multiarch
-
-    - name: Release artifacts
-      uses: softprops/action-gh-release@v2
+    - uses: softprops/action-gh-release@v2
       if: ${{startsWith(github.ref, 'refs/tags/') }}
       with:
         draft: true
@@ -91,8 +88,7 @@ jobs:
     - run: just setup-dev
     - run: just release
 
-    - name: Release artifacts
-      uses: softprops/action-gh-release@v2
+    - uses: softprops/action-gh-release@v2
       if: ${{startsWith(github.ref, 'refs/tags/') }}
       with:
         draft: true
@@ -112,8 +108,7 @@ jobs:
     - run: ./hack/windows/setup-dev.ps1
     - run: ./hack/windows/release.ps1
 
-    - name: Release artifacts
-      uses: softprops/action-gh-release@v2
+    - uses: softprops/action-gh-release@v2
       if: ${{startsWith(github.ref, 'refs/tags/') }}
       with:
         draft: true
