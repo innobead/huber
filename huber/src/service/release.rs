@@ -108,7 +108,7 @@ impl ReleaseService {
     }
 
     #[cfg(target_os = "windows")]
-    pub fn set_executable_permission(&self, path: &PathBuf) -> anyhow::Result<()> {
+    pub fn set_executable_permission(&self, path: &Path) -> anyhow::Result<()> {
         debug!("Ignored to make {:?} as executable", path);
         Ok(())
     }

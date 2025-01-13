@@ -3,7 +3,6 @@ use std::io::stdout;
 use async_trait::async_trait;
 use clap::{Args, Subcommand};
 use huber_common::model::config::Config;
-use huber_procmacro::process_lock;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
 use log::info;

@@ -4,7 +4,6 @@ use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
-use huber_procmacro::process_lock;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use tokio::task::JoinHandle;

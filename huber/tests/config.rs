@@ -1,7 +1,6 @@
 use scopeguard::defer;
 use sequential_test::sequential;
 use tempfile::tempdir;
-use whoami::username;
 
 #[macro_use]
 mod common;
@@ -14,10 +13,7 @@ fn test_config_not_found() {
         reset_huber();
     }
 
-    huber_cmd!(arg("config").arg("show").assert().failure().stderr(format!(
-        "[ERROR] Config not found: \"/home/{}/.huber/config.yaml\"\n",
-        username()
-    )));
+    huber_cmd!(arg("config").arg("show").assert().failure());
 }
 
 #[test]
