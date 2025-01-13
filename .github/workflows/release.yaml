@@ -56,6 +56,9 @@ jobs:
     - create_release
     steps:
     - uses: actions/checkout@v4
+    - uses: extractions/setup-just@v2
+    - uses: dtolnay/rust-toolchain@stable
+    - uses: dtolnay/rust-toolchain@nightly
     - uses: docker/setup-qemu-action@v3
     - id: buildx
       uses: docker/setup-buildx-action@v3

@@ -17,6 +17,10 @@ install_linux_deps() {
     echo "Only openSUSE, Ubuntu supported" >/dev/stderr
     exit 1
   fi
+
+  if [[ -z $(command -v just 2>/dev/null) ]]; then
+    curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
+  fi
 }
 
 install_macos_deps() {
@@ -35,7 +39,8 @@ install_macos_deps() {
     pkg-config \
     cmake \
     libarchive \
-    openssl; do
+    openssl \
+    just; do
     if ! (brew list $pkg && brew upgrade $pkg); then
       if [[ $pkg == "libarchive" ]]; then
         # fix https://github.com/libarchive/libarchive/pull/1813, use 3.6.1 instead
@@ -77,10 +82,6 @@ install_rust_deps() {
   fi
 }
 
-install_common_deps() {
-  curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to /usr/local/bin
-}
-
 os=$(uname)
 case $os in
 "Linux")
@@ -91,5 +92,4 @@ case $os in
   ;;
 esac
 
-install_common_deps
 install_rust_deps
