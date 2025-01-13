@@ -14,48 +14,32 @@ jobs:
     - uses: dtolnay/rust-toolchain@stable
     - uses: dtolnay/rust-toolchain@nightly
 
-    - name: Setup build environment
-      run: just setup-dev
-
-    - name: Run tests
-      run: just test
-
-    - name: Build artifacts
-      run: just build
+    - run: just setup-dev
+    - run: just test
+    - run: just build
 
   build-macos:
     name: Build - MacOS
     runs-on: macos-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
+    - uses: extractions/setup-just@v2
+    - uses: dtolnay/rust-toolchain@stable
+    - uses: dtolnay/rust-toolchain@nightly
 
-    - name: Setup build environment
-      run: just setup-dev
-
-    - name: Run tests
-      run: |
-        source ~/.bashrc
-        just test
-
-    - name: Build artifacts
-      run: |
-        source ~/.bashrc
-        just build
+    - run: just setup-dev
+    - run: just test
+    - run: just build
 
   build-windows:
     name: Build - Windows
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v4
+    - uses: extractions/setup-just@v2
     - uses: dtolnay/rust-toolchain@stable
     - uses: dtolnay/rust-toolchain@nightly
 
-    - name: Setup build environment
-      run: ./hack/windows/setup-dev.ps1
-
-    - name: Run tests
-      run: cargo test
-
-    - name: Build artifacts
-      run: cargo build
+    - run: ./hack/windows/setup-dev.ps1
+    - run: cargo test
+    - run: cargo build

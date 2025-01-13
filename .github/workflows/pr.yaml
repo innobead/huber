@@ -19,11 +19,6 @@ jobs:
     - uses: dtolnay/rust-toolchain@stable
     - uses: dtolnay/rust-toolchain@nightly
 
-    - name: Setup build environment
-      run: just setup-dev
-
-    - name: Run tests
-      run: just test
-
-    - name: Build artifacts
-      run: just build
+    - run: just setup-dev
+    - run: just test
+    - run: just build

@@ -9,20 +9,13 @@ jobs:
     name: Build - linux ARM64
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-
-    - name: Setup QEMU
-      uses: docker/setup-qemu-action@v3
-
-    - name: Setup Docker Buildx
-      id: buildx
+    - uses: actions/checkout@v4
+    - uses: docker/setup-qemu-action@v3
+    - id: buildx
       uses: docker/setup-buildx-action@v3
       with:
         version: latest
-
     - name: Print available platforms
       run: echo ${{ steps.buildx.outputs.platforms }}
-
     - name: Build artifacts
       run: just build-multiarch

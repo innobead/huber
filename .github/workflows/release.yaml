@@ -40,14 +40,9 @@ jobs:
     - uses: dtolnay/rust-toolchain@stable
     - uses: dtolnay/rust-toolchain@nightly
 
-    - name: Setup build environment
-      run: just setup-dev
-
-    - name: Build artifacts
-      run: just release
-
-    - name: Release artifacts
-      uses: softprops/action-gh-release@v2
+    - run: just setup-dev
+    - run: just release
+    - uses: softprops/action-gh-release@v2
       if: ${{startsWith(github.ref, 'refs/tags/') }}
       with:
         draft: true
@@ -61,14 +56,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - uses: docker/setup-qemu-action@v3
-
-    - name: Set up Docker Buildx
-      id: buildx
+    - id: buildx
       uses: docker/setup-buildx-action@v3
       with:
         version: latest
 
-    - name: Available platforms
+    - name: Print available platforms
       run: echo ${{ steps.buildx.outputs.platforms }}
 
     - name: Setup, Test, Build
@@ -95,13 +88,8 @@ jobs:
     - uses: dtolnay/rust-toolchain@stable
     - uses: dtolnay/rust-toolchain@nightly
 
-    - name: Setup build environment
-      run: just setup-dev
-
-    - name: Build artifacts
-      run: |
-        source ~/.bashrc
-        just release
+    - run: just setup-dev
+    - run: just release
 
     - name: Release artifacts
       uses: softprops/action-gh-release@v2
@@ -121,11 +109,8 @@ jobs:
     - uses: dtolnay/rust-toolchain@stable
     - uses: dtolnay/rust-toolchain@nightly
 
-    - name: Setup build environment
-      run: ./hack/windows/setup-dev.ps1
-
-    - name: Build artifacts
-      run: ./hack/windows/release.ps1
+    - run: ./hack/windows/setup-dev.ps1
+    - run: ./hack/windows/release.ps1
 
     - name: Release artifacts
       uses: softprops/action-gh-release@v2
