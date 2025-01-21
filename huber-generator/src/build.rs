@@ -226,7 +226,6 @@ fn releases() -> Vec<Package> {
         skaffold::release(),
         kpt::release(),
         oras::release(),
-        waypoint::release(),
         tilt::release(),
         ko::release(),
         protoc::release(),

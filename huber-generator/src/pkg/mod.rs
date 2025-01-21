@@ -159,7 +159,6 @@ pub mod wasm_to_oci;
 pub mod wasme;
 pub mod wasmer;
 pub mod wasmtime;
-pub mod waypoint;
 pub mod wstunnel;
 pub mod xh;
 pub mod yq;

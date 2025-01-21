@@ -8,32 +8,20 @@ pub fn release() -> Package {
             owner: "argoproj".to_string(),
             repo: "argo-cd".to_string(),
         },
-        detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/argocd-linux-amd64".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/argocd-darwin-amd64".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/argocd-windows-amd64.exe".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
         ],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

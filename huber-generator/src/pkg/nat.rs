@@ -8,16 +8,11 @@ pub fn release() -> Package {
             owner: "willdoescode".to_string(),
             repo: "nat".to_string(),
         },
-        detail: None,
+
         targets: vec![PackageTargetType::MacOSAmd64(PackageManagement {
             artifact_templates: vec!["{version}/natls_osx_binary".to_string()],
-            executable_templates: None,
-            executable_mappings: None,
-            tag_version_regex_template: None,
-            scan_dirs: None,
+            ..Default::default()
         })],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

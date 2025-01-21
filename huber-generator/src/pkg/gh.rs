@@ -8,32 +8,21 @@ pub fn release() -> Package {
             owner: "cli".to_string(),
             repo: "cli".to_string(),
         },
-        detail: None,
+
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["gh_{version}_linux_amd64.tar.gz".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["gh_{version}_linux_arm64.tar.gz".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["gh_{version}_macOS_amd64.tar.gz".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
         ],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

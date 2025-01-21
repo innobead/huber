@@ -17,6 +17,7 @@ use crate::str::VersionCompareTrait;
 pub struct Package {
     pub name: String,
 
+    #[serde(default)]
     #[serde(skip_serializing_if = "Option::is_none")]
     pub version: Option<String>,
 
@@ -26,6 +27,7 @@ pub struct Package {
 
     pub source: PackageSource,
 
+    #[serde(default)]
     pub targets: Vec<PackageTargetType>,
 
     #[serde(skip)]
@@ -35,6 +37,23 @@ pub struct Package {
     #[serde(skip)]
     #[serde(with = "serde_yaml::with::singleton_map")]
     pub release_kind: Option<ReleaseKind>,
+}
+
+impl Default for Package {
+    fn default() -> Self {
+        Self {
+            name: "".to_string(),
+            version: None,
+            description: None,
+            source: PackageSource::Github {
+                owner: "".to_string(),
+                repo: "".to_string(),
+            },
+            targets: vec![],
+            detail: None,
+            release_kind: None,
+        }
+    }
 }
 
 unsafe impl Send for Package {}
@@ -70,7 +89,7 @@ pub enum PackageTargetType {
     Default(PackageManagement),
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct PackageManagement {
     // {version}, {os} can be used in each. Also, an external URL is acceptable
     pub artifact_templates: Vec<String>,

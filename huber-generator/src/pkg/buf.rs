@@ -8,61 +8,43 @@ pub fn release() -> Package {
             owner: "bufbuild".to_string(),
             repo: "buf".to_string(),
         },
-        detail: None,
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
                     "{version}/buf-Linux-x86_64".to_string(),
                     "{version}/protoc-gen-buf-breaking-Linux-x86_64".to_string(),
                 ],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec![
                     "{version}/buf-Linux-aarch64".to_string(),
                     "{version}/protoc-gen-buf-breaking-Linux-aarch64".to_string(),
                 ],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec![
                     "{version}/buf-Darwin-x86_64".to_string(),
                     "{version}/protoc-gen-buf-breaking-Darwin-x86_64".to_string(),
                 ],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::MacOSArm64(PackageManagement {
                 artifact_templates: vec![
                     "{version}/buf-Darwin-arm64".to_string(),
                     "{version}/protoc-gen-buf-breaking-Darwin-arm64".to_string(),
                 ],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec![
                     "{version}/buf-Windows-x86_64".to_string(),
                     "{version}/protoc-gen-buf-breaking-Windows-x86_64".to_string(),
                 ],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
         ],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

@@ -149,7 +149,6 @@
  wasme        Web Assembly tools and SDKs for extending cloud-native infrastructure                                    https://github.com/solo-io/wasm 
  wasmer       🚀 Fast, secure, lightweight containers based on WebAssembly                                             https://github.com/wasmerio/wasmer 
  wasmtime     A lightweight WebAssembly runtime that is fast, secure, and standards-compliant                          https://github.com/bytecodealliance/wasmtime 
- waypoint     A tool to build, deploy, and release any application on any platform.                                    https://github.com/hashicorp/waypoint 
  wstunnel     Tunnel all your traffic over Websocket or HTTP2 - Bypass firewalls/DPI - Static binary available         https://github.com/erebe/wstunnel 
  xh           Friendly and fast tool for sending HTTP requests                                                         https://github.com/ducaale/xh 
  yq           yq is a portable command-line YAML, JSON, XML, CSV, TOML  and properties processor                       https://github.com/mikefarah/yq 

@@ -8,7 +8,7 @@ pub fn release() -> Package {
             owner: "firecracker-microvm".to_string(),
             repo: "firecracker".to_string(),
         },
-        detail: None,
+
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
@@ -31,8 +31,6 @@ pub fn release() -> Package {
                 scan_dirs: Some(vec!["release-v{version}".to_string()]),
             }),
         ],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

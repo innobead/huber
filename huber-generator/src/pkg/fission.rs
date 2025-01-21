@@ -9,7 +9,7 @@ pub fn release() -> Package {
             owner: "fission".to_string(),
             repo: "fission".to_string(),
         },
-        detail: None,
+
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
@@ -48,8 +48,6 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
         ],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

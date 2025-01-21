@@ -8,7 +8,7 @@ pub fn release() -> Package {
             owner: "aquasecurity".to_string(),
             repo: "tracee".to_string(),
         },
-        detail: None,
+
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {
             artifact_templates: vec!["{version}/tracee.tar.gz".to_string()],
             executable_templates: None,
@@ -16,8 +16,6 @@ pub fn release() -> Package {
             tag_version_regex_template: None,
             scan_dirs: Some(vec!["dist".to_string()]),
         })],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

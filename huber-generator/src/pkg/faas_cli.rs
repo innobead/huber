@@ -9,7 +9,7 @@ pub fn release() -> Package {
             owner: "openfaas".to_string(),
             repo: "faas-cli".to_string(),
         },
-        detail: None,
+
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/faas-cli".to_string()],
@@ -48,8 +48,6 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
         ],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

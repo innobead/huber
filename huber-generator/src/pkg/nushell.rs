@@ -8,7 +8,7 @@ pub fn release() -> Package {
             owner: "nushell".to_string(),
             repo: "nushell".to_string(),
         },
-        detail: None,
+
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["nu_{version:_}_linux.tar.gz".to_string()],
@@ -32,8 +32,6 @@ pub fn release() -> Package {
                 scan_dirs: Some(vec!["nushell-{version}".to_string()]),
             }),
         ],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

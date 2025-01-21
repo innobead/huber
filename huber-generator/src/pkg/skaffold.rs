@@ -8,39 +8,25 @@ pub fn release() -> Package {
             owner: "GoogleContainerTools".to_string(),
             repo: "skaffold".to_string(),
         },
-        detail: None,
+
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/skaffold-linux-amd64".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["{version}/skaffold-linux-arm64".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/skaffold-darwin-amd64".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec!["{version}/skaffold-windows-amd64.exe".to_string()],
-                executable_templates: None,
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: None,
+                ..Default::default()
             }),
         ],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }

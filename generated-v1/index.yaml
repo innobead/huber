@@ -479,9 +479,6 @@
 - name: wasmtime
   owner: bytecodealliance
   source: github
-- name: waypoint
-  owner: hashicorp
-  source: github
 - name: wstunnel
   owner: erebe
   source: github

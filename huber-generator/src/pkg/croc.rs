@@ -8,7 +8,7 @@ pub fn release() -> Package {
             owner: "schollz".to_string(),
             repo: "croc".to_string(),
         },
-        detail: None,
+
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["croc_{version}_Linux-64bit.tar.gz".to_string()],
@@ -39,8 +39,6 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
         ],
-        version: None,
-        description: None,
-        release_kind: None,
+        ..Default::default()
     }
 }
