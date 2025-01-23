@@ -2,15 +2,14 @@ use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
-use log::info;
+use log::{info, warn};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
-use crate::error::HuberError::PackageNotFound;
 use crate::lock_huber_ops;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
-use crate::service::ItemOperationTrait;
+use crate::service::{check_pkg_installed, ItemOperationTrait};
 
 #[derive(Args)]
 pub struct UninstallArgs {
@@ -27,12 +26,11 @@ impl CommandTrait for UninstallArgs {
         let release_service = container.get::<ReleaseService>().unwrap();
 
         for name in self.name.iter() {
-            if !pkg_service.has(name)? {
-                return Err(anyhow!(PackageNotFound(name.clone())));
+            if let Err(e) = check_pkg_installed(pkg_service, release_service, name) {
+                warn!("{}", e);
+                continue;
             }
-        }
 
-        for name in self.name.iter() {
             info!("Uninstalling {}", name);
             release_service.delete(name)?;
             info!("Uninstalled {}", name);

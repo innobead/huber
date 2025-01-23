@@ -86,9 +86,6 @@
 - name: dolt
   owner: dolthub
   source: github
-- name: drone-cli
-  owner: drone
-  source: github
 - name: dua-cli
   owner: Byron
   source: github

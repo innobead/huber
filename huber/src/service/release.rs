@@ -7,8 +7,9 @@ use std::{env, fs};
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use compress_tools::{uncompress_archive, Ownership};
+use filepath::FilePath;
 use fs_extra::move_items;
+use huber_common::compress::uncompress_archive;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
@@ -27,22 +28,20 @@ use crate::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 
-const SUPPORTED_ARCHIVE_TYPES: [&str; 7] = ["tar.gz", "tar.xz", "zip", "gz", "xz", "tar", "tgz"];
-const SUPPORTED_EXTRA_EXECUTABLE_TYPES: [&str; 4] = ["exe", "AppImage", "dmg", "msi"];
+const SUPPORTED_ARCHIVE_TYPES: [&str; 5] = ["tar.gz", "tar.xz", "zip", "tar", "tgz"];
 
 pub trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> anyhow::Result<Release>;
     fn clean_current(&self, release: &Release) -> anyhow::Result<()>;
     fn reset_current(&self, pkg: &Package) -> anyhow::Result<()>;
 
-    fn link_executables_for_current(
-        &self,
-        release: &Release,
-        file: &Path,
-    ) -> anyhow::Result<Option<Vec<String>>>;
     fn unlink_executables_for_current(&self, pkg: &Package) -> anyhow::Result<()>;
 
-    fn get_executables_for_current(&self, pkg: &Package) -> anyhow::Result<Vec<String>>;
+    fn get_executables_for_current(
+        &self,
+        pkg: &Package,
+        symlink: bool,
+    ) -> anyhow::Result<Vec<String>>;
     fn delete_release(&self, release: &Release) -> anyhow::Result<()>;
 }
 
@@ -163,6 +162,7 @@ impl ReleaseService {
             let download_file_path = config.temp_dir()?.join(&filename);
 
             let task = async move {
+                // download the asset
                 debug!("Saving {} to {:?}", &download_url, download_file_path);
 
                 let _ = remove_file(&download_file_path);
@@ -179,10 +179,18 @@ impl ReleaseService {
                     }
                 }
 
-                let ext = download_file_path.extension();
-                if ext.is_none()
-                    || !SUPPORTED_ARCHIVE_TYPES.contains(&ext.unwrap().to_str().unwrap())
-                {
+                let mut ext = "";
+                let is_archive = SUPPORTED_ARCHIVE_TYPES.iter().any(|it| {
+                    if download_file_path.to_str().unwrap().ends_with(it) {
+                        ext = it;
+                        true
+                    } else {
+                        false
+                    }
+                });
+
+                // downloaded asset seems an executable instead of an archive, move it to the package directory
+                if ext.is_empty() || !is_archive {
                     let dest_f = pkg_dir.join(&filename);
 
                     debug!(
@@ -197,82 +205,7 @@ impl ReleaseService {
                     return Ok(());
                 }
 
-                match ext {
-                    None => debug!(
-                        "Ignored {:?}, because it is not archived",
-                        &download_file_path
-                    ),
-
-                    Some(ext) if ext.to_str().unwrap() == "exe" => {
-                        debug!(
-                            "Ignored {:?}, because it is not archived and with suffix 'exe'",
-                            &download_file_path
-                        );
-                    }
-
-                    Some(ext) => {
-                        debug!("Decompressing {} which has extension {:?}", filename, ext);
-
-                        let extract_dir = download_file_path.parent().unwrap().join("extract");
-                        let download_file = File::open(&download_file_path)?;
-
-                        debug!("Decompressing {:?} to {:?}", &download_file, &extract_dir);
-                        fs::create_dir_all(&extract_dir)?;
-                        uncompress_archive(&download_file, &extract_dir, Ownership::Ignore)?;
-
-                        let dir = read_dir(&extract_dir)?;
-                        let mut extract_content_dir = extract_dir.clone();
-                        if dir.count() == 1 {
-                            let dir = read_dir(&extract_dir)?;
-                            let entry = dir.into_iter().next().unwrap()?;
-                            extract_content_dir = entry.path();
-                        }
-
-                        let mut symbolic_links: HashMap<PathBuf, PathBuf> = hashmap! {};
-                        let items_to_copy: Vec<PathBuf> = if extract_content_dir.is_dir() {
-                            debug!("Moving {:?}/* to {:?}", &extract_content_dir, &pkg_dir);
-                            extract_content_dir
-                                .read_dir()?
-                                .filter_map(|it| {
-                                    let p = it.unwrap().path();
-
-                                    match read_link(&p) {
-                                        Ok(src_link) => {
-                                            let dest_link = pkg_dir
-                                                .join(p.file_name().unwrap().to_str_direct());
-                                            symbolic_links.insert(dest_link, src_link.clone());
-
-                                            None
-                                        }
-
-                                        Err(_) => Some(p),
-                                    }
-                                })
-                                .collect()
-                        } else {
-                            debug!("Moving {:?} to {:?}", &extract_content_dir, &pkg_dir);
-                            vec![extract_content_dir]
-                        };
-
-                        let mut option = fs_extra::dir::CopyOptions::new();
-                        option.overwrite = true;
-                        move_items(&items_to_copy, &pkg_dir, &option)?;
-
-                        for (dest_link, src_link) in symbolic_links {
-                            debug!("Add extra linked files {:?} to {:?}", src_link, dest_link);
-                            symlink_file(src_link, dest_link)?
-                        }
-
-                        debug!(
-                            "Removing temp files {:?}, {:?}",
-                            download_file_path, extract_dir
-                        );
-
-                        let _ = remove_file(&download_file_path);
-                        let _ = remove_dir_all(&download_file_path);
-                        let _ = remove_dir_all(&extract_dir);
-                    }
-                };
+                Self::decompress_asset(&pkg_dir, &filename, &download_file_path, ext)?;
 
                 Ok(())
             };
@@ -287,70 +220,73 @@ impl ReleaseService {
         Ok(())
     }
 
-    fn create_slink_for_mapped_exec(
-        &self,
-        release: &Release,
-        file: &Path,
-        exec_filename: &str,
-        exec_path: &str,
-    ) -> anyhow::Result<Option<String>> {
-        let _ = remove_file(exec_path);
-        if exec_filename.starts_with(".") {
-            debug!(
-                "Ignored to link {:?} to {:?} because it's a hidden file",
-                &file, &exec_path
-            );
+    fn decompress_asset(
+        pkg_dir: &PathBuf,
+        filename: &str,
+        download_file_path: &PathBuf,
+        ext: &str,
+    ) -> anyhow::Result<()> {
+        debug!("Decompressing {} which has extension {:?}", filename, ext);
 
-            return Ok(None);
+        let extract_dir = download_file_path.parent().unwrap().join("extract");
+        let download_file = File::open(download_file_path)?;
+
+        debug!("Decompressing {:?} to {:?}", &download_file, &extract_dir);
+
+        fs::create_dir_all(&extract_dir)?;
+        uncompress_archive(&download_file.path()?, &extract_dir, ext)?;
+
+        let dir = read_dir(&extract_dir)?;
+        let mut extract_content_dir = extract_dir.clone();
+        if dir.count() == 1 {
+            let dir = read_dir(&extract_dir)?;
+            let entry = dir.into_iter().next().unwrap()?;
+            extract_content_dir = entry.path();
         }
 
-        // check if filename has invalid extension
-        let exec_filename_without_version = exec_filename.replace(&release.version, "");
-        let exec_file_path_without_version =
-            file.parent().unwrap().join(&exec_filename_without_version);
+        let mut symbolic_links: HashMap<PathBuf, PathBuf> = hashmap! {};
+        let items_to_copy: Vec<PathBuf> = if extract_content_dir.is_dir() {
+            debug!("Moving {:?}/* to {:?}", &extract_content_dir, &pkg_dir);
+            extract_content_dir
+                .read_dir()?
+                .filter_map(|it| {
+                    let p = it.unwrap().path();
 
-        if let Some(ext) = exec_file_path_without_version.extension() {
-            if !SUPPORTED_EXTRA_EXECUTABLE_TYPES.contains(&ext.to_str_direct()) {
-                debug!(
-                    "Ignored to link {:?} to {:?} because of ext suffix {:?} not supported. {:?}",
-                    &file, &exec_path, ext, SUPPORTED_EXTRA_EXECUTABLE_TYPES
-                );
+                    match read_link(&p) {
+                        Ok(src_link) => {
+                            let dest_link = pkg_dir.join(p.file_name().unwrap().to_str_direct());
+                            symbolic_links.insert(dest_link, src_link.clone());
 
-                return Ok(None);
-            }
+                            None
+                        }
+
+                        Err(_) => Some(p),
+                    }
+                })
+                .collect()
+        } else {
+            debug!("Moving {:?} to {:?}", &extract_content_dir, &pkg_dir);
+            vec![extract_content_dir]
+        };
+
+        let mut option = fs_extra::dir::CopyOptions::new();
+        option.overwrite = true;
+        move_items(&items_to_copy, pkg_dir, &option)?;
+
+        for (dest_link, src_link) in symbolic_links {
+            debug!("Add extra linked files {:?} to {:?}", src_link, dest_link);
+            symlink_file(src_link, dest_link)?
         }
 
-        if exec_filename_without_version
-            .chars()
-            .all(|x| x.is_uppercase())
-            || exec_filename_without_version.starts_with("_")
-            || exec_filename_without_version.starts_with(".")
-        {
-            debug!(
-                    "Ignored to link {:?} to {:?} because of file name patterns (uppercase, class cass or starts with _)",
-                    &file, &exec_path
-                );
+        debug!(
+            "Removing temp files {:?}, {:?}",
+            download_file_path, extract_dir
+        );
 
-            return Ok(None);
-        }
-
-        if file.extension().is_none() && !file.is_executable() {
-            self.set_executable_permission(file)?;
-        }
-
-        if !file.is_executable() {
-            debug!(
-                "Ignored to link {:?} to {:?} because it's not executable)",
-                &file, &exec_path
-            );
-
-            return Ok(None);
-        }
-
-        debug!("Linking {:?} to {:?}", &file, &exec_path);
-        symlink_file(file, exec_path)?;
-
-        Ok(Some(exec_path.to_string()))
+        let _ = remove_file(download_file_path);
+        let _ = remove_dir_all(download_file_path);
+        let _ = remove_dir_all(&extract_dir);
+        Ok(())
     }
 }
 
@@ -364,7 +300,7 @@ impl ReleaseTrait for ReleaseService {
 
         // add linked executables in the release
         let mut release: Release = serde_yaml::from_reader(f)?;
-        let executables = self.get_executables_for_current(&release.package)?;
+        let executables = self.get_executables_for_current(&release.package, false)?;
         release.executables = Some(executables);
 
         Ok(release)
@@ -394,30 +330,9 @@ impl ReleaseTrait for ReleaseService {
         debug!("Removing the current package symbolic links: {}", &pkg);
 
         let current_pkg_dir = config.current_pkg_dir(pkg)?;
-        let current_bin_dir = config.current_pkg_bin_dir(pkg)?;
-
-        let mut scan_dirs: Vec<PathBuf> = pkg.get_scan_dirs(&current_pkg_dir)?;
-        scan_dirs.push(current_pkg_dir.clone());
-        scan_dirs.push(current_bin_dir.clone());
-
-        for dir in scan_dirs {
-            debug!("Scanning executables in {:?}", dir);
-
-            if !dir.exists() {
-                debug!("Ignored scanning {:?}, because it does not exist", dir);
-                continue;
-            }
-
-            for entry in read_dir(&dir)? {
-                let entry = entry?;
-                let path = entry.path();
-                if path.is_file() {
-                    self.unlink_executables_for_current(pkg)?;
-                }
-            }
-        }
-
         if current_pkg_dir.exists() {
+            self.unlink_executables_for_current(pkg)?;
+
             debug!("Removing link {:?}", &current_pkg_dir);
             remove_symlink_dir(&current_pkg_dir)?;
         }
@@ -448,48 +363,8 @@ impl ReleaseTrait for ReleaseService {
         Ok(())
     }
 
-    fn link_executables_for_current(
-        &self,
-        release: &Release,
-        file: &Path,
-    ) -> anyhow::Result<Option<Vec<String>>> {
-        let exec_filename = file.file_name().unwrap().to_str().unwrap().to_string();
-
-        // if exec_templates specified, ignore not matched files
-        let exec_templates: Vec<String> = release
-            .package
-            .target()?
-            .executable_templates
-            .unwrap_or(vec![]);
-        if !exec_templates.is_empty() && !exec_templates.contains(&exec_filename) {
-            debug!(
-                "Ignored to link {:?} because it does not mentioned in executable_templates {:?}",
-                &file, exec_templates
-            );
-
-            return Ok(None);
-        }
-
-        let exec_paths = self.get_executables_for_current(&release.package)?;
-        let mut processed_exec_paths = vec![];
-
-        for ref exec_path in exec_paths {
-            if let Some(processed) =
-                self.create_slink_for_mapped_exec(release, file, &exec_filename, exec_path)?
-            {
-                processed_exec_paths.push(processed);
-            }
-        }
-
-        if processed_exec_paths.is_empty() {
-            Ok(None)
-        } else {
-            Ok(Some(processed_exec_paths))
-        }
-    }
-
     fn unlink_executables_for_current(&self, pkg: &Package) -> anyhow::Result<()> {
-        let exec_paths = self.get_executables_for_current(pkg)?;
+        let exec_paths = self.get_executables_for_current(pkg, false)?;
         for ref exec_path in exec_paths {
             debug!("Removing link {:?}", exec_path);
             remove_symlink_file(exec_path)?;
@@ -498,13 +373,18 @@ impl ReleaseTrait for ReleaseService {
         Ok(())
     }
 
-    fn get_executables_for_current(&self, pkg: &Package) -> anyhow::Result<Vec<String>> {
+    //noinspection ALL
+    fn get_executables_for_current(
+        &self,
+        pkg: &Package,
+        symlink: bool,
+    ) -> anyhow::Result<Vec<String>> {
         let config = self.container.get::<Config>().unwrap();
         let mut results: Vec<String> = vec![];
 
         let pkg_dir = config.current_pkg_dir(pkg)?;
         let pkg_bin_dir = config.current_pkg_bin_dir(pkg)?;
-        let exec_mappings: HashMap<_, _> = pkg.target()?.executable_mappings.unwrap_or(hashmap![]);
+        let exec_mappings: HashMap<_, _> = pkg.target()?.executable_mappings.unwrap_or_default();
 
         let semver_regex = Regex::new(
             r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)
@@ -521,21 +401,25 @@ impl ReleaseTrait for ReleaseService {
 
             for entry in read_dir(dir)? {
                 let exec_path = entry?.path();
-                if !exec_path.is_file() {
+                if !exec_path.is_executable() {
+                    debug!("Ignored non-executable {:?}", exec_path);
                     continue;
                 }
 
                 let mut exec_name = exec_path.file_name().unwrap().to_string_lossy().to_string();
                 exec_name = semver_regex.replace(&exec_name, "{version}").to_string();
-
                 exec_name = exec_mappings
                     .get(&exec_name)
                     .unwrap_or(&exec_name)
                     .to_string();
 
-                let exec_path = config.bin_dir()?.join(trim_os_arch(&exec_name));
-                if exec_path.exists() {
-                    results.push(exec_path.to_string_lossy().to_string());
+                let exec_link = config.bin_dir()?.join(trim_os_arch(&exec_name));
+                if symlink {
+                    let _ = remove_file(&exec_link);
+                    symlink_file(&exec_path, &exec_link)?;
+                }
+                if exec_link.exists() {
+                    results.push(exec_link.to_string_lossy().to_string());
                 }
             }
         }
@@ -623,19 +507,8 @@ impl ReleaseAsyncTrait for ReleaseService {
     async fn set_current(&self, release: &mut Release) -> anyhow::Result<Vec<String>> {
         debug!("Setting the current release: {}", &release);
 
-        let config = self.container.get::<Config>().unwrap();
-
-        //TODO check locked version
-
         release.current = true;
         release.name = release.package.name.clone();
-
-        let current_pkg_dir = config.current_pkg_dir(&release.package)?;
-        let current_bin_dir = config.current_pkg_bin_dir(&release.package)?;
-
-        let mut scan_dirs: Vec<PathBuf> = release.package.get_scan_dirs(&current_pkg_dir)?;
-        scan_dirs.push(current_pkg_dir.clone());
-        scan_dirs.push(current_bin_dir.clone());
 
         // remove old symlink bin, current
         debug!(
@@ -647,37 +520,21 @@ impl ReleaseAsyncTrait for ReleaseService {
         // update current symlink
         debug!("Updating the current release symbolic links: {}", &release);
 
+        let config = self.container.get::<Config>().unwrap();
+        let current_pkg_dir = config.current_pkg_dir(&release.package)?;
         let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
+
         symlink_dir(&source, &current_pkg_dir)?;
 
-        // scan executables in scan_dirs
-        let mut linked_exe_files: Vec<String> = vec![];
-        for dir in scan_dirs {
-            debug!("Scanning executables in {:?}", dir);
-
-            if !dir.exists() {
-                debug!("Ignored scanning {:?}, because it does not exist", dir);
-                continue;
-            }
-
-            for entry in read_dir(&dir)? {
-                let entry = entry?;
-                let path = entry.path();
-                if path.is_file() {
-                    debug!("Scanning file: {:?}", path);
-                    if let Some(mut paths) = self.link_executables_for_current(release, &path)? {
-                        linked_exe_files.append(&mut paths);
-                    }
-                } else {
-                    debug!("Ignored to scan non-file: {:?}", path);
-                }
-            }
+        let linked_exe_files = self.get_executables_for_current(&release.package, true)?;
+        if linked_exe_files.is_empty() {
+            return Err(anyhow!("No executables found when installing {}", &release));
         }
 
+        // update old current release manifest
         let index_f = config.current_index_file()?;
         let mut indexes: Vec<ReleaseIndex> = vec![];
 
-        // update old current release manifest
         debug!("Updating the current index manifest: {:?}", &index_f);
 
         if index_f.exists() {
@@ -864,7 +721,10 @@ impl ItemOperationAsyncTrait for ReleaseService {
 
                 debug!("Setting {} as the current package", release);
                 let executables = self.set_current(&mut release).await?;
-                info!("Installed executables:\n{:#?}", &executables);
+                info!(
+                    "Installed executables of {}:\n{:#?}",
+                    obj.name, &executables
+                );
                 release.executables = Some(executables);
 
                 Ok(release)
@@ -882,18 +742,21 @@ impl ItemOperationAsyncTrait for ReleaseService {
         let pkg_base_dir = config.installed_pkg_base_dir(pkg)?;
         for entry in read_dir(&pkg_base_dir)? {
             let entry = entry?;
-            let filename = entry.file_name();
-            let filename = filename.to_str().unwrap();
+            let filename = entry.file_name().to_string_lossy().to_string();
 
             if filename == "current" {
                 continue;
             }
 
             if entry.path().is_dir() {
-                let p = config.installed_pkg_manifest_file(pkg, filename)?;
+                let p = config.installed_pkg_manifest_file(pkg, &filename)?;
+                if !p.exists() {
+                    debug!("Ignored {:?}, because the manifest file does not exist", p);
+                    continue;
+                }
+
                 let f = File::open(p)?;
                 let r: Release = serde_yaml::from_reader(f)?;
-
                 releases.push(r);
             }
         }

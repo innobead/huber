@@ -30,6 +30,6 @@ fn test_uninstall_fail() {
     huber_cmd!(arg("uninstall")
         .arg(INVALID_PKG)
         .assert()
-        .failure()
-        .stderr(format!("[ERROR] Package not found: \"{}\"\n", INVALID_PKG)));
+        .success()
+        .stderr(format!("[WARN ] Package {} not found\n", INVALID_PKG)));
 }

@@ -2,16 +2,15 @@ use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
-use log::info;
+use log::{info, warn};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
-use crate::error::HuberError::{PackageNotFound, PackageNotInstalled};
 use crate::lock_huber_ops;
+use crate::service::check_pkg_installed;
 use crate::service::config::{ConfigService, ConfigTrait};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
-use crate::service::ItemOperationTrait;
 
 #[derive(Args)]
 pub struct UnlockArgs {
@@ -68,12 +67,9 @@ fn unlock_pkgs(
     pkgs: &Vec<String>,
 ) -> anyhow::Result<()> {
     for pkg in pkgs {
-        if !pkg_service.has(pkg)? {
-            return Err(anyhow!(PackageNotFound(pkg.clone())));
-        }
-
-        if !release_service.has(pkg)? {
-            return Err(anyhow!(PackageNotInstalled(pkg.clone())));
+        if let Err(e) = check_pkg_installed(pkg_service, release_service, pkg) {
+            warn!("{}", e);
+            continue;
         }
 
         info!("Unlocking package: {}", pkg);

@@ -13,7 +13,6 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["linkerd2-cli-stable-{version}-linux-amd64".to_string()],
-                executable_templates: None,
                 executable_mappings: Some(hashmap! {
                     "linkerd2-cli-stable-{version}-linux-amd64".to_string() => "linkerd2-stable".to_string()
                 }),
@@ -22,7 +21,6 @@ pub fn release() -> Package {
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["linkerd2-cli-stable-{version}-linux-arm64".to_string()],
-                executable_templates: None,
                 executable_mappings: Some(hashmap! {
                     "linkerd2-cli-stable-{version}-linux-arm64".to_string() => "linkerd2-stable".to_string()
                 }),
@@ -31,7 +29,6 @@ pub fn release() -> Package {
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["linkerd2-cli-stable-{version}-darwin".to_string()],
-                executable_templates: None,
                 executable_mappings: Some(hashmap! {
                     "linkerd2-cli-stable-{version}-darwin".to_string() => "linkerd2-stable".to_string()
                 }),
@@ -40,7 +37,6 @@ pub fn release() -> Package {
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec!["linkerd2-cli-stable-{version}-windows.exe".to_string()],
-                executable_templates: None,
                 executable_mappings: Some(hashmap! {
                     "linkerd2-cli-stable-{version}-windows.exe".to_string() => "linkerd2-stable.exe".to_string()
                 }),

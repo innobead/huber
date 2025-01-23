@@ -6,10 +6,8 @@ use assert_cmd::assert::Assert;
 pub const HUBER_EXEC: &str = env!("CARGO_BIN_EXE_huber");
 pub const INVALID_PKG: &str = "pkg_notfound";
 pub const INVALID_PKG_VERSION: &str = "pkg_notfound@1.2.3";
-pub const PKG_VERSION_1: &str = "k9s@0.32.5";
-pub const PKG_VERSION_1_ASSERT: &str = "k9s@v0.32.5";
-pub const PKG_VERSION_2: &str = "k9s@0.32.7";
-pub const PKG_VERSION_2_ASSERT: &str = "k9s@v0.32.7";
+pub const PKG_VERSION_1: &str = "k9s@v0.32.5";
+pub const PKG_VERSION_2: &str = "k9s@v0.32.7";
 
 macro_rules! huber_cmd {
     ($($body:tt)*) => {
@@ -22,6 +20,13 @@ macro_rules! huber_cmd {
                     .join("generated-v1"),
             )
             .$($body)*
+    };
+}
+
+macro_rules! assert_contain_line_regex {
+    ($value:expr, $expect:expr) => {
+        let line = String::from_utf8($value.clone()).unwrap();
+        assert!(regex::Regex::new($expect).unwrap().is_match(&line))
     };
 }
 

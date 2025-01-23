@@ -35,7 +35,7 @@ fn test_flush() {
     assert_eq_last_line!(
         assert.get_output().stderr,
         format!(
-            "[INFO ] {} (version: v{}, source: github) removed",
+            "[INFO ] {} (version: {}, source: github) removed",
             tokens[0], tokens[1]
         )
     );

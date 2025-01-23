@@ -16,7 +16,6 @@ pub fn release() -> Package {
                     "{version}/fission-cli-linux".to_string(),
                     "fission-all-{version}.tgz".to_string(),
                 ],
-                executable_templates: None,
                 executable_mappings: Some(hashmap! {
                     "fission-cli-linux".to_string() => "fission".to_string()
                 }),
@@ -28,7 +27,6 @@ pub fn release() -> Package {
                     "{version}/fission-cli-osx".to_string(),
                     "fission-all-{version}.tgz".to_string(),
                 ],
-                executable_templates: None,
                 executable_mappings: Some(hashmap! {
                     "fission-cli-osx".to_string() => "fission".to_string()
                 }),
@@ -40,7 +38,6 @@ pub fn release() -> Package {
                     "{version}/fission-cli-windows.exe".to_string(),
                     "fission-all-{version}.tgz".to_string(),
                 ],
-                executable_templates: None,
                 executable_mappings: Some(hashmap! {
                     "fission-cli-windows.exe".to_string() => "fission.exe".to_string()
                 }),

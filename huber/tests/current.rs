@@ -1,9 +1,7 @@
 use scopeguard::defer;
 use sequential_test::sequential;
 
-use crate::common::{
-    install_pkg, reset_huber, INVALID_PKG, INVALID_PKG_VERSION, PKG_VERSION_1, PKG_VERSION_1_ASSERT,
-};
+use crate::common::{install_pkg, reset_huber, INVALID_PKG, INVALID_PKG_VERSION, PKG_VERSION_1};
 
 #[macro_use]
 mod common;
@@ -20,10 +18,7 @@ fn test_current() {
     let assert = huber_cmd!(arg("current").arg(PKG_VERSION_1).assert().success());
     assert_eq_last_line!(
         assert.get_output().stderr,
-        format!(
-            "[INFO ] {} is now the current version",
-            PKG_VERSION_1_ASSERT
-        )
+        format!("[INFO ] {} is now the current version", PKG_VERSION_1)
     );
 }
 

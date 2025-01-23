@@ -12,21 +12,18 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["nu_{version:_}_linux.tar.gz".to_string()],
-                executable_templates: None,
                 executable_mappings: None,
                 tag_version_regex_template: None,
                 scan_dirs: Some(vec!["nushell-{version}".to_string()]),
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["nu_{version:_}_macOS.zip".to_string()],
-                executable_templates: None,
                 executable_mappings: None,
                 tag_version_regex_template: None,
                 scan_dirs: Some(vec!["nushell-{version}".to_string()]),
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec!["nu_{version:_}_windows.zip".to_string()],
-                executable_templates: None,
                 executable_mappings: None,
                 tag_version_regex_template: None,
                 scan_dirs: Some(vec!["nushell-{version}".to_string()]),

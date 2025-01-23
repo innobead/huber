@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use anyhow::anyhow;
 use async_trait::async_trait;
 use huber_common::model::config::Config;
 use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
@@ -77,4 +78,20 @@ pub fn init_services(config: &Config) -> Arc<DIContainer> {
     inject_dep!(ConfigService, container.clone());
 
     container
+}
+
+pub fn check_pkg_installed(
+    pkg_service: &PackageService,
+    release_service: &ReleaseService,
+    pkg: &String,
+) -> anyhow::Result<()> {
+    if !pkg_service.has(pkg)? {
+        return Err(anyhow!("Package {} not found", pkg));
+    }
+
+    if !release_service.has(pkg)? {
+        return Err(anyhow!("Package {} not installed", pkg));
+    }
+
+    Ok(())
 }

@@ -1,21 +1,20 @@
 use std::sync::Arc;
 
-use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
-use log::info;
+use huber_common::model::release::Release;
+use log::{info, warn};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use tokio::task::JoinHandle;
 
 use crate::cmd::CommandTrait;
-use crate::error::HuberError::PackageNotFound;
 use crate::lock_huber_ops;
 use crate::opt::parse_pkg_name_optional_semver;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
-use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
+use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait};
 
 #[derive(Args)]
 pub struct InstallArgs {
@@ -64,29 +63,47 @@ pub async fn install_packages(
     pkg_service: Arc<PackageService>,
     pkg_versions: &[(String, String)],
 ) -> anyhow::Result<()> {
-    for (pkg, _) in pkg_versions.iter() {
-        if !pkg_service.has(pkg)? {
-            return Err(anyhow!(PackageNotFound(pkg.clone())));
-        }
-    }
-
     let mut join_handles = vec![];
+
     for (pkg, version) in pkg_versions.iter().cloned() {
         let pkg_service = pkg_service.clone();
         let release_service = release_service.clone();
 
         let handle: JoinHandle<anyhow::Result<()>> = tokio::spawn(async move {
+            if !pkg_service.has(&pkg)? {
+                warn!("{} not found", pkg);
+                return Ok(());
+            }
+
             let mut pkg = pkg_service.get(&pkg)?;
-            pkg.version = if version.is_empty() {
-                None
+            let is_latest = version.is_empty();
+            let version = if version.is_empty() {
+                let v = release_service.get_latest(&pkg).await?.version;
+                info!(
+                    "{} version not specified, getting the latest version ({})",
+                    pkg.name, v
+                );
+                v
             } else {
-                Some(version)
+                version
             };
 
-            let version = pkg.version.clone().unwrap_or("latest".to_string());
-            info!("Installing {}@{}", pkg.name, version);
+            let releases: Vec<Release> = release_service.search(Some(&pkg.name), None, None)?;
+            if releases.iter().any(|r| r.version == version) {
+                warn!("{}@{} already installed", pkg.name, version);
+                return Ok(());
+            }
+
+            let msg = if is_latest {
+                format!("{}@latest/{}", pkg.name, version)
+            } else {
+                format!("{}@{}", pkg.name, version)
+            };
+
+            info!("Installing {}", msg);
+            pkg.version = Some(version.clone());
             release_service.update(&pkg).await?;
-            info!("{}@{} installed", pkg.name, version);
+            info!("{} installed", msg);
 
             Ok(())
         });

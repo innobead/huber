@@ -1,3 +1,4 @@
+pub mod compress;
 pub mod fs;
 pub mod log;
 pub mod model;

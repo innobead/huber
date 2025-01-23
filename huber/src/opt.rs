@@ -21,9 +21,9 @@ pub fn parse_pkg_name_semver(name_version: &str) -> anyhow::Result<(String, Stri
     }
 
     let (name, version) = (result[0].to_string(), result[1].to_string());
-    Version::parse(&version)?;
+    Version::parse(version.trim_start_matches('v'))?;
 
-    Ok((name, format!("v{}", version)))
+    Ok((name, version))
 }
 pub fn parse_pkg_name_optional_semver(name_version: &str) -> anyhow::Result<(String, String)> {
     let result: Vec<_> = name_version.splitn(2, '@').collect();
@@ -33,9 +33,9 @@ pub fn parse_pkg_name_optional_semver(name_version: &str) -> anyhow::Result<(Str
     }
 
     let (name, version) = (result[0].to_string(), result[1].to_string());
-    Version::parse(&version)?;
+    Version::parse(version.trim_start_matches('v'))?;
 
-    Ok((name, format!("v{}", version)))
+    Ok((name, version))
 }
 
 /// Parse package name and version requirement
@@ -63,9 +63,9 @@ pub fn parse_pkg_name_semver_req(name_version: &str) -> anyhow::Result<(String, 
 
     let (name, version) = (result[0].to_string(), result[1].to_string());
     if Version::parse(&version).is_ok() {
-        return Ok((name, format!("v{}", version)));
+        return Ok((name, version));
     }
 
     VersionReq::parse(&version)?;
-    Ok((name, version.to_string()))
+    Ok((name, version))
 }

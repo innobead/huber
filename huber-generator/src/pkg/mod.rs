@@ -27,7 +27,6 @@ pub mod dive;
 pub mod doctl;
 pub mod dog;
 pub mod dolt;
-pub mod drone_cli;
 pub mod dua_cli;
 pub mod dust;
 pub mod eksctl;

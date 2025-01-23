@@ -1,5 +1,4 @@
 use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
-use maplit::hashmap;
 
 #[allow(dead_code)]
 pub fn release() -> Package {

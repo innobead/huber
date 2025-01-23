@@ -14,7 +14,13 @@ fn test_unlock() {
     }
 
     install_pkg(PKG_VERSION_1);
-    lock_pkg(PKG_VERSION_1);
 
-    huber_cmd!(arg("unlock").arg("k9s").assert().success());
+    let tokens = PKG_VERSION_1.splitn(2, '@').collect::<Vec<_>>();
+    let pkg = tokens[0];
+    let version = tokens[1].trim_start_matches('v');
+    let pkg_version = format!("{}@{}", pkg, version);
+
+    lock_pkg(&pkg_version);
+
+    huber_cmd!(arg("unlock").arg(pkg).assert().success());
 }

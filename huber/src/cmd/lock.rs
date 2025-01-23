@@ -6,24 +6,23 @@ use clap::{Args, Subcommand, ValueHint};
 use huber_common::model::config::Config;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
-use log::info;
+use log::{info, warn};
 use serde::{Deserialize, Serialize};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
-use crate::error::HuberError::{PackageNotFound, PackageNotInstalled, PackageUnableToLock};
 use crate::lock_huber_ops;
 use crate::opt::parse_pkg_name_semver_req;
 use crate::service::config::{ConfigService, ConfigTrait};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
-use crate::service::ItemOperationTrait;
+use crate::service::{check_pkg_installed, ItemOperationTrait};
 
 #[derive(Args)]
 pub struct LockArgs {
     #[arg(
-        help = "Package name (e.g. 'package-name', 'package-name@version' or \
-        'package-name@<version-requirement>' \
+        help = "Package name (e.g. 'package-name', 'package-name@semver' or \
+        'package-name@<semver-requirement>' \
         using Cargo's dependency version requirement format)",
         num_args = 1,
         group = "lock",
@@ -91,7 +90,9 @@ impl CommandTrait for LockArgs {
 
         info!("Locking packages");
 
+        let old_config = config.clone();
         let mut config = config.clone();
+
         if self.all {
             lock_installed_current_pkgs(
                 &mut config,
@@ -115,8 +116,14 @@ impl CommandTrait for LockArgs {
             )?;
         }
 
-        config_service.update(&config)?;
-        info!("Packages locked successfully");
+        if old_config.lock_pkg_versions != config.lock_pkg_versions {
+            config_service.update(&config)?;
+            info!(
+                "Packages locked successfully: {:#?}",
+                config.lock_pkg_versions
+            );
+            return Ok(());
+        }
 
         Ok(())
     }
@@ -131,14 +138,9 @@ fn lock_pkgs(
     tilde_required: bool,
 ) -> anyhow::Result<()> {
     for (pkg, version) in name_versions {
-        if !pkg_service.has(pkg)? {
-            return Err(anyhow!(PackageNotFound(pkg.clone())));
-        }
-
-        if !release_service.has(pkg)? {
-            return Err(anyhow!(PackageUnableToLock(anyhow!(PackageNotInstalled(
-                pkg.clone()
-            )))));
+        if let Err(e) = check_pkg_installed(pkg_service, release_service, pkg) {
+            warn!("Skipped locking package {}@{}: {}", pkg, version, e);
+            continue;
         }
 
         let version = get_version_requirement(caret_required, tilde_required, version);

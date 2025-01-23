@@ -95,9 +95,6 @@ pub struct PackageManagement {
     pub artifact_templates: Vec<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub executable_templates: Option<Vec<String>>,
-
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub executable_mappings: Option<HashMap<String, String>>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
