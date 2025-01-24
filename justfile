@@ -7,12 +7,11 @@ huber_exec := prj_dir / 'target/debug/huber'
 cargo_opts := env('CARGO_OPTS', '')
 github_token := env('GITHUB_TOKEN', '')
 github_key := env('GITHUB_KEY', '')
-default_target := shell('default-target')
 
 # Build binaries
-build target=(default_target) cmd_opts='': fmt fix
-    @rustup target add {{ target }}
-    @cargo {{ cargo_opts }} build {{ cmd_opts }} --target {{ target }}
+build target='' cmd_opts='': fmt fix
+    @rustup target add {{ if target != "" { target } else { shell("default-target") } }}
+    @cargo {{ cargo_opts }} build {{ cmd_opts }} --target {{ if target != "" { target } else { shell("default-target") } }}
 
 # Run tests
 test:

@@ -27,7 +27,7 @@ jobs:
     - run: just setup-dev
       if: matrix.job.use-just == true
     - run: just test
-      if: matrix.job.use-just == true && matrix.job.target == 'x86_64-unknown-linux-gnu'
+      if: matrix.job.use-just == true && contains('x86_64-unknown-linux-gnu,x86_64-apple-darwin,aarch64-apple-darwin', matrix.job.target)
     - run: just build ${{ matrix.job.target }}
       if: matrix.job.use-just == true
 
