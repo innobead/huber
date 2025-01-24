@@ -106,8 +106,10 @@ macro_rules! lock_huber_ops {
         use huber_common::model::config::ConfigPath;
         use huber_procmacro::process_lock;
 
-        let lock_file = $config.lock_file()?;
         #[cfg(not(target_os = "windows"))]
-        process_lock!(lock_file);
+        {
+            let lock_file = $config.lock_file()?;
+            process_lock!(lock_file);
+        }
     };
 }
