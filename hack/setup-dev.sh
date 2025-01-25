@@ -7,10 +7,10 @@ set -o xtrace
 
 install_linux_deps() {
   if [[ $(command -v zypper) ]]; then
-    sudo zypper install -y make libopenssl-devel git curl mingw64-cross-gcc-c++ cross-aarch64-gcc14
+    sudo zypper install -y make libopenssl-devel git curl mingw64-cross-gcc-c++ cross-aarch64-gcc14 cross-arm-linux-gnueabi-gcc
   elif [[ $(command -v apt) ]]; then
     sudo apt update
-    sudo DEBIAN_FRONTEND=noninteractive apt install -y make libssl-dev git curl mingw-w64 gcc-aarch64-linux-gnu
+    sudo DEBIAN_FRONTEND=noninteractive apt install -y make libssl-dev git curl mingw-w64 gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
   else
     echo "Only openSUSE, Ubuntu supported" >/dev/stderr
     exit 1
