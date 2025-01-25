@@ -50,7 +50,7 @@ pub fn parse_pkg_name_optional_semver(name_version: &str) -> anyhow::Result<(Str
 ///
 /// let (name, version) = parse_pkg_name_semver_req("package-name@1.2.3").unwrap();
 /// assert_eq!(name, "package-name");
-/// assert_eq!(version, "v1.2.3");
+/// assert_eq!(version, "1.2.3");
 /// ```
 pub fn parse_pkg_name_semver_req(name_version: &str) -> anyhow::Result<(String, String)> {
     let result: Vec<_> = name_version.splitn(2, '@').collect();
