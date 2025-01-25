@@ -59,7 +59,7 @@ impl GithubClient {
                     Auth::PersonalToken(token) => builder.personal_token(token),
                     Auth::UserAccessToken(token) => builder.user_access_token(token),
                     _ => {
-                        debug!("Use github client with no auth due to unsupported auth");
+                        debug!("Use github client with no auth");
                         builder
                     }
                 }
