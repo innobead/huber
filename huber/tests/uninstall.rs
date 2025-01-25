@@ -23,7 +23,7 @@ fn test_uninstall() {
 }
 
 #[test]
-// #[sequential]
+#[sequential]
 fn test_uninstall_fail() {
     defer! {
         reset_huber();
