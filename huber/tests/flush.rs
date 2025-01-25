@@ -18,7 +18,7 @@ fn test_flush_nothing() {
 }
 
 #[test]
-// #[sequential]
+#[sequential]
 fn test_flush() {
     defer! {
         reset_huber();
