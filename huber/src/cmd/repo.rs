@@ -12,7 +12,7 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
-use crate::error::HuberError::{RepoAlreadyExist, RepoNotFound, RepoUnableToAdd};
+use crate::error::HuberError::{RepoAlreadyExist, RepoNotFound};
 use crate::lock_huber_ops;
 use crate::service::repo::RepoService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
@@ -78,8 +78,8 @@ impl CommandTrait for RepoAddArgs {
             file: self.file.clone().map(PathBuf::from),
         };
         info!("Adding repo {}", repo);
-        if let Err(err) = repo_service.create(repo).await {
-            return Err(anyhow!(RepoUnableToAdd(self.name.clone(), err)));
+        if let Err(err) = repo_service.create(repo.clone()).await {
+            return Err(anyhow!("Failed to add repo {}: {}", repo, err));
         };
         info!("Repo added");
 
