@@ -676,15 +676,18 @@ impl ItemOperationAsyncTrait for ReleaseService {
     }
 
     async fn update(&self, obj: &Self::Item_) -> anyhow::Result<Self::ItemInstance_> {
-        debug!("Updating release from package: {}", &obj);
+        debug!("Updating release from package: {:#?}", &obj);
 
         let config = self.container.get::<Config>().unwrap();
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
         // Get the release from GitHub
-        let mut release = match &obj.source {
-            PackageSource::Github { owner, repo } => match &obj.version {
-                Some(v) => {
+        let mut release = match obj.source {
+            PackageSource::Github {
+                ref owner,
+                ref repo,
+            } => match obj.version {
+                Some(ref v) => {
                     debug!("Getting {} of package release {}", &v, &obj);
                     client.get_release(owner, repo, v, obj).await?
                 }
@@ -699,7 +702,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
                             .get_releases(owner, repo, obj)
                             .await?
                             .first()
-                            .expect("")
+                            .expect("Failed to find the first release")
                             .to_owned()
                     }
                 }

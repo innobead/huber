@@ -50,7 +50,10 @@ impl DependencyInjectTrait for ConfigService {
 
 impl ConfigTrait for ConfigService {
     fn get(&self) -> anyhow::Result<Config> {
-        let config = self.container.get::<Config>().expect("no config found");
+        let config = self
+            .container
+            .get::<Config>()
+            .expect("Failed to find config");
         let config_path = config.config_file()?;
 
         if config_path.exists() {

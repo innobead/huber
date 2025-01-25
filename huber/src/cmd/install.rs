@@ -71,7 +71,7 @@ pub async fn install_packages(
 
         let handle: JoinHandle<anyhow::Result<()>> = tokio::spawn(async move {
             if !pkg_service.has(&pkg)? {
-                warn!("{} not found", pkg);
+                warn!("Skipped installing package, as {} not found", pkg);
                 return Ok(());
             }
 
@@ -100,7 +100,7 @@ pub async fn install_packages(
                 format!("{}@{}", pkg.name, version)
             };
 
-            info!("Installing {}", msg);
+            info!("Installing package {}", msg);
             pkg.version = Some(version.clone());
             release_service.update(&pkg).await?;
             info!("{} installed", msg);

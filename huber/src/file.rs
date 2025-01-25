@@ -4,8 +4,11 @@ use std::path::Path;
 use regex::Regex;
 
 // https://github.com/golang/go/blob/master/src/go/build/syslist.go
-const GO_OS_LIST: &str = "aix android darwin dragonfly freebsd hurd illumos ios js linux nacl netbsd openbsd plan9 solaris windows zos macos osx";
-const GO_ARCH_LIST: &str = "386 amd64 amd64p32 arm armbe arm64 arm64be ppc64 ppc64le mips mipsle mips64 mips64le mips64p32 mips64p32le ppc riscv riscv64 s390 s390x sparc sparc64 wasm x86_64 aarch64 64bit";
+const GO_OS_LIST: &str = "aix android darwin dragonfly freebsd hurd illumos ios js linux nacl \
+netbsd openbsd plan9 solaris windows zos macos osx";
+const GO_ARCH_LIST: &str = "386 amd64 amd64p32 arm armbe arm64 arm64be ppc64 ppc64le mips \
+mipsle mips64 mips64le mips64p32 mips64p32le ppc riscv riscv64 s390 s390x sparc sparc64 \
+wasm x86_64 aarch64 64bit";
 
 pub fn is_empty_dir<P: AsRef<Path>>(path: P) -> bool {
     path.as_ref()
@@ -17,11 +20,11 @@ pub fn is_empty_dir<P: AsRef<Path>>(path: P) -> bool {
 pub fn trim_os_arch(str: &str) -> String {
     let revert_sort = |x: &&str, y: &&str| -> Ordering { y.len().cmp(&x.len()) };
 
-    let mut os_pattern = GO_OS_LIST.split(" ").collect::<Vec<&str>>();
+    let mut os_pattern: Vec<_> = GO_OS_LIST.split(" ").collect();
     os_pattern.sort_by(revert_sort);
     let os_pattern = os_pattern.join("|");
 
-    let mut arch_pattern = GO_ARCH_LIST.split(" ").collect::<Vec<&str>>();
+    let mut arch_pattern: Vec<_> = GO_ARCH_LIST.split(" ").collect();
     arch_pattern.sort_by(revert_sort);
     let arch_pattern = arch_pattern.join("|");
 

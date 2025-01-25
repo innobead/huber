@@ -64,7 +64,7 @@ impl GithubClient {
                     }
                 }
                 .build()
-                .expect("failed to build GitHub client")
+                .expect("Failed to build GitHub client")
             },
             ssh_key,
         }
