@@ -102,7 +102,6 @@ pub async fn install_packages(
 
             info!("Installing package {}", msg);
             pkg.version = Some(version.clone());
-            debug!("Updating package: {:#?}", pkg);
             release_service.update(&pkg).await?;
             info!("{} installed", msg);
 

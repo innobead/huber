@@ -15,7 +15,7 @@ jobs:
         - { target: aarch64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true }
         - { target: arm-unknown-linux-gnueabihf, os: ubuntu-20.04, use-cross: true, use-just: true }
         - { target: x86_64-apple-darwin, os: macos-13, use-just: true }
-        - { target: aarch64-apple-darwin, os: macos-14, use-just: true }
+#        - { target: aarch64-apple-darwin, os: macos-14, use-just: true }
 #        - { target: x86_64-pc-windows-gnu, os: windows-2022 }
     steps:
     - uses: actions/checkout@v4
