@@ -11,7 +11,7 @@ lto = true
 codegen-units = 1
 
 [workspace.package]
-version = "0.4.0"
+version = "1.0.0"
 description = "Huber, simplify GitHub package management"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2021"

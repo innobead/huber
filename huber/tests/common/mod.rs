@@ -28,6 +28,8 @@ macro_rules! huber_cmd {
 macro_rules! assert_contain_line_regex {
     ($value:expr, $expect:expr) => {
         let line = String::from_utf8($value.clone()).unwrap();
+        println!("Value: \n{}", line);
+        println!("Expected: \n{}", $expect);
         assert!(regex::Regex::new($expect).unwrap().is_match(&line))
     };
 }
@@ -40,7 +42,8 @@ macro_rules! assert_eq_last_line_regex {
             .last()
             .unwrap()
             .to_string();
-
+        println!("Value: \n{}", line);
+        println!("Expected: \n{}", $expect);
         assert!(regex::Regex::new($expect).unwrap().is_match(&line))
     };
 }
@@ -53,7 +56,8 @@ macro_rules! assert_eq_last_line {
             .last()
             .unwrap()
             .to_string();
-
+        println!("Value: \n{}", line);
+        println!("Expected: \n{}", $expect);
         assert_eq!(line, $expect)
     };
 }

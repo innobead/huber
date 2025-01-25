@@ -68,11 +68,11 @@ fn unlock_pkgs(
 ) -> anyhow::Result<()> {
     for pkg in pkgs {
         if let Err(e) = check_pkg_installed(pkg_service, release_service, pkg) {
-            warn!("{}", e);
+            warn!("Skipped unlocking package {}: {}", pkg, e);
             continue;
         }
 
-        info!("Unlocking package: {}", pkg);
+        info!("Unlocking package {}", pkg);
         config.lock_pkg_versions.remove(pkg);
     }
 

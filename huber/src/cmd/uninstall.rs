@@ -27,7 +27,7 @@ impl CommandTrait for UninstallArgs {
 
         for name in self.name.iter() {
             if let Err(e) = check_pkg_installed(pkg_service, release_service, name) {
-                warn!("{}", e);
+                warn!("Skipped uninstalling package {}: {}", name, e);
                 continue;
             }
 

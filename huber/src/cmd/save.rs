@@ -47,7 +47,7 @@ impl CommandTrait for SaveArgs {
         file.write_all(versions.join("\n").as_bytes())?;
         info!(
             "Saved the package list to {}",
-            file.path()?.canonicalize()?.to_string_lossy()
+            file.path()?.canonicalize()?.to_string_lossy().to_string()
         );
 
         Ok(())

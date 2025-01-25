@@ -152,7 +152,7 @@ async fn main() {
             let source_err = e.source().map(|e| format!(": {}", e)).unwrap_or_default();
             error!("{}{}", e, source_err);
         } else {
-            error!("Unknown: {}", e);
+            error!("Unknown: {:?}", e);
         }
     }
 }

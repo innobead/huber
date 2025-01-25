@@ -161,7 +161,7 @@ impl ItemSearchTrait for PackageService {
 
             match cache_service.get_package(name) {
                 Ok(pkg) => found_items.push(pkg),
-                Err(err) => debug!("Package not found: {}", err),
+                Err(err) => debug!("{}", err),
             }
 
             return Ok(found_items);

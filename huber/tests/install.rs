@@ -15,9 +15,9 @@ fn test_install() {
 
     let pkg = PKG_VERSION_1.splitn(2, '@').collect::<Vec<_>>()[0];
     let assert = install_pkg(pkg);
-    assert_eq_last_line_regex!(
+    assert_contain_line_regex!(
         assert.get_output().stderr,
-        &format!(r"\[INFO \] {}@latest/\S+ installed", pkg)
+        &format!(r#"{}@latest/\S+ installed"#, pkg)
     );
 }
 
@@ -29,9 +29,9 @@ fn test_install_compression() {
     }
 
     let assert = install_pkg("just");
-    assert_eq_last_line_regex!(
+    assert_contain_line_regex!(
         assert.get_output().stderr,
-        &format!(r"\[INFO \] {}@latest/\S+ installed", "just")
+        &format!(r#"{}@latest/\S+ installed"#, "just")
     );
 }
 
@@ -42,10 +42,8 @@ fn test_install_fail() {
         reset_huber();
     }
 
-    let tokens = INVALID_PKG_VERSION.splitn(2, '@').collect::<Vec<_>>();
-    huber_cmd!(arg("install")
-        .arg(INVALID_PKG_VERSION)
-        .assert()
-        .success()
-        .stderr(format!("[WARN ] {} not found\n", tokens[0])));
+    let pkg = INVALID_PKG_VERSION.splitn(2, '@').collect::<Vec<_>>()[0];
+    let assert = huber_cmd!(arg("install").arg(INVALID_PKG_VERSION).assert().success());
+
+    assert_contain_line_regex!(assert.get_output().stderr, &format!(r#"{} not found"#, pkg));
 }

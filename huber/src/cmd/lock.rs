@@ -144,7 +144,7 @@ fn lock_pkgs(
         }
 
         let version = get_version_requirement(caret_required, tilde_required, version);
-        info!("Locking package: {}@{}", pkg, version);
+        info!("Locking package {}@{}", pkg, version);
 
         let versions = &mut config.lock_pkg_versions;
         versions.insert(pkg.clone(), version);

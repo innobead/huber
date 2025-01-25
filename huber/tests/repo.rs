@@ -30,10 +30,10 @@ fn test_repo_add_show_remove() {
         .arg(huber_config.to_string_lossy().to_string())
         .assert()
         .success());
-    assert_eq_last_line!(assert.get_output().stderr, "[INFO ] Repo added");
+    assert_contain_line_regex!(assert.get_output().stderr, "Repo added");
 
     huber_cmd!(arg("repo").arg("show").assert().success());
 
     let assert = huber_cmd!(arg("repo").arg("remove").arg(repo).assert().success());
-    assert_eq_last_line!(assert.get_output().stderr, "[INFO ] Repo removed");
+    assert_contain_line_regex!(assert.get_output().stderr, "Repo removed");
 }

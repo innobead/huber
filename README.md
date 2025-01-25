@@ -1,6 +1,6 @@
 iiii[![crates.io](https://img.shields.io/crates/v/huber.svg)](https://crates.io/crates/huber)
 
-![huber in action](./doc/huber.png)
+![huber in action](docs/huber.png)
 
 **Huber** aims to simplify package install management for GitHub projects by providing a built-in, live-updating awesome list of popular projects. It also supports to manage customized package installation from your personal GitHub project. Please check out the complete introduction below.
 
@@ -17,7 +17,7 @@ iiii[![crates.io](https://img.shields.io/crates/v/huber.svg)](https://crates.io/
   - macOS x86_64/amd64
   - Windows x86_64/amd64
 
-![huber in action](./doc/demo.svg)
+![huber in action](docs/demo.svg)
 
 # Getting Started
 
@@ -139,7 +139,7 @@ SUBCOMMANDS:
 
 ### Searching packages
 
-For the complete package list, please refer to [huber managed package list](doc/packages.md)
+For the complete package list, please refer to [huber managed package list](docs/packages.md)
 
 ```console
 ❯ huber search

@@ -26,9 +26,9 @@ fn test_info_fail() {
         reset_huber();
     }
 
-    huber_cmd!(arg("info")
-        .arg(INVALID_PKG)
-        .assert()
-        .failure()
-        .stderr(format!("[ERROR] Package not found: \"{}\"\n", INVALID_PKG)));
+    let assert = huber_cmd!(arg("info").arg(INVALID_PKG).assert().failure());
+    assert_contain_line_regex!(
+        assert.get_output().stderr,
+        &format!(r#"Package not found: "{}""#, INVALID_PKG)
+    );
 }

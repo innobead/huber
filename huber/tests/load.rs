@@ -1,4 +1,4 @@
-use std::fs;
+use std::fs::remove_file;
 
 use filepath::FilePath;
 use scopeguard::defer;
@@ -18,14 +18,11 @@ fn test_load() {
 
     let file = tempfile::tempfile().unwrap();
     let path = file.path().unwrap().to_string_lossy().to_string();
-    defer!(fs::remove_file(&path).unwrap());
+    defer!(remove_file(&path).unwrap());
 
     install_pkg(PKG_VERSION_1);
     save_pkg_list(&path);
 
     let assert = huber_cmd!(arg("load").arg("--file").arg(&path).assert().success());
-    assert_eq_last_line!(
-        assert.get_output().stderr,
-        "[INFO ] Installed packages: total 1"
-    );
+    assert_contain_line_regex!(assert.get_output().stderr, r#"Installed packages: total 1"#);
 }

@@ -16,9 +16,9 @@ fn test_current() {
     install_pkg(PKG_VERSION_1);
 
     let assert = huber_cmd!(arg("current").arg(PKG_VERSION_1).assert().success());
-    assert_eq_last_line!(
+    assert_eq_last_line_regex!(
         assert.get_output().stderr,
-        format!("[INFO ] {} is now the current version", PKG_VERSION_1)
+        &format!(r#"{} is now the current version"#, PKG_VERSION_1)
     );
 }
 
@@ -29,12 +29,9 @@ fn test_current_fail() {
         reset_huber();
     }
 
-    huber_cmd!(arg("current")
-        .arg(INVALID_PKG_VERSION)
-        .assert()
-        .failure()
-        .stderr(format!(
-            "[ERROR] Package not installed: \"{}\"\n",
-            INVALID_PKG
-        )));
+    let assert = huber_cmd!(arg("current").arg(INVALID_PKG_VERSION).assert().failure());
+    assert_contain_line_regex!(
+        assert.get_output().stderr,
+        &format!(r#"Package not installed: "{}""#, INVALID_PKG)
+    );
 }

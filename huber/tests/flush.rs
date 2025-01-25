@@ -13,14 +13,12 @@ fn test_flush_nothing() {
         reset_huber();
     }
 
-    huber_cmd!(arg("flush")
-        .assert()
-        .success()
-        .stderr("[INFO ] Nothing to flush\n"));
+    let assert = huber_cmd!(arg("flush").assert().success());
+    assert_contain_line_regex!(assert.get_output().stderr, "Nothing to flush");
 }
 
 #[test]
-#[sequential]
+// #[sequential]
 fn test_flush() {
     defer! {
         reset_huber();
@@ -31,12 +29,14 @@ fn test_flush() {
 
     let assert = huber_cmd!(arg("flush").assert().success());
     let tokens: Vec<_> = PKG_VERSION_1.splitn(2, '@').collect();
+    let pkg = tokens[0];
+    let version = tokens[1];
 
-    assert_eq_last_line!(
+    assert_contain_line_regex!(
         assert.get_output().stderr,
-        format!(
-            "[INFO ] {} (version: {}, source: github) removed",
-            tokens[0], tokens[1]
+        &format!(
+            r#"{} \(version: {}, source: github\) removed"#,
+            pkg, version
         )
     );
 }

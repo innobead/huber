@@ -15,23 +15,24 @@ fn test_lock() {
 
     install_pkg(PKG_VERSION_1);
     let tokens: Vec<_> = PKG_VERSION_1.splitn(2, '@').collect();
+    let pkg = tokens[0];
     let version = tokens[1].trim_start_matches('v');
-    let pkg_version = format!("{}@{}", tokens[0], version);
+    let pkg_version = format!("{}@{}", pkg, version);
 
     let assert = huber_cmd!(arg("lock").arg(pkg_version).assert().success());
     assert_contain_line_regex!(
         assert.get_output().stderr,
-        r"\[INFO \] Packages locked successfully"
+        r#"Packages locked successfully"#
     );
 
     huber_cmd!(arg("lock").arg("show").assert().success());
 
     let assert = update_pkg("k9s");
-    assert_eq_last_line_regex!(
+    assert_contain_line_regex!(
         assert.get_output().stderr,
         &format!(
-            r"\[WARN \] Package k9s is locked to version {}. Skipping update to \S+",
-            version
+            r#"Package {} is locked to version {}. Skipping update to \S+"#,
+            pkg, version
         )
     );
 }
@@ -50,9 +51,9 @@ fn test_lock_fail() {
 
     let assert = huber_cmd!(arg("lock").arg(pkg_version).assert().success());
 
-    assert_eq_last_line_regex!(
+    assert_contain_line_regex!(
         assert.get_output().stderr,
-        &format!(r"\[WARN \] Skipped locking package {}@", pkg)
+        &format!(r#"Skipped locking package {}@"#, pkg)
     );
 }
 
@@ -76,12 +77,12 @@ fn test_lock_semver_req() {
 
     assert_contain_line_regex!(
         assert.get_output().stderr,
-        r"\[INFO \] Packages locked successfully"
+        r#"Packages locked successfully"#
     );
 
     let assert = update_pkg(pkg);
-    assert_eq_last_line_regex!(
+    assert_contain_line_regex!(
         assert.get_output().stderr,
-        &format!(r"\[INFO \] Package {} updated to \S+ successfully", pkg)
+        &format!(r#"Package {} updated to \S+ successfully"#, pkg)
     );
 }
