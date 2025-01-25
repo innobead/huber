@@ -9,7 +9,7 @@ use semver::{Version, VersionReq};
 /// use huber::opt::parse_pkg_name_semver;
 /// let (name, version) = parse_pkg_name_semver("package-name@1.2.3").unwrap();
 /// assert_eq!(name, "package-name");
-/// assert_eq!(version, "v1.2.3");
+/// assert_eq!(version, "1.2.3");
 /// ```
 pub fn parse_pkg_name_semver(name_version: &str) -> anyhow::Result<(String, String)> {
     let result: Vec<_> = name_version.splitn(2, '@').collect();
