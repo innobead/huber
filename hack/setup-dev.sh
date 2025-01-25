@@ -44,5 +44,7 @@ install_rust_deps() {
   cargo install cargo-udeps
 }
 
-install_linux_deps
+if [ "$(uname)" == "Linux" ]; then
+  install_linux_deps
+fi
 install_rust_deps
