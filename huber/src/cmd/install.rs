@@ -4,7 +4,7 @@ use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use huber_common::model::config::Config;
 use huber_common::model::release::Release;
-use log::{info, warn};
+use log::{debug, info, warn};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use tokio::task::JoinHandle;
 
@@ -102,6 +102,7 @@ pub async fn install_packages(
 
             info!("Installing package {}", msg);
             pkg.version = Some(version.clone());
+            debug!("Updating package: {:#?}", pkg);
             release_service.update(&pkg).await?;
             info!("{} installed", msg);
 
