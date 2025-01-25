@@ -86,6 +86,7 @@ pub enum PackageTargetType {
     MacOSAmd64(PackageManagement),
     MacOSArm64(PackageManagement),
     WindowsAmd64(PackageManagement),
+    WindowsArm64(PackageManagement),
     Default(PackageManagement),
 }
 

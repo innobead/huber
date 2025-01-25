@@ -11,7 +11,7 @@ if command -v greadlink &> /dev/null; then
 fi
 
 PROJECT_DIR=$($readlink -f "$(dirname "${BASH_SOURCE[0]}")/..")
-PKG_INDEXES_MD="${PROJECT_DIR}"/doc/packages.md
+PKG_INDEXES_MD="${PROJECT_DIR}"/docs/packages.md
 PKG_INDEXES_CONTENT=${1:-}
 
 if [ -z "$PKG_INDEXES_CONTENT" ]; then

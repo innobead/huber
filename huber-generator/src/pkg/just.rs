@@ -26,8 +26,16 @@ pub fn release() -> Package {
                 artifact_templates: vec!["just-{version}-x86_64-apple-darwin.tar.gz".to_string()],
                 ..Default::default()
             }),
+            PackageTargetType::MacOSArm64(PackageManagement {
+                artifact_templates: vec!["just-{version}-aarch64-apple-darwin.tar.gz".to_string()],
+                ..Default::default()
+            }),
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec!["just-{version}-x86_64-pc-windows-msvc.zip".to_string()],
+                ..Default::default()
+            }),
+            PackageTargetType::WindowsArm64(PackageManagement {
+                artifact_templates: vec!["just-{version}-aarch64-pc-windows-msvc.zip".to_string()],
                 ..Default::default()
             }),
         ],
