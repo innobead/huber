@@ -12,30 +12,28 @@ jobs:
       matrix:
         job:
         - { target: x86_64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true }
+        - { target: x86_64-unknown-linux-musl, os: ubuntu-24.04, use-cross: true, use-just: true }
         - { target: aarch64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true }
+        - { target: aarch64-unknown-linux-musl, os: ubuntu-24.04, use-cross: true, use-just: true }
         - { target: arm-unknown-linux-gnueabihf, os: ubuntu-20.04, use-cross: true, use-just: true }
+        - { target: arm-unknown-linux-musleabihf, os: ubuntu-20.04, use-cross: true, use-just: true }
         - { target: x86_64-apple-darwin, os: macos-13, use-just: true }
-#        - { target: aarch64-apple-darwin, os: macos-14, use-just: true }
-#        - { target: x86_64-pc-windows-gnu, os: windows-2022 }
+        - { target: aarch64-apple-darwin, os: macos-14, use-just: true }
+        - { target: x86_64-pc-windows-gnu, os: windows-2022 }
+        - { target: x86_64-pc-windows-msvc, os: windows-2022 }
     steps:
     - uses: actions/checkout@v4
     - uses: Swatinem/rust-cache@v2
     - uses: extractions/setup-just@v2
     - uses: dtolnay/rust-toolchain@stable
     - uses: dtolnay/rust-toolchain@nightly
-
-    # Linux and MacOS
     - run: just setup-dev
       if: matrix.job.use-just == true
-    - run: just test
-      if: matrix.job.use-just == true && contains('x86_64-unknown-linux-gnu,x86_64-apple-darwin,aarch64-apple-darwin', matrix.job.target)
-    - run: just build ${{ matrix.job.target }}
-      if: matrix.job.use-just == true
-
-    # Windows
     - run: ./hack/windows/setup-dev.ps1
       if: matrix.job.os == 'windows-2022'
-    - run: cargo test
-      if: matrix.job.os == 'windows-2022'
-    - run: cargo build --target ${{ matrix.job.target }}
-      if: matrix.job.os == 'windows-2022'
+#    - run: just test
+#      if: matrix.job.use-just == true && contains('x86_64-unknown-linux-gnu,aarch64-apple-darwin,x86_64-pc-windows-gnu', matrix.job.target)
+    - run: just build-cross ${{ matrix.job.target }}
+      if: matrix.job.use-just == true && matrix.job.use-cross == true
+    - run: just build ${{ matrix.job.target }}
+      if: (matrix.job.use-just == true || matrix.job.os == 'windows-2022') && matrix.job.use-cross == false

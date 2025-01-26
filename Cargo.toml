@@ -41,7 +41,7 @@ semver = "1.0.14"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde_yaml = "0.9.19"
-reqwest = { version = "0.12.9", features = ["json"] }
+reqwest = { version = "0.12.9", default-features = false, features = ["json", "native-tls-vendored"] }
 tokio = { version = "1.27", features = ["full"] }
 regex = "1.4.1"
 futures = "0.3"
@@ -68,4 +68,4 @@ filepath = "0.2.0"
 tar = "0.4.43"
 xz2 = "0.1.0"
 flate2 = "1.0.19"
-zip = "2.2.2"
+zip = { version = "2.2.2", default-features = false, features = ["deflate-zlib-ng"] }

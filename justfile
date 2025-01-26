@@ -13,6 +13,10 @@ build target='' cmd_opts='': fmt fix
     @rustup target add {{ if target != "" { target } else { shell("default-target") } }}
     @cargo {{ cargo_opts }} build {{ cmd_opts }} --target {{ if target != "" { target } else { shell("default-target") } }}
 
+# Build binaries via Cross
+build-cross target="" cmd_opts='': fmt fix
+    @cross {{ cargo_opts }} build {{ cmd_opts }} --target {{ if target != "" { target } else { shell("default-target") } }}
+
 # Run tests
 test:
     @cargo {{ cargo_opts }} test
