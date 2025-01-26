@@ -39,6 +39,7 @@ install_rust_deps() {
   fi
 
   rustup component add rustfmt clippy
+  cargo install cross
   cargo install default-target
   cargo install --git https://github.com/DevinR528/cargo-sort.git --tag v1.1.0 cargo-sort
   cargo install cargo-udeps
