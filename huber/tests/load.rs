@@ -11,7 +11,6 @@ mod common;
 
 #[test]
 #[sequential]
-#[cfg(not(target_os = "windows"))]
 fn test_load() {
     defer! {
         reset_huber();
@@ -20,6 +19,7 @@ fn test_load() {
     let file = tempfile::tempfile().unwrap();
     let path = file.path().unwrap().to_string_lossy().to_string();
     defer!(remove_file(&path).unwrap());
+    drop(file);
 
     install_pkg(PKG_VERSION_1);
     save_pkg_list(&path);

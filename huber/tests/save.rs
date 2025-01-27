@@ -23,6 +23,7 @@ fn test_save() {
     defer! {
         let  _ = fs::remove_file(&path);
     };
+    drop(file);
 
     let assert = save_pkg_list(path.to_string_lossy().to_string().as_ref());
     //FIXME: should check the file path

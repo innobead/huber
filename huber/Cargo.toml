@@ -21,6 +21,7 @@ chrono.workspace = true
 [dev-dependencies]
 assert_cmd = "2.0.16"
 sequential-test = "0.2.4"
+tempfile = "3.15.0"
 
 [dependencies]
 anyhow.workspace = true
@@ -52,7 +53,6 @@ serde.workspace = true
 serde_yaml.workspace = true
 simpledi-rs.workspace = true
 symlink.workspace = true
-tempfile = "3.15.0"
 thiserror.workspace = true
 tokio.workspace = true
 url.workspace = true
