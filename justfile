@@ -9,12 +9,12 @@ github_token := env('GITHUB_TOKEN', '')
 github_key := env('GITHUB_KEY', '')
 
 # Build binaries
-build target='' cmd_opts='': fmt fix
+build target='' cmd_opts='':
     @rustup target add {{ if target != "" { target } else { shell("default-target") } }}
     @cargo {{ cargo_opts }} build {{ cmd_opts }} --target {{ if target != "" { target } else { shell("default-target") } }}
 
 # Build binaries via Cross
-build-cross target="" cmd_opts='': fmt fix
+build-cross target="" cmd_opts='':
     @cross {{ cargo_opts }} build {{ cmd_opts }} --target {{ if target != "" { target } else { shell("default-target") } }}
 
 # Run tests
