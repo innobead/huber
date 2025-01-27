@@ -31,9 +31,10 @@ jobs:
       if: matrix.job.use-just == true
     - run: ./hack/windows/setup-dev.ps1
       if: matrix.job.os == 'windows-2022'
-#    - run: just test
-#      if: matrix.job.use-just == true && contains('x86_64-unknown-linux-gnu,aarch64-apple-darwin,x86_64-pc-windows-gnu', matrix.job.target)
     - run: just build-cross ${{ matrix.job.target }}
       if: matrix.job.use-just == true && matrix.job.use-cross == true
     - run: just build ${{ matrix.job.target }}
       if: (matrix.job.use-just == true || matrix.job.os == 'windows-2022') && matrix.job.use-cross == false
+    - run: just test
+      if: matrix.job.use-just == true && contains('x86_64-unknown-linux-gnu,aarch64-apple-darwin,x86_64-pc-windows-gnu', matrix.job.target)
+      continue-on-error: true

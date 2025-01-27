@@ -676,7 +676,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
     }
 
     async fn update(&self, obj: &Self::Item_) -> anyhow::Result<Self::ItemInstance_> {
-        debug!("Updating release from package: {:#?}", &obj);
+        info!("Updating release from package: {:#?}", &obj); //TODO change to debug
 
         let config = self.container.get::<Config>().unwrap();
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
