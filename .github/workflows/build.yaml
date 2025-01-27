@@ -23,7 +23,9 @@ jobs:
         - { target: x86_64-pc-windows-msvc, os: windows-2022 }
     steps:
     - uses: actions/checkout@v4
-#    - uses: Swatinem/rust-cache@v2
+    - uses: Swatinem/rust-cache@v2
+      with:
+        cache-targets: 'false'
     - uses: extractions/setup-just@v2
     - uses: dtolnay/rust-toolchain@stable
     - uses: dtolnay/rust-toolchain@nightly
