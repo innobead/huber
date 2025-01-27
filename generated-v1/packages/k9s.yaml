@@ -19,4 +19,4 @@ targets:
   - k9s_Darwin_arm64.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - k9s_Windows_amd64.tar.gz
+  - k9s_Windows_amd64.zip

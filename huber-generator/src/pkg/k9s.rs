@@ -27,7 +27,7 @@ pub fn release() -> Package {
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["k9s_Windows_amd64.tar.gz".to_string()],
+                artifact_templates: vec!["k9s_Windows_amd64.zip".to_string()],
                 ..Default::default()
             }),
         ],

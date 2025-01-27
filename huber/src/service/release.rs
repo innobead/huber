@@ -492,8 +492,9 @@ impl ReleaseAsyncTrait for ReleaseService {
 
         if asset_download_urls.is_empty() {
             return Err(anyhow!(
-                "No available artifacts for {} to download",
-                package.name
+                "No available artifacts for {} to download. Expected artifact names: {:?}",
+                package.name,
+                asset_names
             ));
         }
 

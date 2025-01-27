@@ -64,6 +64,7 @@
  jiq              jid on jq - interactive JSON query tool using jq expressions                                             https://github.com/fiatjaf/jiq 
  jless            jless is a command-line JSON viewer designed for reading, exploring, and searching through JSON data...  https://github.com/PaulJuliusMartinez/jless 
  jq               Command-line JSON processor                                                                              https://github.com/stedolan/jq 
+ just             🤖 Just a command runner                                                                                 https://github.com/casey/just 
  jwt-cli          A super fast CLI tool to decode and encode JWTs built in Rust                                            https://github.com/mike-engel/jwt-cli 
  k0s              k0s - The Zero Friction Kubernetes                                                                       https://github.com/k0sproject/k0s 
  k3d              Little helper to run CNCF's k3s in Docker                                                                https://github.com/rancher/k3d 

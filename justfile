@@ -9,9 +9,8 @@ github_token := env('GITHUB_TOKEN', '')
 github_key := env('GITHUB_KEY', '')
 
 # Build binaries
-build target='' cmd_opts='':
-    @rustup target add {{ if target != "" { target } else { shell("default-target") } }}
-    @cargo {{ cargo_opts }} build {{ cmd_opts }} --target {{ if target != "" { target } else { shell("default-target") } }}
+build cmd_opts='':
+    @cargo {{ cargo_opts }} build {{ cmd_opts }}
 
 # Build binaries via Cross
 build-cross target="" cmd_opts='':
@@ -21,14 +20,11 @@ build-cross target="" cmd_opts='':
 test:
     @cargo {{ cargo_opts }} test
 
-# Format & Lint codes
-fmt:
+# Format & Fix codes
+ffix:
     @cargo-sort --workspace
     @cargo {{ cargo_opts }} +nightly fmt --all
     @cargo clippy --fix --no-deps --allow-dirty --allow-staged
-
-# Fix code
-fix:
     @cargo {{ cargo_opts }} fix --allow-dirty --allow-staged
 
 # Find unused dependencies
