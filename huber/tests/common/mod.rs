@@ -19,8 +19,8 @@ macro_rules! huber_cmd {
                     .unwrap()
                     .join("generated-v1"),
             )
-            // .arg("-l")
-            // .arg("debug")
+            .arg("-l")
+            .arg("debug")
             .$($body)*
     };
 }
