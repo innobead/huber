@@ -9,8 +9,9 @@ github_token := env('GITHUB_TOKEN', '')
 github_key := env('GITHUB_KEY', '')
 
 # Build binaries
-build cmd_opts='':
-    @cargo {{ cargo_opts }} build {{ cmd_opts }}
+build target='' cmd_opts='':
+    @rustup target add {{ if target != "" { target } else { shell("default-target") } }}
+    @cargo {{ cargo_opts }} build {{ cmd_opts }} {{ if target != "" { "--target " + target } else { "" } }}
 
 # Build binaries via Cross
 build-cross target="" cmd_opts='':
@@ -72,14 +73,5 @@ install:
     HUBER_PKG_ROOT_DIR={{ pkg_dir }} {{ huber_exec }} {{ huber_cmd }}
 
 # (local dev) Run commands using the installed Huber with the local package generated folder
-run-installed huber_cmd pkg_dir=huber_pkg_root_dir:
+@run-installed huber_cmd pkg_dir=huber_pkg_root_dir:
     @HUBER_PKG_ROOT_DIR={{ pkg_dir }} `which huber` {{ huber_cmd }}
-
-# (local dev) Build binaries for linux multiple architectures
-build-multiarch platforms='linux/arm64':
-    PLATFORMS={{ platforms }} BUILD_TARGET=debug JUST_TARGET="test build" {{ prj_dir }}/hack/build-multiarch.sh
-
-# (local dev) Release binaries for linux multiple archite
-release-multiarch platforms='linux/arm64':
-    PLATFORMS={{ platforms }} BUILD_TARGET=release OUTPUT_DIR={{ build_cache_dir }} JUST_TARGET=release {{ prj_dir }}/hack/build-multiarch.sh
-    mkdir -p {{ build_dir }} && cp {{ build_cache_dir }}/target/huber-* {{ build_dir }}/
