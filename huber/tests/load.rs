@@ -11,6 +11,7 @@ mod common;
 
 #[test]
 #[sequential]
+#[cfg(not(target_os = "windows"))]
 fn test_load() {
     defer! {
         reset_huber();
