@@ -10,6 +10,8 @@ on:
 
 jobs:
   build:
+    strategy:
+      matrix:
+        job:
+        - { target: x86_64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true }
     uses: ./.github/workflows/build.yaml
-    with:
-      pr_job: true
