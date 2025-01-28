@@ -1,24 +1,15 @@
-name: PR/Push
+name: Pull Request
 
 on:
   workflow_dispatch:
     inputs: { }
   pull_request:
-  push:
     branches:
     - main
     - dev
 
 jobs:
-  build-linux-x86_64:
-    name: Build - linux x86_64
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v4
-    - uses: extractions/setup-just@v2
-    - uses: dtolnay/rust-toolchain@stable
-    - uses: dtolnay/rust-toolchain@nightly
-
-    - run: just setup-dev
-    - run: just test
-    - run: just build
+  build:
+    uses: ./.github/workflows/build.yaml
+    with:
+      pr_job: true
