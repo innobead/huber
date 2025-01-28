@@ -64,7 +64,7 @@ jobs:
         case ${{ matrix.job.target }} in
           *-pc-windows-*) EXE_suffix=".exe" ;;
         esac;
-        echo "HUBER_BIN_PATH=target/${{ matrix.job.target }}/release/huber${EXE_suffix}" >> $GITHUB_OUTPUT
+        echo "HUBER_BIN_PATH=target/${{ matrix.job.target }}/debug/huber${EXE_suffix}" >> $GITHUB_OUTPUT
 
     - name: Run tests
       run: just test

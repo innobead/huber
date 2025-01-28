@@ -34,7 +34,7 @@ udeps:
 
 # Release binaries
 release:
-    @just build '--release'
+    @just build '' '--release'
     @mkdir -p {{ build_dir }} && cp {{ prj_dir }}/target/release/huber {{ build_dir }}/`{{ generate_artifact_name }}`
     @just _checksum
 
