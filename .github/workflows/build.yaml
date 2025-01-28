@@ -53,12 +53,13 @@ jobs:
         key: docker-${{ matrix.job.os }}-${{ matrix.job.target }}
 
     - name: Build huber
-      id: build-huber
       if: (matrix.job.use-just == true || matrix.job.os == 'windows-2022') && matrix.job.use-cross == false
+      run: just build ${{ matrix.job.target }}
+
+    - name: Output huber binary path
+      id: bin-path
       shell: bash
       run: |
-        just build ${{ matrix.job.target }}
-        
         EXE_suffix=""
         case ${{ matrix.job.target }} in
           *-pc-windows-*) EXE_suffix=".exe" ;;
@@ -75,5 +76,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ${{ matrix.job.target }}
-        path: ${{ steps.build-huber.outputs.HUBER_BIN_PATH }}
+        path: ${{ steps.bin-path.outputs.HUBER_BIN_PATH }}
 
