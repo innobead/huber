@@ -23,24 +23,57 @@ jobs:
         - { target: x86_64-pc-windows-msvc, os: windows-2022 }
     steps:
     - uses: actions/checkout@v4
-    - uses: Swatinem/rust-cache@v2
+    - name: Enable Rust cache
+      uses: Swatinem/rust-cache@v2
       with:
         cache-targets: 'false'
-    - uses: extractions/setup-just@v2
-    - uses: dtolnay/rust-toolchain@stable
-    - uses: dtolnay/rust-toolchain@nightly
-    - run: just setup-dev
+    - name: Install Just
+      uses: extractions/setup-just@v2
+    - name: Install Rust toolchain - stable
+      uses: dtolnay/rust-toolchain@stable
+    - name: Install Rust toolchain - nightly
+      uses: dtolnay/rust-toolchain@nightly
+
+    - name: Setup build environment
       if: matrix.job.use-just == true
-    - run: ./hack/windows/setup-dev.ps1
+      run: just setup-dev
+
+    - name: Setup build environment
+      run: ./hack/windows/setup-dev.ps1
       if: matrix.job.os == 'windows-2022'
-    - run: just build-cross ${{ matrix.job.target }}
+
+    - name: Build Cross
       if: matrix.job.use-just == true && matrix.job.use-cross == true
-    - uses: ScribeMD/docker-cache@0.5.0
+      run: just build-cross ${{ matrix.job.target }}
+
+    - name: Cache container images
       if: matrix.job.use-cross == true
+      uses: ScribeMD/docker-cache@0.5.0
       with:
         key: docker-${{ matrix.job.os }}-${{ matrix.job.target }}
-    - run: just build ${{ matrix.job.target }}
+
+    - name: Build huber
+      id: build-huber
       if: (matrix.job.use-just == true || matrix.job.os == 'windows-2022') && matrix.job.use-cross == false
-    - run: just test
+      shell: bash
+      run: |
+        just build ${{ matrix.job.target }}
+        
+        EXE_suffix=""
+        case ${{ matrix.job.target }} in
+          *-pc-windows-*) EXE_suffix=".exe" ;;
+        esac;
+        echo "HUBER_BIN_PATH=target/${{ matrix.job.target }}/release/huber${EXE_suffix}" >> $GITHUB_OUTPUT
+
+    - name: Run tests
+      run: just test
       if: contains('x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu,aarch64-apple-darwin,x86_64-pc-windows-gnu,arm-unknown-linux-gnueabihf', matrix.job.target)
       continue-on-error: true
+
+    - name: Upload artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.job.target }}
+        path: ${{ steps.build-huber.outputs.HUBER_BIN_PATH }}
+
