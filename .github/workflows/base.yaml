@@ -19,6 +19,10 @@ on:
         required: true
         type: boolean
 
+defaults:
+  run:
+    shell: bash
+
 jobs:
   build:
     name: ${{ inputs.target }} (${{ inputs.os }})
@@ -64,30 +68,34 @@ jobs:
 
     - name: Output huber binary path
       id: bin-path
-      shell: bash
       run: |
         EXE_suffix=""
         case ${{ inputs.target }} in
           *-pc-windows-*) EXE_suffix=".exe" ;;
         esac;
-        echo "HUBER_BIN_PATH=target/${{ inputs.target }}/debug/huber${EXE_suffix}" >> $GITHUB_OUTPUT
+        
+        exec_name=huber-${{ inputs.target }}${EXE_suffix}
+        sha256sum_name=$exec_name.sha256sum
+        cp -f target/${{ inputs.target }}/debug/huber${EXE_suffix} $exec_name
+        sha256sum $exec_name > $exec_name.sha256sum
+        
+        echo "HUBER_BIN_PATH=$exec_name" >> $GITHUB_OUTPUT
+        echo "HUBER_BIN_SHA256SUM_PATH=$sha256sum_name" >> $GITHUB_OUTPUT
 
     - name: Run tests
       run: just test
       if: contains('x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu,aarch64-apple-darwin,x86_64-pc-windows-gnu,arm-unknown-linux-gnueabihf', inputs.target)
       continue-on-error: true
 
-    - name: Upload artifacts
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: ${{ inputs.target }}
-        path: ${{ steps.bin-path.outputs.HUBER_BIN_PATH }}
+    - name: Show built artifacts
+      run: |
+        echo "Artifact: ${{ steps.bin-path.outputs.HUBER_BIN_PATH }}"
+        echo "SHA256SUM: ${{ steps.bin-path.outputs.HUBER_BIN_SHA256SUM_PATH }}"
 
     - name: Create github release
       if: inputs.release_job == true && startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v2
       with:
-        files: ${{ steps.bin-path.outputs.HUBER_BIN_PATH }}
+        files: "${{ steps.bin-path.outputs.HUBER_BIN_PATH }},${{ steps.bin-path.outputs.HUBER_BIN_SHA256SUM_PATH }}"
         draft: true
 
