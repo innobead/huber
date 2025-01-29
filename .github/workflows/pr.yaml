@@ -8,8 +8,14 @@ on:
     - dev
 
 jobs:
-  build:
+  pr:
     uses: ./.github/workflows/base.yaml
+    with:
+      release_job: false
+      target: ${{ matrix.job.target }}
+      os: ${{ matrix.job.os }}
+      use-cross: ${{ matrix.job.use-cross }}
+      use-just: ${{ matrix.job.use-just }}
     strategy:
       matrix:
         job:

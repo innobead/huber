@@ -6,25 +6,23 @@ on:
       release_job:
         required: false
         type: boolean
-        default: true
+      target:
+        required: true
+        type: string
+      os:
+        required: true
+        type: string
+      use-cross:
+        required: true
+        type: boolean
+      use-just:
+        required: true
+        type: boolean
 
 jobs:
   build:
-    name: ${{ matrix.job.target }} (${{ matrix.job.os }})
-    runs-on: ${{ matrix.job.os }}
-#    strategy:
-#      matrix:
-#        job:
-#        - { target: x86_64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true }
-#        - { target: x86_64-unknown-linux-musl, os: ubuntu-24.04, use-cross: true, use-just: true }
-#        - { target: aarch64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true }
-#        - { target: aarch64-unknown-linux-musl, os: ubuntu-24.04, use-cross: true, use-just: true }
-#        - { target: arm-unknown-linux-gnueabihf, os: ubuntu-20.04, use-cross: true, use-just: true }
-#        - { target: arm-unknown-linux-musleabihf, os: ubuntu-20.04, use-cross: true, use-just: true }
-#        - { target: x86_64-apple-darwin, os: macos-13, use-just: true }
-#        - { target: aarch64-apple-darwin, os: macos-14, use-just: true }
-#        - { target: x86_64-pc-windows-gnu, os: windows-2022 }
-#        - { target: x86_64-pc-windows-msvc, os: windows-2022 }
+    name: ${{ inputs.target }} (${{ inputs.os }})
+    runs-on: ${{ inputs.os }}
     steps:
     - uses: actions/checkout@v4
 
@@ -43,47 +41,47 @@ jobs:
       uses: dtolnay/rust-toolchain@nightly
 
     - name: Setup build environment
-      if: matrix.job.use-just == true
+      if: inputs.use-just == true
       run: just setup-dev
 
     - name: Setup build environment
       run: ./hack/windows/setup-dev.ps1
-      if: matrix.job.os == 'windows-2022'
+      if: inputs.os == 'windows-2022'
 
     - name: Build Cross
-      if: matrix.job.use-just == true && matrix.job.use-cross == true
-      run: just build-cross ${{ matrix.job.target }}
+      if: inputs.use-just == true && inputs.use-cross == true
+      run: just build-cross ${{ inputs.target }}
 
     - name: Cache container images
-      if: matrix.job.use-cross == true
+      if: inputs.use-cross == true
       uses: ScribeMD/docker-cache@0.5.0
       with:
-        key: docker-${{ matrix.job.os }}-${{ matrix.job.target }}
+        key: docker-${{ inputs.os }}-${{ inputs.target }}
 
     - name: Build
-      if: (matrix.job.use-just == true || matrix.job.os == 'windows-2022') && matrix.job.use-cross == false
-      run: just build ${{ matrix.job.target }}
+      if: (inputs.use-just == true || inputs.os == 'windows-2022') && inputs.use-cross == false
+      run: just build ${{ inputs.target }}
 
     - name: Output huber binary path
       id: bin-path
       shell: bash
       run: |
         EXE_suffix=""
-        case ${{ matrix.job.target }} in
+        case ${{ inputs.target }} in
           *-pc-windows-*) EXE_suffix=".exe" ;;
         esac;
-        echo "HUBER_BIN_PATH=target/${{ matrix.job.target }}/debug/huber${EXE_suffix}" >> $GITHUB_OUTPUT
+        echo "HUBER_BIN_PATH=target/${{ inputs.target }}/debug/huber${EXE_suffix}" >> $GITHUB_OUTPUT
 
     - name: Run tests
       run: just test
-      if: contains('x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu,aarch64-apple-darwin,x86_64-pc-windows-gnu,arm-unknown-linux-gnueabihf', matrix.job.target)
+      if: contains('x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu,aarch64-apple-darwin,x86_64-pc-windows-gnu,arm-unknown-linux-gnueabihf', inputs.target)
       continue-on-error: true
 
     - name: Upload artifacts
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ matrix.job.target }}
+        name: ${{ inputs.target }}
         path: ${{ steps.bin-path.outputs.HUBER_BIN_PATH }}
 
     - name: Create github release
