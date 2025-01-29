@@ -1,14 +1,27 @@
 name: Release
 
 on:
-  workflow_dispatch:
-    inputs: { }
   push:
     tags:
     - 'v*.*.*'
 
 jobs:
-  build:
-    uses: ./.github/workflows/build.yaml
+  release:
+    name: ${{ matrix.job.target }} (${{ matrix.job.os }})
+    runs-on: ${{ matrix.job.os }}
+    uses: ./.github/workflows/base.yaml
     with:
       release_job: true
+    strategy:
+      matrix:
+        job:
+        - { target: x86_64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true }
+        - { target: x86_64-unknown-linux-musl, os: ubuntu-24.04, use-cross: true, use-just: true }
+        - { target: aarch64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true }
+        - { target: aarch64-unknown-linux-musl, os: ubuntu-24.04, use-cross: true, use-just: true }
+        - { target: arm-unknown-linux-gnueabihf, os: ubuntu-20.04, use-cross: true, use-just: true }
+        - { target: arm-unknown-linux-musleabihf, os: ubuntu-20.04, use-cross: true, use-just: true }
+        - { target: x86_64-apple-darwin, os: macos-13, use-just: true }
+        - { target: aarch64-apple-darwin, os: macos-14, use-just: true }
+        - { target: x86_64-pc-windows-gnu, os: windows-2022 }
+        - { target: x86_64-pc-windows-msvc, os: windows-2022 }
