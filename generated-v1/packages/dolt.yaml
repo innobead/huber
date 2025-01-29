@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/dolt-linux-amd64.tar.gz'
+  - dolt-linux-amd64.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/dolt-darwin-amd64.tar.gz'
+  - dolt-darwin-amd64.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/dolt-windows-amd64.zip'
+  - dolt-windows-amd64.zip

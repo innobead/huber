@@ -8,9 +8,10 @@ use log::debug;
 use semver::Version;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
+use crate::cmd::PlatformStdLib;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
-use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ServiceTrait};
+use crate::service::{ItemOperationTrait, ServiceTrait};
 
 pub trait UpdateTrait {
     fn reset(&self) -> anyhow::Result<()>;
@@ -19,7 +20,7 @@ pub trait UpdateTrait {
 #[async_trait]
 pub trait UpdateAsyncTrait {
     async fn has_update(&self) -> anyhow::Result<(bool, String)>;
-    async fn update(&self) -> anyhow::Result<()>;
+    async fn update(&self, platform_std_lib: Option<PlatformStdLib>) -> anyhow::Result<()>;
 }
 
 #[derive(Debug)]
@@ -118,7 +119,7 @@ impl UpdateAsyncTrait for HuberUpdateService {
         }
     }
 
-    async fn update(&self) -> anyhow::Result<()> {
+    async fn update(&self, platform_std_lib: Option<PlatformStdLib>) -> anyhow::Result<()> {
         let pkg_service = self.container.get::<PackageService>().unwrap();
         let release_service = self.container.get::<ReleaseService>().unwrap();
 
@@ -126,7 +127,7 @@ impl UpdateAsyncTrait for HuberUpdateService {
         let release = release_service.get_latest(&pkg).await?;
         pkg.version = Some(release.version);
 
-        release_service.update(&pkg).await?;
+        release_service.update(&pkg, platform_std_lib).await?;
         Ok(())
     }
 }

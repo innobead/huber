@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/gping-Linux-x86_64.tar.gz'
+  - gping-Linux-x86_64.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/gping-Darwin-x86_64.tar.gz'
+  - gping-Darwin-x86_64.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/gping-Windows-x86_64.tar.gz'
+  - gping-Windows-x86_64.tar.gz

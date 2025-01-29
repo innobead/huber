@@ -11,11 +11,11 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/renote-linux-amd64".to_string()],
+                artifact_templates: vec!["renote-linux-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/renote-darwin-amd64".to_string()],
+                artifact_templates: vec!["renote-darwin-amd64".to_string()],
                 ..Default::default()
             }),
         ],

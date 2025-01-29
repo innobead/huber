@@ -11,19 +11,19 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/okteto-Linux-x86_64".to_string()],
+                artifact_templates: vec!["okteto-Linux-x86_64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["{version}/okteto-Linux-arm64".to_string()],
+                artifact_templates: vec!["okteto-Linux-arm64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/okteto-Darwin-x86_64".to_string()],
+                artifact_templates: vec!["okteto-Darwin-x86_64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/okteto.exe".to_string()],
+                artifact_templates: vec!["okteto.exe".to_string()],
                 ..Default::default()
             }),
         ],

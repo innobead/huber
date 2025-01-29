@@ -11,11 +11,11 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/x86_64-unknown-linux-gnu.zip".to_string()],
+                artifact_templates: vec!["x86_64-unknown-linux-gnu.zip".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/x86_64-apple-darwin.zip".to_string()],
+                artifact_templates: vec!["x86_64-apple-darwin.zip".to_string()],
                 ..Default::default()
             }),
         ],

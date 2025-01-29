@@ -10,7 +10,7 @@ pub fn release() -> Package {
         },
 
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {
-            artifact_templates: vec!["{version}/choose".to_string()],
+            artifact_templates: vec!["choose".to_string()],
             ..Default::default()
         })],
         ..Default::default()

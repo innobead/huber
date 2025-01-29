@@ -12,7 +12,7 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/jq-linux64".to_string()],
+                artifact_templates: vec!["jq-linux64".to_string()],
                 executable_mappings: Some(hashmap! {
                     "jq-linux64".to_string() => "jq".to_string()
                 }),
@@ -20,7 +20,7 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/jq-osx-amd64".to_string()],
+                artifact_templates: vec!["jq-osx-amd64".to_string()],
                 executable_mappings: Some(hashmap! {
                     "jq-osx-amd64".to_string() => "jq".to_string()
                 }),
@@ -28,7 +28,7 @@ pub fn release() -> Package {
                 scan_dirs: None,
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/jq-win64.exe".to_string()],
+                artifact_templates: vec!["jq-win64.exe".to_string()],
                 executable_mappings: Some(hashmap! {
                     "jq-win64.exe".to_string() => "jq.exe".to_string()
                 }),

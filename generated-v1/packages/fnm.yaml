@@ -7,13 +7,13 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/fnm-linux.zip'
+  - fnm-linux.zip
 - !LinuxArm64
   artifact_templates:
-  - '{version}/fnm-arm64.zip'
+  - fnm-arm64.zip
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/fnm-macos.zip'
+  - fnm-macos.zip
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/fnm-windows.zip'
+  - fnm-windows.zip

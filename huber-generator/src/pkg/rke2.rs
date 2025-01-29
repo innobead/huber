@@ -10,7 +10,7 @@ pub fn release() -> Package {
         },
 
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {
-            artifact_templates: vec!["{version}/rke2.linux-amd64".to_string()],
+            artifact_templates: vec!["rke2.linux-amd64".to_string()],
             ..Default::default()
         })],
         ..Default::default()

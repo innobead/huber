@@ -7,13 +7,13 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/eksctl_Linux_amd64.tar.gz'
+  - eksctl_Linux_amd64.tar.gz
 - !LinuxArm64
   artifact_templates:
-  - '{version}/eksctl_Linux_arm64.tar.gz'
+  - eksctl_Linux_arm64.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/eksctl_Darwin_amd64.tar.gz'
+  - eksctl_Darwin_amd64.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/eksctl_Windows_amd64.zip'
+  - eksctl_Windows_amd64.zip

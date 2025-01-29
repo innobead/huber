@@ -11,19 +11,19 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/kompose-linux-arm64".to_string()],
+                artifact_templates: vec!["kompose-linux-arm64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["{version}/kompose-linux-amd64".to_string()],
+                artifact_templates: vec!["kompose-linux-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/kompose-darwin-amd64".to_string()],
+                artifact_templates: vec!["kompose-darwin-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/kompose-windows-amd64.exe".to_string()],
+                artifact_templates: vec!["kompose-windows-amd64.exe".to_string()],
                 ..Default::default()
             }),
         ],

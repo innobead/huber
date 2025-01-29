@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/podman-remote-static.tar.gz".to_string()],
+                artifact_templates: vec!["podman-remote-static.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/podman-remote-release-darwin.zip".to_string()],
+                artifact_templates: vec!["podman-remote-release-darwin.zip".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/podman-remote-release-windows.zip".to_string()],
+                artifact_templates: vec!["podman-remote-release-windows.zip".to_string()],
                 ..Default::default()
             }),
         ],

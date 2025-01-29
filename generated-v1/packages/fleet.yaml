@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/fleet-linux-amd64'
+  - fleet-linux-amd64
 - !LinuxArm64
   artifact_templates:
-  - '{version}/fleet-linux-arm64'
+  - fleet-linux-arm64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/fleet-darwin-arm64'
+  - fleet-darwin-arm64

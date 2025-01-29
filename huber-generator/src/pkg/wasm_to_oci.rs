@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/linux-amd64-wasm-to-oci".to_string()],
+                artifact_templates: vec!["linux-amd64-wasm-to-oci".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/darwin-amd64-wasm-to-oci".to_string()],
+                artifact_templates: vec!["darwin-amd64-wasm-to-oci".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/windows-amd64-wasm-to-oci.exe".to_string()],
+                artifact_templates: vec!["windows-amd64-wasm-to-oci.exe".to_string()],
                 ..Default::default()
             }),
         ],

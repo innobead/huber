@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/opa_linux_amd64".to_string()],
+                artifact_templates: vec!["opa_linux_amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/opa_darwin_amd64".to_string()],
+                artifact_templates: vec!["opa_darwin_amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/opa_windows_amd64.exe".to_string()],
+                artifact_templates: vec!["opa_windows_amd64.exe".to_string()],
                 ..Default::default()
             }),
         ],

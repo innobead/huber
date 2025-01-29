@@ -1,5 +1,9 @@
+use std::fmt::{Display, Formatter};
+use std::str::FromStr;
+
 use async_trait::async_trait;
-use clap::Subcommand;
+use clap::builder::PossibleValue;
+use clap::{Subcommand, ValueEnum};
 use clap_complete::Shell;
 use config::ConfigArgs;
 use current::CurrentArgs;
@@ -98,6 +102,52 @@ pub enum Commands {
 
     #[command(about = "Unlock packages", bin_name = "unlock", bin_name = "unlock")]
     Unlock(UnlockArgs),
+}
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+pub enum PlatformStdLib {
+    Gnu,
+    Musl,
+    Msvc,
+}
+
+impl Display for PlatformStdLib {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        self.to_possible_value()
+            .expect("no values are skipped")
+            .get_name()
+            .fmt(f)
+    }
+}
+
+impl FromStr for PlatformStdLib {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        for variant in Self::value_variants() {
+            if variant.to_possible_value().unwrap().matches(s, false) {
+                return Ok(*variant);
+            }
+        }
+        Err(format!("invalid variant: {s}"))
+    }
+}
+
+impl ValueEnum for PlatformStdLib {
+    fn value_variants<'a>() -> &'a [Self] {
+        &[
+            PlatformStdLib::Gnu,
+            PlatformStdLib::Musl,
+            PlatformStdLib::Msvc,
+        ]
+    }
+
+    fn to_possible_value(&self) -> Option<PossibleValue> {
+        Some(match self {
+            PlatformStdLib::Gnu => PossibleValue::new("gnu"),
+            PlatformStdLib::Musl => PossibleValue::new("musl"),
+            PlatformStdLib::Msvc => PossibleValue::new("msvc"),
+        })
+    }
 }
 
 #[macro_export]

@@ -7,21 +7,21 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/buf-Linux-x86_64'
-  - '{version}/protoc-gen-buf-breaking-Linux-x86_64'
+  - buf-Linux-x86_64
+  - protoc-gen-buf-breaking-Linux-x86_64
 - !LinuxArm64
   artifact_templates:
-  - '{version}/buf-Linux-aarch64'
-  - '{version}/protoc-gen-buf-breaking-Linux-aarch64'
+  - buf-Linux-aarch64
+  - protoc-gen-buf-breaking-Linux-aarch64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/buf-Darwin-x86_64'
-  - '{version}/protoc-gen-buf-breaking-Darwin-x86_64'
+  - buf-Darwin-x86_64
+  - protoc-gen-buf-breaking-Darwin-x86_64
 - !MacOSArm64
   artifact_templates:
-  - '{version}/buf-Darwin-arm64'
-  - '{version}/protoc-gen-buf-breaking-Darwin-arm64'
+  - buf-Darwin-arm64
+  - protoc-gen-buf-breaking-Darwin-arm64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/buf-Windows-x86_64'
-  - '{version}/protoc-gen-buf-breaking-Windows-x86_64'
+  - buf-Windows-x86_64
+  - protoc-gen-buf-breaking-Windows-x86_64

@@ -11,19 +11,19 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/k3sup".to_string()],
+                artifact_templates: vec!["k3sup".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["{version}/k3sup-arm64".to_string()],
+                artifact_templates: vec!["k3sup-arm64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/k3sup-darwin".to_string()],
+                artifact_templates: vec!["k3sup-darwin".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/k3sup.exe".to_string()],
+                artifact_templates: vec!["k3sup.exe".to_string()],
                 ..Default::default()
             }),
         ],

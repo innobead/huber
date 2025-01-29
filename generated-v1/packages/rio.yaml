@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/rio-linux-amd64'
+  - rio-linux-amd64
 - !LinuxArm64
   artifact_templates:
-  - '{version}/rio-linux-arm64'
+  - rio-linux-arm64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/rio-darwin-amd64'
+  - rio-darwin-amd64

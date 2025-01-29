@@ -7,12 +7,12 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/linux_czkawka_cli'
-  - '{version}/linux_czkawka_gui'
-  - '{version}/linux_czkawka_gui.AppImage'
+  - linux_czkawka_cli
+  - linux_czkawka_gui
+  - linux_czkawka_gui.AppImage
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/mac_czkawka_cli'
+  - mac_czkawka_cli
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/windows_czkawka_cli.exe'
+  - windows_czkawka_cli.exe

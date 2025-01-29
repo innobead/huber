@@ -7,13 +7,13 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/k3d-linux-amd64'
+  - k3d-linux-amd64
 - !LinuxArm64
   artifact_templates:
-  - '{version}/k3d-linux-arm64'
+  - k3d-linux-arm64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/k3d-darwin-amd64'
+  - k3d-darwin-amd64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/k3d-windows-amd64.exe'
+  - k3d-windows-amd64.exe

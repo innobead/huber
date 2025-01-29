@@ -13,7 +13,7 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/fission-cli-linux".to_string(),
+                    "fission-cli-linux".to_string(),
                     "fission-all-{version}.tgz".to_string(),
                 ],
                 executable_mappings: Some(hashmap! {
@@ -24,7 +24,7 @@ pub fn release() -> Package {
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/fission-cli-osx".to_string(),
+                    "fission-cli-osx".to_string(),
                     "fission-all-{version}.tgz".to_string(),
                 ],
                 executable_mappings: Some(hashmap! {
@@ -35,7 +35,7 @@ pub fn release() -> Package {
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/fission-cli-windows.exe".to_string(),
+                    "fission-cli-windows.exe".to_string(),
                     "fission-all-{version}.tgz".to_string(),
                 ],
                 executable_mappings: Some(hashmap! {

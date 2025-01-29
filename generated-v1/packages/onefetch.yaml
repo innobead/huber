@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/onefetch-linux.tar.gz'
+  - onefetch-linux.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/onefetch-mac.tar.gz'
+  - onefetch-mac.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/onefetch-win.tar.gz'
+  - onefetch-win.tar.gz

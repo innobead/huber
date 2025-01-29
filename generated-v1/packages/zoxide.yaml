@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/zoxide-x86_64-unknown-linux-musl.tar.gz'
+  - zoxide-x86_64-unknown-linux-musl.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/zoxide-x86_64-apple-darwin.tar.gz'
+  - zoxide-x86_64-apple-darwin.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/zoxide-x86_64-pc-windows-msvc.zip'
+  - zoxide-x86_64-pc-windows-msvc.zip

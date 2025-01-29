@@ -7,23 +7,23 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/cosign-linux-amd64'
-  - '{version}/cosigned-linux-amd64'
-  - '{version}/sget-linux-amd64'
+  - cosign-linux-amd64
+  - cosigned-linux-amd64
+  - sget-linux-amd64
 - !LinuxArm64
   artifact_templates:
-  - '{version}/cosign-linux-arm64'
-  - '{version}/cosigned-linux-arm64'
-  - '{version}/sget-linux-arm64'
+  - cosign-linux-arm64
+  - cosigned-linux-arm64
+  - sget-linux-arm64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/cosign-darwin-amd64'
-  - '{version}/sget-darwin-amd64'
+  - cosign-darwin-amd64
+  - sget-darwin-amd64
 - !MacOSArm64
   artifact_templates:
-  - '{version}/cosign-darwin-arm64'
-  - '{version}/sget-darwin-arm64'
+  - cosign-darwin-arm64
+  - sget-darwin-arm64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/cosign-windows-amd64.exe'
-  - '{version}/sget-windows-amd64.exe'
+  - cosign-windows-amd64.exe
+  - sget-windows-amd64.exe

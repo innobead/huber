@@ -7,13 +7,13 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/direnv.linux-amd64'
+  - direnv.linux-amd64
 - !LinuxArm64
   artifact_templates:
-  - '{version}/direnv.linux-arm'
+  - direnv.linux-arm
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/direnv.darwin-amd64'
+  - direnv.darwin-amd64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/direnv.windows-amd64.exe'
+  - direnv.windows-amd64.exe

@@ -11,19 +11,19 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/direnv.linux-amd64".to_string()],
+                artifact_templates: vec!["direnv.linux-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["{version}/direnv.linux-arm".to_string()],
+                artifact_templates: vec!["direnv.linux-arm".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/direnv.darwin-amd64".to_string()],
+                artifact_templates: vec!["direnv.darwin-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/direnv.windows-amd64.exe".to_string()],
+                artifact_templates: vec!["direnv.windows-amd64.exe".to_string()],
                 ..Default::default()
             }),
         ],

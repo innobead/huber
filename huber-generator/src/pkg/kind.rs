@@ -11,19 +11,19 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/kind-linux-amd64".to_string()],
+                artifact_templates: vec!["kind-linux-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["{version}/kind-linux-arm64".to_string()],
+                artifact_templates: vec!["kind-linux-arm64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/kind-darwin-amd64".to_string()],
+                artifact_templates: vec!["kind-darwin-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/kind-windows-amd64".to_string()],
+                artifact_templates: vec!["kind-windows-amd64".to_string()],
                 ..Default::default()
             }),
         ],

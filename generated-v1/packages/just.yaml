@@ -11,6 +11,9 @@ targets:
 - !LinuxArm64
   artifact_templates:
   - just-{version}-aarch64-unknown-linux-musl.tar.gz
+- !LinuxArm
+  artifact_templates:
+  - just-{version}-arm-unknown-linux-musleabihf.tar.gz
 - !MacOSAmd64
   artifact_templates:
   - just-{version}-x86_64-apple-darwin.tar.gz
@@ -20,6 +23,3 @@ targets:
 - !WindowsAmd64
   artifact_templates:
   - just-{version}-x86_64-pc-windows-msvc.zip
-- !WindowsArm64
-  artifact_templates:
-  - just-{version}-aarch64-pc-windows-msvc.zip

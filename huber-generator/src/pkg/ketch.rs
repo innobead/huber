@@ -11,11 +11,11 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/ketch-linux-amd64".to_string()],
+                artifact_templates: vec!["ketch-linux-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/ketch-darwin-amd64".to_string()],
+                artifact_templates: vec!["ketch-darwin-amd64".to_string()],
                 ..Default::default()
             }),
         ],

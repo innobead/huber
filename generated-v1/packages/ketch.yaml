@@ -7,7 +7,7 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/ketch-linux-amd64'
+  - ketch-linux-amd64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/ketch-darwin-amd64'
+  - ketch-darwin-amd64

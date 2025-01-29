@@ -7,13 +7,13 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/k3sup'
+  - k3sup
 - !LinuxArm64
   artifact_templates:
-  - '{version}/k3sup-arm64'
+  - k3sup-arm64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/k3sup-darwin'
+  - k3sup-darwin
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/k3sup.exe'
+  - k3sup.exe

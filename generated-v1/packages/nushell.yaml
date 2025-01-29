@@ -7,16 +7,18 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - nu_{version:_}_linux.tar.gz
-  scan_dirs:
-  - nushell-{version}
+  - nu-{version}-x86_64-unknown-linux-gnu.tar.gz
+  - nu-{version}-x86_64-unknown-linux-musl.tar.gz
+- !LinuxArm64
+  artifact_templates:
+  - nu-{version}-aarch64-unknown-linux-gnu.tar.gz
+  - nu-{version}-aarch64-unknown-linux-musl.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - nu_{version:_}_macOS.zip
-  scan_dirs:
-  - nushell-{version}
+  - nu-{version}-x86_64-apple-darwin.tar.gz
+- !MacOSArm64
+  artifact_templates:
+  - nu-{version}-aarch64-apple-darwin.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - nu_{version:_}_windows.zip
-  scan_dirs:
-  - nushell-{version}
+  - nu-{version}-x86_64-pc-windows-msvc.zip

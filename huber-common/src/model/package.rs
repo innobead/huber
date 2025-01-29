@@ -87,13 +87,12 @@ pub enum PackageTargetType {
     MacOSAmd64(PackageManagement),
     MacOSArm64(PackageManagement),
     WindowsAmd64(PackageManagement),
-    WindowsArm64(PackageManagement),
     Default(PackageManagement),
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub struct PackageManagement {
-    // {version}, {os} can be used in each. Also, an external URL is acceptable
+    // {version}, {os}, {arch} can be used in each. Also, an external URL is acceptable
     pub artifact_templates: Vec<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]

@@ -10,7 +10,7 @@ pub fn release() -> Package {
         },
 
         targets: vec![PackageTargetType::MacOSAmd64(PackageManagement {
-            artifact_templates: vec!["{version}/natls_osx_binary".to_string()],
+            artifact_templates: vec!["natls_osx_binary".to_string()],
             ..Default::default()
         })],
         ..Default::default()

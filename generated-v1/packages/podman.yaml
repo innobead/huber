@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/podman-remote-static.tar.gz'
+  - podman-remote-static.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/podman-remote-release-darwin.zip'
+  - podman-remote-release-darwin.zip
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/podman-remote-release-windows.zip'
+  - podman-remote-release-windows.zip

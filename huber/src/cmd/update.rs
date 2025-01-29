@@ -12,17 +12,25 @@ use maplit::hashmap;
 use semver::{Version, VersionReq};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandTrait, PlatformStdLib};
 use crate::error::HuberError::{PackageNotInstalled, PackageUnableToUpdate};
 use crate::lock_huber_ops;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
-use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
+use crate::service::ItemOperationTrait;
 
 #[derive(Args)]
 pub struct UpdateArgs {
     #[arg(help = "Package name", num_args = 1, value_hint = ValueHint::Unknown)]
     name: Vec<String>,
+
+    #[arg(
+        help = "Prefer standard library (only for Linux or Windows)",
+        long,
+        num_args = 1,
+        value_enum,
+    )]
+    prefer_stdlib: Option<PlatformStdLib>,
 
     #[arg(
         help = "Dry run to show available updates",
@@ -85,6 +93,7 @@ impl CommandTrait for UpdateArgs {
                     self.dryrun,
                     &new_release,
                     installed_release,
+                    self.prefer_stdlib,
                 )
                 .await?;
                 info!(
@@ -141,12 +150,13 @@ async fn update(
     dryrun: bool,
     new_release: &Release,
     installed_release: &Release,
+    prefer_stdlib: Option<PlatformStdLib>,
 ) -> anyhow::Result<()> {
     if dryrun {
         info!("Available update {} to {}", installed_release, new_release);
     } else {
         info!("Updating {} to {}", installed_release, new_release);
-        release_service.update(&new_release.package).await?;
+        release_service.update(&new_release.package, prefer_stdlib).await?;
     }
 
     Ok(())

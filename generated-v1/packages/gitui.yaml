@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/gitui-linux-musl.tar.gz'
+  - gitui-linux-musl.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/gitui-mac.tar.gz'
+  - gitui-mac.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/gitui-win.tar.gz'
+  - gitui-win.tar.gz

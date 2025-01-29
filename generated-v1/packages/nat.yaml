@@ -7,4 +7,4 @@ source: !Github
 targets:
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/natls_osx_binary'
+  - natls_osx_binary

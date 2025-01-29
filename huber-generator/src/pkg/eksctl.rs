@@ -11,19 +11,19 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/eksctl_Linux_amd64.tar.gz".to_string()],
+                artifact_templates: vec!["eksctl_Linux_amd64.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["{version}/eksctl_Linux_arm64.tar.gz".to_string()],
+                artifact_templates: vec!["eksctl_Linux_arm64.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/eksctl_Darwin_amd64.tar.gz".to_string()],
+                artifact_templates: vec!["eksctl_Darwin_amd64.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/eksctl_Windows_amd64.zip".to_string()],
+                artifact_templates: vec!["eksctl_Windows_amd64.zip".to_string()],
                 ..Default::default()
             }),
         ],

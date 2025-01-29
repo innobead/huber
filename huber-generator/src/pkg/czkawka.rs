@@ -12,18 +12,18 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/linux_czkawka_cli".to_string(),
-                    "{version}/linux_czkawka_gui".to_string(),
-                    "{version}/linux_czkawka_gui.AppImage".to_string(),
+                    "linux_czkawka_cli".to_string(),
+                    "linux_czkawka_gui".to_string(),
+                    "linux_czkawka_gui.AppImage".to_string(),
                 ],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/mac_czkawka_cli".to_string()],
+                artifact_templates: vec!["mac_czkawka_cli".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/windows_czkawka_cli.exe".to_string()],
+                artifact_templates: vec!["windows_czkawka_cli.exe".to_string()],
                 ..Default::default()
             }),
         ],

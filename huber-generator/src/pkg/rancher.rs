@@ -10,7 +10,7 @@ pub fn release() -> Package {
         },
 
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {
-            artifact_templates: vec!["{version}/rancherd-amd64.tar.gz".to_string()],
+            artifact_templates: vec!["rancherd-amd64.tar.gz".to_string()],
             ..Default::default()
         })],
         ..Default::default()

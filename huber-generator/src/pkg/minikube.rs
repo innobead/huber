@@ -11,19 +11,19 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/minikube-linux-amd64".to_string()],
+                artifact_templates: vec!["minikube-linux-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["{version}/minikube-linux-arm64".to_string()],
+                artifact_templates: vec!["minikube-linux-arm64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/minikube-darwin-amd64".to_string()],
+                artifact_templates: vec!["minikube-darwin-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/minikube-windows-amd64".to_string()],
+                artifact_templates: vec!["minikube-windows-amd64".to_string()],
                 ..Default::default()
             }),
         ],

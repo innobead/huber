@@ -22,6 +22,12 @@ pub fn release() -> Package {
                 ],
                 ..Default::default()
             }),
+            PackageTargetType::LinuxArm(PackageManagement {
+                artifact_templates: vec![
+                    "just-{version}-arm-unknown-linux-musleabihf.tar.gz".to_string()
+                ],
+                ..Default::default()
+            }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["just-{version}-x86_64-apple-darwin.tar.gz".to_string()],
                 ..Default::default()
@@ -32,10 +38,6 @@ pub fn release() -> Package {
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec!["just-{version}-x86_64-pc-windows-msvc.zip".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsArm64(PackageManagement {
-                artifact_templates: vec!["just-{version}-aarch64-pc-windows-msvc.zip".to_string()],
                 ..Default::default()
             }),
         ],

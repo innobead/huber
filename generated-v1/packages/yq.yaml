@@ -7,13 +7,13 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/yq_linux_amd64'
+  - yq_linux_amd64
 - !LinuxArm64
   artifact_templates:
-  - '{version}/yq_linux_arm64'
+  - yq_linux_arm64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/yq_darwin_amd64'
+  - yq_darwin_amd64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/yq_windows_amd64.exe'
+  - yq_windows_amd64.exe

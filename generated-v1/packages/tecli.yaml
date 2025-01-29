@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/tecli-linux-amd64'
+  - tecli-linux-amd64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/tecli-darwin-amd64'
+  - tecli-darwin-amd64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/tecli-windows-amd64.exe'
+  - tecli-windows-amd64.exe

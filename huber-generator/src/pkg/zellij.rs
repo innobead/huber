@@ -12,22 +12,22 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/zellij-x86_64-unknown-linux-musl.tar.gz".to_string()
+                    "zellij-x86_64-unknown-linux-musl.tar.gz".to_string()
                 ],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/zellij-aarch64-unknown-linux-musl.tar.gz".to_string()
+                    "zellij-aarch64-unknown-linux-musl.tar.gz".to_string()
                 ],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/zellij-aarch64-apple-darwin.tar.gz".to_string()],
+                artifact_templates: vec!["zellij-aarch64-apple-darwin.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSArm64(PackageManagement {
-                artifact_templates: vec!["{version}/zellij-aarch64-apple-darwin.tar.gz".to_string()],
+                artifact_templates: vec!["zellij-aarch64-apple-darwin.tar.gz".to_string()],
                 ..Default::default()
             }),
         ],

@@ -46,7 +46,7 @@ impl CommandTrait for LoadArgs {
         info!("Installing packages: total {}", count);
 
         let versions: Vec<_> = parse_package_name_versions(&versions);
-        install_packages(release_service, pkg_service, &versions).await?;
+        install_packages(release_service, pkg_service, &versions, None).await?;
 
         info!("Installed packages: total {}", count);
 

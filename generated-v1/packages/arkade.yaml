@@ -7,16 +7,16 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/arkade'
+  - arkade
 - !LinuxArm64
   artifact_templates:
-  - '{version}/arkade-arm64'
+  - arkade-arm64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/arkade-darwin'
+  - arkade-darwin
 - !MacOSArm64
   artifact_templates:
-  - '{version}/arkade-darwin-arm64'
+  - arkade-darwin-arm64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/arkade.exe'
+  - arkade.exe

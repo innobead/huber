@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/kube-linter-linux.tar.gz".to_string()],
+                artifact_templates: vec!["kube-linter-linux.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/kube-linter-darwin.tar.gz".to_string()],
+                artifact_templates: vec!["kube-linter-darwin.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/kube-linter-windows.tar.gz".to_string()],
+                artifact_templates: vec!["kube-linter-windows.tar.gz".to_string()],
                 ..Default::default()
             }),
         ],

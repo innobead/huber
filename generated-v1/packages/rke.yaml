@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/rke_linux-amd64'
+  - rke_linux-amd64
 - !LinuxArm64
   artifact_templates:
-  - '{version}/rke_linux-arm64'
+  - rke_linux-arm64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/rke_darwin-amd64'
+  - rke_darwin-amd64

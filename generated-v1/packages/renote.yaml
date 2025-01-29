@@ -6,7 +6,7 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/renote-linux-amd64'
+  - renote-linux-amd64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/renote-darwin-amd64'
+  - renote-darwin-amd64

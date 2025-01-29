@@ -4,13 +4,21 @@ use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandTrait, PlatformStdLib};
 use crate::lock_huber_ops;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::update::{HuberUpdateService, UpdateAsyncTrait};
 
 #[derive(Args)]
-pub struct SelfUpdateArgs {}
+pub struct SelfUpdateArgs {
+    #[arg(
+        help = "Prefer standard library (only for Linux or Windows)",
+        long,
+        num_args = 1,
+        value_enum,
+    )]
+    prefer_stdlib: Option<PlatformStdLib>,
+}
 
 #[async_trait]
 impl CommandTrait for SelfUpdateArgs {
@@ -25,7 +33,7 @@ impl CommandTrait for SelfUpdateArgs {
 
         if has_update {
             info!("Updating Huber {}", version);
-            update_service.update().await?;
+            update_service.update(self.prefer_stdlib).await?;
             info!("Huber updated to {}", version);
         } else {
             info!(

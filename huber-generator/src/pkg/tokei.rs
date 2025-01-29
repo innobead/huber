@@ -12,22 +12,22 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/tokei-x86_64-unknown-linux-gnu.tar.gz".to_string()
+                    "tokei-x86_64-unknown-linux-gnu.tar.gz".to_string()
                 ],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/tokei-aarch64-unknown-linux-gnu.tar.gz".to_string()
+                    "tokei-aarch64-unknown-linux-gnu.tar.gz".to_string()
                 ],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/tokei-x86_64-apple-darwin.tar.gz".to_string()],
+                artifact_templates: vec!["tokei-x86_64-apple-darwin.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/tokei-x86_64-pc-windows-msvc.exe".to_string()],
+                artifact_templates: vec!["tokei-x86_64-pc-windows-msvc.exe".to_string()],
                 ..Default::default()
             }),
         ],

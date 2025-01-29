@@ -7,10 +7,22 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/huber-linux-amd64'
+  - huber-x86_64-unknown-linux-gnu
+  - huber-x86_64-unknown-linux-musl
 - !LinuxArm64
   artifact_templates:
-  - '{version}/huber-linux-arm64'
+  - huber-aarch64-unknown-linux-gnu
+  - huber-aarch64-unknown-linux-musl
+- !LinuxArm
+  artifact_templates:
+  - huber-arm-unknown-linux-gnueabihf
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/huber-darwin-amd64'
+  - huber-x86_64-apple-darwin
+- !MacOSArm64
+  artifact_templates:
+  - huber-aarch64-apple-darwin
+- !WindowsAmd64
+  artifact_templates:
+  - huber-x86_64-pc-windows-gnu
+  - huber-x86_64-pc-windows-msvc

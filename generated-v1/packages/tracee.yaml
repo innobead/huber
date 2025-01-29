@@ -7,6 +7,6 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/tracee.tar.gz'
+  - tracee.tar.gz
   scan_dirs:
   - dist

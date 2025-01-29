@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/gping-Linux-x86_64.tar.gz".to_string()],
+                artifact_templates: vec!["gping-Linux-x86_64.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/gping-Darwin-x86_64.tar.gz".to_string()],
+                artifact_templates: vec!["gping-Darwin-x86_64.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/gping-Windows-x86_64.tar.gz".to_string()],
+                artifact_templates: vec!["gping-Windows-x86_64.tar.gz".to_string()],
                 ..Default::default()
             }),
         ],

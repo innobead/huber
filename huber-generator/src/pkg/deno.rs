@@ -11,19 +11,19 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/deno-x86_64-unknown-linux-gnu.zip".to_string()],
+                artifact_templates: vec!["deno-x86_64-unknown-linux-gnu.zip".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/deno-x86_64-apple-darwin.zip".to_string()],
+                artifact_templates: vec!["deno-x86_64-apple-darwin.zip".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSArm64(PackageManagement {
-                artifact_templates: vec!["{version}/deno-aarch64-apple-darwin.zip".to_string()],
+                artifact_templates: vec!["deno-aarch64-apple-darwin.zip".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/deno-x86_64-pc-windows-msvc.zip".to_string()],
+                artifact_templates: vec!["deno-x86_64-pc-windows-msvc.zip".to_string()],
                 ..Default::default()
             }),
         ],

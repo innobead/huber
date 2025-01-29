@@ -7,11 +7,11 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/tealdeer-linux-x86_64-musl'
-  - '{version}/tldr-linux-x86_64-musl'
+  - tealdeer-linux-x86_64-musl
+  - tldr-linux-x86_64-musl
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/tealdeer-macos-x86_64'
+  - tealdeer-macos-x86_64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/tealdeer-windows-x86_64-msvc.exe'
+  - tealdeer-windows-x86_64-msvc.exe

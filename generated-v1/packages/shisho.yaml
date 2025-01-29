@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/build-x86_64-unknown-linux-gnu.zip'
+  - build-x86_64-unknown-linux-gnu.zip
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/build-x86_64-apple-darwin.zip'
+  - build-x86_64-apple-darwin.zip
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/build-x86_64-pc-windows.zip'
+  - build-x86_64-pc-windows.zip

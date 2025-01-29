@@ -7,17 +7,17 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/pueue-linux-x86_64'
-  - '{version}/pueued-linux-x86_64'
+  - pueue-linux-x86_64
+  - pueued-linux-x86_64
 - !LinuxArm64
   artifact_templates:
-  - '{version}/pueue-linux-aarch64'
-  - '{version}/pueued-linux-aarch64'
+  - pueue-linux-aarch64
+  - pueued-linux-aarch64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/pueue-macos-x86_64'
-  - '{version}/pueued-macos-x86_64'
+  - pueue-macos-x86_64
+  - pueued-macos-x86_64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/pueue-windows-x86_64.exe'
-  - '{version}/pueued-windows-x86_64.exe'
+  - pueue-windows-x86_64.exe
+  - pueued-windows-x86_64.exe

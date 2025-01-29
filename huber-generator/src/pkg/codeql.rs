@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/codeql-linux64.zip".to_string()],
+                artifact_templates: vec!["codeql-linux64.zip".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/codeql-osx64.zip".to_string()],
+                artifact_templates: vec!["codeql-osx64.zip".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/codeql-win64.zip".to_string()],
+                artifact_templates: vec!["codeql-win64.zip".to_string()],
                 ..Default::default()
             }),
         ],

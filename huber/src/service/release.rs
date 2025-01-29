@@ -15,14 +15,15 @@ use huber_common::model::package::{GithubPackage, Package, PackageDetailType, Pa
 use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::str::OsStrExt;
 use is_executable::IsExecutable;
-use log::{debug, info};
+use log::{debug, info, warn};
 use maplit::hashmap;
-use regex::{Captures, Regex};
+use regex::Regex;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 use symlink::{remove_symlink_dir, remove_symlink_file, symlink_dir, symlink_file};
 use url::Url;
 use urlencoding::decode;
 
+use crate::cmd::PlatformStdLib;
 use crate::file::trim_os_arch;
 use crate::github::{GithubClient, GithubClientTrait};
 use crate::service::package::PackageService;
@@ -51,6 +52,7 @@ pub trait ReleaseAsyncTrait {
         &self,
         package: &Package,
         package_github: &GithubPackage,
+        prefer_stdlib: Option<PlatformStdLib>,
     ) -> anyhow::Result<()>;
 
     async fn set_current(&self, release: &mut Release) -> anyhow::Result<Vec<String>>;
@@ -112,32 +114,85 @@ impl ReleaseService {
         Ok(())
     }
 
+    pub async fn update(
+        &self,
+        obj: &Package,
+        prefer_stdlib: Option<PlatformStdLib>,
+    ) -> anyhow::Result<Release> {
+        debug!("Updating release from package: {:#?}", &obj);
+
+        let config = self.container.get::<Config>().unwrap();
+        let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
+
+        // Get the release from GitHub
+        let mut release = match obj.source {
+            PackageSource::Github {
+                ref owner,
+                ref repo,
+            } => match obj.version {
+                Some(ref v) => {
+                    debug!("Getting {} of package release {}", &v, &obj);
+                    client.get_release(owner, repo, v, obj).await?
+                }
+                None => {
+                    debug!("Getting the latest release of package {}", &obj);
+
+                    if let Ok(r) = client.get_latest_release(owner, repo, obj).await {
+                        r
+                    } else {
+                        debug!("Getting the latest pre-release of package {}", &obj);
+                        client
+                            .get_releases(owner, repo, obj)
+                            .await?
+                            .first()
+                            .expect("Failed to find the first release")
+                            .to_owned()
+                    }
+                }
+            },
+        };
+
+        let release_detail = release.package.detail.as_ref();
+        if release_detail.is_none() {
+            return Err(anyhow!("No matched release detail found: {}", release));
+        }
+
+        match release_detail.unwrap() {
+            PackageDetailType::Github { package: p } => {
+                debug!(
+                    "Downloading package artifacts from github {:?}",
+                    obj.source.url()
+                );
+                self.download_install_github_package(obj, p, prefer_stdlib)
+                    .await?;
+
+                debug!("Setting {} as the current package", release);
+                let executables = self.set_current(&mut release).await?;
+                info!(
+                    "Installed executables of {}:\n{:#?}",
+                    obj.name, &executables
+                );
+                release.executables = Some(executables);
+
+                Ok(release)
+            }
+        }
+    }
+
     fn get_assets(package: &Package, version: &str) -> anyhow::Result<Vec<String>> {
         let asset_names: Vec<String> = package
             .target()?
             .artifact_templates
             .iter()
             .map(|it| {
-                let regex = Regex::new(r"\{version:(\w)\}").unwrap();
-
-                // v1.1.1 => v1_1_1 if the version separator is _, otherwise v1.1.1 instead
-                if let Some(s) = regex.captures(it) {
-                    let version_separator = s.get(1).unwrap().as_str();
-                    regex
-                        .replace(it, |_: &Captures| {
-                            version
-                                .trim_start_matches("v")
-                                .replace(".", version_separator)
-                        })
-                        .to_string()
-                } else {
-                    it.replace("{version}", version.trim_start_matches("v"))
-                        .to_string()
-                }
-            })
-            .map(|it| {
-                it.replace("{os}", env::consts::OS)
+                it.replace("{version}", version.trim_start_matches("v"))
+                    .replace("{os}", env::consts::OS)
                     .replace("{arch}", env::consts::ARCH)
+            })
+            .filter(|it| {
+                // filter lib support, musl, gnu, msvc
+
+                SUPPORTED_ARCHIVE_TYPES.iter().any(|ext| it.ends_with(ext))
             })
             .collect();
 
@@ -149,12 +204,11 @@ impl ReleaseService {
         package: &Package,
         config: &Config,
         version: &str,
-        asset_download_urls: &mut Vec<String>,
+        download_urls: &mut Vec<String>,
     ) -> anyhow::Result<()> {
         let mut tasks = vec![];
 
-        for download_url in asset_download_urls {
-            // download
+        for download_url in download_urls {
             info!("Downloading {}", &download_url);
 
             let pkg_dir = config.installed_pkg_dir(package, version)?;
@@ -162,7 +216,6 @@ impl ReleaseService {
             let download_file_path = config.temp_dir()?.join(&filename);
 
             let task = async move {
-                // download the asset
                 debug!("Saving {} to {:?}", &download_url, download_file_path);
 
                 let _ = remove_file(&download_file_path);
@@ -185,6 +238,11 @@ impl ReleaseService {
                         ext = it;
                         true
                     } else {
+                        warn!(
+                            "Ignored unsupported archive type: {}; Supported types: {}",
+                            it,
+                            SUPPORTED_ARCHIVE_TYPES.join(", ")
+                        );
                         false
                     }
                 });
@@ -451,6 +509,7 @@ impl ReleaseAsyncTrait for ReleaseService {
         &self,
         package: &Package,
         package_github: &GithubPackage,
+        prefer_stdlib: Option<PlatformStdLib>,
     ) -> anyhow::Result<()> {
         debug!("Downloading github package artifacts {}", &package);
 
@@ -458,12 +517,29 @@ impl ReleaseAsyncTrait for ReleaseService {
         let version = package.parse_version_from_tag_name(&package_github.tag_name)?;
 
         let mut asset_names = Self::get_assets(package, &version)?;
-        let mut asset_download_urls: Vec<String> = vec![];
+        if let Some(stdlib) = prefer_stdlib {
+            info!("Prefer standard library: {}", stdlib);
+
+            let results: Vec<_> = asset_names
+                .clone()
+                .into_iter()
+                .filter(|it| {
+                    Regex::new(&format!(r"\W{}\W?", stdlib.to_string().to_lowercase()))
+                        .unwrap()
+                        .is_match(it)
+                })
+                .collect();
+            if !results.is_empty() {
+                asset_names = results;
+            }
+        }
+
         let mut ext_asset_urls: Vec<String> = asset_names // external assets not on github
             .iter()
             .filter(|it| Url::parse(it).is_ok() && it.starts_with("https"))
             .cloned()
             .collect();
+        let mut asset_download_urls: Vec<String> = vec![];
         asset_download_urls.append(&mut ext_asset_urls);
 
         if !ext_asset_urls.is_empty() {
@@ -498,7 +574,6 @@ impl ReleaseAsyncTrait for ReleaseService {
             ));
         }
 
-        // download
         self.download_assets(package, config, &version, &mut asset_download_urls)
             .await?;
 
@@ -673,67 +748,11 @@ impl ItemOperationAsyncTrait for ReleaseService {
             return Err(anyhow!("{} already installed", &obj.name));
         }
 
-        self.update(&obj).await
+        self.update(&obj, None).await
     }
 
-    async fn update(&self, obj: &Self::Item_) -> anyhow::Result<Self::ItemInstance_> {
-        debug!("Updating release from package: {:#?}", &obj);
-
-        let config = self.container.get::<Config>().unwrap();
-        let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
-
-        // Get the release from GitHub
-        let mut release = match obj.source {
-            PackageSource::Github {
-                ref owner,
-                ref repo,
-            } => match obj.version {
-                Some(ref v) => {
-                    debug!("Getting {} of package release {}", &v, &obj);
-                    client.get_release(owner, repo, v, obj).await?
-                }
-                None => {
-                    debug!("Getting the latest release of package {}", &obj);
-
-                    if let Ok(r) = client.get_latest_release(owner, repo, obj).await {
-                        r
-                    } else {
-                        debug!("Getting the latest pre-release of package {}", &obj);
-                        client
-                            .get_releases(owner, repo, obj)
-                            .await?
-                            .first()
-                            .expect("Failed to find the first release")
-                            .to_owned()
-                    }
-                }
-            },
-        };
-
-        let release_detail = release.package.detail.as_ref();
-        if release_detail.is_none() {
-            return Err(anyhow!("No matched release detail found: {}", release));
-        }
-
-        match release_detail.unwrap() {
-            PackageDetailType::Github { package: p } => {
-                debug!(
-                    "Downloading package artifacts from github {:?}",
-                    obj.source.url()
-                );
-                self.download_install_github_package(obj, p).await?;
-
-                debug!("Setting {} as the current package", release);
-                let executables = self.set_current(&mut release).await?;
-                info!(
-                    "Installed executables of {}:\n{:#?}",
-                    obj.name, &executables
-                );
-                release.executables = Some(executables);
-
-                Ok(release)
-            }
-        }
+    async fn update(&self, _obj: &Self::Item_) -> anyhow::Result<Self::ItemInstance_> {
+        unimplemented!()
     }
 
     async fn find(&self, pkg: &Self::Condition_) -> anyhow::Result<Vec<Self::ItemInstance_>> {

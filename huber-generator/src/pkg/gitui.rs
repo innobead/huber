@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/gitui-linux-musl.tar.gz".to_string()],
+                artifact_templates: vec!["gitui-linux-musl.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/gitui-mac.tar.gz".to_string()],
+                artifact_templates: vec!["gitui-mac.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/gitui-win.tar.gz".to_string()],
+                artifact_templates: vec!["gitui-win.tar.gz".to_string()],
                 ..Default::default()
             }),
         ],

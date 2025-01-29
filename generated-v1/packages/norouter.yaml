@@ -7,13 +7,13 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/norouter-Linux-x86_64.tgz'
+  - norouter-Linux-x86_64.tgz
 - !LinuxArm64
   artifact_templates:
-  - '{version}/norouter-Linux-aarch64.tgz'
+  - norouter-Linux-aarch64.tgz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/norouter-Darwin-x86_64.tgz'
+  - norouter-Darwin-x86_64.tgz
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/norouter-Windows-x64.zip'
+  - norouter-Windows-x64.zip

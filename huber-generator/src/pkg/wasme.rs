@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/wasme-linux-amd64".to_string()],
+                artifact_templates: vec!["wasme-linux-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/wasme-darwin-amd64".to_string()],
+                artifact_templates: vec!["wasme-darwin-amd64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/wasme-windows-adm64.exe".to_string()],
+                artifact_templates: vec!["wasme-windows-adm64.exe".to_string()],
                 ..Default::default()
             }),
         ],

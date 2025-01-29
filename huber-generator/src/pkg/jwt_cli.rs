@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/jwt-linux.tar.gz".to_string()],
+                artifact_templates: vec!["jwt-linux.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/jwt-macOS.tar.gz".to_string()],
+                artifact_templates: vec!["jwt-macOS.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/jwt-windows.tar.gz".to_string()],
+                artifact_templates: vec!["jwt-windows.tar.gz".to_string()],
                 ..Default::default()
             }),
         ],

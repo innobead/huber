@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/wasme-linux-amd64'
+  - wasme-linux-amd64
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/wasme-darwin-amd64'
+  - wasme-darwin-amd64
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/wasme-windows-adm64.exe'
+  - wasme-windows-adm64.exe

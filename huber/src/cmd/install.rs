@@ -8,13 +8,13 @@ use log::{debug, info, warn};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use tokio::task::JoinHandle;
 
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandTrait, PlatformStdLib};
 use crate::lock_huber_ops;
 use crate::opt::parse_pkg_name_optional_semver;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
-use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait};
+use crate::service::{ItemOperationTrait, ItemSearchTrait};
 
 #[derive(Args)]
 pub struct InstallArgs {
@@ -26,6 +26,14 @@ pub struct InstallArgs {
         value_hint = ValueHint::Unknown,
     )]
     name_version: Vec<(String, String)>,
+
+    #[arg(
+        help = "Prefer standard library (only for Linux or Windows)",
+        long,
+        num_args = 1,
+        value_enum,
+    )]
+    prefer_stdlib: Option<PlatformStdLib>,
 }
 
 #[async_trait]
@@ -39,7 +47,13 @@ impl CommandTrait for InstallArgs {
         let cache_service = container.get::<CacheService>().unwrap();
         cache_service.update_repositories().await?;
 
-        install_packages(release_service, pkg_service, &self.name_version).await?;
+        install_packages(
+            release_service,
+            pkg_service,
+            &self.name_version,
+            self.prefer_stdlib,
+        )
+        .await?;
 
         Ok(())
     }
@@ -62,6 +76,7 @@ pub async fn install_packages(
     release_service: Arc<ReleaseService>,
     pkg_service: Arc<PackageService>,
     pkg_versions: &[(String, String)],
+    prefer_stdlib: Option<PlatformStdLib>,
 ) -> anyhow::Result<()> {
     let mut join_handles = vec![];
 
@@ -102,7 +117,7 @@ pub async fn install_packages(
 
             info!("Installing package {}", msg);
             pkg.version = Some(version.clone());
-            release_service.update(&pkg).await?;
+            release_service.update(&pkg, prefer_stdlib).await?;
             info!("{} installed", msg);
 
             Ok(())

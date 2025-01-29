@@ -6,4 +6,4 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/rke2.linux-amd64'
+  - rke2.linux-amd64

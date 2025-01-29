@@ -7,4 +7,4 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/choose'
+  - choose

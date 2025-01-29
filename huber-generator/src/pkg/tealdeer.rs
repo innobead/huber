@@ -12,17 +12,17 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "{version}/tealdeer-linux-x86_64-musl".to_string(),
-                    "{version}/tldr-linux-x86_64-musl".to_string(),
+                    "tealdeer-linux-x86_64-musl".to_string(),
+                    "tldr-linux-x86_64-musl".to_string(),
                 ],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/tealdeer-macos-x86_64".to_string()],
+                artifact_templates: vec!["tealdeer-macos-x86_64".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/tealdeer-windows-x86_64-msvc.exe".to_string()],
+                artifact_templates: vec!["tealdeer-windows-x86_64-msvc.exe".to_string()],
                 ..Default::default()
             }),
         ],

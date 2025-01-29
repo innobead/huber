@@ -11,22 +11,30 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["nu_{version:_}_linux.tar.gz".to_string()],
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: Some(vec!["nushell-{version}".to_string()]),
+                artifact_templates: vec![
+                    "nu-{version}-x86_64-unknown-linux-gnu.tar.gz".to_string(),
+                    "nu-{version}-x86_64-unknown-linux-musl.tar.gz".to_string(),
+                ],
+                ..Default::default()
+            }),
+            PackageTargetType::LinuxArm64(PackageManagement {
+                artifact_templates: vec![
+                    "nu-{version}-aarch64-unknown-linux-gnu.tar.gz".to_string(),
+                    "nu-{version}-aarch64-unknown-linux-musl.tar.gz".to_string(),
+                ],
+                ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["nu_{version:_}_macOS.zip".to_string()],
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: Some(vec!["nushell-{version}".to_string()]),
+                artifact_templates: vec!["nu-{version}-x86_64-apple-darwin.tar.gz".to_string()],
+                ..Default::default()
+            }),
+            PackageTargetType::MacOSArm64(PackageManagement {
+                artifact_templates: vec!["nu-{version}-aarch64-apple-darwin.tar.gz".to_string()],
+                ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["nu_{version:_}_windows.zip".to_string()],
-                executable_mappings: None,
-                tag_version_regex_template: None,
-                scan_dirs: Some(vec!["nushell-{version}".to_string()]),
+                artifact_templates: vec!["nu-{version}-x86_64-pc-windows-msvc.zip".to_string()],
+                ..Default::default()
             }),
         ],
         ..Default::default()

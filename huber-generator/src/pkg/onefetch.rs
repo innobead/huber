@@ -11,15 +11,15 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/onefetch-linux.tar.gz".to_string()],
+                artifact_templates: vec!["onefetch-linux.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/onefetch-mac.tar.gz".to_string()],
+                artifact_templates: vec!["onefetch-mac.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["{version}/onefetch-win.tar.gz".to_string()],
+                artifact_templates: vec!["onefetch-win.tar.gz".to_string()],
                 ..Default::default()
             }),
         ],
