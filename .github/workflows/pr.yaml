@@ -9,8 +9,6 @@ on:
 
 jobs:
   build:
-    name: ${{ matrix.job.target }} (${{ matrix.job.os }})
-    runs-on: ${{ matrix.job.os }}
     uses: ./.github/workflows/base.yaml
     strategy:
       matrix:

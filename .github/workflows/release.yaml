@@ -7,8 +7,6 @@ on:
 
 jobs:
   release:
-    name: ${{ matrix.job.target }} (${{ matrix.job.os }})
-    runs-on: ${{ matrix.job.os }}
     uses: ./.github/workflows/base.yaml
     with:
       release_job: true
