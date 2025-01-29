@@ -64,6 +64,10 @@ jobs:
       if: (inputs.use-just == true || inputs.os == 'windows-2022') && inputs.use-cross == false
       run: just build ${{ inputs.target }}
 
+    - name: Install coreutils for MacOS
+      if: contains('macos-13,macos-14,macOS-latest', matrix.os)
+      run: brew install coreutils
+
     - name: Output huber binary path
       id: bin-path
       shell: bash
