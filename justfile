@@ -8,6 +8,14 @@ cargo_opts := env('CARGO_OPTS', '')
 github_token := env('GITHUB_TOKEN', '')
 github_key := env('GITHUB_KEY', '')
 
+# Install Rust componetns and tooling dependencies
+build-deps:
+    rustup component add rustfmt clippy
+    cargo install cross
+    cargo install default-target
+    cargo install --git https://github.com/DevinR528/cargo-sort.git --tag v1.1.0 cargo-sort
+    cargo install cargo-udeps
+
 # Build binaries
 build target='' cmd_opts='':
     @rustup target add {{ if target != "" { target } else { shell("default-target") } }}

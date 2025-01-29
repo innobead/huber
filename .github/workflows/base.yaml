@@ -19,10 +19,6 @@ on:
         required: true
         type: boolean
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
   build:
     name: ${{ inputs.target }} (${{ inputs.os }})
@@ -46,11 +42,13 @@ jobs:
 
     - name: Setup build environment
       if: inputs.use-just == true
-      run: just setup-dev
+      run: just setup-dev build-deps
 
     - name: Setup build environment
-      run: ./hack/windows/setup-dev.ps1
       if: inputs.os == 'windows-2022'
+      run: |
+        ./hack/windows/setup-dev.ps1
+        just build-deps
 
     - name: Build Cross
       if: inputs.use-just == true && inputs.use-cross == true
@@ -68,6 +66,7 @@ jobs:
 
     - name: Output huber binary path
       id: bin-path
+      shell: bash
       run: |
         EXE_suffix=""
         case ${{ inputs.target }} in
@@ -85,7 +84,6 @@ jobs:
     - name: Run tests
       run: just test
       if: contains('x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu,aarch64-apple-darwin,x86_64-pc-windows-gnu,arm-unknown-linux-gnueabihf', inputs.target)
-      continue-on-error: true
 
     - name: Show built artifacts
       run: |

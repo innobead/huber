@@ -7,10 +7,10 @@ set -o xtrace
 
 install_linux_deps() {
   if [[ $(command -v zypper) ]]; then
-    sudo zypper install -y make libopenssl-devel git curl mingw64-cross-gcc-c++ cross-aarch64-gcc14 cross-arm-linux-gnueabi-gcc
+    sudo zypper install -y cross-aarch64-gcc14 cross-arm-linux-gnueabi-gcc
   elif [[ $(command -v apt) ]]; then
     sudo apt update
-    sudo DEBIAN_FRONTEND=noninteractive apt install -y make libssl-dev git curl mingw-w64 gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
+    sudo DEBIAN_FRONTEND=noninteractive apt install -y gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf
   else
     echo "Only openSUSE, Ubuntu supported" >/dev/stderr
     exit 1
@@ -37,12 +37,6 @@ install_rust_deps() {
   if [[ -f "$HOME"/.cargo/env ]]; then
     source "$HOME"/.cargo/env
   fi
-
-  rustup component add rustfmt clippy
-  cargo install cross
-  cargo install default-target
-  cargo install --git https://github.com/DevinR528/cargo-sort.git --tag v1.1.0 cargo-sort
-  cargo install cargo-udeps
 }
 
 if [ "$(uname)" == "Linux" ]; then
