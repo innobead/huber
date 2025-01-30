@@ -65,7 +65,7 @@ jobs:
       run: just build ${{ inputs.target }}
 
     - name: Install coreutils for MacOS
-      if: contains('macos-13,macos-14,macOS-latest', matrix.os)
+      if: contains('macos-13,macos-14,macOS-latest', inputs.os)
       run: brew install coreutils
 
     - name: Output huber binary path
