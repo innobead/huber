@@ -27,3 +27,21 @@ jobs:
         - { target: aarch64-apple-darwin, os: macos-14, use-cross: false, use-just: true }
         - { target: x86_64-pc-windows-gnu, os: windows-2022, use-cross: false, use-just: false }
         - { target: x86_64-pc-windows-msvc, os: windows-2022, use-cross: false, use-just: false }
+
+  publish-crates:
+    needs: release
+    runs-on: ubuntu-24.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions-ecosystem/action-regex-match@v2
+      id: tag-semver-check
+      with:
+        text: ${{ github.ref_name }}
+        regex: '^[0-9]+\.[0-9]+\.[0-9]+$'
+
+    - name: Publish crates
+      if: ${{ steps.tag-semver-check.outputs.match != '' }}
+      uses: katyo/publish-crates@v2
+      with:
+        registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        dry-run: true
