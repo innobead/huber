@@ -15,7 +15,7 @@ use crate::service::ItemOperationTrait;
 #[derive(Args)]
 pub struct SaveArgs {
     #[arg(
-        help = "Save the list of installed 'current' packages to a file",
+        help = "File path to save the installed package list",
         long,
         num_args = 1,
         default_value = "huber-packages.txt",

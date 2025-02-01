@@ -1,4 +1,6 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{Package, PackageSource};
+
+use crate::pkg::default_targets_no_arm_windows;
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,28 +10,7 @@ pub fn release() -> Package {
             owner: "axelarnetwork".to_string(),
             repo: "axelar-core".to_string(),
         },
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["axelard-linux-amd64-v{version}".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["axelard-linux-arm64-v{version}".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["axelard-darwin-amd64-v{version}".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSArm64(PackageManagement {
-                artifact_templates: vec!["axelard-darwin-arm64-v{version}".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["ali_{version}_windows_amd64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets_no_arm_windows(),
         ..Default::default()
     }
 }

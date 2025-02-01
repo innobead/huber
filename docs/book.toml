@@ -1,6 +1,16 @@
 [book]
-authors = ["davidko"]
+title = "Huber, simplify GitHub package management"
+description = "Install, upgrade and manage released artifacts from GitHub repositories"
+authors = ["David Ko"]
 language = "en"
-multilingual = false
-src = "src"
-title = "Huber"
+
+[rust]
+edition = "2021"
+
+[preprocessor.alerts]
+
+[output.html]
+[output.linkcheck]
+
+[output.html.search]
+limit-results = 20

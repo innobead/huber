@@ -1,7 +1,7 @@
 use scopeguard::defer;
 use sequential_test::sequential;
 
-use crate::common::{install_pkg, reset_huber, PKG_VERSION_1, PKG_VERSION_2};
+use crate::common::{install_pkgs, reset_huber, PKG_VERSION_1, PKG_VERSION_2};
 
 #[macro_use]
 mod common;
@@ -24,8 +24,8 @@ fn test_flush() {
         reset_huber();
     }
 
-    install_pkg(PKG_VERSION_1);
-    install_pkg(PKG_VERSION_2);
+    install_pkgs(&[PKG_VERSION_1]);
+    install_pkgs(&[PKG_VERSION_2]);
 
     let assert = huber_cmd!(arg("flush").assert().success());
     let tokens: Vec<_> = PKG_VERSION_1.splitn(2, '@').collect();

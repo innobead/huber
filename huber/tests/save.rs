@@ -4,7 +4,7 @@ use filepath::FilePath;
 use scopeguard::defer;
 use sequential_test::sequential;
 
-use crate::common::{install_pkg, reset_huber, save_pkg_list};
+use crate::common::{install_pkgs, reset_huber, save_pkg_list, PKG_VERSION_1};
 
 #[macro_use]
 mod common;
@@ -16,7 +16,7 @@ fn test_save() {
         reset_huber();
     }
 
-    install_pkg("k9s");
+    install_pkgs(&[PKG_VERSION_1]);
 
     let file = tempfile::tempfile().unwrap();
     let path = file.path().unwrap();

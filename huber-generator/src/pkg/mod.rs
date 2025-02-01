@@ -1,3 +1,5 @@
+use huber_common::model::package::PackageTargetType;
+
 pub mod ali;
 pub mod argocd;
 pub mod arkade;
@@ -164,3 +166,33 @@ pub mod yq;
 pub mod zellij;
 pub mod zola;
 pub mod zoxide;
+
+fn default_targets() -> Vec<PackageTargetType> {
+    vec![
+        PackageTargetType::LinuxAmd64(Default::default()),
+        PackageTargetType::LinuxArm64(Default::default()),
+        PackageTargetType::LinuxArm(Default::default()),
+        PackageTargetType::MacOSAmd64(Default::default()),
+        PackageTargetType::MacOSArm64(Default::default()),
+        PackageTargetType::WindowsAmd64(Default::default()),
+    ]
+}
+
+fn default_targets_no_arm() -> Vec<PackageTargetType> {
+    vec![
+        PackageTargetType::LinuxAmd64(Default::default()),
+        PackageTargetType::LinuxArm64(Default::default()),
+        PackageTargetType::MacOSAmd64(Default::default()),
+        PackageTargetType::MacOSArm64(Default::default()),
+        PackageTargetType::WindowsAmd64(Default::default()),
+    ]
+}
+
+fn default_targets_no_arm_windows() -> Vec<PackageTargetType> {
+    vec![
+        PackageTargetType::LinuxAmd64(Default::default()),
+        PackageTargetType::LinuxArm64(Default::default()),
+        PackageTargetType::MacOSAmd64(Default::default()),
+        PackageTargetType::MacOSArm64(Default::default()),
+    ]
+}

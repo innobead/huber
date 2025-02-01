@@ -1,4 +1,4 @@
-use common::{install_pkg, uninstall_pkg};
+use common::{install_pkgs, uninstall_pkg};
 use scopeguard::defer;
 use sequential_test::sequential;
 
@@ -16,7 +16,7 @@ fn test_uninstall() {
 
     let tokens: Vec<_> = PKG_VERSION_1.splitn(2, '@').collect();
     let pkg = tokens[0];
-    install_pkg(pkg);
+    install_pkgs(&[pkg]);
 
     let assert = uninstall_pkg(pkg);
     assert_contain_line_regex!(assert.get_output().stderr, &format!("Uninstalled {}", pkg));

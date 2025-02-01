@@ -6,11 +6,14 @@ source: !Github
   repo: argo-cd
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - argocd-linux-amd64
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - argocd-darwin-amd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - argocd-windows-amd64.exe
+  artifact_templates: []

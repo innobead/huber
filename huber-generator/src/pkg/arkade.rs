@@ -17,6 +17,10 @@ pub fn release() -> Package {
                 artifact_templates: vec!["arkade-arm64".to_string()],
                 ..Default::default()
             }),
+            PackageTargetType::LinuxArm(PackageManagement {
+                artifact_templates: vec!["arkade-armhf".to_string()],
+                ..Default::default()
+            }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["arkade-darwin".to_string()],
                 ..Default::default()
@@ -25,7 +29,6 @@ pub fn release() -> Package {
                 artifact_templates: vec!["arkade-darwin-arm64".to_string()],
                 ..Default::default()
             }),
-            // vec!["arkade-darwin-arm64".to_string()]
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec!["arkade.exe".to_string()],
                 ..Default::default()

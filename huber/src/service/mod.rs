@@ -6,7 +6,7 @@ use huber_common::model::config::Config;
 use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 use simpledi_rs::{create_dep, inject_dep};
 
-use crate::service::cache::CacheService;
+use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::config::ConfigService;
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
@@ -60,8 +60,8 @@ pub trait ItemSearchTrait {
 pub fn init_services(config: &Config) -> Arc<DIContainer> {
     let mut container = DIContainer::new();
 
-    create_dep!(config.clone(), container);
     create_dep!(CacheService::new(), container);
+    create_dep!(config.clone(), container);
     create_dep!(ConfigService::new(), container);
     create_dep!(PackageService::new(), container);
     create_dep!(ReleaseService::new(), container);
@@ -76,6 +76,13 @@ pub fn init_services(config: &Config) -> Arc<DIContainer> {
     inject_dep!(HuberUpdateService, container.clone());
     inject_dep!(RepoService, container.clone());
     inject_dep!(ConfigService, container.clone());
+
+    let cache_service = container
+        .get::<CacheService>()
+        .expect("Failed to get cache service");
+    cache_service
+        .refresh_package_indexes()
+        .expect("Failed to refresh package indexes");
 
     container
 }

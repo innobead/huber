@@ -6,22 +6,14 @@ source: !Github
   repo: buf
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - buf-Linux-x86_64
-  - protoc-gen-buf-breaking-Linux-x86_64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - buf-Linux-aarch64
-  - protoc-gen-buf-breaking-Linux-aarch64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - buf-Darwin-x86_64
-  - protoc-gen-buf-breaking-Darwin-x86_64
+  artifact_templates: []
 - !MacOSArm64
-  artifact_templates:
-  - buf-Darwin-arm64
-  - protoc-gen-buf-breaking-Darwin-arm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - buf-Windows-x86_64
-  - protoc-gen-buf-breaking-Windows-x86_64
+  artifact_templates: []

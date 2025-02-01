@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::fs::{read_dir, read_link, remove_dir_all, remove_file, File};
 use std::io::Write;
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::sync::Arc;
 use std::{env, fs};
 
@@ -10,12 +10,13 @@ use async_trait::async_trait;
 use filepath::FilePath;
 use fs_extra::move_items;
 use huber_common::compress::uncompress_archive;
+use huber_common::fs::set_executable_permission;
 use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
 use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
 use huber_common::model::release::{Release, ReleaseIndex};
 use huber_common::str::OsStrExt;
 use is_executable::IsExecutable;
-use log::{debug, info, warn};
+use log::{debug, info};
 use maplit::hashmap;
 use regex::Regex;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
@@ -24,12 +25,13 @@ use url::Url;
 use urlencoding::decode;
 
 use crate::cmd::PlatformStdLib;
-use crate::file::trim_os_arch;
+use crate::file::has_suffix;
 use crate::github::{GithubClient, GithubClientTrait};
+use crate::os::{is_os_arch_match, trim_os_arch};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 
-const SUPPORTED_ARCHIVE_TYPES: [&str; 5] = ["tar.gz", "tar.xz", "zip", "tar", "tgz"];
+const SUPPORTED_ARCHIVE_TYPES: [&str; 6] = ["tar.gz", "tar.xz", "zip", "tar", "tgz", "gz"];
 
 pub trait ReleaseTrait {
     fn current(&self, pkg: &Package) -> anyhow::Result<Release>;
@@ -97,21 +99,6 @@ impl ReleaseService {
                 client.get_latest_release(owner, repo, pkg).await
             }
         }
-    }
-
-    #[cfg(not(target_os = "windows"))]
-    pub fn set_executable_permission(&self, path: &Path) -> anyhow::Result<()> {
-        debug!("Making {:?} as executable", path);
-
-        use std::os::unix::fs::PermissionsExt;
-        fs::set_permissions(path, fs::Permissions::from_mode(0o755))?;
-        Ok(())
-    }
-
-    #[cfg(target_os = "windows")]
-    pub fn set_executable_permission(&self, path: &Path) -> anyhow::Result<()> {
-        debug!("Ignored to make {:?} as executable", path);
-        Ok(())
     }
 
     pub async fn update(
@@ -190,9 +177,19 @@ impl ReleaseService {
                     .replace("{arch}", env::consts::ARCH)
             })
             .filter(|it| {
-                // filter lib support, musl, gnu, msvc
+                let file_name = if let Ok(url) = Url::parse(it) {
+                    url.path_segments().unwrap().last().unwrap().to_string()
+                } else {
+                    it.clone()
+                };
 
-                SUPPORTED_ARCHIVE_TYPES.iter().any(|ext| it.ends_with(ext))
+                if file_name.contains('.') && !file_name.ends_with(".exe") {
+                    SUPPORTED_ARCHIVE_TYPES
+                        .iter()
+                        .any(|ext| file_name.ends_with(ext))
+                } else {
+                    true
+                }
             })
             .collect();
 
@@ -209,14 +206,36 @@ impl ReleaseService {
         let mut tasks = vec![];
 
         for download_url in download_urls {
-            info!("Downloading {}", &download_url);
-
             let pkg_dir = config.installed_pkg_dir(package, version)?;
             let filename = download_url.split("/").last().unwrap().to_string();
             let download_file_path = config.temp_dir()?.join(&filename);
 
+            let mut ext = "";
+            let mut is_archive = false;
+            let mut skip_download = true;
+            for &archive_type in SUPPORTED_ARCHIVE_TYPES.iter() {
+                if download_file_path.to_str().unwrap().ends_with(archive_type) {
+                    ext = archive_type;
+                    is_archive = true;
+                    skip_download = false;
+                    break;
+                } else if has_suffix(&filename) {
+                    continue;
+                } else {
+                    skip_download = false;
+                }
+            }
+
+            if skip_download {
+                debug!(
+                    "Ignored to download {} due to unsupported archive type. Supported types: {:?}",
+                    &download_url, SUPPORTED_ARCHIVE_TYPES,
+                );
+                continue;
+            }
+
             let task = async move {
-                debug!("Saving {} to {:?}", &download_url, download_file_path);
+                debug!("Downloading {} to {:?}", &download_url, &download_file_path);
 
                 let _ = remove_file(&download_file_path);
                 let _ = remove_dir_all(&download_file_path);
@@ -232,21 +251,6 @@ impl ReleaseService {
                     }
                 }
 
-                let mut ext = "";
-                let is_archive = SUPPORTED_ARCHIVE_TYPES.iter().any(|it| {
-                    if download_file_path.to_str().unwrap().ends_with(it) {
-                        ext = it;
-                        true
-                    } else {
-                        warn!(
-                            "Ignored unsupported archive type: {}; Supported types: {}",
-                            it,
-                            SUPPORTED_ARCHIVE_TYPES.join(", ")
-                        );
-                        false
-                    }
-                });
-
                 // downloaded asset seems an executable instead of an archive, move it to the package directory
                 if ext.is_empty() || !is_archive {
                     let dest_f = pkg_dir.join(&filename);
@@ -255,7 +259,7 @@ impl ReleaseService {
                         "Moving {:?} to {:?}, because it's not an archive, regarded as an executable",
                         &download_file_path, &dest_f
                     );
-                    self.set_executable_permission(&download_file_path)?;
+                    set_executable_permission(&download_file_path)?;
 
                     let option = fs_extra::file::CopyOptions::new();
                     fs_extra::file::move_file(&download_file_path, &dest_f, &option)?;
@@ -465,7 +469,7 @@ impl ReleaseTrait for ReleaseService {
                 }
 
                 let mut exec_name = exec_path.file_name().unwrap().to_string_lossy().to_string();
-                exec_name = semver_regex.replace(&exec_name, "{version}").to_string();
+                exec_name = semver_regex.replace(&exec_name, "").to_string();
                 exec_name = exec_mappings
                     .get(&exec_name)
                     .unwrap_or(&exec_name)
@@ -517,22 +521,6 @@ impl ReleaseAsyncTrait for ReleaseService {
         let version = package.parse_version_from_tag_name(&package_github.tag_name)?;
 
         let mut asset_names = Self::get_assets(package, &version)?;
-        if let Some(stdlib) = prefer_stdlib {
-            info!("Prefer standard library: {}", stdlib);
-
-            let results: Vec<_> = asset_names
-                .clone()
-                .into_iter()
-                .filter(|it| {
-                    Regex::new(&format!(r"\W{}\W?", stdlib.to_string().to_lowercase()))
-                        .unwrap()
-                        .is_match(it)
-                })
-                .collect();
-            if !results.is_empty() {
-                asset_names = results;
-            }
-        }
 
         let mut ext_asset_urls: Vec<String> = asset_names // external assets not on github
             .iter()
@@ -546,24 +534,39 @@ impl ReleaseAsyncTrait for ReleaseService {
             asset_names.retain(|it| !ext_asset_urls.contains(it));
         }
 
-        // prepare download urls
         for asset in package_github.assets.iter() {
-            let asset_download_url = decode(&asset.browser_download_url)?;
+            let asset_url = decode(&asset.browser_download_url)?.to_string();
 
-            // assets not mentioned in assert names, just ignored
-            if !asset_names.contains(&asset.name)
-                && !asset_names
-                    .iter()
-                    .any(|it| asset_download_url.ends_with(it))
-            {
+            if asset_names.is_empty() {
                 debug!(
+                    "Checking {} if it's in the expected os/arch type: {}, since there are no expected artifact names defined",
+                    asset.name, asset_url
+                );
+                if !is_os_arch_match(
+                    env::consts::OS,
+                    env::consts::ARCH,
+                    &asset_url.to_lowercase(),
+                ) {
+                    continue;
+                }
+            } else {
+                debug!(
+                    "Checking {} if it's in the expected artifact names: {:?}",
+                    asset.name, asset_names
+                );
+                if !asset_names.contains(&asset.name)
+                    && !asset_names.iter().any(|it| asset_url.ends_with(it))
+                {
+                    debug!(
                     "Ignored {}, not mentioned or not right arch type defined in the package artifact config",
                     asset.name
                 );
-                continue;
+                    continue;
+                }
             }
 
-            asset_download_urls.push(asset_download_url.to_string());
+            debug!("Found asset: {}", asset_url);
+            asset_download_urls.push(asset_url.to_string());
         }
 
         if asset_download_urls.is_empty() {
@@ -572,6 +575,31 @@ impl ReleaseAsyncTrait for ReleaseService {
                 package.name,
                 asset_names
             ));
+        }
+
+        if let Some(stdlib) = prefer_stdlib {
+            info!(
+                "Prefer downloading assets belonging to the specified stdlib, {}",
+                stdlib
+            );
+
+            let stdlib_regex = Regex::new(&format!(r"\b{}\b?", stdlib.to_string().to_lowercase()))?;
+            let results: Vec<_> = asset_download_urls
+                .clone()
+                .into_iter()
+                .filter(|it| {
+                    let filename = Url::parse(it)
+                        .unwrap()
+                        .path_segments()
+                        .and_then(|segments| segments.last())
+                        .unwrap_or_default()
+                        .to_string();
+                    stdlib_regex.is_match(&filename)
+                })
+                .collect();
+            if !results.is_empty() {
+                asset_download_urls = results;
+            }
         }
 
         self.download_assets(package, config, &version, &mut asset_download_urls)

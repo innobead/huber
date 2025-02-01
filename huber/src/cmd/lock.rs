@@ -65,7 +65,7 @@ pub struct LockArgs {
 
 #[derive(Subcommand)]
 pub enum LockCommands {
-    #[command(about = "Show locked versions", bin_name = "show")]
+    #[command(about = "Show locked package versions", bin_name = "show")]
     Show(LockShowArgs),
 }
 

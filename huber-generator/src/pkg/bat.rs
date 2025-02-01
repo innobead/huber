@@ -1,4 +1,5 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{Package, PackageSource};
+use crate::pkg::default_targets;
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,22 +9,7 @@ pub fn release() -> Package {
             owner: "sharkdp".to_string(),
             repo: "bat".to_string(),
         },
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "bat-v{version}-x86_64-unknown-linux-gnu.tar.gz".to_string()
-                ],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["bat-v{version}-x86_64-apple-darwin.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["bat-v{version}-x86_64-pc-windows-msvc.zip".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets(),
         ..Default::default()
     }
 }

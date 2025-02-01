@@ -25,13 +25,13 @@ pub struct RepoArgs {
 
 #[derive(Subcommand)]
 pub enum RepoCommands {
-    #[command(about = "Add a new repo", bin_name = "add")]
+    #[command(about = "Add a new repository", bin_name = "add")]
     Add(RepoAddArgs),
 
-    #[command(about = "Remove a repo", bin_name = "remove")]
+    #[command(about = "Remove a repository", bin_name = "remove")]
     Remove(RepoRemoveArgs),
 
-    #[command(about = "Show all repos", bin_name = "list")]
+    #[command(about = "Show all repositories", bin_name = "list")]
     Show(RepoShowArgs),
 }
 

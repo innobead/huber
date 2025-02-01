@@ -1,7 +1,7 @@
 use scopeguard::defer;
 use sequential_test::sequential;
 
-use crate::common::{install_pkg, reset_huber, INVALID_PKG, PKG_VERSION_1};
+use crate::common::{install_pkgs, reset_huber, INVALID_PKG, PKG_VERSION_1};
 
 #[macro_use]
 mod common;
@@ -13,7 +13,7 @@ fn test_info() {
         reset_huber();
     }
 
-    install_pkg(PKG_VERSION_1);
+    install_pkgs(&[PKG_VERSION_1]);
     let pkg = PKG_VERSION_1.splitn(2, '@').collect::<Vec<_>>()[0];
 
     huber_cmd!(arg("info").arg(pkg).assert().success());

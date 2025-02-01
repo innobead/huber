@@ -7,16 +7,16 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/linux/amd64/kubectl
+  - https://dl.k8s.io/release/v{version}/bin/linux/amd64/kubectl
 - !LinuxArm64
   artifact_templates:
-  - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/linux/arm64/kubectl
+  - https://dl.k8s.io/release/v{version}/bin/linux/arm64/kubectl
 - !MacOSAmd64
   artifact_templates:
-  - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/darwin/amd64/kubectl
+  - https://dl.k8s.io/release/v{version}/bin/darwin/amd64/kubectl
 - !MacOSArm64
   artifact_templates:
-  - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/darwin/arm64/kubectl
+  - https://dl.k8s.io/release/v{version}/bin/darwin/arm64/kubectl
 - !WindowsAmd64
   artifact_templates:
-  - https://storage.googleapis.com/kubernetes-release/release/v{version}/bin/windows/amd64/kubectl.exe
+  - https://dl.k8s.io/release/v{version}/bin/windows/amd64/kubectl.exe

@@ -4,7 +4,7 @@ use filepath::FilePath;
 use scopeguard::defer;
 use sequential_test::sequential;
 
-use crate::common::{install_pkg, reset_huber, save_pkg_list, PKG_VERSION_1};
+use crate::common::{install_pkgs, reset_huber, save_pkg_list, PKG_VERSION_1};
 
 #[macro_use]
 mod common;
@@ -21,7 +21,7 @@ fn test_load() {
     defer!(remove_file(&path).unwrap());
     drop(file);
 
-    install_pkg(PKG_VERSION_1);
+    install_pkgs(&[PKG_VERSION_1]);
     save_pkg_list(&path);
 
     let assert = huber_cmd!(arg("load").arg("--file").arg(&path).assert().success());

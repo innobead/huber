@@ -151,6 +151,9 @@ async fn main() {
         if let Some(e) = e.downcast_ref::<HuberError>() {
             let source_err = e.source().map(|e| format!(": {}", e)).unwrap_or_default();
             error!("{}{}", e, source_err);
+        } else if let Some(e) = e.downcast_ref::<octocrab::Error>() {
+            let source_err = e.source().map(|e| format!(": {}", e)).unwrap_or_default();
+            error!("{}{}", e, source_err);
         } else {
             error!(
                 "Unknown error: {}; Use debug log to get more detailed error info",

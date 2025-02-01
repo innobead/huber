@@ -34,6 +34,15 @@ macro_rules! assert_contain_line_regex {
     };
 }
 
+macro_rules! assert_not_contain_line_regex {
+    ($value:expr, $expect:expr) => {
+        let line = String::from_utf8($value.clone()).unwrap();
+        println!("Value: \n{}", line);
+        println!("Unexpected: \n{}", $expect);
+        assert!(!regex::Regex::new($expect).unwrap().is_match(&line))
+    };
+}
+
 macro_rules! assert_eq_last_line_regex {
     ($value:expr, $expect:expr) => {
         let line = String::from_utf8($value.clone())
@@ -62,8 +71,8 @@ macro_rules! assert_eq_last_line {
     };
 }
 
-pub fn install_pkg(name: &str) -> Assert {
-    huber_cmd!(arg("install").arg(name).assert().success())
+pub fn install_pkgs(args: &[&str]) -> Assert {
+    huber_cmd!(arg("install").args(args).assert().success())
 }
 
 pub fn uninstall_pkg(name: &str) -> Assert {

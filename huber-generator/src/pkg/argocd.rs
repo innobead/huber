@@ -1,4 +1,6 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{Package, PackageSource};
+
+use crate::pkg::default_targets;
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,20 +10,7 @@ pub fn release() -> Package {
             owner: "argoproj".to_string(),
             repo: "argo-cd".to_string(),
         },
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["argocd-linux-amd64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["argocd-darwin-amd64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["argocd-windows-amd64.exe".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets(),
         ..Default::default()
     }
 }

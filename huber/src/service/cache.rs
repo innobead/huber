@@ -34,6 +34,8 @@ pub trait CacheTrait {
     fn has_package(&self, name: &str) -> anyhow::Result<bool>;
     fn has_external_package(&self, name: &str) -> anyhow::Result<bool>;
     fn get_package_indexes(&self) -> anyhow::Result<Vec<PackageIndex>>;
+
+    fn refresh_package_indexes(&self) -> anyhow::Result<()>;
 }
 
 #[async_trait]
@@ -186,6 +188,15 @@ impl CacheTrait for CacheService {
     }
 
     fn get_package_indexes(&self) -> anyhow::Result<Vec<PackageIndex>> {
+        self.refresh_package_indexes()?;
+
+        Ok(managed_pkg_indexes
+            .read()
+            .map_err(|e| anyhow!("{}", e))?
+            .clone())
+    }
+
+    fn refresh_package_indexes(&self) -> anyhow::Result<()> {
         let config = self.container.get::<Config>().unwrap();
         let index_file = config.pkg_index_file()?;
 
@@ -194,10 +205,7 @@ impl CacheTrait for CacheService {
             .read()
             .map_err(|e| anyhow!("{}", e))?;
         if modified_time.is_some() && modified_time.unwrap() == time {
-            return Ok(managed_pkg_indexes
-                .read()
-                .map_err(|e| anyhow!("{}", e))?
-                .clone());
+            return Ok(());
         }
 
         managed_repo_modified_time
@@ -207,10 +215,7 @@ impl CacheTrait for CacheService {
         *managed_pkg_indexes.write().map_err(|e| anyhow!("{}", e))? =
             serde_yaml::from_reader::<File, Vec<PackageIndex>>(File::open(index_file)?)?;
 
-        Ok(managed_pkg_indexes
-            .read()
-            .map_err(|e| anyhow!("{}", e))?
-            .clone())
+        Ok(())
     }
 }
 

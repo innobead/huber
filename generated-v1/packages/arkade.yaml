@@ -11,6 +11,9 @@ targets:
 - !LinuxArm64
   artifact_templates:
   - arkade-arm64
+- !LinuxArm
+  artifact_templates:
+  - arkade-armhf
 - !MacOSAmd64
   artifact_templates:
   - arkade-darwin

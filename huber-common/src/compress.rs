@@ -8,6 +8,8 @@ use tar::Archive;
 use xz2::read::XzDecoder;
 use zip::ZipArchive;
 
+use crate::fs::set_executable_permission;
+
 pub fn uncompress_archive(file: &Path, extract_dir: &Path, ext: &str) -> anyhow::Result<()> {
     match ext {
         "zip" => {
@@ -21,6 +23,9 @@ pub fn uncompress_archive(file: &Path, extract_dir: &Path, ext: &str) -> anyhow:
         }
         "tar.xz" => {
             untar_xz(file, extract_dir)?;
+        }
+        "gz" => {
+            ungz(file, extract_dir)?;
         }
         _ => {
             return Err(anyhow::anyhow!("Unsupported archive format: {}", ext));
@@ -77,6 +82,23 @@ fn unzip(file: &Path, extract_dir: &Path) -> anyhow::Result<()> {
             io::copy(&mut file, &mut outfile)?;
         }
     }
+
+    Ok(())
+}
+
+fn ungz(file: &Path, extract_dir: &Path) -> anyhow::Result<()> {
+    let gz = File::open(file)?;
+    let mut gz = GzDecoder::new(BufReader::new(gz));
+
+    let outfile_path = extract_dir.join(
+        file.file_name()
+            .unwrap_or_default()
+            .to_string_lossy()
+            .replace(".gz", ""),
+    );
+    let mut out_file = File::create(&outfile_path)?;
+    io::copy(&mut gz, &mut out_file)?;
+    set_executable_permission(&outfile_path)?;
 
     Ok(())
 }

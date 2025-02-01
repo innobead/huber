@@ -4,3 +4,4 @@ pub mod file;
 pub mod github;
 pub mod opt;
 pub mod service;
+mod os;

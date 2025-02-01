@@ -1,8 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 set -o errexit
 set -o nounset
-set -o pipefail
 set -o xtrace
 
 get_latest_release() {
@@ -49,8 +48,6 @@ case $os in
   exit 1
   ;;
 esac
-
-#arm64
 
 # shellcheck disable=SC2046
 curl -sfSLO "https://github.com/innobead/huber/releases/download/$(get_latest_release)/$filename" &&

@@ -15,6 +15,7 @@ build-deps:
     cargo install default-target
     cargo install --git https://github.com/DevinR528/cargo-sort.git --tag v1.1.0 cargo-sort
     cargo install cargo-udeps
+    cargo install mdbook mdbook-linkcheck mdbook-alerts
 
 # Build binaries
 build target='' cmd_opts='':
@@ -77,9 +78,13 @@ install:
     @mkdir -p ~/.huber/bin && cp ~/.cargo/bin/huber ~/.huber/bin && {{ prj_dir }}/hack/add-huber-bin-to-env.sh
 
 # (local dev) Run commands using the built Huber with the local package generated folder
-@run huber_cmd pkg_dir=huber_pkg_root_dir:
+run huber_cmd pkg_dir=huber_pkg_root_dir:
     HUBER_PKG_ROOT_DIR={{ pkg_dir }} {{ huber_exec }} {{ huber_cmd }}
 
 # (local dev) Run commands using the installed Huber with the local package generated folder
-@run-installed huber_cmd pkg_dir=huber_pkg_root_dir:
-    @HUBER_PKG_ROOT_DIR={{ pkg_dir }} `which huber` {{ huber_cmd }}
+run-installed huber_cmd pkg_dir=huber_pkg_root_dir:
+    HUBER_PKG_ROOT_DIR={{ pkg_dir }} `which huber` {{ huber_cmd }}
+
+
+doc:
+    @mdbook build docs
