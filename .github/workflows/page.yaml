@@ -4,9 +4,9 @@ name: Deploy docs to Pages
 on:
   workflow_dispatch:
   push:
-    branches: [ $default-branch ]
+    branches: [ main ]
     paths:
-      - 'docs/**'
+    - 'docs/**'
 
 permissions:
   contents: read
