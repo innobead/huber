@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     tags:
-    - 'v[0-9]+.[0-9]+.[0-9]+(-[a-zA-Z0-9]+)?'
+    - 'v**'
 
 jobs:
   release:
@@ -37,7 +37,7 @@ jobs:
       id: tag-semver-check
       with:
         text: ${{ github.ref_name }}
-        regex: '^[0-9]+\.[0-9]+\.[0-9]+$'
+        regex: '^v[0-9]+\.[0-9]+\.[0-9]+$'
 
     - name: Publish crates
       if: ${{ steps.tag-semver-check.outputs.match != '' }}

@@ -99,8 +99,14 @@ jobs:
         echo "Artifact: ${{ steps.bin-path.outputs.HUBER_BIN_PATH }}"
         echo "SHA256SUM: ${{ steps.bin-path.outputs.HUBER_BIN_SHA256SUM_PATH }}"
 
+    - uses: actions-ecosystem/action-regex-match@v2
+      id: tag-semver-check
+      with:
+        text: ${{ github.ref_name }}
+        regex: '^v[0-9]+.[0-9]+.[0-9]+(-[a-zA-Z0-9]+)?$'
+
     - name: Create github release
-      if: inputs.release_job == true && startsWith(github.ref, 'refs/tags/v')
+      if: inputs.release_job == true && startsWith(github.ref, 'refs/tags/v') && steps.tag-semver-check.outputs.match != ''
       uses: softprops/action-gh-release@v2
       with:
         files: "${{ steps.bin-path.outputs.HUBER_BIN_PATH }},${{ steps.bin-path.outputs.HUBER_BIN_SHA256SUM_PATH }}"
