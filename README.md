@@ -2,7 +2,7 @@
 <img src="./docs/src/images/huber_logo.png" alt="huber" style="width:300px;"/>
 </div>
 
-**Huber** is a command-line interface for managing packages from GitHub repositories. It allows you to install, update, and manage packages from GitHub repository releases in a simple and efficient
+**Huber** is a command-line interface tool for managing packages from GitHub repositories. It allows you to install, update, and manage packages from GitHub repository releases in a simple and efficient
 way.
 
 What features does Huber provide?
@@ -125,7 +125,7 @@ Commit:     6b5d24f5741a1789fb97ba3e11f0ee868d93459d
 Date:       2024-11-16T20:22:28Z
 ```
 
-For frequently used and advanced commands, please check the corresponding sections.
+For frequently used and advanced commands, please check the detailed documentation [here](https://innobead.github.io/huber/).
 
 # License
 
