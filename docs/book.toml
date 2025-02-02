@@ -10,6 +10,7 @@ edition = "2021"
 
 [output.html]
 default-theme = "Navy"
+git-repository-url = "https://github.com/innobead/huber"
 
 [output.linkcheck]
 

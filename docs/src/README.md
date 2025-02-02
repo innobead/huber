@@ -4,7 +4,7 @@
 <img src="images/huber_logo.png" alt="huber" style="width:300px;"/>
 </div>
 
-**Huber** is a command-line interface for managing packages from GitHub repositories. It allows you to install, update, and manage packages from GitHub repository releases in a simple and efficient
+**Huber** is a command-line interface tool for managing packages from GitHub repositories. It allows you to install, update, and manage packages from GitHub repository releases in a simple and efficient
 way.
 
 What features does Huber provide?
