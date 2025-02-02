@@ -23,7 +23,7 @@ mod test {
     #[test]
     fn test_is_empty_dir() {
         let dir = tempfile::tempdir().unwrap();
-        assert!(is_empty_dir(&dir.path()));
+        assert!(is_empty_dir(dir.path()));
         assert!(!is_empty_dir("/tmp"));
     }
 

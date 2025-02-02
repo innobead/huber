@@ -68,17 +68,23 @@ fn test_install_no_artifact_templates() {
 
     assert_contain_line_regex!(
         assert.get_output().stderr,
-        &format!(r#"Decompressing {}-\S+linux-gnu.tar.gz which has extension "tar.gz""#, "bat")
+        &format!(
+            r#"Decompressing {}-\S+linux-gnu.tar.gz which has extension "tar.gz""#,
+            "bat"
+        )
     );
 
     assert_contain_line_regex!(
         assert.get_output().stderr,
-        &format!(r#"Decompressing {}-\S+linux-musl.tar.gz which has extension "tar.gz""#, "bat")
+        &format!(
+            r#"Decompressing {}-\S+linux-musl.tar.gz which has extension "tar.gz""#,
+            "bat"
+        )
     );
 }
 
 #[test]
-// #[sequential]
+#[sequential]
 fn test_install_stdlib() {
     defer! {
         reset_huber();
@@ -87,12 +93,18 @@ fn test_install_stdlib() {
     let assert = install_pkgs(&["bat", "--prefer-stdlib", "gnu"]);
     assert_contain_line_regex!(
         assert.get_output().stderr,
-        &format!(r#"Decompressing {}-\S+linux-gnu.tar.gz which has extension "tar.gz""#, "bat")
+        &format!(
+            r#"Decompressing {}-\S+linux-gnu.tar.gz which has extension "tar.gz""#,
+            "bat"
+        )
     );
 
     assert_not_contain_line_regex!(
         assert.get_output().stderr,
-        &format!(r#"Decompressing {}-\S+linux-musl.tar.gz which has extension "tar.gz""#, "bat")
+        &format!(
+            r#"Decompressing {}-\S+linux-musl.tar.gz which has extension "tar.gz""#,
+            "bat"
+        )
     );
 }
 

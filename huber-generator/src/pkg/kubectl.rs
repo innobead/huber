@@ -18,22 +18,19 @@ pub fn release() -> Package {
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec![
-                    "https://dl.k8s.io/release/v{version}/bin/linux/arm64/kubectl"
-                        .to_string(),
+                    "https://dl.k8s.io/release/v{version}/bin/linux/arm64/kubectl".to_string(),
                 ],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "https://dl.k8s.io/release/v{version}/bin/darwin/amd64/kubectl"
-                        .to_string(),
+                    "https://dl.k8s.io/release/v{version}/bin/darwin/amd64/kubectl".to_string(),
                 ],
                 ..Default::default()
             }),
             PackageTargetType::MacOSArm64(PackageManagement {
                 artifact_templates: vec![
-                    "https://dl.k8s.io/release/v{version}/bin/darwin/arm64/kubectl"
-                        .to_string(),
+                    "https://dl.k8s.io/release/v{version}/bin/darwin/arm64/kubectl".to_string(),
                 ],
                 ..Default::default()
             }),

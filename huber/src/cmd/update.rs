@@ -28,7 +28,7 @@ pub struct UpdateArgs {
         help = "Prefer standard library (only for Linux or Windows)",
         long,
         num_args = 1,
-        value_enum,
+        value_enum
     )]
     prefer_stdlib: Option<PlatformStdLib>,
 
@@ -156,7 +156,9 @@ async fn update(
         info!("Available update {} to {}", installed_release, new_release);
     } else {
         info!("Updating {} to {}", installed_release, new_release);
-        release_service.update(&new_release.package, prefer_stdlib).await?;
+        release_service
+            .update(&new_release.package, prefer_stdlib)
+            .await?;
     }
 
     Ok(())

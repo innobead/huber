@@ -126,7 +126,7 @@ mod test {
         ];
 
         for (os, arch, url, expected) in data {
-            assert_eq!(is_os_arch_match(os, arch, &url.to_string()), expected);
+            assert_eq!(is_os_arch_match(os, arch, url), expected);
         }
     }
 }

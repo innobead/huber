@@ -11,9 +11,7 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "zoxide-x86_64-unknown-linux-musl.tar.gz".to_string()
-                ],
+                artifact_templates: vec!["zoxide-x86_64-unknown-linux-musl.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {

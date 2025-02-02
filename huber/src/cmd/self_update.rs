@@ -15,7 +15,7 @@ pub struct SelfUpdateArgs {
         help = "Prefer standard library (only for Linux or Windows)",
         long,
         num_args = 1,
-        value_enum,
+        value_enum
     )]
     prefer_stdlib: Option<PlatformStdLib>,
 }
