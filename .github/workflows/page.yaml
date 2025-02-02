@@ -5,6 +5,8 @@ on:
   workflow_dispatch:
   push:
     branches: [ $default-branch ]
+    paths:
+      - 'docs/**'
 
 permissions:
   contents: read
