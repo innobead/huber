@@ -24,6 +24,7 @@ pub struct UpdateArgs {
     #[arg(help = "Package name", num_args = 1, value_hint = ValueHint::Unknown)]
     name: Vec<String>,
 
+    #[cfg(any(target_os = "linux", target_os = "windows"))]
     #[arg(
         help = "Prefer standard library (only for Linux or Windows)",
         long,

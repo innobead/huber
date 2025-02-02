@@ -111,8 +111,11 @@ pub enum Commands {
 }
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
 pub enum PlatformStdLib {
+    #[cfg(any(target_os = "linux", target_os = "windows"))]
     Gnu,
+    #[cfg(target_os = "linux")]
     Musl,
+    #[cfg(target_os = "windows")]
     Msvc,
 }
 
@@ -139,20 +142,42 @@ impl FromStr for PlatformStdLib {
 }
 
 impl ValueEnum for PlatformStdLib {
+    #[cfg(target_os = "linux")]
     fn value_variants<'a>() -> &'a [Self] {
-        &[
-            PlatformStdLib::Gnu,
-            PlatformStdLib::Musl,
-            PlatformStdLib::Msvc,
-        ]
+        &[PlatformStdLib::Gnu, PlatformStdLib::Musl]
     }
 
+    #[cfg(target_os = "macos")]
+    fn value_variants<'a>() -> &'a [Self] {
+        &[]
+    }
+
+    #[cfg(target_os = "windows")]
+    fn value_variants<'a>() -> &'a [Self] {
+        &[PlatformStdLib::Gnu, PlatformStdLib::Msvc]
+    }
+
+    #[cfg(target_os = "linux")]
     fn to_possible_value(&self) -> Option<PossibleValue> {
-        Some(match self {
-            PlatformStdLib::Gnu => PossibleValue::new("gnu"),
-            PlatformStdLib::Musl => PossibleValue::new("musl"),
-            PlatformStdLib::Msvc => PossibleValue::new("msvc"),
+        Some(if let PlatformStdLib::Gnu = self {
+            PossibleValue::new("gnu")
+        } else {
+            PossibleValue::new("musl")
         })
+    }
+
+    #[cfg(target_os = "windows")]
+    fn to_possible_value(&self) -> Option<PossibleValue> {
+        Some(if let PlatformStdLib::Gnu = self {
+            PossibleValue::new("gnu")
+        } else {
+            PossibleValue::new("msvc")
+        })
+    }
+
+    #[cfg(target_os = "macos")]
+    fn to_possible_value(&self) -> Option<PossibleValue> {
+        None
     }
 }
 

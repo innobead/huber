@@ -11,6 +11,7 @@ use crate::service::update::{HuberUpdateService, UpdateAsyncTrait};
 
 #[derive(Args)]
 pub struct SelfUpdateArgs {
+    #[cfg(any(target_os = "linux", target_os = "windows"))]
     #[arg(
         help = "Prefer standard library (only for Linux or Windows)",
         long,

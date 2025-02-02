@@ -3,7 +3,7 @@ use std::path::Path;
 use std::process::Command;
 
 use huber_common::model::config::GENERATED_DIR_NAME;
-use huber_common::model::package::{Package, PackageIndex, PackageSource};
+use huber_common::model::package::{Package, PackageIndex, PackageSource, PackageTargetType};
 use tokio::fs::{create_dir_all, remove_file, File};
 use tokio::io::AsyncWriteExt;
 use tokio::task::JoinHandle;

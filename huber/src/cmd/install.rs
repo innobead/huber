@@ -27,6 +27,7 @@ pub struct InstallArgs {
     )]
     name_version: Vec<(String, String)>,
 
+    #[cfg(any(target_os = "linux", target_os = "windows"))]
     #[arg(
         help = "Prefer standard library (only for Linux or Windows)",
         long,
