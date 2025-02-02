@@ -29,6 +29,11 @@ jobs:
     - name: Install mdBook
       run: just build-deps
 
+    - name: Enable Rust cache
+      uses: Swatinem/rust-cache@v2
+      with:
+        cache-targets: 'false'
+
     - name: Setup Pages
       id: pages
       uses: actions/configure-pages@v5
