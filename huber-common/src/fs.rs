@@ -23,12 +23,6 @@ pub fn set_executable_permission(path: &Path) -> anyhow::Result<()> {
 
 #[cfg(target_os = "windows")]
 pub fn set_executable_permission(path: &Path) -> anyhow::Result<()> {
-    debug!("Making {:?} as executable", path);
-
-    use std::os::windows::fs::PermissionsExt;
-    let file = File::open(file_path)?;
-    let mut perms = file.metadata()?.permissions();
-    perms.set_readonly(false);
-    fs::set_permissions(file_path, perms)?;
+    debug!("Unsupported making {:?} as executable on Windows", path);
     Ok(())
 }
