@@ -7,12 +7,9 @@ language = "en"
 edition = "2021"
 
 [preprocessor.alerts]
-[preprocessor.theme]
-pagetoc = true
 
 [output.html]
-default-theme = "ligth"
-preferred-dark-theme = "Ayu"
+default-theme = "Navy"
 
 [output.linkcheck]
 
