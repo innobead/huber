@@ -6,5 +6,10 @@ source: !Github
   repo: choose
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - choose
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
+- !WindowsAmd64
+  artifact_templates: []

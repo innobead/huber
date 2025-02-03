@@ -1,5 +1,3 @@
-# Introduction
-
 <div style="text-align: center;">
 <img src="images/huber_logo.png" alt="huber" style="width:300px;"/>
 </div>

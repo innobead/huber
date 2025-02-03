@@ -12,7 +12,7 @@
  camel-k          Apache Camel K is a lightweight integration platform, born on Kubernetes, with serverless superpower...  https://github.com/apache/camel-k 
  chisel           A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  choose           A human-friendly and fast alternative to cut and (sometimes) awk                                         https://github.com/theryangeary/choose 
- cloak            A Command Line OTP Authenticator application.                                                            https://github.com/evansmurithi/cloak 
+ cloak            A censorship circumvention tool to evade detection by authoritarian state adversaries                    https://github.com/cbeuw/Cloak 
  codeql           Binaries for the CodeQL CLI                                                                              https://github.com/github/codeql-cli-binaries 
  conftest         Write tests against structured configuration data using the Open Policy Agent Rego query language        https://github.com/open-policy-agent/conftest 
  consul           Consul is a distributed, highly available, and data center aware solution to connect and configure a...  https://github.com/hashicorp/consul 

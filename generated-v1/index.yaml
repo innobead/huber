@@ -30,7 +30,7 @@
   owner: theryangeary
   source: github
 - name: cloak
-  owner: evansmurithi
+  owner: cbeuw
   source: github
 - name: codeql
   owner: github
