@@ -11,14 +11,13 @@
 
 </div>
 
-**Huber** is a command-line interface tool for managing packages from GitHub repositories. It allows you to install, update, and manage packages from GitHub repository releases in a simple and
-efficient
-way.
+**Huber** is a command-line interface tool for managing packages released from GitHub repositories. It allows you to install, update, and manage packages from GitHub repository releases in a simple and efficient way.
 
 What features does Huber provide?
 
 - Manage (install, update, uninstall, show, current) multiple version packages from GitHub repository releases
 - Search popular GitHub repositories that Huber manages in a curated list
+- Manage your own repositories to install packages you need
 - Lock and unlock installed package versions
 - Save and restore package versions
 - and more..., please check the documentation for more details
