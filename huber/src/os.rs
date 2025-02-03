@@ -10,7 +10,7 @@ const GO_ARCH_LIST: &str = "386 amd64 amd64p32 arm armbe arm64 arm64be ppc64 ppc
 mipsle mips64 mips64le mips64p32 mips64p32le ppc riscv riscv64 s390 s390x sparc sparc64 \
 wasm x86_64 aarch64 64bit";
 
-pub fn trim_os_arch(str: &str) -> String {
+pub fn trim_os_arch_version(str: &str) -> String {
     let revert_sort = |x: &&str, y: &&str| -> Ordering { y.len().cmp(&x.len()) };
 
     let mut os_pattern: Vec<_> = GO_OS_LIST.split(" ").collect();
@@ -21,25 +21,18 @@ pub fn trim_os_arch(str: &str) -> String {
     arch_pattern.sort_by(revert_sort);
     let arch_pattern = arch_pattern.join("|");
 
-    let res = [
-        Regex::new(&format!(
-            r"(?i)([-_]+v\d+.\d+.\d+)?[-_.]+({})[-_]+({})[-_]*",
-            os_pattern, arch_pattern
-        ))
-        .unwrap(),
-        Regex::new(&format!(
-            r"(?i)([-_]+v\d+.\d+.\d+)?[-_]+({})[-_]*",
-            arch_pattern
-        ))
-        .unwrap(),
+    let patterns = [
+        Regex::new(r"(?i)[-_]*v\d+.\d+.\d+[-_]*").unwrap(),
+        Regex::new(&format!(r"(?i)[-_.]*({})[-_]*", os_pattern)).unwrap(),
+        Regex::new(&format!(r"(?i)[-_.]*({})[-_]*", arch_pattern)).unwrap(),
     ];
 
-    let re = res.iter().find(|it| it.is_match(str));
-    let mut str = if let Some(re) = re {
-        re.replace_all(str, "").to_string()
-    } else {
-        str.to_string()
-    };
+    let mut str = str.to_string();
+    for pat in &patterns {
+        if pat.is_match(&str) {
+            str = pat.replace_all(&str, "").to_string();
+        }
+    }
 
     if cfg!(target_os = "windows") && !str.ends_with(".exe") {
         str += ".exe";
@@ -83,16 +76,19 @@ mod test {
             ("name_macOS-64bit", "name"),
             ("name-v1.0.0_macOS-64bit", "name"),
             ("name_v1.0.0_macOS-64bit", "name"),
+            ("name_macOS-64bit-v1.0.0", "name"),
+            ("name_v1.0.0_macOS-64bit.tar.gz", "name.tar.gz"),
             ("name-v1.0.0-x86_64", "name"),
             ("name-x86_64", "name"),
             ("name-x86_64.exe", "name.exe"),
+            ("name-darwin-arm64-v2.10.0", "name"),
         ];
 
         for x in data {
             if cfg!(target_os = "windows") {
-                assert_eq!(trim_os_arch(x.0), "name.exe");
+                assert_eq!(trim_os_arch_version(x.0), "name.exe");
             } else {
-                assert_eq!(trim_os_arch(x.0), x.1);
+                assert_eq!(trim_os_arch_version(x.0), x.1);
             }
         }
     }

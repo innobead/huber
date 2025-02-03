@@ -27,7 +27,7 @@ use urlencoding::decode;
 use crate::cmd::PlatformStdLib;
 use crate::file::has_suffix;
 use crate::github::{GithubClient, GithubClientTrait};
-use crate::os::{is_os_arch_match, trim_os_arch};
+use crate::os::{is_os_arch_match, trim_os_arch_version};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 
@@ -214,12 +214,14 @@ impl ReleaseService {
             let mut is_archive = false;
             let mut skip_download = true;
             for &archive_type in SUPPORTED_ARCHIVE_TYPES.iter() {
-                if download_file_path.to_str().unwrap().ends_with(archive_type) {
+                let trimmed_filename = trim_os_arch_version(&filename);
+
+                if trimmed_filename.ends_with(archive_type) {
                     ext = archive_type;
                     is_archive = true;
                     skip_download = false;
                     break;
-                } else if has_suffix(&filename) {
+                } else if has_suffix(&trimmed_filename) {
                     continue;
                 } else {
                     skip_download = false;
@@ -475,7 +477,7 @@ impl ReleaseTrait for ReleaseService {
                     .unwrap_or(&exec_name)
                     .to_string();
 
-                let exec_link = config.bin_dir()?.join(trim_os_arch(&exec_name));
+                let exec_link = config.bin_dir()?.join(trim_os_arch_version(&exec_name));
                 if symlink {
                     let _ = remove_file(&exec_link);
                     symlink_file(&exec_path, &exec_link)?;
