@@ -61,6 +61,7 @@ jobs:
 
     - name: Build Cross
       if: inputs.use-just == true && inputs.use-cross == true
+      shell: bash
       run: |
         if [ "${{ inputs.release_job }}" == "true" ]; then
           just build-cross ${{ inputs.target }} --release
@@ -70,6 +71,7 @@ jobs:
 
     - name: Build
       if: (inputs.use-just == true || inputs.os == 'windows-2022') && inputs.use-cross == false
+      shell: bash
       run: |
         if [ "${{ inputs.release_job }}" == "true" ]; then
           just build ${{ inputs.target }} --release
@@ -124,4 +126,5 @@ jobs:
       with:
         files: "${{ steps.bin-path.outputs.HUBER_BIN_PATH }},${{ steps.bin-path.outputs.HUBER_BIN_SHA256SUM_PATH }}"
         draft: true
+
 
