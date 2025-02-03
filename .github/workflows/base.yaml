@@ -38,6 +38,11 @@ jobs:
     - name: Install Rust toolchain - nightly
       uses: dtolnay/rust-toolchain@nightly
 
+    - name: Enable Rust cache
+      uses: Swatinem/rust-cache@v2
+      with:
+        cache-targets: 'false'
+
     - name: Setup build environment
       if: inputs.use-just == true
       run: just setup-dev build-deps
@@ -65,11 +70,6 @@ jobs:
         else
           just build ${{ inputs.target }}
         fi
-
-    - name: Enable Rust cache
-      uses: Swatinem/rust-cache@v2
-      with:
-        cache-targets: 'false'
 
     - name: Cache container images
       if: inputs.use-cross == true

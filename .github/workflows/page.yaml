@@ -28,13 +28,16 @@ jobs:
     - name: Install Just
       uses: extractions/setup-just@v2
 
-    - name: Install mdBook
-      run: just build-deps
+    - name: Install Rust toolchain - stable
+      uses: dtolnay/rust-toolchain@stable
 
     - name: Enable Rust cache
       uses: Swatinem/rust-cache@v2
       with:
         cache-targets: 'false'
+
+    - name: Install mdBook
+      run: just build-deps
 
     - name: Setup Pages
       id: pages
