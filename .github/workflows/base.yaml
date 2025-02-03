@@ -53,6 +53,12 @@ jobs:
         ./hack/windows/setup-dev.ps1
         just build-deps
 
+    - name: Cache container images
+      if: inputs.use-cross == true
+      uses: ScribeMD/docker-cache@0.5.0
+      with:
+        key: docker-${{ inputs.os }}-${{ inputs.target }}
+
     - name: Build Cross
       if: inputs.use-just == true && inputs.use-cross == true
       run: |
@@ -70,12 +76,6 @@ jobs:
         else
           just build ${{ inputs.target }}
         fi
-
-    - name: Cache container images
-      if: inputs.use-cross == true
-      uses: ScribeMD/docker-cache@0.5.0
-      with:
-        key: docker-${{ inputs.os }}-${{ inputs.target }}
 
     - name: Install coreutils for MacOS
       if: contains('macos-13,macos-14,macOS-latest', inputs.os)
