@@ -2,7 +2,17 @@
 <img src="./docs/src/images/huber_logo.png" alt="huber" style="width:300px;"/>
 </div>
 
-**Huber** is a command-line interface tool for managing packages from GitHub repositories. It allows you to install, update, and manage packages from GitHub repository releases in a simple and efficient
+<div align="center">
+
+[![crates.io](https://img.shields.io/crates/v/huber.svg)](https://crates.io/crates/huber)
+[![Releases](https://img.shields.io/github/release/innobead/huber/all.svg)](https://github.com/innobead/huber/releases)
+[![GitHub](https://img.shields.io/github/license/innobead/huber)](https://github.com/innobead/huber/blob/master/LICENSE)
+[![Docs](https://img.shields.io/badge/docs-latest-green.svg)](https://innobead.github.io/huber/)
+
+</div>
+
+**Huber** is a command-line interface tool for managing packages from GitHub repositories. It allows you to install, update, and manage packages from GitHub repository releases in a simple and
+efficient
 way.
 
 What features does Huber provide?

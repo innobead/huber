@@ -9,7 +9,7 @@ categories.workspace = true
 homepage.workspace = true
 repository.workspace = true
 publish = true
-license-file = "../LICENSE"
+license-file.workspace = true
 
 [dependencies]
 anyhow.workspace = true
