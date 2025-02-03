@@ -21,7 +21,6 @@ on:
       continue-on-error-test:
         required: false
         type: boolean
-        default: false
 
 jobs:
   build:
@@ -51,11 +50,21 @@ jobs:
 
     - name: Build Cross
       if: inputs.use-just == true && inputs.use-cross == true
-      run: just build-cross ${{ inputs.target }}
+      run: |
+        if [ "${{ inputs.release_job }}" == "true" ]; then
+          just build-cross ${{ inputs.target }} --release
+        else
+          just build-cross ${{ inputs.target }}
+        fi
 
     - name: Build
       if: (inputs.use-just == true || inputs.os == 'windows-2022') && inputs.use-cross == false
-      run: just build ${{ inputs.target }}
+      run: |
+        if [ "${{ inputs.release_job }}" == "true" ]; then
+          just build ${{ inputs.target }} --release
+        else
+          just build ${{ inputs.target }}
+        fi
 
     - name: Enable Rust cache
       uses: Swatinem/rust-cache@v2
@@ -83,7 +92,11 @@ jobs:
         
         exec_name=huber-${{ inputs.target }}${EXE_suffix}
         sha256sum_name=$exec_name.sha256sum
-        cp -f target/${{ inputs.target }}/debug/huber${EXE_suffix} $exec_name
+        if [ "${{ inputs.release_job }}" == "true" ]; then
+          cp -f target/${{ inputs.target }}/release/huber${EXE_suffix} $exec_name
+        else
+          cp -f target/${{ inputs.target }}/debug/huber${EXE_suffix} $exec_name
+        fi
         sha256sum $exec_name > $exec_name.sha256sum
         
         echo "HUBER_BIN_PATH=$exec_name" >> $GITHUB_OUTPUT
