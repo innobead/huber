@@ -16,12 +16,7 @@ description = "Huber, simplify GitHub package management"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2021"
 keywords = ["github", "package-management", "cli"]
-categories = [
-    "command-line-interface",
-    "command-line-utilities",
-    "development-tools",
-    "package-management"
-]
+categories = ["command-line-interface", "command-line-utilities", "development-tools"]
 homepage = "https://github.com/innobead/huber"
 repository = "https://github.com/innobead/huber"
 readme = "README.md"

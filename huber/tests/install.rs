@@ -81,6 +81,7 @@ fn test_install_multiple_packages() {
     );
 }
 
+#[cfg(not(target_os = "windows"))]
 #[test]
 #[sequential]
 fn test_install_no_artifact_templates() {

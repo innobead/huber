@@ -8,8 +8,8 @@ keywords.workspace = true
 categories.workspace = true
 homepage.workspace = true
 repository.workspace = true
-publish = false
-license-file = "../../LICENSE"
+publish = true
+license-file = "../LICENSE"
 
 [dependencies]
 anyhow.workspace = true
