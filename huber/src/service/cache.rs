@@ -1,5 +1,6 @@
 use std::env;
 use std::fs::File;
+use std::path::Path;
 use std::sync::{Arc, RwLock};
 use std::time::SystemTime;
 
@@ -200,20 +201,22 @@ impl CacheTrait for CacheService {
         let config = self.container.get::<Config>().unwrap();
         let index_file = config.pkg_index_file()?;
 
-        let time = File::open(&index_file)?.metadata()?.modified()?;
-        let modified_time = *managed_repo_modified_time
-            .read()
-            .map_err(|e| anyhow!("{}", e))?;
-        if modified_time.is_some() && modified_time.unwrap() == time {
-            return Ok(());
-        }
+        if index_file.exists() {
+            let time = File::open(&index_file)?.metadata()?.modified()?;
+            let modified_time = *managed_repo_modified_time
+                .read()
+                .map_err(|e| anyhow!("{}", e))?;
+            if modified_time.is_some() && modified_time.unwrap() == time {
+                return Ok(());
+            }
 
-        managed_repo_modified_time
-            .write()
-            .map_err(|e| anyhow!("{}", e))?
-            .replace(time);
-        *managed_pkg_indexes.write().map_err(|e| anyhow!("{}", e))? =
-            serde_yaml::from_reader::<File, Vec<PackageIndex>>(File::open(index_file)?)?;
+            managed_repo_modified_time
+                .write()
+                .map_err(|e| anyhow!("{}", e))?
+                .replace(time);
+            *managed_pkg_indexes.write().map_err(|e| anyhow!("{}", e))? =
+                serde_yaml::from_reader::<File, Vec<PackageIndex>>(File::open(index_file)?)?;
+        }
 
         Ok(())
     }
@@ -221,11 +224,11 @@ impl CacheTrait for CacheService {
 
 #[async_trait]
 impl CacheAsyncTrait for CacheService {
-    // FIXME enhance performance
     async fn update_repositories(&self) -> anyhow::Result<()> {
         let config = self.container.get::<Config>().unwrap();
 
-        if let Ok(path) = env::var(HUBER_PKG_ROOT_DIR) {
+        let path = env::var(HUBER_PKG_ROOT_DIR).unwrap_or_default();
+        if Path::new(&path).is_file() {
             debug!(
                 "Bypassed updating repositories, because {} is set to {}",
                 HUBER_PKG_ROOT_DIR, path
