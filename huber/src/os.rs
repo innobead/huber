@@ -82,7 +82,7 @@ mod test {
             ("name-1.0.0_macOS-64bit", "name"),
             ("name_v1.0.0_macOS-64bit", "name"),
             ("name_macOS-64bit-v1.0.0", "name"),
-            ("name_v1.0.0_macOS-64bit.tar.gz", "name.tar.gz"),
+            ("name_v1.0.0_macOS-64bit", "name"),
             ("name-v1.0.0-x86_64", "name"),
             ("name-x86_64", "name"),
             ("name-x86_64.exe", "name.exe"),

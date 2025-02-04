@@ -164,7 +164,6 @@ fn releases() -> Vec<Package> {
         stern::release(),
         img::release(),
         dive::release(),
-        wasme::release(),
         hyperfine::release(),
         hetty::release(),
         czkawka::release(),
