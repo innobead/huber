@@ -38,13 +38,13 @@ You can install Huber via the following methods:
 **Cargo:**
 
 ```shell
-$ cargo install huber
+cargo install huber
 ```
 
 **Shell script:**
 
 ```shell
-$ curl -sfSL https://raw.githubusercontent.com/innobead/huber/main/hack/install.sh | sh -
+curl -sfSL https://raw.githubusercontent.com/innobead/huber/main/hack/install.sh | sh -
 ```
 
 **PowerShell:**
