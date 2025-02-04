@@ -8,18 +8,14 @@ pub fn release() -> Package {
             owner: "orf".to_string(),
             repo: "gping".to_string(),
         },
-
         targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["gping-Linux-x86_64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["gping-Darwin-x86_64.tar.gz".to_string()],
-                ..Default::default()
-            }),
+            PackageTargetType::LinuxAmd64(Default::default()),
+            PackageTargetType::LinuxArm64(Default::default()),
+            PackageTargetType::LinuxArm(Default::default()),
+            PackageTargetType::MacOSAmd64(Default::default()),
+            PackageTargetType::MacOSArm64(Default::default()),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["gping-Windows-x86_64.tar.gz".to_string()],
+                artifact_templates: vec!["gping-Windows-msvc-x86_64.zip".to_string()],
                 ..Default::default()
             }),
         ],

@@ -8,20 +8,20 @@ pub fn release() -> Package {
             owner: "kudobuilder".to_string(),
             repo: "kuttl".to_string(),
         },
-
         targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["kuttl_{version}_linux_x86_64.tar.gz".to_string()],
+            PackageTargetType::LinuxAmd64(Default::default()),
+            PackageTargetType::LinuxArm64(Default::default()),
+            PackageTargetType::LinuxArm(PackageManagement {
+                artifact_templates: vec![
+                    "kubectl-kuttl_{version}_linux_armv6".to_string(),
+                    "kuttl_{version}_linux_armv6.tar.gz
+"
+                    .to_string(),
+                ],
                 ..Default::default()
             }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["kuttl_{version}_linux_arm64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["kuttl_{version}_darwin_x86_64.tar.gz".to_string()],
-                ..Default::default()
-            }),
+            PackageTargetType::MacOSAmd64(Default::default()),
+            PackageTargetType::MacOSArm64(Default::default()),
         ],
         ..Default::default()
     }

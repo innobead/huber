@@ -6,8 +6,9 @@ source: !Github
   repo: gitui
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - gitui-linux-musl.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
   artifact_templates:
   - gitui-mac.tar.gz

@@ -8,20 +8,17 @@ pub fn release() -> Package {
             owner: "stackrox".to_string(),
             repo: "kube-linter".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["kube-linter-linux.tar.gz".to_string()],
                 ..Default::default()
             }),
+            PackageTargetType::LinuxArm64(Default::default()),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["kube-linter-darwin.tar.gz".to_string()],
                 ..Default::default()
             }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["kube-linter-windows.tar.gz".to_string()],
-                ..Default::default()
-            }),
+            PackageTargetType::MacOSArm64(Default::default()),
         ],
         ..Default::default()
     }

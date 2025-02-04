@@ -11,9 +11,15 @@ targets:
 - !LinuxArm64
   artifact_templates:
   - k3sup-arm64
+- !LinuxArm
+  artifact_templates:
+  - k3sup-armhf
 - !MacOSAmd64
   artifact_templates:
   - k3sup-darwin
+- !MacOSArm64
+  artifact_templates:
+  - k3sup-darwin-arm64
 - !WindowsAmd64
   artifact_templates:
   - k3sup.exe

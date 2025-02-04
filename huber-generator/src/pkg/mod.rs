@@ -1,35 +1,3 @@
-use huber_common::model::package::PackageTargetType;
-
-fn default_targets() -> Vec<PackageTargetType> {
-    vec![
-        PackageTargetType::LinuxAmd64(Default::default()),
-        PackageTargetType::LinuxArm64(Default::default()),
-        PackageTargetType::LinuxArm(Default::default()),
-        PackageTargetType::MacOSAmd64(Default::default()),
-        PackageTargetType::MacOSArm64(Default::default()),
-        PackageTargetType::WindowsAmd64(Default::default()),
-    ]
-}
-
-fn default_targets_no_arm() -> Vec<PackageTargetType> {
-    vec![
-        PackageTargetType::LinuxAmd64(Default::default()),
-        PackageTargetType::LinuxArm64(Default::default()),
-        PackageTargetType::MacOSAmd64(Default::default()),
-        PackageTargetType::MacOSArm64(Default::default()),
-        PackageTargetType::WindowsAmd64(Default::default()),
-    ]
-}
-
-fn default_targets_no_arm_windows() -> Vec<PackageTargetType> {
-    vec![
-        PackageTargetType::LinuxAmd64(Default::default()),
-        PackageTargetType::LinuxArm64(Default::default()),
-        PackageTargetType::MacOSAmd64(Default::default()),
-        PackageTargetType::MacOSArm64(Default::default()),
-    ]
-}
-
 pub mod ali;
 pub mod argocd;
 pub mod arkade;
@@ -63,7 +31,6 @@ pub mod dua_cli;
 pub mod dust;
 pub mod eksctl;
 pub mod exa;
-pub mod faas_cli;
 pub mod fd;
 pub mod firecracker;
 pub mod fission;
@@ -84,7 +51,6 @@ pub mod helm;
 pub mod helmfile;
 pub mod hetty;
 pub mod hexyl;
-pub mod hub;
 pub mod huber;
 pub mod hugo;
 pub mod hyperfine;
@@ -101,8 +67,6 @@ pub mod k3s;
 pub mod k3sup;
 pub mod k6;
 pub mod k9s;
-pub mod keptn;
-pub mod ketch;
 pub mod kind;
 pub mod ko;
 pub mod kompose;
@@ -115,11 +79,8 @@ pub mod kubectl;
 pub mod kubefire;
 pub mod kubestr;
 pub mod kubevirt;
-pub mod kudo;
 pub mod kustomize;
 pub mod kuttl;
-pub mod kwctl;
-pub mod lens;
 pub mod linkerd2_edge;
 pub mod linkerd2_stable;
 pub mod loc;
@@ -131,7 +92,6 @@ pub mod natscli;
 pub mod navi;
 pub mod nerdctl;
 pub mod node;
-pub mod nomad;
 pub mod norouter;
 pub mod nushell;
 pub mod octant;
@@ -151,9 +111,7 @@ pub mod pulumi;
 pub mod rancher;
 pub mod rancher_cli;
 pub mod renote;
-pub mod rio;
 pub mod ripgrep;
-pub mod rke;
 pub mod rke2;
 pub mod rustwasmc;
 pub mod sad;
@@ -196,3 +154,6 @@ pub mod yq;
 pub mod zellij;
 pub mod zola;
 pub mod zoxide;
+pub mod bun;
+pub mod opentofu;
+pub mod localai;

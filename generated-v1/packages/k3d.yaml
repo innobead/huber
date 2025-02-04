@@ -2,18 +2,18 @@
 name: k3d
 description: Little helper to run CNCF's k3s in Docker
 source: !Github
-  owner: rancher
+  owner: k3d-io
   repo: k3d
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - k3d-linux-amd64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - k3d-linux-arm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - k3d-darwin-amd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - k3d-windows-amd64.exe
+  artifact_templates: []

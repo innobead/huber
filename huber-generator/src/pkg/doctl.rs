@@ -1,4 +1,6 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{
+    default_targets_no_arm, Package, PackageSource,
+};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,25 +10,7 @@ pub fn release() -> Package {
             owner: "digitalocean".to_string(),
             repo: "doctl".to_string(),
         },
-
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["doctl-{version}-linux-amd64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["doctl-{version}-linux-arm64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["doctl-{version}-darwin-amd64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["doctl-{version}-windows-amd64.zip".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets_no_arm(),
         ..Default::default()
     }
 }

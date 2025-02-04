@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/kube-linter-linux.tar.gz'
+  - kube-linter-linux.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/kube-linter-darwin.tar.gz'
+  - kube-linter-darwin.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/kube-linter-windows.tar.gz'
+  - kube-linter-windows.tar.gz

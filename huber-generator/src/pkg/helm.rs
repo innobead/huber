@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "helm".to_string(),
             repo: "helm".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
@@ -22,9 +21,21 @@ pub fn release() -> Package {
                 ],
                 ..Default::default()
             }),
+            PackageTargetType::LinuxArm(PackageManagement {
+                artifact_templates: vec![
+                    "https://get.helm.sh/helm-v{version}-linux-arm.tar.gz".to_string()
+                ],
+                ..Default::default()
+            }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec![
                     "https://get.helm.sh/helm-v{version}-darwin-amd64.tar.gz".to_string()
+                ],
+                ..Default::default()
+            }),
+            PackageTargetType::MacOSArm64(PackageManagement {
+                artifact_templates: vec![
+                    "https://get.helm.sh/helm-v{version}-darwin-arm64.tar.gz".to_string()
                 ],
                 ..Default::default()
             }),

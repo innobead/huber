@@ -1,4 +1,6 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{
+    default_targets_no_arm, Package, PackageSource,
+};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,25 +10,7 @@ pub fn release() -> Package {
             owner: "kubernetes-sigs".to_string(),
             repo: "kind".to_string(),
         },
-
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["kind-linux-amd64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["kind-linux-arm64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["kind-darwin-amd64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["kind-windows-amd64".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets_no_arm(),
         ..Default::default()
     }
 }

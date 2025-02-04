@@ -6,11 +6,12 @@ source: !Github
   repo: dive
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - dive_{version}_linux_amd64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - dive_{version}_darwin_amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - dive_{version}_windows_amd64.zip
+  artifact_templates: []

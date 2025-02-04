@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "genuinetools".to_string(),
             repo: "img".to_string(),
         },
-
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {
             artifact_templates: vec!["img-linux-amd64".to_string()],
             ..Default::default()

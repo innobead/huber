@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "mike-engel".to_string(),
             repo: "jwt-cli".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["jwt-linux.tar.gz".to_string()],

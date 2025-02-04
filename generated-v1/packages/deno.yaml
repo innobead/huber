@@ -6,14 +6,12 @@ source: !Github
   repo: deno
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - deno-x86_64-unknown-linux-gnu.zip
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - deno-x86_64-apple-darwin.zip
+  artifact_templates: []
 - !MacOSArm64
-  artifact_templates:
-  - deno-aarch64-apple-darwin.zip
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - deno-x86_64-pc-windows-msvc.zip
+  artifact_templates: []

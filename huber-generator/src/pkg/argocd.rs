@@ -1,7 +1,5 @@
 use huber_common::model::package::{Package, PackageSource};
 
-use crate::pkg::default_targets;
-
 #[allow(dead_code)]
 pub fn release() -> Package {
     Package {
@@ -10,7 +8,6 @@ pub fn release() -> Package {
             owner: "argoproj".to_string(),
             repo: "argo-cd".to_string(),
         },
-        targets: default_targets(),
         ..Default::default()
     }
 }

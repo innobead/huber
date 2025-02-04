@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "containerd".to_string(),
             repo: "nerdctl".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["nerdctl-{version}-linux-amd64.tar.gz".to_string()],
@@ -16,6 +15,10 @@ pub fn release() -> Package {
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec!["nerdctl-{version}-linux-arm64.tar.gz".to_string()],
+                ..Default::default()
+            }),
+            PackageTargetType::LinuxArm(PackageManagement {
+                artifact_templates: vec!["nerdctl-{version}-linux-arm-v7.tar.gz".to_string()],
                 ..Default::default()
             }),
         ],

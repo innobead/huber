@@ -2,18 +2,18 @@
 name: eksctl
 description: The official CLI for Amazon EKS
 source: !Github
-  owner: weaveworks
+  owner: eksctl-io
   repo: eksctl
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - eksctl_Linux_amd64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - eksctl_Linux_arm64.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - eksctl_Darwin_amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - eksctl_Windows_amd64.zip
+  artifact_templates: []

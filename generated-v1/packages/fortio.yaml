@@ -6,11 +6,9 @@ source: !Github
   repo: fortio
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - fortio-linux_x64-{version}.tgz
-- !MacOSAmd64
-  artifact_templates:
-  - fortio-linux_x64-{version}.tgz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !WindowsAmd64
   artifact_templates:
   - fortio_win_{version}.zip

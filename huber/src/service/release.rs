@@ -451,7 +451,7 @@ impl ReleaseTrait for ReleaseService {
         let exec_mappings: HashMap<_, _> = pkg.target()?.executable_mappings.unwrap_or_default();
 
         let semver_regex = Regex::new(
-            r"(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)
+            r"v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)
 (?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?",
         )?;
 
@@ -616,19 +616,17 @@ impl ReleaseAsyncTrait for ReleaseService {
         release.current = true;
         release.name = release.package.name.clone();
 
-        // remove old symlink bin, current
         debug!(
             "Removing the old current release symbolic links: {}",
             &release.package
         );
         self.reset_current(&release.package)?;
 
-        // update current symlink
         debug!("Updating the current release symbolic links: {}", &release);
 
         let config = self.container.get::<Config>().unwrap();
         let current_pkg_dir = config.current_pkg_dir(&release.package)?;
-        let source: PathBuf = config.installed_pkg_dir(&release.package, &release.version)?;
+        let source = config.installed_pkg_dir(&release.package, &release.version)?;
 
         symlink_dir(&source, &current_pkg_dir)?;
 

@@ -6,11 +6,14 @@ source: !Github
   repo: dasel
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - dasel_linux_amd64
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - dasel_macos_amd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - dasel_windows_amd64.exe
+  artifact_templates: []

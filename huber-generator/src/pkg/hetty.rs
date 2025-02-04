@@ -1,4 +1,6 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{
+    default_targets_no_arm, Package, PackageSource,
+};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,21 +10,7 @@ pub fn release() -> Package {
             owner: "dstotijn".to_string(),
             repo: "hetty".to_string(),
         },
-
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["hetty_{version}_Linux_x86_64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["hetty_{version}_macOS_x86_64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["hetty_{version}_Windows_x86_64.zip".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets_no_arm(),
         ..Default::default()
     }
 }

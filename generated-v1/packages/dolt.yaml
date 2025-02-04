@@ -6,11 +6,12 @@ source: !Github
   repo: dolt
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - dolt-linux-amd64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - dolt-darwin-amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - dolt-windows-amd64.zip
+  artifact_templates: []

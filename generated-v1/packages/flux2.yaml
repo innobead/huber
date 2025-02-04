@@ -6,14 +6,14 @@ source: !Github
   repo: flux2
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - flux_0.3.0_linux_amd64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - flux_0.3.0_linux_arm64.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - flux_0.3.0_darwin_amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - flux_0.3.0_windows_amd64.zip
+  artifact_templates: []

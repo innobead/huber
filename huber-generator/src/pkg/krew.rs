@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,29 +8,6 @@ pub fn release() -> Package {
             owner: "kubernetes-sigs".to_string(),
             repo: "krew".to_string(),
         },
-
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["krew-linux_amd64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["krew-linux_arm64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["krew-darwin_amd64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSArm64(PackageManagement {
-                artifact_templates: vec!["krew-darwin_arm64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["krew-windows_amd64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-        ],
         ..Default::default()
     }
 }

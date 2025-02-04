@@ -1,5 +1,5 @@
 <div align="center" style="text-align: center;">
-<img src="./docs/src/images/huber_logo.png" alt="huber" style="width:300px;"/>
+<img src="https://raw.githubusercontent.com/innobead/huber/HEAD/docs/src/images/huber_logo.png" alt="huber" style="width:300px;"/>
 </div>
 
 <div align="center">

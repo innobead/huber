@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - k0s-v{version}-amd64
+  - k0s-v{version}+k0s.0-amd64
+- !LinuxArm
+  artifact_templates:
+  - k0s-v{version}+k0s.0-arm
 - !LinuxArm64
   artifact_templates:
-  - k0s-v{version}-arm64
-- !WindowsAmd64
-  artifact_templates:
-  - k0s-v{version}-amd64.exe
+  - k0s-v{version}+k0s.0-arm64

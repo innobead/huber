@@ -9,6 +9,7 @@
  bat              A cat(1) clone with wings.                                                                               https://github.com/sharkdp/bat 
  bottom           Yet another cross-platform graphical process/system monitor.                                             https://github.com/ClementTsang/bottom 
  buf              The best way of working with Protocol Buffers.                                                           https://github.com/bufbuild/buf 
+ bun              Incredibly fast JavaScript runtime, bundler, test runner, and package manager – all in one               https://github.com/oven-sh/bun 
  camel-k          Apache Camel K is a lightweight integration platform, born on Kubernetes, with serverless superpower...  https://github.com/apache/camel-k 
  chisel           A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  choose           A human-friendly and fast alternative to cut and (sometimes) awk                                         https://github.com/theryangeary/choose 
@@ -33,9 +34,8 @@
  dolt             Dolt – Git for Data                                                                                      https://github.com/dolthub/dolt 
  dua-cli          View disk space usage and delete unwanted data, fast.                                                    https://github.com/Byron/dua-cli 
  dust             A more intuitive version of du in rust                                                                   https://github.com/bootandy/dust 
- eksctl           The official CLI for Amazon EKS                                                                          https://github.com/weaveworks/eksctl 
+ eksctl           The official CLI for Amazon EKS                                                                          https://github.com/eksctl-io/eksctl 
  exa              A modern replacement for ‘ls’.                                                                           https://github.com/ogham/exa 
- faas-cli         Official CLI for OpenFaaS                                                                                https://github.com/openfaas/faas-cli 
  fd               A simple, fast and user-friendly alternative to 'find'                                                   https://github.com/sharkdp/fd 
  firecracker      Secure and fast microVMs for serverless computing.                                                       https://github.com/firecracker-microvm/firecracker 
  fission          Fast and Simple Serverless Functions for Kubernetes                                                      https://github.com/fission/fission 
@@ -46,36 +46,34 @@
  frum             A little bit fast and modern Ruby version manager written in Rust                                        https://github.com/TaKO8Ki/frum 
  gh               GitHub’s official command line tool                                                                      https://github.com/cli/cli 
  gitui            Blazing 💥 fast terminal-ui for git written in rust 🦀                                                   https://github.com/extrawurst/gitui 
+ go               The Go programming language                                                                              https://github.com/golang/go 
  go-http-tunnel   Fast and secure tunnels over HTTP/2                                                                      https://github.com/mmatczuk/go-http-tunnel 
  gping            Ping, but with a graph                                                                                   https://github.com/orf/gping 
  gradle           Adaptable, fast automation for all                                                                       https://github.com/gradle/gradle 
  grex             A command-line tool and Rust library with Python bindings for generating regular expressions from us...  https://github.com/pemistahl/grex 
  grpcurl          Like cURL, but for gRPC: Command-line tool for interacting with gRPC servers                             https://github.com/fullstorydev/grpcurl 
  helm             The Kubernetes Package Manager                                                                           https://github.com/helm/helm 
- helmfile         Deploy Kubernetes Helm Charts                                                                            https://github.com/roboll/helmfile 
+ helmfile         Declaratively deploy your Kubernetes manifests, Kustomize configs, and Charts as Helm releases. Gene...  https://github.com/helmfile/helmfile 
  hetty            An HTTP toolkit for security research.                                                                   https://github.com/dstotijn/hetty 
  hexyl            A command-line hex viewer                                                                                https://github.com/sharkdp/hexyl 
- hub              A command-line tool that makes git easier to use with GitHub.                                            https://github.com/github/hub 
- huber            Huber 📦, Package Install Manager for GitHub repos                                                       https://github.com/innobead/huber 
+ huber            Huber: A package installer for GitHub repository releases.                                               https://github.com/innobead/huber 
  hugo             The world’s fastest framework for building websites.                                                     https://github.com/gohugoio/hugo 
  hyperfine        A command-line benchmarking tool                                                                         https://github.com/sharkdp/hyperfine 
  img              Standalone, daemon-less, unprivileged Dockerfile and OCI compatible container image builder.             https://github.com/genuinetools/img 
  istio            Connect, secure, control, and observe services.                                                          https://github.com/istio/istio 
  jiq              jid on jq - interactive JSON query tool using jq expressions                                             https://github.com/fiatjaf/jiq 
  jless            jless is a command-line JSON viewer designed for reading, exploring, and searching through JSON data...  https://github.com/PaulJuliusMartinez/jless 
- jq               Command-line JSON processor                                                                              https://github.com/stedolan/jq 
+ jq               Command-line JSON processor                                                                              https://github.com/jqlang/jq 
  just             🤖 Just a command runner                                                                                 https://github.com/casey/just 
  jwt-cli          A super fast CLI tool to decode and encode JWTs built in Rust                                            https://github.com/mike-engel/jwt-cli 
  k0s              k0s - The Zero Friction Kubernetes                                                                       https://github.com/k0sproject/k0s 
- k3d              Little helper to run CNCF's k3s in Docker                                                                https://github.com/rancher/k3d 
- k3s              Lightweight Kubernetes                                                                                   https://github.com/rancher/k3s 
+ k3d              Little helper to run CNCF's k3s in Docker                                                                https://github.com/k3d-io/k3d 
+ k3s              Lightweight Kubernetes                                                                                   https://github.com/k3s-io/k3s 
  k3sup            bootstrap K3s over SSH in < 60s 🚀                                                                       https://github.com/alexellis/k3sup 
- k6               A modern load testing tool, using Go and JavaScript - https://k6.io                                      https://github.com/k6io/k6 
+ k6               A modern load testing tool, using Go and JavaScript - https://k6.io                                      https://github.com/grafana/k6 
  k9s              🐶 Kubernetes CLI To Manage Your Clusters In Style!                                                      https://github.com/derailed/k9s 
- keptn            Cloud-native application life-cycle orchestration. Keptn automates your SLO-driven multi-stage deliv...  https://github.com/keptn/keptn 
- ketch            Ketch is an application delivery framework that facilitates the deployment and management of applica...  https://github.com/shipa-corp/ketch 
  kind             Kubernetes IN Docker - local clusters for testing Kubernetes                                             https://github.com/kubernetes-sigs/kind 
- ko               Build and deploy Go applications                                                                         https://github.com/google/ko 
+ ko               Build and deploy Go applications                                                                         https://github.com/ko-build/ko 
  kompose          Convert Compose to Kubernetes                                                                            https://github.com/kubernetes/kompose 
  kotlin           The Kotlin Programming Language.                                                                         https://github.com/JetBrains/kotlin 
  kpt              Automate Kubernetes Configuration Editing                                                                https://github.com/GoogleContainerTools/kpt 
@@ -107,9 +105,10 @@
  nushell          A new type of shell                                                                                      https://github.com/nushell/nushell 
  octant           Highly extensible platform for developers to better understand the complexity of Kubernetes clusters...  https://github.com/vmware-tanzu/octant 
  okteto           Develop your applications directly in your Kubernetes Cluster                                            https://github.com/okteto/okteto 
- ollama           Get up and running with Llama 3.3, Phi 4, Gemma 2, and other large language models.                      https://github.com/ollama/ollama 
+ ollama           Get up and running with Llama 3.3, DeepSeek-R1, Phi-4, Gemma 2, and other large language models.         https://github.com/ollama/ollama 
  onefetch         Command-line Git information tool                                                                        https://github.com/o2sh/onefetch 
  opa              Open Policy Agent (OPA) is an open source, general-purpose policy engine.                                https://github.com/open-policy-agent/opa 
+ opentofu         OpenTofu lets you declaratively manage your cloud infrastructure.                                        https://github.com/opentofu/opentofu 
  oras             OCI registry client - managing content like artifacts, images, packages                                  https://github.com/deislabs/oras 
  pack             CLI for building apps using Cloud Native Buildpacks                                                      https://github.com/buildpacks/pack 
  packer           Packer is a tool for creating identical machine images for multiple platforms from a single source c...  https://github.com/hashicorp/packer 

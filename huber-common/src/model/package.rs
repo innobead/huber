@@ -49,7 +49,7 @@ impl Default for Package {
                 owner: "".to_string(),
                 repo: "".to_string(),
             },
-            targets: vec![],
+            targets: default_targets(),
             detail: None,
             release_kind: None,
         }
@@ -362,4 +362,44 @@ impl SortModelTrait for Vec<PackageSummary> {
     fn sort_by_name(&mut self) {
         self.sort_by(|x, y| x.name.cmp(&y.name))
     }
+}
+
+pub fn default_targets() -> Vec<PackageTargetType> {
+    vec![
+        PackageTargetType::LinuxAmd64(Default::default()),
+        PackageTargetType::LinuxArm64(Default::default()),
+        PackageTargetType::LinuxArm(Default::default()),
+        PackageTargetType::MacOSAmd64(Default::default()),
+        PackageTargetType::MacOSArm64(Default::default()),
+        PackageTargetType::WindowsAmd64(Default::default()),
+    ]
+}
+
+pub fn default_targets_no_arm() -> Vec<PackageTargetType> {
+    vec![
+        PackageTargetType::LinuxAmd64(Default::default()),
+        PackageTargetType::LinuxArm64(Default::default()),
+        PackageTargetType::MacOSAmd64(Default::default()),
+        PackageTargetType::MacOSArm64(Default::default()),
+        PackageTargetType::WindowsAmd64(Default::default()),
+    ]
+}
+
+pub fn default_targets_no_arm_windows() -> Vec<PackageTargetType> {
+    vec![
+        PackageTargetType::LinuxAmd64(Default::default()),
+        PackageTargetType::LinuxArm64(Default::default()),
+        PackageTargetType::MacOSAmd64(Default::default()),
+        PackageTargetType::MacOSArm64(Default::default()),
+    ]
+}
+
+pub fn default_targets_no_windows() -> Vec<PackageTargetType> {
+    vec![
+        PackageTargetType::LinuxAmd64(Default::default()),
+        PackageTargetType::LinuxArm64(Default::default()),
+        PackageTargetType::LinuxArm(Default::default()),
+        PackageTargetType::MacOSAmd64(Default::default()),
+        PackageTargetType::MacOSArm64(Default::default()),
+    ]
 }

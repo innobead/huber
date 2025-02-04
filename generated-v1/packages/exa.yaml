@@ -6,8 +6,8 @@ source: !Github
   repo: exa
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - exa-linux-x86_64-{version}.zip
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - exa-macos-x86_64-{version}.zip
+  artifact_templates: []

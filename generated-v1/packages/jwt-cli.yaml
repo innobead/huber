@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/jwt-linux.tar.gz'
+  - jwt-linux.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/jwt-macOS.tar.gz'
+  - jwt-macOS.tar.gz
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/jwt-windows.tar.gz'
+  - jwt-windows.tar.gz

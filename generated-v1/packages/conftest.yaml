@@ -6,14 +6,14 @@ source: !Github
   repo: conftest
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - conftest_{version}_Linux_x86_64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - conftest_{version}_Linux_arm64.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - conftest_{version}_Darwin_x86_64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - conftest_{version}_Windows_x86_64.zip
+  artifact_templates: []

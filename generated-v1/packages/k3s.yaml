@@ -2,7 +2,7 @@
 name: k3s
 description: Lightweight Kubernetes
 source: !Github
-  owner: rancher
+  owner: k3s-io
   repo: k3s
 targets:
 - !LinuxAmd64
@@ -11,3 +11,6 @@ targets:
 - !LinuxArm64
   artifact_templates:
   - k3s-arm64
+- !LinuxArm
+  artifact_templates:
+  - k3s-armhf

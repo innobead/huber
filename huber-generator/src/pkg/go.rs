@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "golang".to_string(),
             repo: "go".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
@@ -25,6 +24,12 @@ pub fn release() -> Package {
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec![
                     "https://golang.org/dl/go{version}.darwin-amd64.tar.gz".to_string()
+                ],
+                ..Default::default()
+            }),
+            PackageTargetType::MacOSArm64(PackageManagement {
+                artifact_templates: vec![
+                    "https://golang.org/dl/go{version}.darwin-arm64.tar.gz".to_string()
                 ],
                 ..Default::default()
             }),

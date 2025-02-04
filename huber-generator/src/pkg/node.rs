@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "nodejs".to_string(),
             repo: "node".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![

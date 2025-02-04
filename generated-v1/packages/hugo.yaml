@@ -6,14 +6,13 @@ source: !Github
   repo: hugo
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - hugo_{version}_Linux-64bit.tar.gz
-  - hugo_extended_{version}_Linux-64bit.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
   artifact_templates:
-  - hugo_{version}_macOS-64bit.tar.gz
-  - hugo_extended_{version}_macOS-64bit.tar.gz
+  - hugo_{version}_darwin-universal.tar.gz
+  - hugo_extended_{version}_darwin-universal.tar.gz
+  - hugo_extended_withdeploy_{version}_darwin-universal.tar.gz
 - !WindowsAmd64
-  artifact_templates:
-  - hugo_{version}_Windows-64bit.zip
-  - hugo_extended_{version}_Windows-64bit.zip
+  artifact_templates: []

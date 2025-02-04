@@ -6,14 +6,14 @@ source: !Github
   repo: direnv
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - direnv.linux-amd64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - direnv.linux-arm
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - direnv.darwin-amd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - direnv.windows-amd64.exe
+  artifact_templates: []

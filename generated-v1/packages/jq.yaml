@@ -2,21 +2,18 @@
 name: jq
 description: Command-line JSON processor
 source: !Github
-  owner: stedolan
+  owner: jqlang
   repo: jq
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - jq-linux64
-  executable_mappings:
-    jq-linux64: jq
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - jq-osx-amd64
-  executable_mappings:
-    jq-osx-amd64: jq
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - jq-win64.exe
-  executable_mappings:
-    jq-win64.exe: jq.exe
+  artifact_templates: []

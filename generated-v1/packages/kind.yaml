@@ -6,14 +6,12 @@ source: !Github
   repo: kind
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - kind-linux-amd64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - kind-linux-arm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - kind-darwin-amd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - kind-windows-amd64
+  artifact_templates: []

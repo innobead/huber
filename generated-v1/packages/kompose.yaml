@@ -6,14 +6,14 @@ source: !Github
   repo: kompose
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - kompose-linux-arm64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - kompose-linux-amd64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - kompose-darwin-amd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - kompose-windows-amd64.exe
+  artifact_templates: []

@@ -8,12 +8,9 @@ pub fn release() -> Package {
             owner: "extrawurst".to_string(),
             repo: "gitui".to_string(),
         },
-
         targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["gitui-linux-musl.tar.gz".to_string()],
-                ..Default::default()
-            }),
+            PackageTargetType::LinuxAmd64(Default::default()),
+            PackageTargetType::LinuxArm64(Default::default()),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["gitui-mac.tar.gz".to_string()],
                 ..Default::default()

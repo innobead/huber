@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "theryangeary".to_string(),
             repo: "choose".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(Default::default()),
             PackageTargetType::LinuxArm64(Default::default()),

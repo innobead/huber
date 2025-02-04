@@ -8,29 +8,18 @@ pub fn release() -> Package {
             owner: "gohugoio".to_string(),
             repo: "hugo".to_string(),
         },
-
         targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "hugo_{version}_Linux-64bit.tar.gz".to_string(),
-                    "hugo_extended_{version}_Linux-64bit.tar.gz".to_string(),
-                ],
-                ..Default::default()
-            }),
+            PackageTargetType::LinuxAmd64(Default::default()),
+            PackageTargetType::LinuxArm64(Default::default()),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "hugo_{version}_macOS-64bit.tar.gz".to_string(),
-                    "hugo_extended_{version}_macOS-64bit.tar.gz".to_string(),
+                    "hugo_{version}_darwin-universal.tar.gz".to_string(),
+                    "hugo_extended_{version}_darwin-universal.tar.gz".to_string(),
+                    "hugo_extended_withdeploy_{version}_darwin-universal.tar.gz".to_string(),
                 ],
                 ..Default::default()
             }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "hugo_{version}_Windows-64bit.zip".to_string(),
-                    "hugo_extended_{version}_Windows-64bit.zip".to_string(),
-                ],
-                ..Default::default()
-            }),
+            PackageTargetType::WindowsAmd64(Default::default()),
         ],
         ..Default::default()
     }

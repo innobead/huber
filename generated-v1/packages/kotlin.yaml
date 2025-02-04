@@ -6,11 +6,10 @@ source: !Github
   repo: kotlin
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - kotlin-compiler-{version}.zip
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - kotlin-compiler-{version}.zip
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - kotlin-compiler-{version}.zip
+  artifact_templates: []

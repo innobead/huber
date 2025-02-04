@@ -11,19 +11,13 @@ pub fn release() -> Package {
 
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "Firecracker-v{version}-x86_64.tgz".to_string(),
-                    "firecracker-v{version}-x86_64.tgz".to_string(),
-                ],
+                artifact_templates: vec!["firecracker-v{version}-x86_64.tgz".to_string()],
                 executable_mappings: None,
                 tag_version_regex_template: None,
                 scan_dirs: Some(vec!["release-v{version}".to_string()]),
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec![
-                    "Firecracker-v{version}-aarch64.tgz".to_string(),
-                    "firecracker-v{version}-aarch64.tgz".to_string(),
-                ],
+                artifact_templates: vec!["firecracker-v{version}-aarch64.tgz".to_string()],
                 executable_mappings: None,
                 tag_version_regex_template: None,
                 scan_dirs: Some(vec!["release-v{version}".to_string()]),

@@ -2,12 +2,16 @@
 name: ko
 description: Build and deploy Go applications
 source: !Github
-  owner: google
+  owner: ko-build
   repo: ko
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - ko_{version}_Linux_x86_64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - ko_{version}_Darwin_x86_64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
+- !WindowsAmd64
+  artifact_templates: []

@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - '{version}/linux-amd64-wasm-to-oci'
+  - linux-amd64-wasm-to-oci
 - !MacOSAmd64
   artifact_templates:
-  - '{version}/darwin-amd64-wasm-to-oci'
+  - darwin-amd64-wasm-to-oci
 - !WindowsAmd64
   artifact_templates:
-  - '{version}/windows-amd64-wasm-to-oci.exe'
+  - windows-amd64-wasm-to-oci.exe

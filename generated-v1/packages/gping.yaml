@@ -6,11 +6,15 @@ source: !Github
   repo: gping
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - gping-Linux-x86_64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - gping-Darwin-x86_64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
   artifact_templates:
-  - gping-Windows-x86_64.tar.gz
+  - gping-Windows-msvc-x86_64.zip

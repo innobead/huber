@@ -20,6 +20,9 @@
 - name: buf
   owner: bufbuild
   source: github
+- name: bun
+  owner: oven-sh
+  source: github
 - name: camel-k
   owner: apache
   source: github
@@ -93,13 +96,10 @@
   owner: bootandy
   source: github
 - name: eksctl
-  owner: weaveworks
+  owner: eksctl-io
   source: github
 - name: exa
   owner: ogham
-  source: github
-- name: faas-cli
-  owner: openfaas
   source: github
 - name: fd
   owner: sharkdp
@@ -131,6 +131,9 @@
 - name: gitui
   owner: extrawurst
   source: github
+- name: go
+  owner: golang
+  source: github
 - name: go-http-tunnel
   owner: mmatczuk
   source: github
@@ -150,16 +153,13 @@
   owner: helm
   source: github
 - name: helmfile
-  owner: roboll
+  owner: helmfile
   source: github
 - name: hetty
   owner: dstotijn
   source: github
 - name: hexyl
   owner: sharkdp
-  source: github
-- name: hub
-  owner: github
   source: github
 - name: huber
   owner: innobead
@@ -183,7 +183,7 @@
   owner: PaulJuliusMartinez
   source: github
 - name: jq
-  owner: stedolan
+  owner: jqlang
   source: github
 - name: just
   owner: casey
@@ -195,31 +195,25 @@
   owner: k0sproject
   source: github
 - name: k3d
-  owner: rancher
+  owner: k3d-io
   source: github
 - name: k3s
-  owner: rancher
+  owner: k3s-io
   source: github
 - name: k3sup
   owner: alexellis
   source: github
 - name: k6
-  owner: k6io
+  owner: grafana
   source: github
 - name: k9s
   owner: derailed
-  source: github
-- name: keptn
-  owner: keptn
-  source: github
-- name: ketch
-  owner: shipa-corp
   source: github
 - name: kind
   owner: kubernetes-sigs
   source: github
 - name: ko
-  owner: google
+  owner: ko-build
   source: github
 - name: kompose
   owner: kubernetes
@@ -322,6 +316,9 @@
   source: github
 - name: opa
   owner: open-policy-agent
+  source: github
+- name: opentofu
+  owner: opentofu
   source: github
 - name: oras
   owner: deislabs

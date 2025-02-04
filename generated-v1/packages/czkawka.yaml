@@ -9,10 +9,14 @@ targets:
   artifact_templates:
   - linux_czkawka_cli
   - linux_czkawka_gui
-  - linux_czkawka_gui.AppImage
 - !MacOSAmd64
   artifact_templates:
   - mac_czkawka_cli
+  - mac_czkawka_gui
+  - mac_krokiet_gui
 - !WindowsAmd64
   artifact_templates:
   - windows_czkawka_cli.exe
+  - windows_krokiet_gui_linversion.exe
+  - windows_krokiet_gui_linversion_console.exe
+  - windows_krokiet_gui_winversion.exe

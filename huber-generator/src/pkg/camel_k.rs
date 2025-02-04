@@ -1,6 +1,6 @@
 use huber_common::model::package::{Package, PackageSource};
 
-use crate::pkg::default_targets_no_arm;
+use huber_common::model::package::default_targets_no_arm;
 
 #[allow(dead_code)]
 pub fn release() -> Package {

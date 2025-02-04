@@ -6,24 +6,14 @@ source: !Github
   repo: cosign
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - cosign-linux-amd64
-  - cosigned-linux-amd64
-  - sget-linux-amd64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - cosign-linux-arm64
-  - cosigned-linux-arm64
-  - sget-linux-arm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - cosign-darwin-amd64
-  - sget-darwin-amd64
+  artifact_templates: []
 - !MacOSArm64
-  artifact_templates:
-  - cosign-darwin-arm64
-  - sget-darwin-arm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - cosign-windows-amd64.exe
-  - sget-windows-amd64.exe
+  artifact_templates: []

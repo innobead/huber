@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{Package, PackageSource, PackageTargetType};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,20 +8,10 @@ pub fn release() -> Package {
             owner: "rancher".to_string(),
             repo: "fleet".to_string(),
         },
-
         targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["fleet-linux-amd64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["fleet-linux-arm64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["fleet-darwin-arm64".to_string()],
-                ..Default::default()
-            }),
+            PackageTargetType::LinuxAmd64(Default::default()),
+            PackageTargetType::LinuxArm64(Default::default()),
+            PackageTargetType::WindowsAmd64(Default::default()),
         ],
         ..Default::default()
     }

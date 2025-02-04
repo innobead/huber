@@ -9,7 +9,6 @@ pub fn release() -> Package {
             owner: "linkerd".to_string(),
             repo: "linkerd2".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["linkerd2-cli-stable-{version}-linux-amd64".to_string()],

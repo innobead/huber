@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "Schniz".to_string(),
             repo: "fnm".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["fnm-linux.zip".to_string()],

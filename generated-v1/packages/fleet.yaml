@@ -6,11 +6,8 @@ source: !Github
   repo: fleet
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - fleet-linux-amd64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - fleet-linux-arm64
-- !MacOSAmd64
-  artifact_templates:
-  - fleet-darwin-arm64
+  artifact_templates: []
+- !WindowsAmd64
+  artifact_templates: []

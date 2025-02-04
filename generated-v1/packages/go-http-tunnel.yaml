@@ -6,11 +6,10 @@ source: !Github
   repo: go-http-tunnel
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - '{version}/tunnel_linux_amd64.tar.gz'
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - '{version}/tunnel_darwin_amd64.tar.gz'
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - '{version}/tunnel_windows_amd64.tar.gz'
+  artifact_templates: []

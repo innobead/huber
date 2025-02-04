@@ -67,7 +67,7 @@ setup-dev:
     @{{ prj_dir }}/hack/setup-dev.sh
 
 # (local dev) Generate managed package list
-generate force='false':
+generate force='true':
     @echo "! Must have GITHUB_TOKEN to automatically generate package description"
     @GITHUB_TOKEN={{ github_token }} FORCE={{ force }} cargo build {{ cargo_opts }} -vv --package=huber-generator
     @GITHUB_KEY={{ github_key }} just build && (HUBER_PKG_ROOT_DIR={{ huber_pkg_root_dir }} {{ huber_exec }} search | xargs -0 {{ prj_dir }}/hack/generate-huber-packages.sh)

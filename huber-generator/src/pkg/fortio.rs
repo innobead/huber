@@ -10,14 +10,8 @@ pub fn release() -> Package {
         },
 
         targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["fortio-linux_x64-{version}.tgz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["fortio-linux_x64-{version}.tgz".to_string()],
-                ..Default::default()
-            }),
+            PackageTargetType::LinuxAmd64(Default::default()),
+            PackageTargetType::LinuxArm64(Default::default()),
             PackageTargetType::WindowsAmd64(PackageManagement {
                 artifact_templates: vec!["fortio_win_{version}.zip".to_string()],
                 ..Default::default()

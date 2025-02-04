@@ -6,10 +6,8 @@ source: !Github
   repo: containerd
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - containerd-{version}-linux-amd64.tar.gz
-  - cri-containerd-cni-{version}-linux-amd64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - containerd-{version}-windows-amd64.tar.gz
-  - cri-containerd-cni-{version}-windows-amd64.tar.gz
+  artifact_templates: []

@@ -6,14 +6,14 @@ source: !Github
   repo: copilot-cli
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - copilot-linux-amd64-v{version}
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - copilot-linux-arm64-v{version}
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - copilot-darwin-v{version}
-- !MacOSAmd64
-  artifact_templates:
-  - copilot-windows-v{version}.exe
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
+- !WindowsAmd64
+  artifact_templates: []

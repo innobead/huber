@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{Package, PackageSource, PackageTargetType};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,22 +8,10 @@ pub fn release() -> Package {
             owner: "containerd".to_string(),
             repo: "containerd".to_string(),
         },
-
         targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "containerd-{version}-linux-amd64.tar.gz".to_string(),
-                    "cri-containerd-cni-{version}-linux-amd64.tar.gz".to_string(),
-                ],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "containerd-{version}-windows-amd64.tar.gz".to_string(),
-                    "cri-containerd-cni-{version}-windows-amd64.tar.gz".to_string(),
-                ],
-                ..Default::default()
-            }),
+            PackageTargetType::LinuxAmd64(Default::default()),
+            PackageTargetType::LinuxArm64(Default::default()),
+            PackageTargetType::WindowsAmd64(Default::default()),
         ],
         ..Default::default()
     }

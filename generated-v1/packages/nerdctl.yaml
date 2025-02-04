@@ -6,8 +6,6 @@ source: !Github
   repo: nerdctl
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - nerdctl-{version}-linux-amd64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - nerdctl-{version}-linux-arm64.tar.gz
+  artifact_templates: []

@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{default_targets_no_windows, Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,17 +8,7 @@ pub fn release() -> Package {
             owner: "aquasecurity".to_string(),
             repo: "kube-bench".to_string(),
         },
-
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["kube-bench_{version}_linux_amd64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["kube-bench_{version}_linux_arm64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets_no_windows(),
         ..Default::default()
     }
 }

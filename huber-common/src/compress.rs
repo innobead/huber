@@ -1,4 +1,4 @@
-use std::fs::{create_dir_all, File};
+use std::fs::File;
 use std::io;
 use std::io::BufReader;
 use std::path::Path;
@@ -61,27 +61,9 @@ fn untar(file: &Path, extract_dir: &Path) -> anyhow::Result<()> {
 
 fn unzip(file: &Path, extract_dir: &Path) -> anyhow::Result<()> {
     let file = File::open(file)?;
-    let mut archive = ZipArchive::new(BufReader::new(file))?;
 
-    for i in 0..archive.len() {
-        let mut file = archive.by_index(i)?;
-        let outpath = match file.enclosed_name() {
-            Some(path) => extract_dir.join(path),
-            None => continue,
-        };
-
-        if file.name().ends_with('/') {
-            create_dir_all(&outpath)?;
-        } else {
-            if let Some(p) = outpath.parent() {
-                if !p.exists() {
-                    create_dir_all(p)?;
-                }
-            }
-            let mut outfile = File::create(&outpath)?;
-            io::copy(&mut file, &mut outfile)?;
-        }
-    }
+    let mut reader = ZipArchive::new(BufReader::new(file))?;
+    reader.extract(extract_dir)?;
 
     Ok(())
 }

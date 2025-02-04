@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "github".to_string(),
             repo: "codeql-cli-binaries".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["codeql-linux64.zip".to_string()],

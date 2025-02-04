@@ -8,7 +8,7 @@ netbsd openbsd plan9 solaris windows zos macos osx";
 
 const GO_ARCH_LIST: &str = "386 amd64 amd64p32 arm armbe arm64 arm64be ppc64 ppc64le mips \
 mipsle mips64 mips64le mips64p32 mips64p32le ppc riscv riscv64 s390 s390x sparc sparc64 \
-wasm x86_64 aarch64 64bit";
+wasm x86_64 x64 aarch64 64bit";
 
 pub fn trim_os_arch_version(str: &str) -> String {
     let revert_sort = |x: &&str, y: &&str| -> Ordering { y.len().cmp(&x.len()) };
@@ -22,7 +22,7 @@ pub fn trim_os_arch_version(str: &str) -> String {
     let arch_pattern = arch_pattern.join("|");
 
     let patterns = [
-        Regex::new(r"(?i)[-_]*v\d+.\d+.\d+[-_]*").unwrap(),
+        Regex::new(r"(?i)[-_]*v?\d+.\d+.\d+[-_]*").unwrap(),
         Regex::new(&format!(r"(?i)[-_.]*({})[-_]*", os_pattern)).unwrap(),
         Regex::new(&format!(r"(?i)[-_.]*({})[-_]*", arch_pattern)).unwrap(),
     ];
@@ -42,23 +42,27 @@ pub fn trim_os_arch_version(str: &str) -> String {
 }
 
 pub fn is_os_arch_match(os: &str, arch: &str, asset_url: &str) -> bool {
+    let os = os.to_lowercase();
+    let arch = arch.to_lowercase();
+    let asset_url = asset_url.to_lowercase();
+
     let os_pattern = if os == "macos" {
-        r"\b(macos|darwin|apple)\b"
+        r"([-_.]|\b)(macos|darwin|apple|osx)([-_.]?|\b)"
     } else {
-        &format!(r"\b{}\b", os)
+        &format!(r"([-_.]?|\b){}([-_.]?|\b)", os)
     };
-    if !Regex::new(os_pattern).unwrap().is_match(asset_url) {
+    if !Regex::new(os_pattern).unwrap().is_match(&asset_url) {
         return false;
     }
 
-    let arch_pattern = match arch {
-        "x86_64" => r"\b(x86_64|amd64)\b",
-        "arm" => r"\b(arm|armhf|armv7)\b",
-        "aarch64" => r"\b(aarch64|arm64)\b",
+    let arch_pattern = match arch.as_str() {
+        "x86_64" => r"([-_.]|\b)(x86_64|x64|amd64|64bit)([-_.]?|\b)",
+        "arm" => r"\b(arm|arm32|armhf|armv7)\b",
+        "aarch64" => r"([-_.]|\b)(aarch64|arm64)([-_.]?|\b)",
         _ => return false,
     };
 
-    Regex::new(arch_pattern).unwrap().is_match(asset_url)
+    Regex::new(arch_pattern).unwrap().is_match(&asset_url)
 }
 
 #[cfg(test)]
@@ -66,7 +70,7 @@ mod test {
     use super::*;
 
     #[test]
-    fn test_trim_arch_os() {
+    fn test_trim_os_arch_version() {
         let data = vec![
             ("name-linux-amd64", "name"),
             ("name-Linux-aarch64", "name"),
@@ -75,6 +79,7 @@ mod test {
             ("name.Linux-64bit", "name"),
             ("name_macOS-64bit", "name"),
             ("name-v1.0.0_macOS-64bit", "name"),
+            ("name-1.0.0_macOS-64bit", "name"),
             ("name_v1.0.0_macOS-64bit", "name"),
             ("name_macOS-64bit-v1.0.0", "name"),
             ("name_v1.0.0_macOS-64bit.tar.gz", "name.tar.gz"),
@@ -99,12 +104,21 @@ mod test {
             ("linux", "x86_64", "name-linux-amd64", true),
             ("linux", "x86_64", "name-linux-x86_64", true),
             ("linux", "x86_64", "name-linux-arm64", false),
+            (
+                "linux",
+                "x86_64",
+                "conftest_0.56.0_linux_x86_64.tar.gz",
+                true,
+            ),
             ("linux", "aarch64", "name-linux-aarch64", true),
             ("linux", "aarch64", "name-linux-arm64", true),
             ("linux", "aarch64", "name-linux-amd64", false),
             ("linux", "arm", "name-linux-armv7", true),
             ("linux", "arm", "name-linux-arm", true),
             ("linux", "arm", "name-linux-arm64", false),
+            ("linux", "arm", "name-Linux-arm64", false),
+            ("linux", "arm", "name-Linux-arm64.tar.gz", false),
+            ("linux", "arm", "name-Linux-arm.tar.gz", true),
             ("windows", "x86_64", "name-windows-x86_64", true),
             ("windows", "x86_64", "name-windows-x86_64.exe", true),
             ("windows", "x86_64", "name-windows-amd64", true),

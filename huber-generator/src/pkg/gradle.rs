@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "gradle".to_string(),
             repo: "gradle".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![

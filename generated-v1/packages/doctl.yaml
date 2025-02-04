@@ -6,14 +6,12 @@ source: !Github
   repo: doctl
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - doctl-{version}-linux-amd64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - doctl-{version}-linux-arm64.tar.gz
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - doctl-{version}-darwin-amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - doctl-{version}-windows-amd64.zip
+  artifact_templates: []

@@ -6,11 +6,12 @@ source: !Github
   repo: camel-k
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - camel-k-client-{version}-linux-64bit.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - camel-k-client-{version}-mac-64bit.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - camel-k-client-{version}-windows-64bit.tar.gz
+  artifact_templates: []
