@@ -27,4 +27,5 @@
 
 # Contributing
 
-- [Add a new package](./contributing/add-package.md)
+- [Huber Managed Packages](./contributing/huber-managed-packages.md)
+- [Add a New Package](./contributing/add-package.md)

@@ -16,7 +16,7 @@
 What features does Huber provide?
 
 - Manage (install, update, uninstall, show, current) multiple version packages from GitHub repository releases
-- Search popular GitHub repositories that Huber manages in a curated list
+- Search popular GitHub repositories that Huber manages in a [curated list](docs/src/contributing/huber-managed-packages.md)
 - Manage your own repositories to install packages you need
 - Lock and unlock installed package versions
 - Save and restore package versions
