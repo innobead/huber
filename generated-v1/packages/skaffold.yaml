@@ -6,14 +6,12 @@ source: !Github
   repo: skaffold
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - skaffold-linux-amd64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - skaffold-linux-arm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - skaffold-darwin-amd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - skaffold-windows-amd64.exe
+  artifact_templates: []

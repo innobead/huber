@@ -130,11 +130,9 @@ async fn main() -> anyhow::Result<()> {
 
 fn releases() -> Vec<Package> {
     vec![
-        // tools
         jiq::release(),
         jless::release(),
         onefetch::release(),
-        renote::release(),
         gh::release(),
         dasel::release(),
         bat::release(),
@@ -174,7 +172,6 @@ fn releases() -> Vec<Package> {
         just::release(),
         croc::release(),
         terrascan::release(),
-        tecli::release(),
         nerdctl::release(),
         zoxide::release(),
         dust::release(),
@@ -207,8 +204,11 @@ fn releases() -> Vec<Package> {
         saml2aws::release(),
         grpcurl::release(),
         buf::release(),
-        shisho::release(),
-        // infra
+        httptap::release(),
+        asdf::release(),
+        rclone::release(),
+        gitleaks::release(),
+        goose::release(),
         pulumi::release(),
         chisel::release(),
         go_http_tunnel::release(),
@@ -219,7 +219,6 @@ fn releases() -> Vec<Package> {
         zola::release(),
         nushell::release(),
         dolt::release(),
-        // app development
         okteto::release(),
         skaffold::release(),
         kpt::release(),
@@ -228,10 +227,7 @@ fn releases() -> Vec<Package> {
         ko::release(),
         protoc::release(),
         copilot_cli::release(),
-        rustwasmc::release(),
-        // cloud native, kubernetes
-        rancher::release(),
-        rancher_cli::release(),
+        compose::release(),
         velero::release(),
         helm::release(),
         helmfile::release(),
@@ -250,7 +246,6 @@ fn releases() -> Vec<Package> {
         pack::release(),
         opa::release(),
         conftest::release(),
-        submariner::release(),
         kind::release(),
         krew::release(),
         minikube::release(),
@@ -273,16 +268,13 @@ fn releases() -> Vec<Package> {
         kubestr::release(),
         kube_linter::release(),
         natscli::release(),
-        // runtime
+        traefik::release(),
         containerd::release(),
         firecracker::release(),
         podman::release(),
         wasmtime::release(),
         wasmer::release(),
-        ssvm::release(),
-        wasm_to_oci::release(),
         wabt::release(),
-        // programming
         deno::release(),
         bun::release(),
         typescript::release(),
@@ -290,10 +282,9 @@ fn releases() -> Vec<Package> {
         kotlin::release(),
         gradle::release(),
         go::release(),
-        // blockchain
         solidity::release(),
         axelard::release(),
-        // ai
+        foundry::release(),
         ollama::release(),
         localai::release(),
     ]

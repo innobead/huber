@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,25 +8,6 @@ pub fn release() -> Package {
             owner: "mikefarah".to_string(),
             repo: "yq".to_string(),
         },
-
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["yq_linux_amd64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::LinuxArm64(PackageManagement {
-                artifact_templates: vec!["yq_linux_arm64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["yq_darwin_amd64".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["yq_windows_amd64.exe".to_string()],
-                ..Default::default()
-            }),
-        ],
         ..Default::default()
     }
 }

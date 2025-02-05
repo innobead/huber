@@ -6,11 +6,14 @@ source: !Github
   repo: velero
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - velero-v{version}-linux-amd64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - velero-v{version}-linux-arm64.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - velero-v{version}-darwin-amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
+- !WindowsAmd64
+  artifact_templates: []

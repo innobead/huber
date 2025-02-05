@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "microsoft".to_string(),
             repo: "TypeScript".to_string(),
         },
-
         targets: vec![PackageTargetType::LinuxAmd64(PackageManagement {
             artifact_templates: vec!["typescript-{version}.tgz".to_string()],
             ..Default::default()

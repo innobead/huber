@@ -6,4 +6,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - rke2.linux-amd64
+  - rke2.linux-amd64.tar.gz
+- !LinuxArm64
+  artifact_templates:
+  - rke2.linux-arm64.tar.gz
+- !WindowsAmd64
+  artifact_templates:
+  - rke2.windows-amd64.tar.gz

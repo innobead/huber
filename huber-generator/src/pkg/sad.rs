@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{default_targets_no_arm, Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,17 +8,7 @@ pub fn release() -> Package {
             owner: "ms-jpq".to_string(),
             repo: "sad".to_string(),
         },
-
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["x86_64-unknown-linux-gnu.zip".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["x86_64-apple-darwin.zip".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets_no_arm(),
         ..Default::default()
     }
 }

@@ -403,3 +403,12 @@ pub fn default_targets_no_windows() -> Vec<PackageTargetType> {
         PackageTargetType::MacOSArm64(Default::default()),
     ]
 }
+
+pub fn default_targets_no_arm64_arm() -> Vec<PackageTargetType> {
+    vec![
+        PackageTargetType::LinuxAmd64(Default::default()),
+        PackageTargetType::MacOSAmd64(Default::default()),
+        PackageTargetType::MacOSArm64(Default::default()),
+        PackageTargetType::WindowsAmd64(Default::default()),
+    ]
+}

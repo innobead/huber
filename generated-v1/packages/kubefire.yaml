@@ -6,8 +6,6 @@ source: !Github
   repo: kubefire
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - kubefire-linux-amd64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - kubefire-linux-arm64
+  artifact_templates: []

@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "hashicorp".to_string(),
             repo: "packer".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![

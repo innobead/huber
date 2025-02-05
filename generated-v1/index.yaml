@@ -8,6 +8,9 @@
 - name: arkade
   owner: alexellis
   source: github
+- name: asdf
+  owner: asdf-vm
+  source: github
 - name: axelard
   owner: axelarnetwork
   source: github
@@ -37,6 +40,9 @@
   source: github
 - name: codeql
   owner: github
+  source: github
+- name: compose
+  owner: docker
   source: github
 - name: conftest
   owner: open-policy-agent
@@ -122,11 +128,17 @@
 - name: fortio
   owner: fortio
   source: github
+- name: foundry
+  owner: foundry-rs
+  source: github
 - name: frum
   owner: TaKO8Ki
   source: github
 - name: gh
   owner: cli
+  source: github
+- name: gitleaks
+  owner: gitleaks
   source: github
 - name: gitui
   owner: extrawurst
@@ -136,6 +148,9 @@
   source: github
 - name: go-http-tunnel
   owner: mmatczuk
+  source: github
+- name: goose
+  owner: pressly
   source: github
 - name: gping
   owner: orf
@@ -160,6 +175,9 @@
   source: github
 - name: hexyl
   owner: sharkdp
+  source: github
+- name: httptap
+  owner: monasticacademy
   source: github
 - name: huber
   owner: innobead
@@ -245,20 +263,11 @@
 - name: kubevirt
   owner: kubevirt
   source: github
-- name: kudo
-  owner: kudobuilder
-  source: github
 - name: kustomize
   owner: kubernetes-sigs
   source: github
 - name: kuttl
   owner: kudobuilder
-  source: github
-- name: kwctl
-  owner: kubewarden
-  source: github
-- name: lens
-  owner: lensapp
   source: github
 - name: linkerd2-edge
   owner: linkerd
@@ -268,6 +277,9 @@
   source: github
 - name: loc
   owner: cgag
+  source: github
+- name: local-ai
+  owner: mudler
   source: github
 - name: lsd
   owner: lsd-rs
@@ -292,9 +304,6 @@
   source: github
 - name: node
   owner: nodejs
-  source: github
-- name: nomad
-  owner: hashicorp
   source: github
 - name: norouter
   owner: norouter
@@ -321,7 +330,7 @@
   owner: opentofu
   source: github
 - name: oras
-  owner: deislabs
+  owner: oras-project
   source: github
 - name: pack
   owner: buildpacks
@@ -347,29 +356,14 @@
 - name: pulumi
   owner: pulumi
   source: github
-- name: rancher
-  owner: rancher
-  source: github
-- name: rancher-cli
-  owner: rancher
-  source: github
-- name: renote
-  owner: innobead
-  source: github
-- name: rio
-  owner: rancher
+- name: rclone
+  owner: rclone
   source: github
 - name: ripgrep
   owner: BurntSushi
   source: github
-- name: rke
-  owner: rancher
-  source: github
 - name: rke2
   owner: rancher
-  source: github
-- name: rustwasmc
-  owner: second-state
   source: github
 - name: sad
   owner: ms-jpq
@@ -383,14 +377,11 @@
 - name: shadowsocks
   owner: shadowsocks
   source: github
-- name: shisho
-  owner: flatt-security
-  source: github
 - name: skaffold
   owner: GoogleContainerTools
   source: github
 - name: skim
-  owner: lotabout
+  owner: skim-rs
   source: github
 - name: solidity
   owner: ethereum
@@ -398,26 +389,17 @@
 - name: sonobuoy
   owner: vmware-tanzu
   source: github
-- name: ssvm
-  owner: second-state
-  source: github
 - name: starship
   owner: starship
   source: github
 - name: stern
   owner: stern
   source: github
-- name: submariner
-  owner: submariner-io
-  source: github
 - name: syncthing
   owner: syncthing
   source: github
 - name: tealdeer
-  owner: dbrgn
-  source: github
-- name: tecli
-  owner: awslabs
+  owner: tealdeer-rs
   source: github
 - name: termshark
   owner: gcla
@@ -436,6 +418,9 @@
   source: github
 - name: tracee
   owner: aquasecurity
+  source: github
+- name: traefik
+  owner: traefik
   source: github
 - name: trivy
   owner: aquasecurity
@@ -460,12 +445,6 @@
   source: github
 - name: wabt
   owner: WebAssembly
-  source: github
-- name: wasm-to-oci
-  owner: engineerd
-  source: github
-- name: wasme
-  owner: solo-io
   source: github
 - name: wasmer
   owner: wasmerio

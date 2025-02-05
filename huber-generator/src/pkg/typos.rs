@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{default_targets_no_arm64_arm, Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,23 +8,7 @@ pub fn release() -> Package {
             owner: "crate-ci".to_string(),
             repo: "typos".to_string(),
         },
-
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec![
-                    "typos-v{version}-x86_64-unknown-linux-gnu.tar.gz".to_string()
-                ],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["typos-v{version}-x86_64-apple-darwin.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["typos-v{version}-x86_64-pc-windows-msvc.zip".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets_no_arm64_arm(),
         ..Default::default()
     }
 }

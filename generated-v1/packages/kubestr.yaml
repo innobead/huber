@@ -5,11 +5,12 @@ source: !Github
   repo: kubestr
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - kubestr-v{version}-linux-amd64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - kubestr-v{version}-darwin-amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - kubestr-v{version}-windows-amd64.zip
+  artifact_templates: []

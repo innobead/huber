@@ -6,14 +6,12 @@ source: !Github
   repo: termshark
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - termshark_{version}_linux_x64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - termshark_{version}_linux_arm64.tar.gz
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - termshark_{version}_macOS_x64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - termshark_{version}_windows_x64.zip
+  artifact_templates: []

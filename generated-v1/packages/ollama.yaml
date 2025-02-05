@@ -6,14 +6,12 @@ source: !Github
   repo: ollama
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - ollama-linux-amd64.tgz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - ollama-linux-arm64.tgz
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - ollama-darwin
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - ollama-windows-amd64.zip
+  artifact_templates: []

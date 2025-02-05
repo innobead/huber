@@ -14,6 +14,9 @@ targets:
 - !MacOSAmd64
   artifact_templates:
   - protoc-{version}-osx-x86_64.zip
+- !MacOSArm64
+  artifact_templates:
+  - protoc-{version}-osx-universal_binary.zip
 - !WindowsAmd64
   artifact_templates:
   - protoc-{version}-win64.zip

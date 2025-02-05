@@ -7,7 +7,7 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - volta-{version}-linux-openssl-1.1.tar.gz
+  - volta-{version}-linux.tar.gz
 - !MacOSAmd64
   artifact_templates:
   - volta-{version}-macos.tar.gz

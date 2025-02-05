@@ -8,9 +8,10 @@ targets:
 - !LinuxAmd64
   artifact_templates:
   - kube-linter-linux.tar.gz
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
   artifact_templates:
   - kube-linter-darwin.tar.gz
-- !WindowsAmd64
-  artifact_templates:
-  - kube-linter-windows.tar.gz
+- !MacOSArm64
+  artifact_templates: []

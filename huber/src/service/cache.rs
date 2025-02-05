@@ -228,7 +228,7 @@ impl CacheAsyncTrait for CacheService {
         let config = self.container.get::<Config>().unwrap();
 
         let path = env::var(HUBER_PKG_ROOT_DIR).unwrap_or_default();
-        if Path::new(&path).is_file() {
+        if Path::new(&path).is_dir() {
             debug!(
                 "Bypassed updating repositories, because {} is set to {}",
                 HUBER_PKG_ROOT_DIR, path

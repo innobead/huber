@@ -6,11 +6,12 @@ source: !Github
   repo: procs
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - procs-v{version}-x86_64-lnx.zip
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - procs-v{version}-x86_64-mac.zip
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - procs-v{version}-x86_64-win.zip
+  artifact_templates: []

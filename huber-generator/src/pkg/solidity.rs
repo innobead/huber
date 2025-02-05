@@ -8,18 +8,17 @@ pub fn release() -> Package {
             owner: "ethereum".to_string(),
             repo: "solidity".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["v{version}/solc-static-linux".to_string()],
+                artifact_templates: vec!["solc-static-linux".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["v{version}/solc-macos".to_string()],
+                artifact_templates: vec!["solc-macos".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["v{version}/solc-windows.exe".to_string()],
+                artifact_templates: vec!["solc-windows.exe".to_string()],
                 ..Default::default()
             }),
         ],

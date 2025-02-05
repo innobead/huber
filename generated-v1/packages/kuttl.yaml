@@ -6,11 +6,15 @@ source: !Github
   repo: kuttl
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - kuttl_{version}_linux_x86_64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
   artifact_templates:
-  - kuttl_{version}_linux_arm64.tar.gz
+  - kubectl-kuttl_{version}_linux_armv6
+  - |
+    kuttl_{version}_linux_armv6.tar.gz
 - !MacOSAmd64
-  artifact_templates:
-  - kuttl_{version}_darwin_x86_64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []

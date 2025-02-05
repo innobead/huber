@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "protocolbuffers".to_string(),
             repo: "protobuf".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["protoc-{version}-linux-x86_64.zip".to_string()],
@@ -20,6 +19,10 @@ pub fn release() -> Package {
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec!["protoc-{version}-osx-x86_64.zip".to_string()],
+                ..Default::default()
+            }),
+            PackageTargetType::MacOSArm64(PackageManagement {
+                artifact_templates: vec!["protoc-{version}-osx-universal_binary.zip".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::WindowsAmd64(PackageManagement {

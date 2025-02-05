@@ -6,14 +6,14 @@ source: !Github
   repo: tokei
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - tokei-x86_64-unknown-linux-gnu.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - tokei-aarch64-unknown-linux-gnu.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - tokei-x86_64-apple-darwin.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - tokei-x86_64-pc-windows-msvc.exe
+  artifact_templates: []

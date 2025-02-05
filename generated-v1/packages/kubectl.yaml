@@ -11,6 +11,9 @@ targets:
 - !LinuxArm64
   artifact_templates:
   - https://dl.k8s.io/release/v{version}/bin/linux/arm64/kubectl
+- !LinuxArm64
+  artifact_templates:
+  - https://dl.k8s.io/release/v{version}/bin/linux/arm/kubectl
 - !MacOSAmd64
   artifact_templates:
   - https://dl.k8s.io/release/v{version}/bin/darwin/amd64/kubectl

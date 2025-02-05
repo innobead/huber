@@ -6,11 +6,12 @@ source: !Github
   repo: kubevirt
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - virtctl-v{version}-linux-amd64
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - virtctl-v{version}-darwin-amd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - virtctl-v{version}-windows-amd64.exe
+  artifact_templates: []

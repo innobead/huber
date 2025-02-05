@@ -2,15 +2,18 @@
 name: oras
 description: OCI registry client - managing content like artifacts, images, packages
 source: !Github
-  owner: deislabs
+  owner: oras-project
   repo: oras
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - oras_{version}_linux_amd64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - oras_{version}_darwin_amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - oras_{version}_windows_amd64.tar.gz
+  artifact_templates: []

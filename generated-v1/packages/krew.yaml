@@ -6,17 +6,14 @@ source: !Github
   repo: krew
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - krew-linux_amd64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - krew-linux_arm64.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - krew-darwin_amd64.tar.gz
+  artifact_templates: []
 - !MacOSArm64
-  artifact_templates:
-  - krew-darwin_arm64.tar.gz
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - krew-windows_amd64.tar.gz
+  artifact_templates: []

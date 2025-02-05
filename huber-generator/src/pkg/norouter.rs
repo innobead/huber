@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "norouter".to_string(),
             repo: "norouter".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec!["norouter-Linux-x86_64.tgz".to_string()],

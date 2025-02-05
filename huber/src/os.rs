@@ -4,7 +4,7 @@ use regex::Regex;
 
 // https://github.com/golang/go/blob/master/src/go/build/syslist.go
 const GO_OS_LIST: &str = "aix android darwin dragonfly freebsd hurd illumos ios js linux nacl \
-netbsd openbsd plan9 solaris windows zos macos osx";
+netbsd openbsd plan9 solaris windows win zos macos osx";
 
 const GO_ARCH_LIST: &str = "386 amd64 amd64p32 arm armbe arm64 arm64be ppc64 ppc64le mips \
 mipsle mips64 mips64le mips64p32 mips64p32le ppc riscv riscv64 s390 s390x sparc sparc64 \
@@ -47,7 +47,9 @@ pub fn is_os_arch_match(os: &str, arch: &str, asset_url: &str) -> bool {
     let asset_url = asset_url.to_lowercase();
 
     let os_pattern = if os == "macos" {
-        r"([-_.]|\b)(macos|darwin|apple|osx)([-_.]?|\b)"
+        r"([-_.]|\b)(macos|darwin|apple|osx|mac)([-_.]?|\b)"
+    } else if os == "windows" {
+        r"([-_.]|\b)(windows|win)([-_.]?|\b)"
     } else {
         &format!(r"([-_.]?|\b){}([-_.]?|\b)", os)
     };
@@ -122,11 +124,14 @@ mod test {
             ("windows", "x86_64", "name-windows-x86_64", true),
             ("windows", "x86_64", "name-windows-x86_64.exe", true),
             ("windows", "x86_64", "name-windows-amd64", true),
+            ("windows", "x86_64", "name-win-amd64", true),
             ("windows", "x86_64", "name-windows-arm64", false),
             ("macos", "x86_64", "name-macos-amd64", true),
             ("macos", "x86_64", "name-darwin-amd64", true),
             ("macos", "x86_64", "name-macos-x86_64", true),
             ("macos", "x86_64", "name-darwin-x86_64", true),
+            ("macos", "x86_64", "name-osx-x86_64", true),
+            ("macos", "x86_64", "name-mac-x86_64", true),
             ("macos", "x86_64", "name-macos-arm64", false),
             ("macos", "aarch64", "name-macos-aarch64", true),
             ("macos", "aarch64", "name-darwin-aarch64", true),

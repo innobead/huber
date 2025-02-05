@@ -6,18 +6,14 @@ source: !Github
   repo: kustomize
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - kustomize_v{version}_linux_amd64.tar.gz
-  tag_version_regex_template: ^kustomize/(v\d+.\d+.\d+)$
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - kustomize_v{version}_linux_arm64.tar.gz
-  tag_version_regex_template: ^kustomize/(v\d+.\d+.\d+)$
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - kustomize_v{version}_darwin_amd64.tar.gz
-  tag_version_regex_template: ^kustomize/(v\d+.\d+.\d+)$
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - kustomize_v{version}_windows_amd64.tar.gz
-  tag_version_regex_template: ^kustomize/(v\d+.\d+.\d+)$
+  artifact_templates: []

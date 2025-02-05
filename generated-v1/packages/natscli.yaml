@@ -6,14 +6,14 @@ source: !Github
   repo: natscli
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - nats-{version}-linux-amd64.zip
-- !LinuxAmd64
-  artifact_templates:
-  - nats-{version}-linux-arm64.zip
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - nats-{version}-darwin-amd64.zip
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - nats-{version}-windows-amd64.zip
+  artifact_templates: []

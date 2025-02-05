@@ -6,14 +6,14 @@ source: !Github
   repo: syncthing
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - syncthing-linux-amd64-v{version}.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - syncthing-linux-arm64-v{version}.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - syncthing-macos-amd64-v{version}.zip
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - syncthing-windows-amd64-v{version}.zip
+  artifact_templates: []

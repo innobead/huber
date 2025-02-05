@@ -7,10 +7,10 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - v{version}/solc-static-linux
+  - solc-static-linux
 - !MacOSAmd64
   artifact_templates:
-  - v{version}/solc-macos
+  - solc-macos
 - !WindowsAmd64
   artifact_templates:
-  - v{version}/solc-windows.exe
+  - solc-windows.exe

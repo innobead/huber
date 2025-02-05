@@ -6,11 +6,12 @@ source: !Github
   repo: viddy
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - viddy_Linux_x86_64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - viddy_Darwin_x86_64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - viddy_Windows_x86_64.tar.gz
+  artifact_templates: []

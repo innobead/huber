@@ -6,14 +6,10 @@ source: !Github
   repo: zellij
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - zellij-x86_64-unknown-linux-musl.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - zellij-aarch64-unknown-linux-musl.tar.gz
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - zellij-aarch64-apple-darwin.tar.gz
+  artifact_templates: []
 - !MacOSArm64
-  artifact_templates:
-  - zellij-aarch64-apple-darwin.tar.gz
+  artifact_templates: []

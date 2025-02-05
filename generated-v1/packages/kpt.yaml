@@ -6,11 +6,14 @@ source: !Github
   repo: kpt
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - kpt_linux_amd64-{version}.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - kpt_darwin_amd64-{version}.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - kpt_windows_amd64-{version}.tar.gz
+  artifact_templates: []

@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageSource, PackageTargetType};
+use huber_common::model::package::{default_targets_no_arm64_arm, Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,12 +8,7 @@ pub fn release() -> Package {
             owner: "JetBrains".to_string(),
             repo: "kotlin".to_string(),
         },
-        targets: vec![
-            PackageTargetType::LinuxAmd64(Default::default()),
-            PackageTargetType::MacOSAmd64(Default::default()),
-            PackageTargetType::MacOSArm64(Default::default()),
-            PackageTargetType::WindowsAmd64(Default::default()),
-        ],
+        targets: default_targets_no_arm64_arm(),
         ..Default::default()
     }
 }

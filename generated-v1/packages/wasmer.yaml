@@ -6,14 +6,14 @@ source: !Github
   repo: wasmer
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - wasmer-linux-amd64.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - wasmer-linux-aarch64.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - wasmer-darwin-amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - wasmer-windows.exe
+  artifact_templates: []

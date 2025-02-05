@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "Nukesor".to_string(),
             repo: "pueue".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![

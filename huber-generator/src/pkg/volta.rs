@@ -8,10 +8,9 @@ pub fn release() -> Package {
             owner: "volta-cli".to_string(),
             repo: "volta".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["volta-{version}-linux-openssl-1.1.tar.gz".to_string()],
+                artifact_templates: vec!["volta-{version}-linux.tar.gz".to_string()],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {

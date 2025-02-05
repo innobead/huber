@@ -6,14 +6,14 @@ source: !Github
   repo: mkcert
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - mkcert-v{version}-linux-amd64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - mkcert-v{version}-linux-arm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - mkcert-v{version}-darwin-amd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - mkcert-v{version}-windows-amd64.exe
+  artifact_templates: []

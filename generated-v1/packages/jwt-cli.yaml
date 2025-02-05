@@ -8,6 +8,9 @@ targets:
 - !LinuxAmd64
   artifact_templates:
   - jwt-linux.tar.gz
+- !LinuxArm64
+  artifact_templates:
+  - jwt-linux-arm64.tar.gz
 - !MacOSAmd64
   artifact_templates:
   - jwt-macOS.tar.gz

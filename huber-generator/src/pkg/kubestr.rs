@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageManagement, PackageSource, PackageTargetType};
+use huber_common::model::package::{default_targets_no_arm, Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,21 +8,7 @@ pub fn release() -> Package {
             owner: "kastenhq".to_string(),
             repo: "kubestr".to_string(),
         },
-
-        targets: vec![
-            PackageTargetType::LinuxAmd64(PackageManagement {
-                artifact_templates: vec!["kubestr-v{version}-linux-amd64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::MacOSAmd64(PackageManagement {
-                artifact_templates: vec!["kubestr-v{version}-darwin-amd64.tar.gz".to_string()],
-                ..Default::default()
-            }),
-            PackageTargetType::WindowsAmd64(PackageManagement {
-                artifact_templates: vec!["kubestr-v{version}-windows-amd64.zip".to_string()],
-                ..Default::default()
-            }),
-        ],
+        targets: default_targets_no_arm(),
         ..Default::default()
     }
 }

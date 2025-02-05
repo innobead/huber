@@ -2,16 +2,18 @@
 name: tealdeer
 description: A very fast implementation of tldr in Rust.
 source: !Github
-  owner: dbrgn
+  owner: tealdeer-rs
   repo: tealdeer
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - tealdeer-linux-x86_64-musl
-  - tldr-linux-x86_64-musl
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - tealdeer-macos-x86_64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - tealdeer-windows-x86_64-msvc.exe
+  artifact_templates: []

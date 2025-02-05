@@ -8,7 +8,6 @@ pub fn release() -> Package {
             owner: "pulumi".to_string(),
             repo: "pulumi".to_string(),
         },
-
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![

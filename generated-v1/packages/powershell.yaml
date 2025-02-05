@@ -6,8 +6,12 @@ source: !Github
   repo: PowerShell
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - powershell-{version}-linux-x64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - powershell-{version}-osx-x64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
+- !WindowsAmd64
+  artifact_templates: []

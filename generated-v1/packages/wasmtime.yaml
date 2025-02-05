@@ -5,9 +5,15 @@ source: !Github
   owner: bytecodealliance
   repo: wasmtime
 targets:
+- !LinuxAmd64
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
+- !MacOSAmd64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - wasmtime-v{version}-x86_64-windows.zip
-- !Default
-  artifact_templates:
-  - wasmtime-v{version}-{arch}-{os}.tar.xz
+  artifact_templates: []

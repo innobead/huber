@@ -6,14 +6,13 @@ source: !Github
   repo: okteto
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - okteto-Linux-x86_64
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - okteto-Linux-arm64
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - okteto-Darwin-x86_64
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
   artifact_templates:
   - okteto.exe

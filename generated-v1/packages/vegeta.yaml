@@ -6,8 +6,14 @@ source: !Github
   repo: vegeta
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - vegeta_{version}_linux_amd64.tar.gz
+  artifact_templates: []
+- !LinuxArm64
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - vegeta_{version}_darwin_amd64.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
+- !WindowsAmd64
+  artifact_templates: []

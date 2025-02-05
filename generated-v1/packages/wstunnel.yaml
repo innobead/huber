@@ -6,14 +6,14 @@ source: !Github
   repo: wstunnel
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - wstunnel-x64-linux.zip
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - wstunnel-aarch64-ubuntu18.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - wstunnel-x64-macos.zip
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
 - !WindowsAmd64
-  artifact_templates:
-  - wstunnel-x64-windows.exe.zip
+  artifact_templates: []

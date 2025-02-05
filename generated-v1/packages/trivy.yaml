@@ -6,11 +6,14 @@ source: !Github
   repo: trivy
 targets:
 - !LinuxAmd64
-  artifact_templates:
-  - trivy_{version}_Linux-64bit.tar.gz
+  artifact_templates: []
 - !LinuxArm64
-  artifact_templates:
-  - trivy_{version}_Linux-ARM64.tar.gz
+  artifact_templates: []
+- !LinuxArm
+  artifact_templates: []
 - !MacOSAmd64
-  artifact_templates:
-  - trivy_{version}_macOS-64bit.tar.gz
+  artifact_templates: []
+- !MacOSArm64
+  artifact_templates: []
+- !WindowsAmd64
+  artifact_templates: []

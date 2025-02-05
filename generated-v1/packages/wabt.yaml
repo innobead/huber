@@ -10,7 +10,10 @@ targets:
   - wabt-{version}-ubuntu.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - wabt-{version}-macos.tar.gz
+  - wabt-{version}-macos-12.tar.gz
+- !MacOSArm64
+  artifact_templates:
+  - wabt-{version}-macos-14.tar.gz
 - !WindowsAmd64
   artifact_templates:
   - wabt-{version}-windows.tar.gz

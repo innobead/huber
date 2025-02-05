@@ -177,7 +177,7 @@ impl ConfigPath for Config {
 
     fn huber_pkg_root_dir(&self) -> anyhow::Result<PathBuf> {
         let path = env::var(HUBER_PKG_ROOT_DIR).unwrap_or_default();
-        if Path::new(&path).is_file() {
+        if Path::new(&path).is_dir() {
             dir(PathBuf::from(path))
         } else {
             dir(self.huber_repo_dir()?.join(GENERATED_DIR_NAME))
