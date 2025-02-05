@@ -2,7 +2,7 @@
 
 The `uninstall` command uninstalls packages.
 
-```shell
+```console
 $ huber uninstall --help
 Uninstall packages
 
@@ -30,7 +30,7 @@ Options:
 
 ## Uninstall multiple packages
 
-```shell
+```console
 $ huber uninstall k9s kubectl
 [INFO ] Uninstalling k9s
 [INFO ] Uninstalled k9s

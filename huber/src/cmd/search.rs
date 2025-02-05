@@ -41,6 +41,14 @@ pub struct SearchArgs {
         value_hint = ValueHint::Unknown
     )]
     all: bool,
+
+    #[arg(
+        help = "Search in a specific repository",
+        long,
+        num_args = 1,
+        value_hint = ValueHint::Unknown
+    )]
+    repo: Option<String>,
 }
 
 #[async_trait]
@@ -76,6 +84,7 @@ impl CommandTrait for SearchArgs {
                     None
                 },
                 self.owner.as_deref(),
+                self.repo.as_deref(),
             )?
             .into_iter()
             .map(PackageSummary::from)

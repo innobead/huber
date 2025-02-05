@@ -2,7 +2,7 @@
 
 The `reset` command resets Huber to its initial state.
 
-```shell
+```console
 $ huber reset --help
 Reset Huber
 
@@ -27,7 +27,7 @@ Options:
 
 ## Reset Huber
 
-```shell
+```console
 $ huber install k9s
 [INFO ] k9s version not specified, getting the latest version (v0.32.7)
 [INFO ] Installing package k9s@latest/v0.32.7

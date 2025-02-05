@@ -824,6 +824,7 @@ impl ItemSearchTrait for ReleaseService {
         name: Option<&str>,
         _pattern: Option<&str>,
         _owner: Option<&str>,
+        _repo: Option<&str>,
     ) -> anyhow::Result<Vec<Self::SearchItem>> {
         debug!("Searching releases");
 

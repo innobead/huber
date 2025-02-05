@@ -2,7 +2,7 @@
 
 The `update` command updates the installed packages.
 
-```shell
+```console
 $ huber update --help
 Updates the installed packages
 
@@ -34,7 +34,7 @@ Options:
 
 ## Update the installed packages
 
-```shell
+```console
 $ huber install k9s@v0.32.5 kubectl@v1.31.0
 [INFO ] Installing package k9s@v0.32.5
 [INFO ] Installing package kubectl@v1.31.0

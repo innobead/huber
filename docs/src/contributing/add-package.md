@@ -88,7 +88,7 @@ fn releases() -> Vec<Package> {
 After running the following command, the generator will automatically generate the package information to the `./generated-v1` directory and update the
 `./docs/src/contributing/huber-managed-packages.md` file.
 
-```shell
+```console
 just generate
 ```
 

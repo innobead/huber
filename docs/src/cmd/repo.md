@@ -2,7 +2,7 @@
 
 The `repo` command allows you to manage repositories. Huber includes a default repository with a curated list of packages, but you can also add your own repositories to install packages from them.
 
-```shell
+```console
 $ huber repo --help
 Manage repositories
 
@@ -33,7 +33,7 @@ Options:
 
 The `repo add` command adds a new repository using the URL or file path of the Huber package index file.
 
-```shell
+```console
 $ huber repo add --help
 Add a new repository
 
@@ -80,7 +80,7 @@ The index file is a YAML file that contains the list of packages as the below ex
 
 The `repo remove` command removes a repository.
 
-```shell
+```console
 Remove a repository
 
 Usage: huber repo remove [OPTIONS] [NAME]...
@@ -107,7 +107,7 @@ Options:
 
 The `repo show` command shows all repositories.
 
-```shell
+```console
 $ huber repo show --help
 Show all repositories
 
@@ -126,4 +126,22 @@ Options:
           GitHub base URI [env: GITHUB_BASE_URI=] [default: https://api.github.com]
   -h, --help
           Print help
+```
+
+# Examples
+
+## Add a new repository via a file
+
+```console
+$ huber repo add --url https://raw.githubusercontent.com/innobead/huber/refs/heads/main/docs/src/cmd/repo/huber.yaml self-hosted
+[INFO ] Adding repo self-hosted
+[INFO ] Repo self-hosted added
+
+$ huber repo show
+ Name         Url                                                                                            File 
+ self-hosted  https://raw.githubusercontent.com/innobead/huber/refs/heads/main/docs/src/cmd/repo/huber.yaml   
+ 
+$ huber search aichat --repo self-hosted
+ Name    Description                                                                                              Source 
+ aichat  All-in-one LLM CLI tool featuring Shell Assistant, Chat-REPL, RAG, AI Tools & Agents, with access to...  https://github.com/sigoden/aichat 
 ```

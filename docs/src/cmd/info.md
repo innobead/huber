@@ -2,7 +2,7 @@
 
 The `info` command shows package information.
 
-```shell
+```console
 $ huber info --help
 Shows package information
 
@@ -30,7 +30,7 @@ Options:
 
 ## Show package information
 
-```shell
+```console
 $ huber info k9s
  Name  Version  Source             Targets 
  k9s   v0.32.7  Github:            - LinuxAmd64: 

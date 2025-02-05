@@ -2,7 +2,7 @@
 
 The `save` command saves the installed package list to a file which can be used by the [load](./load.md) command.
 
-```shell
+```console
 $ huber save --help
 Save the installed package list to a file
 
@@ -29,7 +29,7 @@ Options:
 
 ## Save the installed package list
 
-```shell
+```console
 $ huber save --file output.txt
 [INFO ] Collecting installed current packages
 [INFO ] Saving the package list to output.txt

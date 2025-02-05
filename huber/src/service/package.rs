@@ -79,13 +79,13 @@ impl ItemOperationTrait for PackageService {
     fn list(&self) -> anyhow::Result<Vec<Self::ItemInstance>> {
         debug!("Getting all packages");
 
-        self.search(None, None, None)
+        self.search(None, None, None, None)
     }
 
     fn get(&self, name: &str) -> anyhow::Result<Self::ItemInstance> {
         debug!("Getting package: {}", name);
 
-        let results = self.search(Some(name), None, None)?;
+        let results = self.search(Some(name), None, None, None)?;
         if !results.is_empty() {
             Ok(results.first().unwrap().to_owned())
         } else {
@@ -141,6 +141,7 @@ impl ItemSearchTrait for PackageService {
         name: Option<&str>,
         pattern: Option<&str>,
         owner: Option<&str>,
+        repo: Option<&str>,
     ) -> anyhow::Result<Vec<Self::SearchItem>> {
         let cache_service = self.container.get::<CacheService>().unwrap();
 
@@ -150,7 +151,7 @@ impl ItemSearchTrait for PackageService {
         if let Some(pattern) = pattern {
             debug!("Searching package by pattern: {}", pattern);
 
-            let mut found_pkgs = cache_service.list_packages(pattern, owner)?;
+            let mut found_pkgs = cache_service.list_packages(pattern, owner, repo)?;
             found_items.append(&mut found_pkgs);
 
             return Ok(found_items);
@@ -159,7 +160,7 @@ impl ItemSearchTrait for PackageService {
         if let Some(name) = name {
             debug!("Searching package by name: {}", name);
 
-            match cache_service.get_package(name) {
+            match cache_service.get_package(name, repo) {
                 Ok(pkg) => found_items.push(pkg),
                 Err(err) => debug!("{}", err),
             }
@@ -168,7 +169,7 @@ impl ItemSearchTrait for PackageService {
         }
 
         debug!("Searching all packages");
-        let mut all_pkgs = cache_service.list_packages("", owner)?;
+        let mut all_pkgs = cache_service.list_packages("", owner, repo)?;
         found_items.append(&mut all_pkgs);
 
         Ok(found_items)

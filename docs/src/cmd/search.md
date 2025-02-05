@@ -2,7 +2,7 @@
 
 The `search` command searches for a package by name or regex pattern.
 
-```shell
+```console
 $ huber search --help
 Search package
 
@@ -36,7 +36,7 @@ Options:
 
 ## Search packages by pattern
 
-```shell
+```console
 $ huber search --pattern wasm
  Name         Description                                                                                              Source 
  rustwasmc    Tool for building Rust functions for Node.js. Combine the performance of Rust, safety and portabilit...  https://github.com/second-state/rustwasmc 
@@ -48,13 +48,13 @@ $ huber search --pattern wasm
 
 ## Search a package by name. Using the `--all` flag to show all the released versions.
 
-```shell
+```console
 $ huber search wasmtime
  Name      Description                                                                      Source 
  wasmtime  A lightweight WebAssembly runtime that is fast, secure, and standards-compliant  https://github.com/bytecodealliance/wasmtime 
 ```
 
-```shell
+```console
 $ huber search wasmtime --all
  Version  Kind 
  dev      PreRelease 

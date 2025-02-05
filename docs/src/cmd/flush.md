@@ -2,7 +2,7 @@
 
 The `flush` command removes outdated installed artifacts to free up disk space.
 
-```shell
+```console
 Remove outdated installed artifacts
 
 Usage: huber flush [OPTIONS]
@@ -26,7 +26,7 @@ Options:
 
 ## Flush outdated installed (non-current) artifacts
 
-```shell
+```console
 $ huber show --all
  Name     Version  Current  Kind 
  k9s      v0.32.7  false    Release 

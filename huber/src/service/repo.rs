@@ -69,6 +69,7 @@ impl ItemSearchTrait for RepoService {
         name: Option<&str>,
         _pattern: Option<&str>,
         _owner: Option<&str>,
+        _repo: Option<&str>,
     ) -> anyhow::Result<Vec<Self::SearchItem>> {
         let repo = self.list()?.into_iter().find(|it| it.name == name.unwrap());
         if repo.is_some() {

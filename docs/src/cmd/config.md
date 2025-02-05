@@ -2,7 +2,7 @@
 
 The `config` command manages Huber configurations including log level, GitHub token, GitHub SSH key, Huber directory, and GitHub base URI. If you want to use Huber behind a proxy, you can set the proxy server to serve the GitHub base URI.
 
-```shell
+```console
 $ huber config --help
 Manages huber configurations
 
@@ -32,7 +32,7 @@ Options:
 
 The `config show` command shows Huber configurations.
 
-```shell
+```console
 $ huber config show --help
 Show Huber configurations
 
@@ -57,7 +57,7 @@ Options:
 
 The `config save` command saves Huber configurations via global options.
 
-```shell
+```console
 $ huber config save --help
 Save Huber configurations via global options
 

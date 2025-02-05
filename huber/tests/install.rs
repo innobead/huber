@@ -64,7 +64,7 @@ fn test_install_compression() {
 }
 
 #[test]
-// #[sequential]
+#[sequential]
 fn test_install_multiple_packages() {
     defer! {
         reset_huber();

@@ -2,7 +2,7 @@
 
 The `self-update` command updates Huber if a new version is available.
 
-```shell
+```console
 $ huber self-update --help
 Update huber
 

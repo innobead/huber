@@ -2,7 +2,7 @@
 
 The `current` command updates the current package versions if there are multiple versions of the same package installed.
 
-```shell
+```console
 $ huber current --help
 Update the current package versions
 
@@ -30,7 +30,7 @@ Options:
 
 ## Update the current package version
 
-```shell
+```console
 $ huber show --all
  Name     Version  Current  Kind 
  k9s      v0.32.7  true    Release 

@@ -2,7 +2,7 @@
 
 The `show` command shows installed packages.
 
-```shell
+```console
 $ huber show --help
 Show installed packages
 
@@ -34,8 +34,8 @@ Options:
 
 ## Show installed packages
 
-```shell
-```shell
+```console
+```console
 $ huber show --all
  Name     Version  Current  Kind 
  k9s      v0.32.7  true     Release 

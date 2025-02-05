@@ -28,13 +28,13 @@ You can install Huber via the following methods:
 
 **Cargo:**
 
-```shell
+```console
 $ cargo install huber
 ```
 
 **Shell script:**
 
-```shell
+```console
 $ curl -sfSL https://raw.githubusercontent.com/innobead/huber/main/hack/install.sh | sh -
 ```
 
@@ -52,7 +52,7 @@ Download Huber executables from [GitHub releases](https://github.com/innobead/hu
 
 After installing Huber, you can start using it by running the `huber` command.
 
-```shell
+```console
 $ huber --help
 Huber, simplify GitHub package management
 
@@ -97,7 +97,7 @@ Options:
 
 Search and install a package:
 
-```shell
+```console
 $ huber search k9s
  Name  Description                                          Source 
  k9s   🐶 Kubernetes CLI To Manage Your Clusters In Style!  https://github.com/derailed/k9s 

@@ -2,7 +2,7 @@
 
 The `unlock` command unlocks packages.
 
-```shell
+```console
 $ huber unlock --help
 Unlock packages
 
@@ -32,7 +32,7 @@ Options:
 
 ## Unlock all the locked packages
 
-```shell
+```console
 $huber lock k9s
 [INFO ] Locking packages
 [INFO ] Locking package k9s@=0.32.5

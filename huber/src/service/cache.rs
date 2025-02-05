@@ -28,12 +28,17 @@ lazy_static! {
 }
 
 pub trait CacheTrait {
-    fn get_package(&self, name: &str) -> anyhow::Result<Package>;
-    fn get_external_package(&self, name: &str) -> anyhow::Result<Package>;
-    fn list_packages(&self, pattern: &str, owner: &str) -> anyhow::Result<Vec<Package>>;
-    fn list_external_packages(&self) -> anyhow::Result<Vec<Package>>;
-    fn has_package(&self, name: &str) -> anyhow::Result<bool>;
-    fn has_external_package(&self, name: &str) -> anyhow::Result<bool>;
+    fn get_package(&self, name: &str, repo: Option<&str>) -> anyhow::Result<Package>;
+    fn get_external_package(&self, name: &str, repo: Option<&str>) -> anyhow::Result<Package>;
+    fn list_packages(
+        &self,
+        pattern: &str,
+        owner: &str,
+        repo: Option<&str>,
+    ) -> anyhow::Result<Vec<Package>>;
+    fn list_external_packages(&self, repo: Option<&str>) -> anyhow::Result<Vec<Package>>;
+    fn has_package(&self, name: &str, repo: Option<&str>) -> anyhow::Result<bool>;
+    fn has_external_package(&self, name: &str, repo: Option<&str>) -> anyhow::Result<bool>;
     fn get_package_indexes(&self) -> anyhow::Result<Vec<PackageIndex>>;
 
     fn refresh_package_indexes(&self) -> anyhow::Result<()>;
@@ -74,8 +79,8 @@ impl CacheService {
 }
 
 impl CacheTrait for CacheService {
-    fn get_package(&self, name: &str) -> anyhow::Result<Package> {
-        if !self.has_package(name)? {
+    fn get_package(&self, name: &str, repo: Option<&str>) -> anyhow::Result<Package> {
+        if !self.has_package(name, repo)? {
             return Err(anyhow!(PackageNotFound(name.into())));
         }
 
@@ -87,13 +92,13 @@ impl CacheTrait for CacheService {
                 pkg_file,
             )?)?)
         } else {
-            self.get_external_package(name)
+            self.get_external_package(name, repo)
         }
     }
 
-    fn get_external_package(&self, name: &str) -> anyhow::Result<Package> {
+    fn get_external_package(&self, name: &str, repo: Option<&str>) -> anyhow::Result<Package> {
         match self
-            .list_external_packages()?
+            .list_external_packages(repo)?
             .into_iter()
             .find(|it| it.name == name)
         {
@@ -102,58 +107,72 @@ impl CacheTrait for CacheService {
         }
     }
 
-    fn list_packages(&self, pattern: &str, owner: &str) -> anyhow::Result<Vec<Package>> {
-        // managed packages
-        let mut pkgs: Vec<Package> = match pattern {
-            "" => {
-                let indexes: Vec<_> = self.get_package_indexes()?.into_par_iter().collect();
-                indexes
-                    .into_iter()
-                    .filter_map(|it| {
-                        if owner.is_empty() || it.owner == owner {
-                            self.get_package(&it.name)
-                                .map_err(|err| {
-                                    debug!("{}", err);
-                                    err
-                                })
-                                .ok()
-                        } else {
-                            None
-                        }
-                    })
-                    .collect()
-            }
+    fn list_packages(
+        &self,
+        pattern: &str,
+        owner: &str,
+        repo: Option<&str>,
+    ) -> anyhow::Result<Vec<Package>> {
+        let mut pkgs: Vec<Package> = vec![];
 
-            _ => {
-                let regex = Regex::new(pattern)?;
-                let indexes: Vec<_> = self.get_package_indexes()?.into_par_iter().collect();
-                indexes
-                    .into_iter()
-                    .filter_map(|it| {
-                        if regex.is_match(&it.name) {
-                            self.get_package(&it.name)
-                                .map_err(|err| {
-                                    debug!("{}", err);
-                                    err
-                                })
-                                .ok()
-                        } else {
-                            None
-                        }
-                    })
-                    .collect()
-            }
-        };
+        // managed packages
+        if repo.is_none() {
+            pkgs = match pattern {
+                "" => {
+                    let indexes: Vec<_> = self.get_package_indexes()?.into_par_iter().collect();
+                    indexes
+                        .into_iter()
+                        .filter_map(|it| {
+                            if owner.is_empty() || it.owner == owner {
+                                self.get_package(&it.name, repo)
+                                    .map_err(|err| {
+                                        debug!("{}", err);
+                                        err
+                                    })
+                                    .ok()
+                            } else {
+                                None
+                            }
+                        })
+                        .collect()
+                }
+
+                _ => {
+                    let regex = Regex::new(pattern)?;
+                    let indexes: Vec<_> = self.get_package_indexes()?.into_par_iter().collect();
+                    indexes
+                        .into_iter()
+                        .filter_map(|it| {
+                            if regex.is_match(&it.name) {
+                                self.get_package(&it.name, repo)
+                                    .map_err(|err| {
+                                        debug!("{}", err);
+                                        err
+                                    })
+                                    .ok()
+                            } else {
+                                None
+                            }
+                        })
+                        .collect()
+                }
+            };
+        }
 
         // external packages
-        pkgs.append(&mut self.list_external_packages()?);
+        pkgs.append(&mut self.list_external_packages(repo)?);
         pkgs.sort_by(|p1, p2| p1.name.cmp(&p2.name));
 
         Ok(pkgs)
     }
 
-    fn list_external_packages(&self) -> anyhow::Result<Vec<Package>> {
+    fn list_external_packages(&self, repo: Option<&str>) -> anyhow::Result<Vec<Package>> {
         let repo_service = self.container.get::<RepoService>().unwrap();
+
+        if let Some(repo) = repo {
+            let pkgs = repo_service.get_packages_by_repo(repo)?;
+            return Ok(pkgs);
+        }
 
         let repos = repo_service.list()?;
         let pkgs: Vec<Package> = repos
@@ -171,19 +190,21 @@ impl CacheTrait for CacheService {
         Ok(pkgs)
     }
 
-    fn has_package(&self, name: &str) -> anyhow::Result<bool> {
-        // managed
-        if self.get_package_indexes()?.iter().any(|it| it.name == name) {
-            return Ok(true);
+    fn has_package(&self, name: &str, repo: Option<&str>) -> anyhow::Result<bool> {
+        if repo.is_none() {
+            // managed
+            if self.get_package_indexes()?.iter().any(|it| it.name == name) {
+                return Ok(true);
+            }
         }
 
         // external
-        self.has_external_package(name)
+        self.has_external_package(name, repo)
     }
 
-    fn has_external_package(&self, name: &str) -> anyhow::Result<bool> {
+    fn has_external_package(&self, name: &str, repo: Option<&str>) -> anyhow::Result<bool> {
         Ok(self
-            .list_external_packages()?
+            .list_external_packages(repo)?
             .iter()
             .any(|it| it.name == name))
     }

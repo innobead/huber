@@ -45,7 +45,7 @@ pub struct RepoAddArgs {
         long,
         num_args = 1,
         group = "repo",
-        required = true,
+        required_unless_present_any = &["file"],
         value_hint = ValueHint::Url
     )]
     url: Option<String>,
@@ -55,7 +55,7 @@ pub struct RepoAddArgs {
         long,
         num_args = 1,
         group = "repo",
-        required = true,
+        required_unless_present_any = &["url"],
         value_hint = ValueHint::FilePath
     )]
     file: Option<String>,
@@ -77,11 +77,11 @@ impl CommandTrait for RepoAddArgs {
             url: self.url.clone(),
             file: self.file.clone().map(PathBuf::from),
         };
-        info!("Adding repo {}", repo);
+        info!("Adding repo {}", repo.name);
         if let Err(err) = repo_service.create(repo.clone()).await {
-            return Err(anyhow!("Failed to add repo {}: {}", repo, err));
+            return Err(anyhow!("Failed to add repo {}: {}", repo.name, err));
         };
-        info!("Repo added");
+        info!("Repo {} added", repo.name);
 
         Ok(())
     }
@@ -107,7 +107,7 @@ impl CommandTrait for RepoRemoveArgs {
 
             info!("Removing repo {}", repo);
             repo_service.delete(repo)?;
-            info!("Repo removed");
+            info!("Repo {} removed", repo);
         }
 
         Ok(())

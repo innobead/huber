@@ -133,7 +133,8 @@ pub async fn install_packages(
                 return Ok(());
             }
 
-            let releases: Vec<Release> = release_service.search(Some(&pkg.name), None, None)?;
+            let releases: Vec<Release> =
+                release_service.search(Some(&pkg.name), None, None, None)?;
             if releases.iter().any(|r| r.version == version) {
                 warn!("{}@{} already installed", pkg.name, version);
                 return Ok(());

@@ -2,7 +2,7 @@
 
 The `completions` command shows command completions for the specified shell. It is useful for setting up command completions for Huber.
 
-```shell
+```console
 $ huber completions --help
 Show command completions for the specified shell
 

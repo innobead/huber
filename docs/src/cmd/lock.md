@@ -4,10 +4,10 @@ The `lock` command allows you to lock packages or display locked packages. When 
 
 The package locking uses Cargo's version requirement format.
 
-```shell
+```console
 the locked version.
 
-```shell
+```console
 $ huber lock --help
 Lock packages or Show locked packages
 
@@ -45,7 +45,7 @@ Options:
 
 The `lock show` command shows locked packages and their locked version requirements.
 
-```shell
+```console
 $ huber lock show --help
 Usage: huber lock show [OPTIONS]
 
@@ -68,7 +68,7 @@ Options:
 
 Lock a package:
 
-```shell
+```console
 $ huber install k9s@v0.32.5
 [INFO ] Installing package k9s@v0.32.5
 [INFO ] Installed executables of k9s:

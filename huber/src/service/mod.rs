@@ -31,7 +31,7 @@ pub trait ItemOperationTrait: ItemSearchTrait + ItemOperationAsyncTrait {
     fn list(&self) -> anyhow::Result<Vec<Self::ItemInstance>>;
     fn get(&self, name: &str) -> anyhow::Result<Self::ItemInstance>;
     fn has(&self, name: &str) -> anyhow::Result<bool> {
-        Ok(!self.search(Some(name), None, None)?.is_empty())
+        Ok(!self.search(Some(name), None, None, None)?.is_empty())
     }
 }
 
@@ -54,6 +54,7 @@ pub trait ItemSearchTrait {
         name: Option<&str>,
         pattern: Option<&str>,
         owner: Option<&str>,
+        repo: Option<&str>,
     ) -> anyhow::Result<Vec<Self::SearchItem>>;
 }
 
