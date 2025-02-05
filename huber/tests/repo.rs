@@ -2,7 +2,6 @@ use std::env;
 use std::path::Path;
 
 use scopeguard::defer;
-use sequential_test::sequential;
 
 use crate::common::reset_huber;
 
@@ -10,7 +9,7 @@ use crate::common::reset_huber;
 mod common;
 
 #[test]
-#[sequential]
+// #[sequential]
 fn test_repo_add_show_remove() {
     defer! {
         reset_huber();
@@ -33,10 +32,13 @@ fn test_repo_add_show_remove() {
         .arg(huber_config.to_string_lossy().to_string())
         .assert()
         .success());
-    assert_contain_line_regex!(assert.get_output().stderr, "Repo added");
+    assert_contain_line_regex!(assert.get_output().stderr, &format!("Repo {} added", repo));
 
     huber_cmd!(arg("repo").arg("show").assert().success());
 
     let assert = huber_cmd!(arg("repo").arg("remove").arg(repo).assert().success());
-    assert_contain_line_regex!(assert.get_output().stderr, "Repo removed");
+    assert_contain_line_regex!(
+        assert.get_output().stderr,
+        &format!("Repo {} removed", repo)
+    );
 }

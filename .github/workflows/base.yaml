@@ -127,6 +127,4 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: "${{ steps.bin-path.outputs.HUBER_BIN_PATH }},${{ steps.bin-path.outputs.HUBER_BIN_SHA256SUM_PATH }}"
-        draft: true
-
-
+        generate_release_notes: true
