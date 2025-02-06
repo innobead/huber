@@ -10,6 +10,8 @@ const GO_ARCH_LIST: &str = "386 amd64 amd64p32 arm armbe arm64 arm64be ppc64 ppc
 mipsle mips64 mips64le mips64p32 mips64p32le ppc riscv riscv64 s390 s390x sparc sparc64 \
 wasm x86_64 x64 aarch64 64bit";
 
+const LIB_PATTERN_LIST: &str = r"unknown|latest|stable|gnu|musl|msvc|uclibc|gnueabihf|gnueabi|hardfloat|softfloat|thumb|thumbv6";
+
 pub fn trim_os_arch_version(str: &str) -> String {
     let revert_sort = |x: &&str, y: &&str| -> Ordering { y.len().cmp(&x.len()) };
 
@@ -25,6 +27,7 @@ pub fn trim_os_arch_version(str: &str) -> String {
         Regex::new(r"(?i)[-_]*v?\d+.\d+.\d+[-_]*").unwrap(),
         Regex::new(&format!(r"(?i)[-_.]*({})[-_]*", os_pattern)).unwrap(),
         Regex::new(&format!(r"(?i)[-_.]*({})[-_]*", arch_pattern)).unwrap(),
+        Regex::new(&format!(r"(?i)[-_.]*({})[-_]*", LIB_PATTERN_LIST)).unwrap(),
     ];
 
     let mut str = str.to_string();

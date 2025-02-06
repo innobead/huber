@@ -26,7 +26,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 use simpledi_rs::inject_dep;
 
 #[derive(Parser)]
-#[command(version, bin_name = env!("CARGO_PKG_NAME"), about, long_about = None)]
+#[command(version = env!("HUBER_VERSION"), long_version = env!("HUBER_LONG_VERSION"), bin_name = env!("CARGO_PKG_NAME"), about, long_about = None)]
 struct Cli {
     #[arg(
         help = "Log level",

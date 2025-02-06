@@ -213,8 +213,21 @@ impl ReleaseService {
             let mut ext = "";
             let mut is_archive = false;
             let mut skip_download = true;
+
+            let mut trimmed_filenames = vec![];
+
             for &archive_type in SUPPORTED_ARCHIVE_TYPES.iter() {
                 let trimmed_filename = trim_os_arch_version(&filename);
+
+                if trimmed_filenames.contains(&trimmed_filename) {
+                    debug!(
+                        "Ignored to download {} due to duplicated asset: {}",
+                        &download_url, archive_type
+                    );
+                    continue;
+                } else {
+                    trimmed_filenames.push(trimmed_filename.clone());
+                }
 
                 if trimmed_filename.ends_with(archive_type) {
                     ext = archive_type;

@@ -10,6 +10,10 @@ pub fn is_empty_dir<P: AsRef<Path>>(path: P) -> bool {
 }
 
 pub fn has_suffix(s: &str) -> bool {
+    if cfg!(target_os = "windows") && s.ends_with(".exe") {
+        return false;
+    }
+
     let pattern = r".*\.\S+$".to_string();
     let re = Regex::new(&pattern).unwrap();
 
@@ -30,6 +34,11 @@ mod test {
     #[test]
     fn test_has_suffix() {
         assert!(has_suffix("file.txt"));
+        if cfg!(target_os = "windows") {
+            assert!(!has_suffix("file.exe"));
+        } else {
+            assert!(has_suffix("file.exe"));
+        }
         assert!(!has_suffix("file"));
     }
 }
