@@ -12,6 +12,8 @@ jobs:
       os: ${{ matrix.job.os }}
       use-cross: ${{ matrix.job.use-cross }}
       use-just: ${{ matrix.job.use-just }}
+      continue-on-error-test: ${{ matrix.job.continue-on-error-test }}
+      run_tests: ${{ matrix.job.run_tests }}
     strategy:
       matrix:
         job:
