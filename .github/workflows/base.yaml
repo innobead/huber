@@ -21,6 +21,9 @@ on:
       continue-on-error-test:
         required: false
         type: boolean
+      run_tests:
+        required: false
+        type: boolean
 
 jobs:
   build:
@@ -106,7 +109,7 @@ jobs:
 
     - name: Run tests
       run: just test
-      if: contains('x86_64-unknown-linux-gnu,aarch64-unknown-linux-gnu,x86_64-apple-darwin,x86_64-pc-windows-gnu,arm-unknown-linux-gnueabihf', inputs.target)
+      if: inputs.run_tests == true
       continue-on-error: ${{ inputs.continue-on-error-test }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
