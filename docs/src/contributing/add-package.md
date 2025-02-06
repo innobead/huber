@@ -39,9 +39,21 @@ pub fn release() -> Package {
 }
 ```
 
-If the artifact name includes [`env::consts::OS`](https://doc.rust-lang.org/std/env/consts/constant.OS.html) and [`env::consts::ARCH`](https://doc.rust-lang.org/std/env/consts/constant.ARCH.html) or
-compatibles values defined in [GOOS/GOARCH](https://pkg.go.dev/internal/platform), you
-can use the default automatic artifact name recognition instead of specifying the artifact name template.
+If the artifact name includes [`env::consts::OS`](https://doc.rust-lang.org/std/env/consts/constant.OS.html), [`env::consts::ARCH`](https://doc.rust-lang.org/std/env/consts/constant.ARCH.html), values
+defined in [GOOS/GOARCH](https://pkg.go.dev/internal/platform) and release [semantic versions](https://semver.org/), you can use the default automatic artifact name recognition below instead of
+specifying the artifact name template.
+
+Besides downloading executables, Huber also supports downloading compressed files to extract executables from them. If the artifact name ends with `.tar.gz`, `.tar.xz`, `.zip`, `.tar`, `.tgz`, or
+`.gz`, Huber will automatically decompress the file after downloading.
+
+The following table shows some automatic artifact name recognition for different operating systems and architectures:
+
+| OS            | ARCH               | Asset name                  | Renamed asset name |
+|---------------|--------------------|-----------------------------|--------------------|
+| linux         | amd64, x86_64, ..  | `ollama-linux-amd64`        | `ollam`            |
+| linux         | aarch64, arm64, .. | `ollama-linux-arm64.tar.gz` | `ollam.tar.gz`     |
+| macos, darwin | aarch64, arm64, .. | `ollama-darwin-arm64`       | `ollam`            |
+| windows       | amd64, X86_64, ..  | `ollama-windows-amd64.zip`  | `ollam.zip`        |
 
 ```rust
 #[allow(dead_code)]
