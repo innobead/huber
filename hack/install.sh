@@ -4,8 +4,10 @@ set -o errexit
 set -o nounset
 set -o xtrace
 
+HUBER_VERSION=${HUBER_VERSION:-latest}
+
 get_latest_release() {
-  curl -sfSL "https://api.github.com/repos/innobead/huber/releases/latest" |
+  curl -sfSL "https://api.github.com/repos/innobead/huber/releases/$HUBER_VERSION" |
     grep '"tag_name":' |
     sed -E 's/.*"([^"]+)".*/\1/'
 }
@@ -18,13 +20,25 @@ case $os in
 "Linux")
   case $arch in
   "aarch64")
-    filename="huber-aarch64-unknown-linux-gnu" # musl
+    if [ -e "/lib/ld-musl-x86_64.so.1" ]; then
+      filename="huber-aarch64-unknown-linux-musl"
+    else
+      filename="huber-aarch64-unknown-linux-gnu"
+    fi
     ;;
-  "armv7l")
-    filename="huber-arm-unknown-linux-gnueabihf"
+  "armv7l" | "arm")
+    if [ -e "/lib/ld-musl-x86_64.so.1" ]; then
+      filename="huber-arm-unknown-linux-musleabihf"
+    else
+      filename="huber-arm-unknown-linux-gnueabihf"
+    fi
     ;;
-  "x86_64")
-    filename="huber-x86_64-unknown-linux-gnu"
+  "x86_64" | "amd64")
+    if [ -e "/lib/ld-musl-x86_64.so.1" ]; then
+      filename="huber-x86_64-unknown-linux-musl"
+    else
+      filename="huber-x86_64-unknown-linux-gnu"
+    fi
     ;;
   *)
     echo "$os:$arch is not supported" >/dev/stderr
