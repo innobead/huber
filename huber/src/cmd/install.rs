@@ -6,6 +6,7 @@ use log::{debug, info, warn};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use tokio::task::JoinHandle;
 
+use crate::cmd::get_default_stdlib;
 use crate::cmd::update::is_pkg_locked_for_release;
 use crate::cmd::{get_updated_package_version, CommandTrait, PlatformStdLib};
 use crate::lock_huber_ops;
@@ -33,9 +34,10 @@ pub struct InstallArgs {
         help = "Prefer standard library (only for Linux or Windows)",
         long,
         num_args = 1,
+        default_value_t = get_default_stdlib(),
         value_enum
     )]
-    prefer_stdlib: Option<PlatformStdLib>,
+    prefer_stdlib: PlatformStdLib,
 
     #[cfg(target_os = "macos")]
     #[arg(
@@ -43,9 +45,10 @@ pub struct InstallArgs {
         long,
         hide = true,
         num_args = 1,
+        default_value_t = get_default_stdlib(),
         value_enum
     )]
-    prefer_stdlib: Option<PlatformStdLib>,
+    prefer_stdlib: PlatformStdLib,
 }
 
 #[async_trait]
@@ -91,7 +94,7 @@ pub async fn install_packages(
     release_service: Arc<ReleaseService>,
     pkg_service: Arc<PackageService>,
     pkg_versions: &[(String, String)],
-    prefer_stdlib: Option<PlatformStdLib>,
+    prefer_stdlib: PlatformStdLib,
 ) -> anyhow::Result<()> {
     let mut join_handles: Vec<JoinHandle<anyhow::Result<()>>> = vec![];
 
@@ -148,7 +151,7 @@ pub async fn install_packages(
 
             info!("Installing package {}", msg);
             pkg.version = Some(version.clone());
-            release_service.update(&pkg, prefer_stdlib).await?;
+            release_service.update(&pkg, &prefer_stdlib).await?;
             info!("{} installed", msg);
 
             Ok(())

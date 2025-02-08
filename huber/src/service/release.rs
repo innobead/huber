@@ -53,7 +53,7 @@ pub trait ReleaseAsyncTrait {
         &self,
         package: &Package,
         package_github: &GithubPackage,
-        prefer_stdlib: Option<PlatformStdLib>,
+        prefer_stdlib: &PlatformStdLib,
     ) -> anyhow::Result<()>;
 
     async fn set_current(&self, release: &mut Release) -> anyhow::Result<Vec<String>>;
@@ -103,7 +103,7 @@ impl ReleaseService {
     pub async fn update(
         &self,
         obj: &Package,
-        prefer_stdlib: Option<PlatformStdLib>,
+        prefer_stdlib: &PlatformStdLib,
     ) -> anyhow::Result<Release> {
         debug!("Updating release from package: {:#?}", &obj);
 
@@ -508,7 +508,7 @@ impl ReleaseAsyncTrait for ReleaseService {
         &self,
         package: &Package,
         package_github: &GithubPackage,
-        prefer_stdlib: Option<PlatformStdLib>,
+        prefer_stdlib: &PlatformStdLib,
     ) -> anyhow::Result<()> {
         debug!("Downloading github package artifacts {}", &package);
 
@@ -572,13 +572,16 @@ impl ReleaseAsyncTrait for ReleaseService {
             ));
         }
 
-        if let Some(stdlib) = prefer_stdlib {
+        if prefer_stdlib != &PlatformStdLib::None {
             info!(
-                "Prefer downloading assets belonging to the specified stdlib, {}",
-                stdlib
+                "Prefer downloading assets belonging to the specified stdlib: {}",
+                prefer_stdlib
             );
 
-            let stdlib_regex = Regex::new(&format!(r"\b{}\b?", stdlib.to_string().to_lowercase()))?;
+            let stdlib_regex = Regex::new(&format!(
+                r"\b{}\b?",
+                prefer_stdlib.to_string().to_lowercase()
+            ))?;
             let results: Vec<_> = asset_download_urls
                 .clone()
                 .into_iter()
@@ -769,7 +772,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
             return Err(anyhow!("{} already installed", &obj.name));
         }
 
-        self.update(&obj, None).await
+        self.update(&obj, &PlatformStdLib::None).await
     }
 
     async fn update(&self, _obj: &Self::Item_) -> anyhow::Result<Self::ItemInstance_> {

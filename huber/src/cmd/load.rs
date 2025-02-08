@@ -8,7 +8,7 @@ use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::install::{install_packages, parse_package_name_versions};
-use crate::cmd::CommandTrait;
+use crate::cmd::{CommandTrait, PlatformStdLib};
 use crate::model::config::Config;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
@@ -47,7 +47,14 @@ impl CommandTrait for LoadArgs {
         info!("Installing packages: total {}", count);
 
         let versions: Vec<_> = parse_package_name_versions(&versions);
-        install_packages(config, release_service, pkg_service, &versions, None).await?;
+        install_packages(
+            config,
+            release_service,
+            pkg_service,
+            &versions,
+            PlatformStdLib::None,
+        )
+        .await?;
 
         info!("Installed packages: total {}", count);
 

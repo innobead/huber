@@ -11,6 +11,7 @@ use semver::{Version, VersionReq};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use tokio::task::JoinHandle;
 
+use crate::cmd::get_default_stdlib;
 use crate::cmd::{CommandTrait, PlatformStdLib};
 use crate::error::HuberError::{PackageNotInstalled, PackageUnableToUpdate};
 use crate::lock_huber_ops;
@@ -31,9 +32,10 @@ pub struct UpdateArgs {
         help = "Prefer standard library (only for Linux or Windows)",
         long,
         num_args = 1,
+        default_value_t = get_default_stdlib(),
         value_enum
     )]
-    prefer_stdlib: Option<PlatformStdLib>,
+    prefer_stdlib: PlatformStdLib,
 
     #[cfg(target_os = "macos")]
     #[arg(
@@ -41,9 +43,10 @@ pub struct UpdateArgs {
         long,
         hide = true,
         num_args = 1,
+        default_value_t = get_default_stdlib(),
         value_enum
     )]
-    prefer_stdlib: Option<PlatformStdLib>,
+    prefer_stdlib: PlatformStdLib,
 
     #[arg(
         help = "Dry run to show available updates",
@@ -121,7 +124,7 @@ impl CommandTrait for UpdateArgs {
                         dryrun,
                         &new_release,
                         &installed_release,
-                        prefer_stdlib,
+                        &prefer_stdlib,
                     )
                     .await?;
                     info!(
@@ -187,7 +190,7 @@ async fn update(
     dryrun: bool,
     new_release: &Release,
     installed_release: &Release,
-    prefer_stdlib: Option<PlatformStdLib>,
+    prefer_stdlib: &PlatformStdLib,
 ) -> anyhow::Result<()> {
     if dryrun {
         info!("Available update {} to {}", installed_release, new_release);

@@ -117,6 +117,7 @@ pub enum PlatformStdLib {
     Musl,
     #[cfg(target_os = "windows")]
     Msvc,
+    None,
 }
 
 impl Display for PlatformStdLib {
@@ -200,6 +201,21 @@ pub fn get_updated_package_version(version: &str, latest_version: &str) -> Strin
         format!("v{}", version)
     } else {
         version.to_string()
+    }
+}
+
+pub fn get_default_stdlib() -> PlatformStdLib {
+    #[cfg(target_os = "linux")]
+    {
+        PlatformStdLib::Gnu
+    }
+    #[cfg(target_os = "windows")]
+    {
+        PlatformStdLib::Msvc
+    }
+    #[cfg(not(any(target_os = "linux", target_os = "windows")))]
+    {
+        PlatformStdLib::None
     }
 }
 

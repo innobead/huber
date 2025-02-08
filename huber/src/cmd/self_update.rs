@@ -3,6 +3,7 @@ use clap::Args;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
+use crate::cmd::get_default_stdlib;
 use crate::cmd::{CommandTrait, PlatformStdLib};
 use crate::lock_huber_ops;
 use crate::model::config::Config;
@@ -16,9 +17,10 @@ pub struct SelfUpdateArgs {
         help = "Prefer standard library (only for Linux or Windows)",
         long,
         num_args = 1,
+        default_value_t = get_default_stdlib(),
         value_enum
     )]
-    prefer_stdlib: Option<PlatformStdLib>,
+    prefer_stdlib: PlatformStdLib,
 
     #[cfg(target_os = "macos")]
     #[arg(
@@ -26,9 +28,10 @@ pub struct SelfUpdateArgs {
         long,
         hide = true,
         num_args = 1,
+        default_value_t = get_default_stdlib(),
         value_enum
     )]
-    prefer_stdlib: Option<PlatformStdLib>,
+    prefer_stdlib: PlatformStdLib,
 }
 
 #[async_trait]
@@ -44,7 +47,7 @@ impl CommandTrait for SelfUpdateArgs {
 
         if has_update {
             info!("Updating Huber {}", version);
-            update_service.update(self.prefer_stdlib).await?;
+            update_service.update(&self.prefer_stdlib).await?;
             info!("Huber updated to {}", version);
         } else {
             info!(
