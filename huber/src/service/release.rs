@@ -205,48 +205,26 @@ impl ReleaseService {
     ) -> anyhow::Result<()> {
         let mut tasks = vec![];
 
-        for download_url in download_urls {
+        'download: for download_url in download_urls {
             let pkg_dir = config.installed_pkg_dir(package, version)?;
             let filename = download_url.split("/").last().unwrap().to_string();
             let download_file_path = config.temp_dir()?.join(&filename);
 
             let mut ext = "";
-            let mut is_archive = false;
-            let mut skip_download = true;
+            let trimmed_filename = trim_os_arch_version(&filename);
 
-            let mut trimmed_filenames = vec![];
-
-            for &archive_type in SUPPORTED_ARCHIVE_TYPES.iter() {
-                let trimmed_filename = trim_os_arch_version(&filename);
-
-                if trimmed_filenames.contains(&trimmed_filename) {
-                    debug!(
-                        "Ignored to download {} due to duplicated asset: {}",
-                        &download_url, archive_type
-                    );
-                    continue;
-                } else {
-                    trimmed_filenames.push(trimmed_filename.clone());
-                }
-
+            for (i, &archive_type) in SUPPORTED_ARCHIVE_TYPES.iter().enumerate() {
                 if trimmed_filename.ends_with(archive_type) {
                     ext = archive_type;
-                    is_archive = true;
-                    skip_download = false;
                     break;
-                } else if has_suffix(&trimmed_filename) {
-                    continue;
-                } else {
-                    skip_download = false;
                 }
-            }
-
-            if skip_download {
-                debug!(
-                    "Ignored to download {} due to unsupported archive type. Supported types: {:?}",
-                    &download_url, SUPPORTED_ARCHIVE_TYPES,
-                );
-                continue;
+                if !has_suffix(&trimmed_filename) {
+                    break;
+                }
+                if i == SUPPORTED_ARCHIVE_TYPES.len() - 1 {
+                    debug!("Ignored to download {} due to unsupported archive type. Supported types: {:?}",&download_url, SUPPORTED_ARCHIVE_TYPES);
+                    continue 'download;
+                }
             }
 
             let task = async move {
@@ -267,7 +245,7 @@ impl ReleaseService {
                 }
 
                 // downloaded asset seems an executable instead of an archive, move it to the package directory
-                if ext.is_empty() || !is_archive {
+                if ext.is_empty() {
                     let dest_f = pkg_dir.join(&filename);
 
                     debug!(
@@ -480,6 +458,9 @@ impl ReleaseTrait for ReleaseService {
                 let exec_path = entry?.path();
                 if !exec_path.is_executable() {
                     debug!("Ignored non-executable {:?}", exec_path);
+                    continue;
+                } else if has_suffix(&exec_path.file_name().unwrap().to_string_lossy()) {
+                    debug!("Ignored executable {:?} due to suffix", exec_path);
                     continue;
                 }
 

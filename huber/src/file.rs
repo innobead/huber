@@ -14,10 +14,7 @@ pub fn has_suffix(s: &str) -> bool {
         return false;
     }
 
-    let pattern = r".*\.\S+$".to_string();
-    let re = Regex::new(&pattern).unwrap();
-
-    re.is_match(s)
+    Regex::new(r".*\.\S+$").unwrap().is_match(s)
 }
 
 #[cfg(test)]
