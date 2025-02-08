@@ -9,7 +9,7 @@ use serde::{Deserialize, Serialize};
 use crate::model::package::{
     GithubAsset, GithubPackage, Package, PackageDetailType, PackageSource,
 };
-use crate::str::VersionCompareTrait;
+use crate::semver::VersionCompareTrait;
 
 pub trait SortModelTrait {
     fn sort_by_version(&mut self);

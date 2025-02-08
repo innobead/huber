@@ -1,14 +1,14 @@
 use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
-use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::{get_updated_package_version, CommandTrait};
 use crate::error::HuberError::PackageNotInstalled;
 use crate::lock_huber_ops;
-use crate::opt::parse_pkg_name_semver;
+use crate::model::config::Config;
+use crate::parse::parse_pkg_name_semver;
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseAsyncTrait, ReleaseService};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};

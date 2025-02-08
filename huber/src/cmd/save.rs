@@ -4,11 +4,11 @@ use std::io::Write;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use filepath::FilePath;
-use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
+use crate::model::config::Config;
 use crate::service::release::ReleaseService;
 use crate::service::ItemOperationTrait;
 

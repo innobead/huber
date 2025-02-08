@@ -2,12 +2,12 @@ use std::fs::{remove_file, File};
 use std::sync::Arc;
 
 use anyhow::anyhow;
-use huber_common::model::config::{Config, ConfigPath};
 use lazy_static::lazy_static;
 use log::debug;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::error::HuberError;
+use crate::model::config::{Config, ConfigPath};
 use crate::service::ServiceTrait;
 
 lazy_static! {

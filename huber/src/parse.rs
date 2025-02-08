@@ -6,7 +6,7 @@ use semver::{Version, VersionReq};
 /// # Examples
 ///
 /// ```
-/// use huber::opt::parse_pkg_name_semver;
+/// use huber::parse::parse_pkg_name_semver;
 /// let (name, version) = parse_pkg_name_semver("package-name@1.2.3").unwrap();
 /// assert_eq!(name, "package-name");
 /// assert_eq!(version, "1.2.3");
@@ -43,7 +43,7 @@ pub fn parse_pkg_name_optional_semver(name_version: &str) -> anyhow::Result<(Str
 /// # Examples
 ///
 /// ```
-/// use huber::opt::parse_pkg_name_semver_req;
+/// use huber::parse::parse_pkg_name_semver_req;
 /// let (name, version) = parse_pkg_name_semver_req("package-name@~1.2.3").unwrap();
 /// assert_eq!(name, "package-name");
 /// assert_eq!(version, "~1.2.3");

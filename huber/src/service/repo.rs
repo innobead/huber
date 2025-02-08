@@ -5,13 +5,12 @@ use std::sync::Arc;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use huber_common::model::config::{Config, ConfigPath};
-use huber_common::model::package::Package;
-use huber_common::model::repo::Repository;
-use huber_common::str::OsStrExt;
 use log::debug;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
+use crate::model::config::{Config, ConfigPath};
+use crate::model::package::Package;
+use crate::model::repo::Repository;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 
 pub trait RepoTrait {
@@ -109,7 +108,7 @@ impl ItemOperationTrait for RepoService {
             let path = entry.path();
 
             if path.is_dir() {
-                let dir_name = path.file_name().unwrap().to_str_direct();
+                let dir_name = path.file_name().unwrap().to_str().unwrap();
                 // not include managed repo
                 if dir_name == "huber" {
                     continue;

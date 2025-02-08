@@ -3,8 +3,6 @@ use std::io::stdout;
 use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
-use huber_common::model::config::Config;
-use huber_common::model::release::SortModelTrait;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
 use log::info;
@@ -12,6 +10,8 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
 use crate::error::HuberError::PackageNotFound;
+use crate::model::config::Config;
+use crate::model::release::SortModelTrait;
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};

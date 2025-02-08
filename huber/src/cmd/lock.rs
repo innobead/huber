@@ -3,7 +3,6 @@ use std::io::stdout;
 use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, Subcommand, ValueHint};
-use huber_common::model::config::Config;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
 use log::{info, warn};
@@ -12,7 +11,8 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
 use crate::lock_huber_ops;
-use crate::opt::parse_pkg_name_semver_req;
+use crate::model::config::Config;
+use crate::parse::parse_pkg_name_semver_req;
 use crate::service::config::{ConfigService, ConfigTrait};
 use crate::service::package::PackageService;
 use crate::service::release::{ReleaseService, ReleaseTrait};

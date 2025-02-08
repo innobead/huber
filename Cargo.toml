@@ -1,6 +1,6 @@
 [workspace]
-members = ["huber", "huber-common", "huber-generator", "huber-procmacro"]
-default-members = ["huber", "huber-common", "huber-procmacro"]
+members = ["huber", "huber-generator", "huber-procmacro"]
+default-members = ["huber", "huber-procmacro"]
 exclude = ["huber-generator"]
 resolver = "2"
 
@@ -23,7 +23,7 @@ readme = "README.md"
 license-file = "LICENSE"
 
 [workspace.dependencies]
-huber-common = { path = "huber-common", version = "1.0.6" }
+#huber-common = { path = "huber-common", version = "1.0.6" }
 huber-procmacro = { path = "huber-procmacro", version = "1.0.6" }
 libcli-rs = "0.1.4"
 clap = { version = "4.5.21", features = ["env", "derive"] }

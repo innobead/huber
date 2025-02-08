@@ -6,11 +6,6 @@ use std::time::SystemTime;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use huber_common::model::config::{
-    Config, ConfigFieldConvertTrait, ConfigPath, HUBER_PKG_ROOT_DIR,
-};
-use huber_common::model::package::{Package, PackageIndex};
-use huber_common::model::repo::Repository;
 use lazy_static::lazy_static;
 use log::debug;
 use rayon::prelude::*;
@@ -18,7 +13,10 @@ use regex::Regex;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::error::HuberError::PackageNotFound;
-use crate::github::{GithubClient, GithubClientTrait};
+use crate::gh::{GithubClient, GithubClientTrait};
+use crate::model::config::{Config, ConfigFieldConvertTrait, ConfigPath, HUBER_PKG_ROOT_DIR};
+use crate::model::package::{Package, PackageIndex};
+use crate::model::repo::Repository;
 use crate::service::repo::{RepoAsyncTrait, RepoService, RepoTrait};
 use crate::service::{ItemOperationTrait, ServiceTrait};
 

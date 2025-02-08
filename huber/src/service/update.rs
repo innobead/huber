@@ -3,12 +3,12 @@ use std::sync::Arc;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use huber_common::model::config::{Config, ConfigPath};
 use log::debug;
 use semver::Version;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::cmd::PlatformStdLib;
+use crate::model::config::{Config, ConfigPath};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;
 use crate::service::{ItemOperationTrait, ServiceTrait};

@@ -4,8 +4,6 @@ use std::path::PathBuf;
 use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, Subcommand, ValueHint};
-use huber_common::model::config::Config;
-use huber_common::model::repo::Repository;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
 use log::info;
@@ -14,6 +12,8 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait};
 use crate::cmd::CommandTrait;
 use crate::error::HuberError::{RepoAlreadyExist, RepoNotFound};
 use crate::lock_huber_ops;
+use crate::model::config::Config;
+use crate::model::repo::Repository;
 use crate::service::repo::RepoService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 

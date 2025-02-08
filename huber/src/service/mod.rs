@@ -2,10 +2,10 @@ use std::sync::Arc;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use huber_common::model::config::Config;
 use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 use simpledi_rs::{create_dep, inject_dep};
 
+use crate::model::config::Config;
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::config::ConfigService;
 use crate::service::package::PackageService;

@@ -1,12 +1,12 @@
 use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
-use huber_common::model::config::Config;
 use log::{info, warn};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
 use crate::lock_huber_ops;
+use crate::model::config::Config;
 use crate::service::check_pkg_installed;
 use crate::service::config::{ConfigService, ConfigTrait};
 use crate::service::package::PackageService;

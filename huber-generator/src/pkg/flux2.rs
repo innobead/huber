@@ -1,4 +1,4 @@
-use huber_common::model::package::{Package, PackageSource};
+use huber::model::package::{Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {

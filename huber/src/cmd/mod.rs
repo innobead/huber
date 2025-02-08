@@ -8,7 +8,6 @@ use clap_complete::Shell;
 use config::ConfigArgs;
 use current::CurrentArgs;
 use flush::FlushArgs;
-use huber_common::model::config::Config;
 use info::InfoArgs;
 use install::InstallArgs;
 use repo::RepoArgs;
@@ -24,6 +23,7 @@ use crate::cmd::load::LoadArgs;
 use crate::cmd::lock::LockArgs;
 use crate::cmd::save::SaveArgs;
 use crate::cmd::unlock::UnlockArgs;
+use crate::model::config::Config;
 
 pub mod config;
 mod current;
@@ -184,8 +184,8 @@ impl ValueEnum for PlatformStdLib {
 #[macro_export]
 macro_rules! lock_huber_ops {
     ($config:ident) => {
-        use huber_common::model::config::ConfigPath;
         use huber_procmacro::process_lock;
+        use $crate::model::config::ConfigPath;
 
         #[cfg(not(target_os = "windows"))]
         {

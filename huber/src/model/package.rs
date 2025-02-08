@@ -11,7 +11,7 @@ use semver::Version;
 use serde::{Deserialize, Serialize};
 
 use crate::model::release::{ReleaseKind, SortModelTrait};
-use crate::str::VersionCompareTrait;
+use crate::semver::VersionCompareTrait;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Package {

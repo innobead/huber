@@ -1,6 +1,32 @@
-use std::path::Path;
+use std::fs;
+use std::path::{Path, PathBuf};
 
+use log::debug;
 use regex::Regex;
+
+pub fn dir(dir: PathBuf) -> anyhow::Result<PathBuf> {
+    if !dir.exists() {
+        let _ = fs::remove_dir_all(dir.as_path());
+        fs::create_dir_all(dir.as_path())?;
+    }
+
+    Ok(dir)
+}
+
+#[cfg(not(target_os = "windows"))]
+pub fn set_executable_permission(path: &Path) -> anyhow::Result<()> {
+    debug!("Making {:?} as executable", path);
+
+    use std::os::unix::fs::PermissionsExt;
+    fs::set_permissions(path, fs::Permissions::from_mode(0o755))?;
+    Ok(())
+}
+
+#[cfg(target_os = "windows")]
+pub fn set_executable_permission(path: &Path) -> anyhow::Result<()> {
+    debug!("Unsupported making {:?} as executable on Windows", path);
+    Ok(())
+}
 
 pub fn is_empty_dir<P: AsRef<Path>>(path: P) -> bool {
     path.as_ref()
@@ -19,7 +45,7 @@ pub fn has_suffix(s: &str) -> bool {
 
 #[cfg(test)]
 mod test {
-    use super::*;
+    use crate::fs::{has_suffix, is_empty_dir};
 
     #[test]
     fn test_is_empty_dir() {

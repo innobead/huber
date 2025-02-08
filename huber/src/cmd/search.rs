@@ -2,13 +2,13 @@ use std::io::stdout;
 
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
-use huber_common::model::config::Config;
-use huber_common::model::package::PackageSummary;
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
+use crate::model::config::Config;
+use crate::model::package::PackageSummary;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::ItemSearchTrait;

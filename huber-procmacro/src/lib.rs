@@ -9,7 +9,7 @@ pub fn process_lock(input: TokenStream) -> TokenStream {
     let lock_file_pathbuf_expr = parse_macro_input!(input as Expr);
 
     let result = quote! {
-        use huber_common::model::config::Config;
+        use crate::model::config::Config;
         use std::fs::File;
         use fs2::FileExt;
         use log::debug;

@@ -4,13 +4,13 @@ use std::path::{Path, PathBuf};
 use anyhow::anyhow;
 use async_trait::async_trait;
 use git2::{Cred, ErrorCode, FetchOptions, RemoteCallbacks, Repository};
-use huber_common::model::package::Package;
-use huber_common::model::release::Release;
 use log::debug;
 use octocrab::auth::Auth;
 use octocrab::{Octocrab, OctocrabBuilder};
 
-use crate::file::is_empty_dir;
+use crate::fs::is_empty_dir;
+use crate::model::package::Package;
+use crate::model::release::Release;
 
 #[async_trait]
 pub trait GithubClientTrait {

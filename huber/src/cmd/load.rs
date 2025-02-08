@@ -4,12 +4,12 @@ use std::sync::Arc;
 
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
-use huber_common::model::config::Config;
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::install::{install_packages, parse_package_name_versions};
 use crate::cmd::CommandTrait;
+use crate::model::config::Config;
 use crate::service::cache::{CacheAsyncTrait, CacheService};
 use crate::service::package::PackageService;
 use crate::service::release::ReleaseService;

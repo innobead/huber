@@ -314,9 +314,9 @@ checksum = "f46ad14479a25103f283c0f10005961cf086d8dc42205bb44c46ac563475dca6"
 
 [[package]]
 name = "cmake"
-version = "0.1.52"
+version = "0.1.53"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c682c223677e0e5b6b7f63a64b9351844c3f1b1678a68b7ee617e30fb082620e"
+checksum = "e24a03c8b52922d68a1589ad61032f2c1aa5a8158d2aa0d93c6e9534944bbad6"
 dependencies = [
  "cc",
 ]
@@ -567,7 +567,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "33d852cb9b869c2a9b3df2f71a3074817f01e1844f839a144f5fcef059a4eb5d"
 dependencies = [
  "libc",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -857,12 +857,13 @@ dependencies = [
  "clap",
  "clap_complete",
  "dirs",
+ "env_logger 0.11.6",
  "filepath",
+ "flate2",
  "fs2",
  "fs_extra",
  "futures",
  "git2",
- "huber-common",
  "huber-procmacro",
  "is_executable",
  "lazy_static",
@@ -880,33 +881,12 @@ dependencies = [
  "serde_yaml",
  "simpledi-rs",
  "symlink",
+ "tar",
  "tempfile",
  "thiserror 2.0.11",
  "tokio",
  "url",
  "urlencoding",
-]
-
-[[package]]
-name = "huber-common"
-version = "1.0.6"
-dependencies = [
- "anyhow",
- "chrono",
- "dirs",
- "env_logger 0.11.6",
- "flate2",
- "lazy_static",
- "libcli-rs",
- "log",
- "maplit",
- "octocrab",
- "regex",
- "semver",
- "serde",
- "serde_json",
- "serde_yaml",
- "tar",
  "xz2",
  "zip",
 ]
@@ -916,7 +896,7 @@ name = "huber-generator"
 version = "1.0.6"
 dependencies = [
  "anyhow",
- "huber-common",
+ "huber",
  "maplit",
  "octocrab",
  "serde",
@@ -1947,7 +1927,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -2331,7 +2311,7 @@ dependencies = [
  "getrandom",
  "once_cell",
  "rustix",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -2795,7 +2775,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.48.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]

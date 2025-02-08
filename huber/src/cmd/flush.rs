@@ -1,12 +1,12 @@
 use async_trait::async_trait;
 use clap::Args;
-use huber_common::model::config::Config;
-use huber_common::model::release::{Release, SortModelTrait};
 use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
 use crate::lock_huber_ops;
+use crate::model::config::Config;
+use crate::model::release::{Release, SortModelTrait};
 use crate::service::release::{ReleaseService, ReleaseTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 

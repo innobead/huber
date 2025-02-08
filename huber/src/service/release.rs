@@ -9,12 +9,6 @@ use anyhow::anyhow;
 use async_trait::async_trait;
 use filepath::FilePath;
 use fs_extra::move_items;
-use huber_common::compress::uncompress_archive;
-use huber_common::fs::set_executable_permission;
-use huber_common::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
-use huber_common::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
-use huber_common::model::release::{Release, ReleaseIndex};
-use huber_common::str::OsStrExt;
 use is_executable::IsExecutable;
 use log::{debug, info};
 use maplit::hashmap;
@@ -25,8 +19,13 @@ use url::Url;
 use urlencoding::decode;
 
 use crate::cmd::PlatformStdLib;
-use crate::file::has_suffix;
-use crate::github::{GithubClient, GithubClientTrait};
+use crate::compress::uncompress_archive;
+use crate::fs::has_suffix;
+use crate::fs::set_executable_permission;
+use crate::gh::{GithubClient, GithubClientTrait};
+use crate::model::config::{Config, ConfigFieldConvertTrait, ConfigPath};
+use crate::model::package::{GithubPackage, Package, PackageDetailType, PackageSource};
+use crate::model::release::{Release, ReleaseIndex};
 use crate::os::{is_os_arch_match, trim_os_arch_version};
 use crate::service::package::PackageService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
@@ -309,7 +308,7 @@ impl ReleaseService {
 
                     match read_link(&p) {
                         Ok(src_link) => {
-                            let dest_link = pkg_dir.join(p.file_name().unwrap().to_str_direct());
+                            let dest_link = pkg_dir.join(p.file_name().unwrap().to_str().unwrap());
                             symbolic_links.insert(dest_link, src_link.clone());
 
                             None

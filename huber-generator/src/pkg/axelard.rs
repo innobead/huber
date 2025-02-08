@@ -1,5 +1,5 @@
-use huber_common::model::package::default_targets_no_arm_windows;
-use huber_common::model::package::{Package, PackageSource};
+use huber::model::package::default_targets_no_arm_windows;
+use huber::model::package::{Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {

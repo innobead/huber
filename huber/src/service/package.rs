@@ -2,14 +2,14 @@ use std::sync::Arc;
 
 use anyhow::anyhow;
 use async_trait::async_trait;
-use huber_common::model::config::{Config, ConfigFieldConvertTrait};
-use huber_common::model::package::{Package, PackageSource, PackageSummary};
-use huber_common::model::release::{ReleaseKind, SortModelTrait};
 use log::debug;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::error::HuberError::PackageNotFound;
-use crate::github::{GithubClient, GithubClientTrait};
+use crate::gh::{GithubClient, GithubClientTrait};
+use crate::model::config::{Config, ConfigFieldConvertTrait};
+use crate::model::package::{Package, PackageSource, PackageSummary};
+use crate::model::release::{ReleaseKind, SortModelTrait};
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 

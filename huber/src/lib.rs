@@ -1,7 +1,11 @@
 pub mod cmd;
+mod compress;
 pub mod error;
-pub mod file;
-pub mod github;
-pub mod opt;
+pub mod fs;
+mod gh;
+pub mod log;
+pub mod model;
 mod os;
+mod parse;
+mod semver;
 pub mod service;
