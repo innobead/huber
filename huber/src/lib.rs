@@ -6,6 +6,6 @@ mod gh;
 pub mod log;
 pub mod model;
 mod os;
-mod parse;
+pub mod parse;
 mod semver;
 pub mod service;

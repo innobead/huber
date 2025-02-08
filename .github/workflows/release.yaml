@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         job:
-        - { target: x86_64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true, continue-on-error-test: true, run_tests: true }
+        - { target: x86_64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true, continue-on-error-test: false, run_tests: true }
         - { target: x86_64-unknown-linux-musl, os: ubuntu-24.04, use-cross: true, use-just: true, continue-on-error-test: true, run_tests: false }
         - { target: aarch64-unknown-linux-gnu, os: ubuntu-24.04, use-cross: true, use-just: true, continue-on-error-test: true, run_tests: false }
         - { target: aarch64-unknown-linux-musl, os: ubuntu-24.04, use-cross: true, use-just: true, continue-on-error-test: true, run_tests: false }
@@ -46,3 +46,4 @@ jobs:
       uses: katyo/publish-crates@v2
       with:
         registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        dry-run: true

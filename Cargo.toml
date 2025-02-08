@@ -11,7 +11,7 @@ lto = true
 codegen-units = 1
 
 [workspace.package]
-version = "1.0.6"
+version = "1.0.7"
 description = "Huber, simplify GitHub package management"
 authors = ["David Ko <innobead@gmail.com>"]
 edition = "2021"
@@ -23,8 +23,7 @@ readme = "README.md"
 license-file = "LICENSE"
 
 [workspace.dependencies]
-#huber-common = { path = "huber-common", version = "1.0.6" }
-huber-procmacro = { path = "huber-procmacro", version = "1.0.6" }
+huber-procmacro = { path = "huber-procmacro", version = "1.0.7" }
 libcli-rs = "0.1.4"
 clap = { version = "4.5.21", features = ["env", "derive"] }
 log = "0.4"
