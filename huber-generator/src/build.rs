@@ -4,7 +4,7 @@ use std::process::Command;
 
 use ::huber::model::config::GENERATED_DIR_NAME;
 use ::huber::model::package::{Package, PackageIndex, PackageSource};
-use tokio::fs::{create_dir_all, remove_file, File};
+use tokio::fs::{create_dir_all, remove_dir_all, remove_file, File};
 use tokio::io::AsyncWriteExt;
 use tokio::task::JoinHandle;
 
@@ -34,7 +34,8 @@ async fn main() -> anyhow::Result<()> {
         .parse()?;
 
     if force_generated {
-        println!("Force generate packages in {:?}", generated_dir);
+        println!("Forcefully regenerate packages in {:?}", generated_dir);
+        remove_dir_all(&generated_dir).await?;
     } else {
         println!("Only generate the impacted packages in {:?}", generated_dir);
     }
@@ -113,6 +114,7 @@ async fn main() -> anyhow::Result<()> {
 
             Ok(())
         });
+
         handles.push(handle);
     }
 
