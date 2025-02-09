@@ -1,7 +1,5 @@
 prj_dir := justfile_directory()
-build_cache_dir := prj_dir / '.cache'
 build_dir := prj_dir / '.target'
-generate_artifact_name := prj_dir / 'hack/generate-artifact-name.sh'
 huber_pkg_root_dir := prj_dir / 'generated-v1'
 huber_exec := prj_dir / 'target/debug/huber'
 cargo_opts := env('CARGO_OPTS', '')
@@ -44,17 +42,11 @@ udeps:
 # Release binaries
 release:
     @just build '' '--release'
-    @mkdir -p {{ build_dir }} && cp {{ prj_dir }}/target/release/huber {{ build_dir }}/`{{ generate_artifact_name }}`
-    @just _checksum
-
-# Generate checksum files for built executables
-_checksum:
-    @{{ prj_dir }}/hack/generate-artifact-checksum.sh {{ build_dir }}
 
 # Clean build caches
 clean:
     @cargo clean
-    @rm -rf {{ build_cache_dir }} {{ build_dir }}
+    @rm -rf {{ build_dir }}
 
 # Publish Huber to crates.io
 publish:
@@ -84,7 +76,6 @@ run huber_cmd pkg_dir=huber_pkg_root_dir:
 # (local dev) Run commands using the installed Huber with the local package generated folder
 run-installed huber_cmd pkg_dir=huber_pkg_root_dir:
     HUBER_PKG_ROOT_DIR={{ pkg_dir }} `which huber` {{ huber_cmd }}
-
 
 doc:
     @mdbook build docs
