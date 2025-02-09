@@ -14,7 +14,7 @@ build = "src/build.rs"
 
 [build-dependencies]
 anyhow.workspace = true
-huber = { path = "../huber", version = "1.0.8" }
+huber = { path = "../huber", version = "1.0.9" }
 maplit.workspace = true
 octocrab.workspace = true
 serde.workspace = true
@@ -23,6 +23,6 @@ tokio.workspace = true
 
 [dependencies]
 anyhow.workspace = true
-huber = { path = "../huber", version = "1.0.8" }
+huber = { path = "../huber", version = "1.0.9" }
 maplit.workspace = true
 octocrab.workspace = true
