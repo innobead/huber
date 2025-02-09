@@ -28,9 +28,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Install a package
+### Install a package
 
 ```console
 $ huber install k9s
@@ -62,7 +62,7 @@ $ huber show --all
  k9s      v0.32.5  true     Release 
 ```
 
-## Install multiple packages
+### Install multiple packages
 
 ```console
 $ huber install k9s kubectl
@@ -82,7 +82,7 @@ $ huber install k9s kubectl
 [INFO ] kubectl@latest/v1.32.1 installed
 ```
 
-## Install an unmanaged package directly from a repository
+### Install an unmanaged package directly from a repository
 
 ```console
 $ huber install rancher/rke

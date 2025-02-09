@@ -25,9 +25,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Load installed packages from a file
+### Load installed packages from a file
 
 ```console
 $ huber load --file output.txt

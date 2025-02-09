@@ -22,9 +22,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Flush outdated installed (non-current) artifacts
+### Flush outdated installed (non-current) artifacts
 
 ```console
 $ huber show --all

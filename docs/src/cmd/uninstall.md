@@ -26,9 +26,9 @@ Options:
           Print help 
 ```
 
-# Examples
+## Examples
 
-## Uninstall multiple packages
+### Uninstall multiple packages
 
 ```console
 $ huber uninstall k9s kubectl
@@ -38,7 +38,7 @@ $ huber uninstall k9s kubectl
 [INFO ] Uninstalled kubectl
 ```
 
-## Uninstall an unmanaged package directly from a repository
+### Uninstall an unmanaged package directly from a repository
 
 ```console
 $ huber uninstall rancher/rke

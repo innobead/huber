@@ -30,9 +30,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Update the installed packages
+### Update the installed packages
 
 ```console
 $ huber install k9s@v0.32.5 kubectl@v1.31.0
@@ -71,7 +71,7 @@ $ huber update
 
 ```
 
-## Update an unmanaged package directly from a repository
+### Update an unmanaged package directly from a repository
 
 ```console
 $ huber install rancher/rke@v1.7.0

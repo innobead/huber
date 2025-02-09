@@ -26,9 +26,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Update the current package version
+### Update the current package version
 
 ```console
 $ huber show --all

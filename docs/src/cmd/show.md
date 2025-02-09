@@ -30,9 +30,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Show installed packages
+### Show installed packages
 
 ```console
 ```console

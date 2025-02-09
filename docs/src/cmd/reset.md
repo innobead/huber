@@ -23,9 +23,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Reset Huber
+### Reset Huber
 
 ```console
 $ huber install k9s

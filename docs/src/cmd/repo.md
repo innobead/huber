@@ -133,9 +133,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Add a new repository via a file
+### Add a new repository via a file
 
 ```console
 $ huber repo add --url https://raw.githubusercontent.com/innobead/huber/refs/heads/main/docs/src/cmd/repo/huber.yaml self-hosted
@@ -152,7 +152,7 @@ $ huber search aichat --repo self-hosted
  aichat  All-in-one LLM CLI tool featuring Shell Assistant, Chat-REPL, RAG, AI Tools & Agents, with access to...  https://github.com/sigoden/aichat 
 ```
 
-## Add a package to the local repository if the package is not available in the Huber managed repository
+### Add a package to the local repository if the package is not available in the Huber managed repository
 
 ```console
 $ huber search --repo local

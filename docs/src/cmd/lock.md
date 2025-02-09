@@ -64,7 +64,7 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
 Lock a package:
 

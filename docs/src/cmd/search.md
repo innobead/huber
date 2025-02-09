@@ -34,9 +34,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Search packages by pattern
+### Search packages by pattern
 
 ```console
 $ huber search --pattern wasm
@@ -48,7 +48,7 @@ $ huber search --pattern wasm
  wasmtime     A lightweight WebAssembly runtime that is fast, secure, and standards-compliant                          https://github.com/bytecodealliance/wasmtime 
 ```
 
-## Search a package by name. Using the `--all` flag to show all the released versions.
+### Search a package by name. Using the `--all` flag to show all the released versions.
 
 ```console
 $ huber search wasmtime

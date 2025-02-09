@@ -28,9 +28,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Unlock all the locked packages
+### Unlock all the locked packages
 
 ```console
 $huber lock k9s

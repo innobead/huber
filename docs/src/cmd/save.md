@@ -25,9 +25,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Save the installed package list
+### Save the installed package list
 
 ```console
 $ huber save --file output.txt

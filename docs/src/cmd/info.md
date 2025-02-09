@@ -26,9 +26,9 @@ Options:
           Print help
 ```
 
-# Examples
+## Examples
 
-## Show package information
+### Show package information
 
 ```console
 $ huber info k9s
