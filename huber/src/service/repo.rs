@@ -10,7 +10,7 @@ use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
 
 use crate::model::config::{Config, ConfigPath};
 use crate::model::package::Package;
-use crate::model::repo::Repository;
+use crate::model::repo::{Repository, LOCAL_REPO};
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait, ItemSearchTrait, ServiceTrait};
 
 pub trait RepoTrait {
@@ -29,9 +29,11 @@ pub trait RepoAsyncTrait {
         name: &str,
         url: P,
     ) -> anyhow::Result<()>;
+    async fn create_local_repo(&self) -> anyhow::Result<()>;
+    async fn add_pkgs_to_repo(&self, name: &str, pkgs: &[Package]) -> anyhow::Result<()>;
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct RepoService {
     pub container: Option<Arc<DIContainer>>,
 }
@@ -155,7 +157,13 @@ impl ItemOperationAsyncTrait for RepoService {
                     .await?
             }
 
-            _ => return Err(anyhow!("Repo file or url not provided: {:?}", &obj)),
+            _ => {
+                if obj.name == LOCAL_REPO {
+                    self.create_local_repo().await?;
+                } else {
+                    return Err(anyhow!("Repo file or url not provided: {:?}", &obj));
+                }
+            }
         }
 
         let path = config.external_repo_file(&obj.name)?;
@@ -245,6 +253,40 @@ impl RepoAsyncTrait for RepoService {
 
         let f = File::create(&path)?;
         serde_yaml::to_writer(&f, &pkgs)?;
+
+        Ok(())
+    }
+
+    async fn create_local_repo(&self) -> anyhow::Result<()> {
+        let config = self.container.get::<Config>().unwrap();
+        let path = config.external_repo_pkgs_file(LOCAL_REPO)?;
+        if !path.exists() {
+            debug!("Creating local repo {:?}", &path);
+            let f = File::create(&path)?;
+            serde_yaml::to_writer::<&_, Vec<Package>>(&f, &vec![])?;
+        }
+
+        Ok(())
+    }
+
+    async fn add_pkgs_to_repo(&self, name: &str, pkgs: &[Package]) -> anyhow::Result<()> {
+        let mut pkgs_to_update = self.get_packages_by_repo(name)?;
+        let mut update_required = false;
+
+        for p in pkgs {
+            if pkgs_to_update.iter().any(|it| it.name == p.name) {
+                continue;
+            }
+            pkgs_to_update.push(p.clone());
+            update_required = true;
+        }
+
+        if update_required {
+            let config = self.container.get::<Config>().unwrap();
+            let path = config.external_repo_pkgs_file(name)?;
+            let f = File::create(&path)?;
+            serde_yaml::to_writer(&f, &pkgs_to_update)?;
+        }
 
         Ok(())
     }

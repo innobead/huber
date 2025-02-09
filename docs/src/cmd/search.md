@@ -24,6 +24,8 @@ Options:
           Show all the released versions
       --github-key <GITHUB_KEY>
           Github SSH key path; Optional, if you want to use SSH to clone the Huber repository [env: GITHUB_KEY=]
+      --repo <REPO>
+          Search in a specific repository
       --huber-dir <HUBER_DIR>
           Huber directory [default: /home/davidko/.huber]
       --github-base-uri <GITHUB_BASE_URI>

@@ -37,3 +37,11 @@ $ huber uninstall k9s kubectl
 [INFO ] Uninstalling kubectl
 [INFO ] Uninstalled kubectl
 ```
+
+## Uninstall an unmanaged package directly from a repository
+
+```console
+$ huber uninstall rancher/rke
+[INFO ] Uninstalling rancher/rke
+[INFO ] Uninstalled rancher/rke
+```

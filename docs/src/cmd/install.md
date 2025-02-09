@@ -9,13 +9,13 @@ Install packages
 Usage: huber install [OPTIONS] <NAME_VERSION>...
 
 Arguments:
-  <NAME_VERSION>...  Package name (e.g. 'package-name' or 'package-name@version')
+  <NAME_VERSION>...  Package name (e.g. 'package-name', 'package-name@version')g. 'owner/repo', 'owner/repo@version') for unmanaged packages by repositories
 
 Options:
   -l, --log-level <LOG_LEVEL>
           Log level [default: OFF]
       --prefer-stdlib <PREFER_STDLIB>
-          Prefer standard library (only for Linux or Windows) [possible values: gnu, musl, msvc]
+          Prefer standard library (only for Linux or Windows) [default: gnu] [possible values: gnu, musl]
       --github-token <GITHUB_TOKEN>
           GitHub token; Optional until reaching the rate limit of GitHub API [env: GITHUB_TOKEN=]
       --github-key <GITHUB_KEY>
@@ -25,7 +25,7 @@ Options:
       --github-base-uri <GITHUB_BASE_URI>
           GitHub base URI [env: GITHUB_BASE_URI=] [default: https://api.github.com]
   -h, --help
-          Print help 
+          Print help
 ```
 
 # Examples
@@ -80,4 +80,23 @@ $ huber install k9s kubectl
         "/home/davidko/.huber/bin/kubectl",
     ]
 [INFO ] kubectl@latest/v1.32.1 installed
+```
+
+## Install an unmanaged package directly from a repository
+
+```console
+$ huber install rancher/rke
+[INFO ] rancher/rke version not specified, getting the latest version (v1.7.2)
+[INFO ] Installing package rancher/rke@latest/v1.7.2
+[INFO ] Prefer downloading assets belonging to the specified stdlib: gnu
+[INFO ] Downloading https://github.com/rancher/rke/releases/download/v1.7.2/rke_linux-amd64
+[INFO ] Installed executables of rancher/rke:
+    [
+        "/home/davidko/.huber/bin/rke",
+    ]
+[INFO ] rancher/rke@latest/v1.7.2 installed
+
+$ huber show
+ Name         Version  Current  Kind 
+ rancher/rke  v1.7.2   true     Release 
 ```

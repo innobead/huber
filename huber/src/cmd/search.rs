@@ -4,6 +4,7 @@ use async_trait::async_trait;
 use clap::{Args, ValueHint};
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
+use log::info;
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
@@ -89,6 +90,11 @@ impl CommandTrait for SearchArgs {
             .into_iter()
             .map(PackageSummary::from)
             .collect();
+
+        if pkgs.is_empty() {
+            info!("No packages found");
+            return Ok(());
+        }
 
         output!(
             config.output_format,

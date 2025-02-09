@@ -38,7 +38,7 @@ unsafe impl Send for Release {}
 
 unsafe impl Sync for Release {}
 
-#[derive(Debug, Copy, Clone, Serialize, Deserialize)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize, Eq, PartialEq)]
 pub enum ReleaseKind {
     Draft,
     PreRelease,

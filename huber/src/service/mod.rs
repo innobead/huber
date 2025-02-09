@@ -6,6 +6,7 @@ use simpledi_rs::di::{DIContainer, DIContainerTrait, DependencyInjectTrait};
 use simpledi_rs::{create_dep, inject_dep};
 
 use crate::model::config::Config;
+use crate::model::repo::{Repository, LOCAL_REPO};
 use crate::service::cache::{CacheService, CacheTrait};
 use crate::service::config::ConfigService;
 use crate::service::package::PackageService;
@@ -58,7 +59,7 @@ pub trait ItemSearchTrait {
     ) -> anyhow::Result<Vec<Self::SearchItem>>;
 }
 
-pub fn init_services(config: &Config) -> Arc<DIContainer> {
+pub async fn init_services(config: &Config) -> Arc<DIContainer> {
     let mut container = DIContainer::new();
 
     create_dep!(CacheService::new(), container);
@@ -81,9 +82,23 @@ pub fn init_services(config: &Config) -> Arc<DIContainer> {
     let cache_service = container
         .get::<CacheService>()
         .expect("Failed to get cache service");
+
     cache_service
         .refresh_package_indexes()
         .expect("Failed to refresh package indexes");
+
+    let repo_service = container
+        .get::<RepoService>()
+        .expect("Failed to get repo service");
+
+    repo_service
+        .create(Repository {
+            name: LOCAL_REPO.to_string(),
+            url: None,
+            file: None,
+        })
+        .await
+        .expect("Failed to create local repo");
 
     container
 }

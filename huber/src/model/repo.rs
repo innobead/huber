@@ -4,6 +4,8 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
+pub const LOCAL_REPO: &str = "local";
+
 #[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Repository {
     pub name: String,

@@ -144,6 +144,21 @@ fn test_install_stdlib() {
     );
 }
 
+#[cfg(target_os = "linux")]
+#[test]
+#[sequential]
+fn test_install_unmanaged_package() {
+    defer! {
+        reset_huber();
+    }
+
+    let assert = install_pkgs(&["innobead/huber"]);
+    assert_contain_line_regex!(
+        assert.get_output().stderr,
+        &format!(r#"{}@latest/\S+ installed"#, format!("innobead/huber"))
+    );
+}
+
 #[test]
 #[sequential]
 fn test_install_fail() {

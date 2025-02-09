@@ -102,7 +102,7 @@ struct Cli {
 async fn main() {
     let cli = Cli::parse();
 
-    let (config, container) = init(&cli);
+    let (config, container) = init(&cli).await;
 
     let result = match &cli.command {
         Commands::Install(args) => args.run(&config, &container).await,
@@ -163,7 +163,7 @@ async fn main() {
     }
 }
 
-fn init(cli: &Cli) -> (Config, Arc<DIContainer>) {
+async fn init(cli: &Cli) -> (Config, Arc<DIContainer>) {
     better_panic::install();
 
     let config = Config::new(
@@ -178,7 +178,7 @@ fn init(cli: &Cli) -> (Config, Arc<DIContainer>) {
 
     Logger::init(&config).expect("Failed to init logger");
 
-    let container = init_services(&config);
+    let container = init_services(&config).await;
     inject_dep!(ConfigService, container.clone());
 
     (config, container)

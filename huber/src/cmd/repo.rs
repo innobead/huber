@@ -6,14 +6,14 @@ use async_trait::async_trait;
 use clap::{Args, Subcommand, ValueHint};
 use libcli_rs::output;
 use libcli_rs::output::{OutputFactory, OutputTrait};
-use log::info;
+use log::{info, warn};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
 
 use crate::cmd::CommandTrait;
 use crate::error::HuberError::{RepoAlreadyExist, RepoNotFound};
 use crate::lock_huber_ops;
 use crate::model::config::Config;
-use crate::model::repo::Repository;
+use crate::model::repo::{Repository, LOCAL_REPO};
 use crate::service::repo::RepoService;
 use crate::service::{ItemOperationAsyncTrait, ItemOperationTrait};
 
@@ -101,6 +101,11 @@ impl CommandTrait for RepoRemoveArgs {
         let repo_service = container.get::<RepoService>().unwrap();
 
         for repo in &self.name {
+            if repo == LOCAL_REPO {
+                warn!("Cannot remove builtin local repo");
+                continue;
+            }
+
             if !repo_service.has(repo)? {
                 return Err(anyhow!(RepoNotFound(repo.clone())));
             }

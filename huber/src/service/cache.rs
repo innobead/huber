@@ -16,7 +16,7 @@ use crate::error::HuberError::PackageNotFound;
 use crate::gh::{GithubClient, GithubClientTrait};
 use crate::model::config::{Config, ConfigFieldConvertTrait, ConfigPath, HUBER_PKG_ROOT_DIR};
 use crate::model::package::{Package, PackageIndex};
-use crate::model::repo::Repository;
+use crate::model::repo::{Repository, LOCAL_REPO};
 use crate::service::repo::{RepoAsyncTrait, RepoService, RepoTrait};
 use crate::service::{ItemOperationTrait, ServiceTrait};
 
@@ -189,11 +189,8 @@ impl CacheTrait for CacheService {
     }
 
     fn has_package(&self, name: &str, repo: Option<&str>) -> anyhow::Result<bool> {
-        if repo.is_none() {
-            // managed
-            if self.get_package_indexes()?.iter().any(|it| it.name == name) {
-                return Ok(true);
-            }
+        if repo.is_none() && self.get_package_indexes()?.iter().any(|it| it.name == name) {
+            return Ok(true);
         }
 
         // external
@@ -217,6 +214,8 @@ impl CacheTrait for CacheService {
     }
 
     fn refresh_package_indexes(&self) -> anyhow::Result<()> {
+        debug!("Refreshing package indexes");
+
         let config = self.container.get::<Config>().unwrap();
         let index_file = config.pkg_index_file()?;
 
@@ -275,6 +274,8 @@ impl CacheAsyncTrait for CacheService {
                 repo_service
                     .download_save_pkgs_file_from_local(&repo.name, &file)
                     .await?;
+            } else if repo.name == LOCAL_REPO {
+                debug!("Skip updating local repo");
             } else {
                 debug!(
                     "Failed to update external repos due to empty url and file: {:?}",

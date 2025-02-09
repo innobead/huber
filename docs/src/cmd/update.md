@@ -70,3 +70,30 @@ $ huber update
 [INFO ] Package k9s updated to v0.32.7 successfully
 
 ```
+
+## Update an unmanaged package directly from a repository
+
+```console
+$ huber install rancher/rke@v1.7.0
+[INFO ] Installing package rancher/rke@v1.7.0
+[INFO ] Prefer downloading assets belonging to the specified stdlib: gnu
+[INFO ] Downloading https://github.com/rancher/rke/releases/download/v1.7.0/rke_linux-amd64
+[INFO ] Installed executables of rancher/rke:
+    [
+        "/home/davidko/.huber/bin/rke",
+    ]
+[INFO ] rancher/rke@v1.7.0 installed
+
+$ huber update rancher/rke
+[INFO ] Checking for updates for rancher/rke. The latest installed version is v1.7.0
+[INFO ] Found the latest version of rancher/rke: v1.7.2
+[INFO ] Updating package rancher/rke from v1.7.0 to v1.7.2
+[INFO ] Updating rancher/rke (version: v1.7.0, source: github) to rancher/rke (version: v1.7.2, source: github)
+[INFO ] Prefer downloading assets belonging to the specified stdlib: gnu
+[INFO ] Downloading https://github.com/rancher/rke/releases/download/v1.7.2/rke_linux-amd64
+[INFO ] Installed executables of rancher/rke:
+    [
+        "/home/davidko/.huber/bin/rke",
+    ]
+[INFO ] Package rancher/rke updated to v1.7.2 successfully
+```

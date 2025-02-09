@@ -227,6 +227,7 @@ impl ReleaseService {
             }
 
             let task = async move {
+                info!("Downloading {}", &download_url);
                 debug!("Downloading {} to {:?}", &download_url, &download_file_path);
 
                 let _ = remove_file(&download_file_path);

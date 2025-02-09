@@ -225,7 +225,7 @@ impl ConfigPath for Config {
 
         Ok(self
             .installed_pkg_dir(pkg, &version)?
-            .join(&pkg.name)
+            .join(pkg.name.replace("/", "_"))
             .with_extension("yaml"))
     }
 
@@ -240,7 +240,7 @@ impl ConfigPath for Config {
     fn current_pkg_manifest_file(&self, pkg: &Package) -> anyhow::Result<PathBuf> {
         Ok(self
             .current_pkg_dir(pkg)?
-            .join(&pkg.name)
+            .join(pkg.name.replace("/", "_"))
             .with_extension("yaml"))
     }
 
