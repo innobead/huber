@@ -31,6 +31,8 @@ jobs:
     runs-on: ${{ inputs.os }}
     steps:
     - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.ref }}
 
     - name: Install Just
       uses: extractions/setup-just@v2

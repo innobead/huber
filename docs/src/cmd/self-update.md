@@ -24,3 +24,24 @@ Options:
   -h, --help
           Print help
 ```
+
+## Examples
+
+### Update Huber
+
+```console
+$ huber -V
+huber v1.0.8-dirty
+
+$ huber self-update
+[INFO ] Updating Huber v1.0.9
+[INFO ] Prefer downloading assets belonging to the specified stdlib: gnu
+[INFO ] Installed executables of huber:
+    [
+        "/home/davidko/.huber/bin/huber",
+    ]
+[INFO ] Huber updated to v1.0.9
+
+$ huber --version
+huber v1.0.9-dirty Commit: e14f0cb-20250209181740
+```
