@@ -127,7 +127,7 @@ impl UpdateAsyncTrait for HuberUpdateService {
         let release = release_service.get_latest(&pkg).await?;
         pkg.version = Some(release.version);
 
-        release_service.update(&pkg, prefer_stdlib).await?;
+        release_service.update(&pkg, prefer_stdlib, true).await?;
         Ok(())
     }
 }

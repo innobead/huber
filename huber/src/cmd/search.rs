@@ -65,6 +65,11 @@ impl CommandTrait for SearchArgs {
                 .find_summary(&self.name.clone().unwrap(), false)
                 .await?;
 
+            if pkgs.is_empty() {
+                info!("No releases found");
+                return Ok(());
+            }
+
             return output!(
                 config.output_format,
                 .display(

@@ -161,6 +161,17 @@ fn test_install_unmanaged_package() {
 
 #[test]
 #[sequential]
+fn test_install_tag_only_package() {
+    defer! {
+        reset_huber();
+    }
+
+    let assert = install_pkgs(&["go@go1.24.0"]);
+    assert_contain_line_regex!(assert.get_output().stderr, "go@go1.24.0 installed");
+}
+
+#[test]
+#[sequential]
 fn test_install_fail() {
     defer! {
         reset_huber();

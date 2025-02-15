@@ -1,4 +1,5 @@
 use anyhow::anyhow;
+use log::warn;
 use semver::{Version, VersionReq};
 
 /// Parse package name and version
@@ -6,25 +7,11 @@ use semver::{Version, VersionReq};
 /// # Examples
 ///
 /// ```
-/// use huber::parse::parse_pkg_name_semver;
-/// let (name, version) = parse_pkg_name_semver("package-name@1.2.3").unwrap();
+/// use huber::parse::parse_pkg_name_optional_semver;
+/// let (name, version) = parse_pkg_name_optional_semver("package-name@1.2.3").unwrap();
 /// assert_eq!(name, "package-name");
 /// assert_eq!(version, "1.2.3");
 /// ```
-pub fn parse_pkg_name_semver(name_version: &str) -> anyhow::Result<(String, String)> {
-    let result: Vec<_> = name_version.splitn(2, '@').collect();
-
-    if result.len() != 2 {
-        return Err(anyhow!(
-            "Failed to parse package name version due to invalid format"
-        ));
-    }
-
-    let (name, version) = (result[0].to_string(), result[1].to_string());
-    Version::parse(version.trim_start_matches('v'))?;
-
-    Ok((name, version))
-}
 pub fn parse_pkg_name_optional_semver(name_version: &str) -> anyhow::Result<(String, String)> {
     let result: Vec<_> = name_version.splitn(2, '@').collect();
 
@@ -33,7 +20,9 @@ pub fn parse_pkg_name_optional_semver(name_version: &str) -> anyhow::Result<(Str
     }
 
     let (name, version) = (result[0].to_string(), result[1].to_string());
-    Version::parse(version.trim_start_matches('v'))?;
+    if let Err(e) = Version::parse(version.trim_start_matches('v')) {
+        warn!("Failed to parse semantic version ({}): {}", version, e);
+    }
 
     Ok((name, version))
 }

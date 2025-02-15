@@ -854,7 +854,7 @@ checksum = "f2d708df4e7140240a16cd6ab0ab65c972d7433ab77819ea693fde9c43811e2a"
 
 [[package]]
 name = "huber"
-version = "1.0.10"
+version = "1.0.11"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -900,7 +900,7 @@ dependencies = [
 
 [[package]]
 name = "huber-generator"
-version = "1.0.10"
+version = "1.0.11"
 dependencies = [
  "anyhow",
  "huber",
@@ -913,7 +913,7 @@ dependencies = [
 
 [[package]]
 name = "huber-procmacro"
-version = "1.0.10"
+version = "1.0.11"
 dependencies = [
  "quote",
  "syn",

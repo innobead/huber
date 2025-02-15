@@ -82,7 +82,7 @@ pub enum Commands {
     #[command(about = "Search package", bin_name = "search")]
     Search(SearchArgs),
 
-    #[command(about = "Update huber", bin_name = "self-update")]
+    #[command(about = "Update Huber", bin_name = "self-update")]
     SelfUpdate(SelfUpdateArgs),
 
     #[command(about = "Show installed packages", bin_name = "show")]
@@ -91,7 +91,10 @@ pub enum Commands {
     #[command(about = "Uninstall packages", bin_name = "uninstall")]
     Uninstall(UninstallArgs),
 
-    #[command(about = "Updates the installed packages", bin_name = "update")]
+    #[command(
+        about = "Update installed packages to their latest released versions",
+        bin_name = "update"
+    )]
     Update(UpdateArgs),
 
     #[command(about = "Save the installed package list to a file", bin_name = "save")]

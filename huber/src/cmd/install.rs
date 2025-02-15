@@ -95,6 +95,7 @@ async fn add_packages_to_local_repo(
         if tokens.len() != 2 {
             continue;
         }
+
         let owner = tokens.first().unwrap();
         let repo = tokens.last().unwrap();
 
@@ -154,20 +155,19 @@ pub async fn install_packages(
             }
 
             let mut pkg = pkg_service.get(&pkg)?;
-            let latest_version = release_service.get_latest(&pkg).await?.version;
-
-            let (version, is_latest) = if version.is_empty() {
-                info!(
-                    "{} version not specified, getting the latest version ({})",
-                    pkg.name, latest_version
-                );
-                (latest_version, true)
-            } else {
-                (
-                    get_updated_package_version(&version, &latest_version),
-                    false,
-                )
-            };
+            let latest_version = release_service
+                .get_latest(&pkg)
+                .await
+                .map(|r| r.version)
+                .or_else(|err| {
+                    warn!(
+                        "Failed to get the latest release version of {}: {}",
+                        pkg.name, err
+                    );
+                    anyhow::Ok("".to_string())
+                })?;
+            let release_check = !latest_version.is_empty();
+            let (version, is_latest) = get_version_to_install(&version, &pkg, &latest_version)?;
 
             if is_pkg_locked_for_release(&config, &pkg, &version) {
                 warn!(
@@ -194,7 +194,9 @@ pub async fn install_packages(
 
             info!("Installing package {}", msg);
             pkg.version = Some(version.clone());
-            release_service.update(&pkg, &prefer_stdlib).await?;
+            release_service
+                .update(&pkg, &prefer_stdlib, release_check)
+                .await?;
             info!("{} installed", msg);
 
             Ok(())
@@ -208,4 +210,30 @@ pub async fn install_packages(
     }
 
     Ok(())
+}
+
+fn get_version_to_install(
+    version: &str,
+    pkg: &Package,
+    latest_version: &str,
+) -> anyhow::Result<(String, bool)> {
+    let (version, is_latest) = if version.is_empty() {
+        info!(
+            "{} version not specified, getting the latest version ({})",
+            pkg.name, latest_version
+        );
+
+        if latest_version.is_empty() {
+            anyhow::bail!(
+                "Failed to get the latest release version of {} to install",
+                pkg.name
+            );
+        }
+
+        (latest_version.to_string(), true)
+    } else {
+        (get_updated_package_version(version, latest_version), false)
+    };
+
+    Ok((version, is_latest))
 }

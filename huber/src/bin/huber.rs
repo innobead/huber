@@ -155,10 +155,7 @@ async fn main() {
             let source_err = e.source().map(|e| format!(": {}", e)).unwrap_or_default();
             error!("{}{}", e, source_err);
         } else {
-            error!(
-                "Unknown error: {}; Use debug log to get more detailed error info",
-                e
-            );
+            error!("{}; Use debug log to get more detailed error info", e);
         }
     }
 }

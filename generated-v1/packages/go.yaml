@@ -7,13 +7,13 @@ source: !Github
 targets:
 - !LinuxAmd64
   artifact_templates:
-  - https://golang.org/dl/go{version}.linux-amd64.tar.gz
+  - https://golang.org/dl/{version}.linux-amd64.tar.gz
 - !LinuxArm64
   artifact_templates:
-  - https://golang.org/dl/go{version}.linux-arm64.tar.gz
+  - https://golang.org/dl/{version}.linux-arm64.tar.gz
 - !MacOSAmd64
   artifact_templates:
-  - https://golang.org/dl/go{version}.darwin-amd64.tar.gz
+  - https://golang.org/dl/{version}.darwin-amd64.tar.gz
 - !MacOSArm64
   artifact_templates:
   - https://golang.org/dl/go{version}.darwin-arm64.tar.gz

@@ -10,7 +10,7 @@ use async_trait::async_trait;
 use filepath::FilePath;
 use fs_extra::move_items;
 use is_executable::IsExecutable;
-use log::{debug, info};
+use log::{debug, error, info};
 use maplit::hashmap;
 use regex::Regex;
 use simpledi_rs::di::{DIContainer, DIContainerExtTrait, DependencyInjectTrait};
@@ -104,6 +104,7 @@ impl ReleaseService {
         &self,
         obj: &Package,
         prefer_stdlib: &PlatformStdLib,
+        release_check: bool,
     ) -> anyhow::Result<Release> {
         debug!("Updating release from package: {:#?}", &obj);
 
@@ -111,34 +112,52 @@ impl ReleaseService {
         let client = GithubClient::new(config.to_github_credentials(), config.to_github_key_path());
 
         // Get the release from GitHub
-        let mut release = match obj.source {
-            PackageSource::Github {
-                ref owner,
-                ref repo,
-            } => match obj.version {
-                Some(ref v) => {
-                    debug!("Getting {} of package release {}", &v, &obj);
-                    client.get_release(owner, repo, v, obj).await?
-                }
-                None => {
-                    debug!("Getting the latest release of package {}", &obj);
-
-                    if let Ok(r) = client.get_latest_release(owner, repo, obj).await {
-                        r
-                    } else {
-                        debug!("Getting the latest pre-release of package {}", &obj);
-                        client
-                            .get_releases(owner, repo, obj)
-                            .await?
-                            .first()
-                            .expect("Failed to find the first release")
-                            .to_owned()
+        let mut release = if release_check {
+            match obj.source {
+                PackageSource::Github {
+                    ref owner,
+                    ref repo,
+                } => match obj.version {
+                    Some(ref v) => {
+                        debug!("Getting {} of package release {}", &v, &obj);
+                        client.get_release(owner, repo, v, obj).await?
                     }
-                }
-            },
+                    None => {
+                        debug!("Getting the latest release of package {}", &obj);
+
+                        if let Ok(r) = client.get_latest_release(owner, repo, obj).await {
+                            r
+                        } else {
+                            debug!("Getting the latest pre-release of package {}", &obj);
+                            client
+                                .get_releases(owner, repo, obj)
+                                .await?
+                                .first()
+                                .expect("Failed to find the first release")
+                                .to_owned()
+                        }
+                    }
+                },
+            }
+        } else {
+            Release {
+                package: obj.clone(),
+                version: obj.version.clone().unwrap_or_default(),
+                current: false,
+                executables: None,
+                name: "".to_string(),
+                kind: None,
+            }
         };
 
-        let release_detail = release.package.detail.as_ref();
+        let release_detail = release.package.detail.clone().or_else(|| {
+            Some(PackageDetailType::Github {
+                package: GithubPackage {
+                    tag_name: obj.version.clone().unwrap_or_default(),
+                    ..Default::default()
+                },
+            })
+        });
         if release_detail.is_none() {
             return Err(anyhow!("No matched release detail found: {}", release));
         }
@@ -149,7 +168,7 @@ impl ReleaseService {
                     "Downloading package artifacts from github {:?}",
                     obj.source.url()
                 );
-                self.download_install_github_package(obj, p, prefer_stdlib)
+                self.download_install_github_package(obj, &p, prefer_stdlib)
                     .await?;
 
                 debug!("Setting {} as the current package", release);
@@ -268,10 +287,21 @@ impl ReleaseService {
             tasks.push(task);
         }
 
-        futures::future::join_all(tasks)
+        let downloaded = futures::future::join_all(tasks)
             .await
             .iter()
+            .map(|r| {
+                if let Err(e) = r {
+                    error!("Failed to download asset: {}", e);
+                }
+                r.as_ref()
+            })
             .all(|r| r.is_ok());
+
+        if !downloaded {
+            return Err(anyhow!("Failed to download assets"));
+        }
+
         Ok(())
     }
 
@@ -567,7 +597,7 @@ impl ReleaseAsyncTrait for ReleaseService {
             asset_download_urls.push(asset_url.to_string());
         }
 
-        if asset_download_urls.is_empty() {
+        if !package_github.assets.is_empty() && asset_download_urls.is_empty() {
             return Err(anyhow!(
                 "No available artifacts for {} to download. Expected artifact names: {:?}",
                 package.name,
@@ -775,7 +805,7 @@ impl ItemOperationAsyncTrait for ReleaseService {
             return Err(anyhow!("{} already installed", &obj.name));
         }
 
-        self.update(&obj, &PlatformStdLib::None).await
+        self.update(&obj, &PlatformStdLib::None, true).await
     }
 
     async fn update(&self, _obj: &Self::Item_) -> anyhow::Result<Self::ItemInstance_> {

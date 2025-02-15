@@ -11,19 +11,19 @@ pub fn release() -> Package {
         targets: vec![
             PackageTargetType::LinuxAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "https://golang.org/dl/go{version}.linux-amd64.tar.gz".to_string()
+                    "https://golang.org/dl/{version}.linux-amd64.tar.gz".to_string()
                 ],
                 ..Default::default()
             }),
             PackageTargetType::LinuxArm64(PackageManagement {
                 artifact_templates: vec![
-                    "https://golang.org/dl/go{version}.linux-arm64.tar.gz".to_string()
+                    "https://golang.org/dl/{version}.linux-arm64.tar.gz".to_string()
                 ],
                 ..Default::default()
             }),
             PackageTargetType::MacOSAmd64(PackageManagement {
                 artifact_templates: vec![
-                    "https://golang.org/dl/go{version}.darwin-amd64.tar.gz".to_string()
+                    "https://golang.org/dl/{version}.darwin-amd64.tar.gz".to_string()
                 ],
                 ..Default::default()
             }),

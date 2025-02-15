@@ -5,7 +5,7 @@ use std::sync::Arc;
 use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
-use log::{info, warn};
+use log::{error, info, warn};
 use maplit::hashmap;
 use semver::{Version, VersionReq};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
@@ -98,7 +98,9 @@ impl CommandTrait for UpdateArgs {
                 );
 
                 let pkg = pkg_service.get(&name)?;
-                let new_release = release_service.get_latest(&pkg).await?;
+                let new_release = release_service.get_latest(&pkg).await.inspect_err(|_| {
+                    error!("Failed to get the latest release of package {}", name);
+                })?;
 
                 info!(
                     "Found the latest version of {}: {}",
@@ -177,9 +179,17 @@ pub fn is_pkg_locked_for_release(
     if let Some(lock_version) = config.lock_pkg_versions.get(&pkg.name) {
         let lock_version = lock_version.trim_start_matches("v");
         let lock_version = VersionReq::parse(lock_version).unwrap();
-        let new_version = Version::parse(new_release_version.trim_start_matches("v")).unwrap();
 
-        return !lock_version.matches(&new_version);
+        let r = Version::parse(new_release_version.trim_start_matches("v"));
+        if r.is_err() {
+            warn!(
+                "Failed to parse the new release version {}. Skip locking check",
+                new_release_version
+            );
+            return false;
+        }
+
+        return !lock_version.matches(&r.unwrap());
     }
 
     false
@@ -197,7 +207,7 @@ async fn update(
     } else {
         info!("Updating {} to {}", installed_release, new_release);
         release_service
-            .update(&new_release.package, prefer_stdlib)
+            .update(&new_release.package, prefer_stdlib, true)
             .await?;
     }
 

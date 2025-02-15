@@ -106,7 +106,7 @@ pub struct PackageManagement {
     pub scan_dirs: Option<Vec<String>>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct GithubPackage {
     pub url: String,
     pub html_url: String,
@@ -130,7 +130,7 @@ pub struct GithubPackage {
     pub assets: Vec<GithubAsset>,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Default, Debug, Clone, Serialize, Deserialize)]
 pub struct GithubAsset {
     pub url: String,
     pub browser_download_url: String,
