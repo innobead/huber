@@ -133,3 +133,4 @@ jobs:
       with:
         files: "${{ steps.bin-path.outputs.HUBER_BIN_PATH }},${{ steps.bin-path.outputs.HUBER_BIN_SHA256SUM_PATH }}"
         generate_release_notes: true
+        draft: true

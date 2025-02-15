@@ -40,9 +40,10 @@ jobs:
       with:
         text: ${{ github.ref_name }}
         regex: '^v[0-9]+\.[0-9]+\.[0-9]+$'
-
     - name: Publish crates
       if: ${{ steps.tag-semver-check.outputs.match != '' }}
       uses: katyo/publish-crates@v2
       with:
         registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+    - run: |
+        gh release edit ${{ github.ref_name }} --latest
