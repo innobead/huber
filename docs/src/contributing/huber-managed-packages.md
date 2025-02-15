@@ -124,6 +124,7 @@ To add a new package, please follow the instructions in [Add a New Package](./ad
  protoc           Protocol Buffers - Google's data interchange format                                                      https://github.com/protocolbuffers/protobuf 
  pueue            :stars: Manage your shell commands.                                                                      https://github.com/Nukesor/pueue 
  pulumi           Pulumi - Infrastructure as Code in any programming language 🚀                                           https://github.com/pulumi/pulumi 
+ rancher/rke                                                                                                               https://github.com/rancher/rke 
  rclone           "rsync for cloud storage" - Google Drive, S3, Dropbox, Backblaze B2, One Drive, Swift, Hubic, Wasabi...  https://github.com/rclone/rclone 
  ripgrep          ripgrep recursively searches directories for a regex pattern while respecting your gitignore             https://github.com/BurntSushi/ripgrep 
  rke2                                                                                                                      https://github.com/rancher/rke2 

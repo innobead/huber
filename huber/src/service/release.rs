@@ -459,7 +459,9 @@ impl ReleaseTrait for ReleaseService {
                 if !exec_path.is_executable() {
                     debug!("Ignored non-executable {:?}", exec_path);
                     continue;
-                } else if has_suffix(&exec_path.file_name().unwrap().to_string_lossy()) {
+                } else if has_suffix(&trim_os_arch_version(
+                    &exec_path.file_name().unwrap().to_string_lossy(),
+                )) {
                     debug!("Ignored executable {:?} due to suffix", exec_path);
                     continue;
                 }

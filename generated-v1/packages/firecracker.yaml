@@ -9,9 +9,9 @@ targets:
   artifact_templates:
   - firecracker-v{version}-x86_64.tgz
   scan_dirs:
-  - release-v{version}
+  - release-v{version}-{arch}
 - !LinuxArm64
   artifact_templates:
   - firecracker-v{version}-aarch64.tgz
   scan_dirs:
-  - release-v{version}
+  - release-v{version}-{arch}
