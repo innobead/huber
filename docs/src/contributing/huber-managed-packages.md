@@ -18,6 +18,7 @@ To add a new package, please follow the instructions in [Add a New Package](./ad
  chisel           A fast TCP/UDP tunnel over HTTP                                                                          https://github.com/jpillora/chisel 
  choose           A human-friendly and fast alternative to cut and (sometimes) awk                                         https://github.com/theryangeary/choose 
  cloak            A censorship circumvention tool to evade detection by authoritarian state adversaries                    https://github.com/cbeuw/Cloak 
+ cni-plugins      Some reference and example networking plugins, maintained by the CNI team.                               https://github.com/containernetworking/plugins 
  codeql           Binaries for the CodeQL CLI                                                                              https://github.com/github/codeql-cli-binaries 
  compose          Define and run multi-container applications with Docker                                                  https://github.com/docker/compose 
  conftest         Write tests against structured configuration data using the Open Policy Agent Rego query language        https://github.com/open-policy-agent/conftest 

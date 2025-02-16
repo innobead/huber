@@ -38,6 +38,9 @@
 - name: cloak
   owner: cbeuw
   source: github
+- name: cni-plugins
+  owner: containernetworking
+  source: github
 - name: codeql
   owner: github
   source: github

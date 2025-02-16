@@ -1,4 +1,4 @@
-use huber::model::package::{Package, PackageSource};
+use huber::model::package::{default_targets_no_arm, Package, PackageSource};
 
 #[allow(dead_code)]
 pub fn release() -> Package {
@@ -8,6 +8,7 @@ pub fn release() -> Package {
             owner: "argoproj".to_string(),
             repo: "argo-cd".to_string(),
         },
+        targets: default_targets_no_arm(),
         ..Default::default()
     }
 }

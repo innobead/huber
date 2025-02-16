@@ -128,6 +128,7 @@ pub mod syncthing;
 pub mod tealdeer;
 
 pub mod asdf;
+pub mod cni_plugins;
 pub mod compose;
 pub mod foundry;
 pub mod gitleaks;

@@ -289,6 +289,7 @@ fn releases() -> Vec<Package> {
         foundry::release(),
         ollama::release(),
         localai::release(),
+        cni_plugins::release(),
     ]
 }
 
