@@ -273,7 +273,11 @@ impl ReleaseService {
                     );
                     set_executable_permission(&download_file_path)?;
 
-                    let option = fs_extra::file::CopyOptions::new();
+                    let option = fs_extra::file::CopyOptions {
+                        overwrite: false,
+                        skip_exist: true,
+                        buffer_size: 0,
+                    };
                     fs_extra::file::move_file(&download_file_path, &dest_f, &option)?;
 
                     return Ok(());
