@@ -126,6 +126,7 @@ To add a new package, please follow the instructions in [Add a New Package](./ad
  pueue            :stars: Manage your shell commands.                                                                      https://github.com/Nukesor/pueue 
  pulumi           Pulumi - Infrastructure as Code in any programming language 🚀                                           https://github.com/pulumi/pulumi 
  rclone           "rsync for cloud storage" - Google Drive, S3, Dropbox, Backblaze B2, One Drive, Swift, Hubic, Wasabi...  https://github.com/rclone/rclone 
+ regclient        Docker and OCI Registry Client in Go and tooling using those libraries.                                  https://github.com/regclient/regclient 
  ripgrep          ripgrep recursively searches directories for a regex pattern while respecting your gitignore             https://github.com/BurntSushi/ripgrep 
  rke2                                                                                                                      https://github.com/rancher/rke2 
  sad              CLI search and replace | Space Age seD                                                                   https://github.com/ms-jpq/sad 

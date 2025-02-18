@@ -158,3 +158,4 @@ pub mod yq;
 pub mod zellij;
 pub mod zola;
 pub mod zoxide;
+pub mod regclient;

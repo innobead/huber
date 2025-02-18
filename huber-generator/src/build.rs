@@ -290,6 +290,7 @@ fn releases() -> Vec<Package> {
         ollama::release(),
         localai::release(),
         cni_plugins::release(),
+        regclient::release(),
     ]
 }
 

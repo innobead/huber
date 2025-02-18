@@ -362,6 +362,9 @@
 - name: rclone
   owner: rclone
   source: github
+- name: regclient
+  owner: regclient
+  source: github
 - name: ripgrep
   owner: BurntSushi
   source: github
