@@ -611,7 +611,8 @@ impl ReleaseAsyncTrait for ReleaseService {
 
         if prefer_stdlib != &PlatformStdLib::None {
             info!(
-                "Prefer downloading assets belonging to the specified stdlib: {}",
+                "Prefer downloading assets for {} belonging to the specified stdlib: {}",
+                package.name,
                 prefer_stdlib
             );
 

@@ -5,7 +5,7 @@ use std::sync::Arc;
 use anyhow::anyhow;
 use async_trait::async_trait;
 use clap::{Args, ValueHint};
-use log::{error, info, warn};
+use log::{info, warn};
 use maplit::hashmap;
 use semver::{Version, VersionReq};
 use simpledi_rs::di::{DIContainer, DIContainerTrait};
@@ -84,6 +84,7 @@ impl CommandTrait for UpdateArgs {
         };
 
         let mut join_handles: Vec<JoinHandle<anyhow::Result<()>>> = vec![];
+
         for (name, installed_release) in installed_latest_pkg_releases {
             let release_service = release_service.clone();
             let pkg_service = pkg_service.clone();
@@ -93,13 +94,17 @@ impl CommandTrait for UpdateArgs {
 
             let handle: JoinHandle<_> = tokio::spawn(async move {
                 info!(
-                    "Checking for updates for {}. The latest installed version is {}",
+                    "Checking updates for {}. The latest installed version is {}",
                     name, installed_release.version
                 );
 
                 let pkg = pkg_service.get(&name)?;
-                let new_release = release_service.get_latest(&pkg).await.inspect_err(|_| {
-                    error!("Failed to get the latest release of package {}", name);
+                let new_release = release_service.get_latest(&pkg).await.map_err(|err| {
+                    anyhow!(
+                        "Failed to get the latest release of package {}: {}",
+                        name,
+                        err
+                    )
                 })?;
 
                 info!(
@@ -129,16 +134,12 @@ impl CommandTrait for UpdateArgs {
                         &prefer_stdlib,
                     )
                     .await?;
-                    info!(
-                        "Package {} updated to {} successfully",
-                        name, new_release.version
-                    );
+                    info!("{} updated to {} successfully", name, new_release.version);
                 } else {
                     info!(
-                    "Nothing to update, as the currently installed version ({}) is equal to or \
-                higher than the found version ({})",
-                    installed_release.version, new_release.version
-                );
+                        "{} is already installed and up to date. Installed: {}, Latest: {}",
+                        name, installed_release.version, new_release.version
+                    );
                 }
 
                 Ok(())
